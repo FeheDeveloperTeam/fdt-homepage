@@ -1,0 +1,39 @@
+.footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  margin-top: auto;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.copyright {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}

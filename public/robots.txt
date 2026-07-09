@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fehe.dev/sitemap.xml

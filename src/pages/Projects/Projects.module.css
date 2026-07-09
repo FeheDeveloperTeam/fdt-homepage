@@ -1,0 +1,133 @@
+.projects {
+  padding: var(--section-padding);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 36px;
+  color: var(--color-text);
+}
+
+.description {
+  margin: 20px auto 0;
+  max-width: 560px;
+  font-size: 16px;
+}
+
+.list {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  text-align: left;
+}
+
+.photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.content h3 {
+  font-size: 20px;
+  color: var(--color-text);
+}
+
+.cardDescription {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.features {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.featureTag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.inviteButton,
+.githubButton {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.inviteButton {
+  background: #5865f2;
+}
+
+.inviteButton:hover {
+  background: #4752c4;
+  transform: translateY(-2px);
+}
+
+.githubButton {
+  background: var(--color-primary);
+}
+
+.githubButton:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .features {
+    justify-content: center;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+}
