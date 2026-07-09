@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-const SITE_URL = 'https://fehe.dev'
+const SITE_URL = 'https://www.fehe.dev'
 const SITE_NAME = 'FeheDeveloperTeam'
 
 function Seo({ title, description, path = '/' }) {
