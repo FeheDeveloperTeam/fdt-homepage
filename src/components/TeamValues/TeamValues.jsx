@@ -92,7 +92,9 @@ const VISUALS = {
 }
 
 function Card({ eyebrow, title, description, tags, visual, index, stepProgress }) {
-  const visibility = Math.max(0, 1 - Math.abs(stepProgress - index) * 2)
+  // 1.7배(2 미만)로 falloff를 줘서 카드 사이 전환 중간 지점에서
+  // 두 카드가 동시에 0이 되는 사각지대가 생기지 않게 한다.
+  const visibility = Math.max(0, 1 - Math.abs(stepProgress - index) * 1.7)
   const Visual = VISUALS[visual]
 
   const style = {

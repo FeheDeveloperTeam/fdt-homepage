@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo/fdt-logo-square.png'
 import styles from './Header.module.css'
@@ -14,10 +14,17 @@ const NAV_LINKS = [
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link to="/" className={styles.logo}>
+        <Link to="/" className={styles.logo} onClick={() => setIsMenuOpen(false)}>
           <img src={logo} alt="FDT 로고" className={styles.logoImage} />
           FDT
         </Link>
@@ -43,8 +50,8 @@ function Header() {
 
         <button
           type="button"
-          className={styles.menuButton}
-          aria-label="메뉴 열기"
+          className={`${styles.menuButton} ${isMenuOpen ? styles.menuButtonOpen : ''}`}
+          aria-label={isMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((prev) => !prev)}
         >
