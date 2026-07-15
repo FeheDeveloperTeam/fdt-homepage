@@ -1,0 +1,439 @@
+@scope (.fehe-app) {
+/* ── EASTER EGG TERMINAL ── */
+
+/* 백틱 힌트 버튼 */
+.ee-hint {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 190;
+  opacity: 0.25;
+  transition: opacity 0.2s;
+}
+.ee-hint:hover { opacity: 0.7; cursor: pointer; }
+.ee-hint kbd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  box-shadow: 0 2px 6px var(--shadow);
+  user-select: none;
+}
+
+/* 백드롭 */
+.ee-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* 터미널 창 */
+.ee-terminal {
+  width: min(680px, 100%);
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: #0d1117;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+}
+
+/* 타이틀바 */
+.ee-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  flex-shrink: 0;
+}
+
+.ee-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+.ee-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.ee-dot:hover { filter: brightness(1.3); }
+.ee-dot.red    { background: #ff5f57; }
+.ee-dot.yellow { background: #ffbd2e; cursor: default; }
+.ee-dot.green  { background: #28c840; cursor: default; }
+
+.ee-title {
+  font-size: 0.75rem;
+  color: #8b949e;
+  letter-spacing: 0.04em;
+}
+
+/* 출력 영역 */
+.ee-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem 0.5rem;
+  min-height: 200px;
+  cursor: text;
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+}
+.ee-body::-webkit-scrollbar { width: 5px; }
+.ee-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 999px; }
+
+/* 라인 타입별 색상 */
+.ee-line {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.ee-line-system  { color: #8b949e; }
+.ee-line-input   { color: #e6edf3; }
+.ee-line-output  { color: #7ee787; }
+.ee-line-accent  { color: #6bbde0; }
+.ee-line-info    { color: #d2a8ff; }
+.ee-line-error   { color: #f85149; }
+
+/* 입력 행 */
+.ee-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.25rem 0.85rem;
+  border-top: 1px solid #21262d;
+  flex-shrink: 0;
+}
+
+.ee-prompt {
+  font-size: 0.82rem;
+  color: #6bbde0;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.ee-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: #e6edf3;
+  caret-color: #6bbde0;
+}
+
+@media (max-width: 540px) {
+  .ee-terminal { max-height: 80vh; }
+  .ee-line { font-size: 0.75rem; }
+  .ee-input { font-size: 0.75rem; }
+}
+
+/* ── VIM 모드 ── */
+.ee-vim {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  border-top: 1px solid #21262d;
+  font-family: 'Menlo','Monaco','Consolas',monospace;
+}
+.ee-vim-body {
+  flex: 1;
+  background: #0d1117;
+  padding: 0.25rem 0;
+  overflow: hidden;
+}
+.ee-vim-titlebar {
+  font-size: 0.75rem;
+  color: #e6edf3;
+  background: #21262d;
+  padding: 0.15rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.ee-vim-tilde {
+  font-size: 0.82rem;
+  color: #3d444d;
+  padding: 0 0.75rem;
+  line-height: 1.7;
+}
+.ee-vim-statusbar {
+  font-size: 0.75rem;
+  color: #e6edf3;
+  background: #388bfd22;
+  border-top: 1px solid #21262d;
+  padding: 0.15rem 0.75rem;
+  letter-spacing: 0.04em;
+}
+.ee-vim-cmdline {
+  padding: 0.4rem 0.75rem 0.6rem;
+  border-top: 1px solid #21262d;
+}
+.ee-vim-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: #f85149;
+  caret-color: #f85149;
+}
+.ee-vim-input::placeholder {
+  color: #484f58;
+  font-style: italic;
+}
+
+/* ── VR 로딩 진행 바 ── */
+.ee-progress-wrap {
+  margin: 0.5rem 0 0.25rem 1.5rem;
+  width: calc(100% - 3rem);
+  height: 5px;
+  background: #21262d;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.ee-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3a7fd5, #6bbde0, #a8dff0);
+  border-radius: 999px;
+  animation: ee-progress ease-in-out forwards;
+}
+@keyframes ee-progress {
+  0%   { width: 0% }
+  15%  { width: 12% }
+  35%  { width: 35% }
+  55%  { width: 58% }
+  75%  { width: 76% }
+  88%  { width: 89% }
+  100% { width: 100% }
+}
+
+/* ── VR 비주얼 노벨 ── */
+.vr-novel {
+  position: absolute;
+  top: 44px; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 6;
+  cursor: pointer;
+  background: linear-gradient(to bottom, rgba(6,8,14,0.15) 0%, rgba(6,8,14,0.6) 50%);
+}
+
+.vr-novel-location {
+  align-self: flex-start;
+  margin: 0.75rem 1rem;
+  font-family: 'Menlo','Monaco','Consolas',monospace;
+  font-size: 0.68rem;
+  color: #8b949e;
+  background: rgba(13,17,23,0.7);
+  border: 1px solid #21262d;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.vr-novel-box {
+  background: rgba(13,17,23,0.93);
+  border-top: 1px solid #30363d;
+  padding: 1rem 1.25rem 1.1rem;
+  cursor: default;
+}
+
+.vr-novel-name {
+  font-family: 'Menlo','Monaco','Consolas',monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6bbde0;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(107,189,224,0.12);
+  border-left: 2px solid #6bbde0;
+  display: inline-block;
+}
+
+.vr-novel-text {
+  font-family: 'Menlo','Monaco','Consolas',monospace;
+  font-size: 0.84rem;
+  color: #e6edf3;
+  line-height: 1.75;
+  min-height: 1.75em;
+  margin: 0.5rem 0 0.75rem;
+}
+.vr-novel-text.action { color: #8b949e; font-style: italic; }
+
+.vr-cursor {
+  display: inline-block;
+  color: #6bbde0;
+  animation: blink 0.9s step-end infinite;
+}
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0 } }
+
+.vr-advance {
+  font-size: 0.7rem;
+  color: #484f58;
+  text-align: right;
+  animation: bounce 1.2s ease-in-out infinite;
+  cursor: pointer;
+}
+@keyframes bounce { 0%,100% { transform:translateY(0) } 50% { transform:translateY(3px) } }
+
+.vr-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.vr-choice {
+  background: rgba(30,36,44,0.9);
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  font-family: 'Menlo','Monaco','Consolas',monospace;
+  font-size: 0.78rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.vr-choice:hover {
+  background: rgba(107,189,224,0.12);
+  border-color: #6bbde0;
+  color: #6bbde0;
+}
+.vr-choice.vr-end {
+  color: #f85149;
+  border-color: #3d1f1f;
+}
+.vr-choice.vr-end:hover {
+  background: rgba(248,81,73,0.1);
+  border-color: #f85149;
+}
+
+/* ── 시크릿 접근 모달 ── */
+.ee-secret-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 1.25rem;
+}
+
+.ee-secret-modal {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 0.75rem;
+  padding: 1.5rem 1.75rem;
+  width: min(360px, 90%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+.ee-secret-modal.shake {
+  animation: ee-shake 0.4s ease;
+}
+@keyframes ee-shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.ee-secret-label {
+  font-size: 0.7rem;
+  color: #f85149;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.ee-secret-question {
+  font-size: 0.85rem;
+  color: #e6edf3;
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.ee-secret-input {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: #6bbde0;
+  outline: none;
+  width: 100%;
+  caret-color: #6bbde0;
+  transition: border-color 0.2s;
+}
+.ee-secret-input:focus { border-color: #6bbde0; }
+.ee-secret-input.error { border-color: #f85149; }
+
+.ee-secret-error {
+  font-size: 0.75rem;
+  color: #f85149;
+  letter-spacing: 0.04em;
+}
+
+.ee-secret-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.ee-secret-cancel {
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.ee-secret-cancel:hover { border-color: #8b949e; color: #e6edf3; }
+
+.ee-secret-confirm {
+  background: #6bbde0;
+  border: none;
+  color: #0d1117;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ee-secret-confirm:hover { background: #8ecfe8; }
+}

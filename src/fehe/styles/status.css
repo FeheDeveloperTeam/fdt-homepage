@@ -1,0 +1,180 @@
+@scope (.fehe-app) {
+/* ── STATUS PAGE ── */
+.status-page {
+  min-height: 100vh;
+  padding: calc(var(--header-h) + 2rem) 1.5rem calc(var(--footer-h) + 2rem);
+  display: flex;
+  justify-content: center;
+}
+
+.status-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* 헤더 */
+.status-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: fit-content;
+}
+.status-badge--ok       { background: rgba(46,160,67,0.15); color: #3fb950; border: 1px solid rgba(46,160,67,0.3); }
+.status-badge--error    { background: rgba(248,81,73,0.12); color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
+.status-badge--checking { background: rgba(107,189,224,0.12); color: var(--sky-deep); border: 1px solid rgba(107,189,224,0.3); }
+
+.status-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.status-checked {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* 카드 */
+.status-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  backdrop-filter: blur(8px);
+}
+
+.status-card-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.1rem;
+}
+
+/* 상태 행 */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.status-row:last-child { border-bottom: none; }
+
+.status-row-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.status-row-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.status-row-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-row-state {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.status-row-state--ok       { color: #3fb950; }
+.status-row-state--error    { color: #f85149; }
+.status-row-state--checking { color: var(--text-muted); }
+
+.status-row-detail {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(0,0,0,0.04);
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-family: monospace;
+}
+
+/* 상태 점 */
+.status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot--ok {
+  background: #3fb950;
+  box-shadow: 0 0 6px rgba(63,185,80,0.6);
+}
+.status-dot--error {
+  background: #f85149;
+  box-shadow: 0 0 6px rgba(248,81,73,0.6);
+}
+.status-dot--checking {
+  background: var(--sky-deep);
+  animation: status-pulse 1.2s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* 정보 그리드 */
+.status-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.status-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.status-info-item:last-child { border-bottom: none; }
+
+.status-info-label {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.status-info-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  font-family: monospace;
+}
+
+.status-info-max {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+@media (max-width: 540px) {
+  .status-card { padding: 1rem 1.1rem; }
+}
+}

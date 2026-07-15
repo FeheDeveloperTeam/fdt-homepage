@@ -1,0 +1,80 @@
+@scope (.fehe-app) {
+.version-banner {
+  position: fixed;
+  top: calc(var(--header-h) + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(107, 189, 224, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.85rem;
+  color: var(--text);
+  white-space: nowrap;
+  animation: vb-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.version-banner.hiding {
+  animation: vb-out 0.35s ease forwards;
+}
+
+.version-banner span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-soft);
+}
+
+.version-banner span svg {
+  flex-shrink: 0;
+  color: var(--sky-deep);
+}
+
+.version-banner-reload {
+  background: var(--sky-deep);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 4px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.version-banner-reload:hover {
+  background: #4dadd0;
+}
+
+.version-banner-close {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.version-banner-close:hover {
+  color: var(--text);
+}
+
+@keyframes vb-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes vb-out {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+}
+}

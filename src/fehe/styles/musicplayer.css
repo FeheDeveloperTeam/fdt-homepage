@@ -1,0 +1,183 @@
+@scope (.fehe-app) {
+/* ── MUSIC PLAYER ── */
+.music-player {
+  position: fixed;
+  bottom: calc(var(--footer-h) + 1rem);
+  right: 1.25rem;
+  z-index: 200;
+}
+
+.music-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  width: 248px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 6px 28px var(--shadow), 0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
+/* ── 상단 행 ── */
+.music-top {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* 디스크 아이콘 */
+.music-disc {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sky-mid, #6bbde0), var(--sky-deep));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.music-disc.spin {
+  animation: disc-spin 4s linear infinite;
+}
+@keyframes disc-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* 곡 정보 */
+.music-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.music-title {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.music-artist {
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* 재생/정지 버튼 */
+.music-toggle {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--sky-light);
+  color: var(--sky-deep);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.music-toggle:hover { transform: scale(1.1); }
+.music-toggle.playing {
+  background: linear-gradient(135deg, var(--sky-mid, #6bbde0), var(--sky-deep));
+  color: #fff;
+}
+
+/* ── 재생바 ── */
+.music-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+.music-progress-bg {
+  position: relative;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+}
+.music-progress-fill {
+  position: absolute;
+  left: 0; top: 0; height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sky-mid, #6bbde0), var(--sky-deep));
+  transition: width 0.4s linear;
+  pointer-events: none;
+}
+.music-progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--sky-deep);
+  box-shadow: 0 0 0 2px rgba(107,189,224,0.3);
+  pointer-events: none;
+  transition: left 0.4s linear;
+}
+.music-progress-wrap:hover .music-progress-bg { height: 6px; }
+.music-progress-wrap:hover .music-progress-thumb { width: 12px; height: 12px; }
+
+.music-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.61rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ── 볼륨 ── */
+.music-volume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.music-vol-icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  display: flex; align-items: center;
+}
+.music-vol-num {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 22px;
+  text-align: right;
+}
+
+/* 볼륨 슬라이더 */
+.music-vol-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+.music-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sky-deep);
+  box-shadow: 0 0 0 2px rgba(107,189,224,0.3);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.music-vol-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.music-vol-slider::-moz-range-thumb {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sky-deep);
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 540px) {
+  .music-card { width: 210px; }
+}
+}
