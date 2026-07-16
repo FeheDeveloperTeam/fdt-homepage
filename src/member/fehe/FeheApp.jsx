@@ -12,6 +12,7 @@ import TestGatePage from './pages/TestGatePage/TestGatePage'
 import SecretPage from './pages/SecretPage/SecretPage'
 import StatusPage from './pages/StatusPage/StatusPage'
 import AdminPage from './pages/AdminPage/AdminPage'
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import './index.css'
 
 export default function FeheApp() {
@@ -27,6 +28,7 @@ export default function FeheApp() {
           <Route path="/secret"      element={<SecretPage />} />
           <Route path="/status"      element={<StatusPage />} />
           <Route path="/admin"       element={<AdminPage />} />
+          <Route path="*"            element={<NotFoundPage />} />
         </Routes>
         <Footer />
         <MusicPlayer />

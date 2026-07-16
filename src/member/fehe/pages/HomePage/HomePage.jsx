@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '../../components/icons/icons'
+import feheProfile from '../../../../assets/images/team/fehe.png'
 import './HomePage.css'
 
 const TMI_LIST = [
@@ -137,7 +138,7 @@ export default function HomePage() {
         <div className="hero-bubble">
           <img
             className="hero-avatar"
-            src="/profile1.png"
+            src={feheProfile}
             alt="페헤 프로필"
           />
           <p className="hero-label">Hello! I&apos;m</p>
