@@ -1,3 +1,5 @@
+import './BgDeco.css'
+
 const STARS = [
   { top: '8%',  left: '12%', delay: '0s' },
   { top: '15%', left: '82%', delay: '1.2s', size: 8 },

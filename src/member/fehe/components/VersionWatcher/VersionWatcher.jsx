@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { rtdb } from '../firebase'
+import { rtdb } from '../../firebase'
 import { ref, onValue } from 'firebase/database'
-import '../styles/versionbanner.css'
+import './VersionWatcher.css'
 
 export default function VersionWatcher() {
   const initialVersion = useRef(null)

@@ -1,6 +1,7 @@
 // 대기실 UI 테스트용 페이지 — /test-gate
 import { useState } from 'react'
-import '../styles/versionbanner.css'
+import '../../components/VisitorGate/VisitorGate.css'
+import '../../components/VersionWatcher/VersionWatcher.css'
 
 const SCREENS = [
   { key: 'waiting',  label: '대기 중' },

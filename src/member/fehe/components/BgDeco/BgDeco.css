@@ -1,30 +1,4 @@
-html { scroll-behavior: smooth; }
-
 @scope (.fehe-app) {
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :scope {
-    --sky:       #a8d8f0;
-    --sky-light: #d6eefa;
-    --sky-deep:  #6bbde0;
-    --white:     #ffffff;
-    --text:      #2e4a5a;
-    --text-soft: #6a9ab5;
-    --text-muted:#9bbfd4;
-    --card:      rgba(255,255,255,0.75);
-    --border:        rgba(168,216,240,0.6);
-    --border-accent: rgba(80,160,200,0.8);
-    --shadow:    rgba(107,189,224,0.18);
-    --header-h:  58px;
-    --footer-h:  52px;
-
-    font-family: 'M PLUS Rounded 1c', 'Apple SD Gothic Neo', sans-serif;
-    background: linear-gradient(160deg, #c2dff0 0%, #d4ecf8 40%, #e5f4fb 75%, #f0f9ff 100%);
-    min-height: 100vh;
-    color: var(--text);
-    overflow-x: hidden;
-  }
-
   /* ── 배경 장식 ── */
   .bg-deco {
     position: fixed; inset: 0;

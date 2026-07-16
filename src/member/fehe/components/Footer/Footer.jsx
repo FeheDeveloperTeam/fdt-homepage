@@ -1,4 +1,5 @@
-import { SITE_VERSION } from '../version'
+import { SITE_VERSION } from '../../version'
+import './Footer.css'
 
 export default function Footer() {
   return (

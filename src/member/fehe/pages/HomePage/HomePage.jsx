@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '../components/icons'
+import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '../../components/icons/icons'
+import './HomePage.css'
 
 const TMI_LIST = [
   '페헤의 첫 닉네임은 악마를 좋아해서 악마페헤 였습니다',

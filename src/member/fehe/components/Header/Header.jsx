@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { IconHome, IconYoutube, IconStatus, IconGithub, IconSteam, IconInstagram } from './icons'
+import { IconHome, IconYoutube, IconStatus, IconGithub, IconSteam, IconInstagram } from '../icons/icons'
+import './Header.css'
 
 export default function Header() {
   const navigate = useNavigate()

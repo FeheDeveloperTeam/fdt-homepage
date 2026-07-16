@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { auth, rtdb } from '../firebase'
+import { auth, rtdb } from '../../firebase'
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { ref, set, remove, onValue } from 'firebase/database'
-import '../styles/admin.css'
+import './AdminPage.css'
 
 function encodeIp(ip) { return ip.replace(/\./g, '_') }
 function decodeIp(key) { return key.replace(/_/g, '.') }

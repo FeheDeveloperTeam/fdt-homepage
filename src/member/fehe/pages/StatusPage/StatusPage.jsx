@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { db, rtdb } from '../firebase'
+import { db, rtdb } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { ref, get, onValue } from 'firebase/database'
-import { SITE_VERSION } from '../version'
-import '../styles/status.css'
+import { SITE_VERSION } from '../../version'
+import './StatusPage.css'
 
 const YT_CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
 const YT_API_KEY    = 'AIzaSyAP2PyUsp5VYuj9KUMExwYw3YcceIegaII'

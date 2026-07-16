@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
-import { auth, rtdb } from '../firebase'
+import { auth, rtdb } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import {
   ref, get, set, remove, onValue, onDisconnect, runTransaction
 } from 'firebase/database'
+import './VisitorGate.css'
 
 const MAX = 10
 

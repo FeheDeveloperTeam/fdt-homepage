@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import './MusicPlayer.css'
 
 const VIDEO_ID = '075raB27CW8'
 const SONG_TITLE = 'ray (超かぐや姫！ Version)'

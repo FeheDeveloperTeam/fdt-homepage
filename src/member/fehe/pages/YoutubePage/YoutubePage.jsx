@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { IconYoutube } from '../components/icons'
+import { IconYoutube } from '../../components/icons/icons'
+import './YoutubePage.css'
 
 const CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
 const API_KEY    = 'AIzaSyAP2PyUsp5VYuj9KUMExwYw3YcceIegaII'

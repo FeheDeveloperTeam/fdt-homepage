@@ -1,9 +1,15 @@
-@import './styles/base.css';
-@import './styles/header.css';
-@import './styles/home.css';
-@import './styles/youtube.css';
-@import './styles/footer.css';
-@import './styles/musicplayer.css';
-@import './styles/visitor.css';
-@import './styles/easteregg.css';
-@import './styles/secret.css';
+@import './styles/variables.css';
+
+html { scroll-behavior: smooth; }
+
+@scope (.fehe-app) {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :scope {
+    font-family: 'M PLUS Rounded 1c', 'Apple SD Gothic Neo', sans-serif;
+    background: linear-gradient(160deg, #c2dff0 0%, #d4ecf8 40%, #e5f4fb 75%, #f0f9ff 100%);
+    min-height: 100vh;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import './EasterEgg.css'
 
 /* ── 매트릭스 비 이펙트 ── */
 function MatrixRain({ onDone }) {

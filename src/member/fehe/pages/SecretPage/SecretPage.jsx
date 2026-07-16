@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import './SecretPage.css'
 
 const LINES = [
   { text: '2014년.', delay: 600 },
