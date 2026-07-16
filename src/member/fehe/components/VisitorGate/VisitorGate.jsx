@@ -33,6 +33,7 @@ function GateInner({ children }) {
   const ipCheckPromiseRef = useRef(null)
 
   useEffect(() => {
+    let isMounted = true
     const sessionRef = ref(rtdb, `sessions/${sid}`)
     const sessionsRef = ref(rtdb, 'sessions')
     const myQueueRef = ref(rtdb, `queue/${sid}`)
@@ -111,10 +112,10 @@ function GateInner({ children }) {
     }
 
     async function tryEnter() {
-      if (rejectedRef.current) return
+      if (rejectedRef.current || !isMounted) return
       if (!ipCheckPromiseRef.current) ipCheckPromiseRef.current = buildIpCheckPromise()
       const ipResult = await /** @type {Promise<string>} */ (ipCheckPromiseRef.current)
-      if (rejectedRef.current) return
+      if (rejectedRef.current || !isMounted) return
       if (ipResult === 'blocked') { setStatus('blocked'); return }
 
       const myIp = myIpRef.current
@@ -127,6 +128,13 @@ function GateInner({ children }) {
         entered = true
         return { ...sessions, [sid]: { joinedAt: Date.now(), ip: myIp || '알 수 없음' } }
       })
+
+      // 트랜잭션이 끝나기 전에(예: 관리자 로그인 확정 등으로) 이미 언마운트됐다면
+      // 방금 등록한 세션이 유령 세션으로 영영 남으니 바로 되돌린다.
+      if (!isMounted) {
+        if (entered) remove(sessionRef)
+        return
+      }
 
       if (entered) {
         allowedRef.current = true
@@ -141,7 +149,7 @@ function GateInner({ children }) {
           await set(myQueueRef, { joinedAt: Date.now() })
           onDisconnect(myQueueRef).remove()
         }
-        setStatus('waiting')
+        if (isMounted) setStatus('waiting')
       }
     }
 
@@ -165,6 +173,7 @@ function GateInner({ children }) {
     })
 
     return () => {
+      isMounted = false
       cleaningUp.current = true
       if (healthIntervalRef.current) clearInterval(healthIntervalRef.current)
       unsubSessions()
