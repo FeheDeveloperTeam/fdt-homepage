@@ -10,7 +10,7 @@ import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
 
-const FeheApp = lazy(() => import('./fehe/FeheApp'))
+const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 
 function MainLayout() {
   return (
@@ -36,7 +36,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
         </Route>
         <Route
-          path="/fehe/*"
+          path="/member/fehe/*"
           element={
             <Suspense fallback={null}>
               <FeheApp />

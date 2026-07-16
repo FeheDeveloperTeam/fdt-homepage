@@ -281,8 +281,8 @@ export default function VisitorGate({ children }) {
     return () => unsub()
   }, [])
 
-  // /fehe/admin 경로는 무조건 통과
-  if (location.pathname === '/fehe/admin') return children
+  // /member/fehe/admin 경로는 무조건 통과
+  if (location.pathname === '/member/fehe/admin') return children
 
   // Firebase Auth 확인 중 (깜빡임 방지)
   if (isAdmin === undefined) return null

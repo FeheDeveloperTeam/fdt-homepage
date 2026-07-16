@@ -36,7 +36,7 @@ function AccessDenied() {
 
   useEffect(() => {
     const t = setInterval(() => setCount(c => c - 1), 1000)
-    const r = setTimeout(() => navigate('/fehe', { replace: true }), 3200)
+    const r = setTimeout(() => navigate('/member/fehe', { replace: true }), 3200)
     return () => { clearInterval(t); clearTimeout(r) }
   }, [navigate])
 
@@ -136,7 +136,7 @@ export default function SecretPage() {
         {showBack && (
           <div className="secret-footer">
             <span className="secret-sig">— 페헤, {new Date().getFullYear()}</span>
-            <button className="secret-back" onClick={() => navigate('/fehe')}>
+            <button className="secret-back" onClick={() => navigate('/member/fehe')}>
               ← 돌아가기
             </button>
           </div>

@@ -7,7 +7,7 @@ export default function Header() {
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const relPath = location.pathname.replace(/^\/fehe\/?/, '')
+  const relPath = location.pathname.replace(/^\/member\/fehe\/?/, '')
   const activePage = relPath === '' ? 'home' : relPath.split('/')[0]
 
   function switchPage(path) {
@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <>
       <header>
-        <button className="header-logo" onClick={() => switchPage('/fehe')}>
+        <button className="header-logo" onClick={() => switchPage('/member/fehe')}>
           페헤<span>/ Fehe</span>
         </button>
         <button
@@ -37,19 +37,19 @@ export default function Header() {
         <p className="drawer-label">메뉴</p>
         <button
           className={`drawer-btn ${activePage === 'home' ? 'active' : ''}`}
-          onClick={() => switchPage('/fehe')}
+          onClick={() => switchPage('/member/fehe')}
         >
           <IconHome /> 홈
         </button>
         <button
           className={`drawer-btn ${activePage === 'youtube' ? 'active' : ''}`}
-          onClick={() => switchPage('/fehe/youtube')}
+          onClick={() => switchPage('/member/fehe/youtube')}
         >
           <IconYoutube /> YouTube 영상
         </button>
 <button
           className={`drawer-btn ${activePage === 'status' ? 'active' : ''}`}
-          onClick={() => switchPage('/fehe/status')}
+          onClick={() => switchPage('/member/fehe/status')}
         >
           <IconStatus /> 서버 상태
         </button>

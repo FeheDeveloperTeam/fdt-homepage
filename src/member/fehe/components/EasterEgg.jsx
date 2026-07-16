@@ -282,7 +282,7 @@ export default function EasterEgg() {
     setTimeout(() => {
       setOpen(false)
       sessionStorage.setItem('secret_auth', '1')
-      navigate('/fehe/secret')
+      navigate('/member/fehe/secret')
     }, 800)
   }
 
