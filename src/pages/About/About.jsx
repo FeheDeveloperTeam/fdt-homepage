@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
 import feheProfile from '../../assets/images/team/fehe.png'
 import styles from './About.module.css'
@@ -9,6 +10,7 @@ const MEMBERS = [
     role: '총괄',
     email: 'fehe@fehe.dev',
     photo: feheProfile,
+    profileUrl: '/member/fehe',
   },
   {
     name: '유키하',
@@ -55,6 +57,11 @@ function About() {
               <a href={`mailto:${member.email}`} className={styles.email}>
                 {member.email}
               </a>
+              {member.profileUrl && (
+                <Link to={member.profileUrl} className={styles.profileButton}>
+                  자기소개 보러가기
+                </Link>
+              )}
             </div>
           ))}
         </div>

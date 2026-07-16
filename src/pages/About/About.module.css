@@ -101,3 +101,22 @@
 .email:hover {
   color: var(--color-text);
 }
+
+.profileButton {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.profileButton:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+}
