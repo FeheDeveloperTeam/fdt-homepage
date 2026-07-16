@@ -40,31 +40,35 @@ img {
   아래 리셋들은 /fehe (src/fehe) 서브 앱에는 적용하지 않는다.
   그쪽은 자체 디자인 시스템을 쓰는 별도로 합쳐진 사이트라서 이 사이트의
   전역 리셋이 새어 들어가면 안 된다.
+  :where()로 감싸서 이 제외 조건이 명시도(specificity)를 올리지 않게 한다 —
+  안 그러면 컴포넌트 CSS Module의 클래스 선택자보다 우선순위가 높아져서
+  (예: .subtitle의 margin: auto 가운데 정렬을 덮어쓰는 등) 의도치 않게
+  컴포넌트 스타일을 이겨버린다.
 */
-a:not(.fehe-app, .fehe-app *) {
+a:where(:not(.fehe-app, .fehe-app *)) {
   color: inherit;
   text-decoration: none;
 }
 
-ul:not(.fehe-app, .fehe-app *) {
+ul:where(:not(.fehe-app, .fehe-app *)) {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-button:not(.fehe-app, .fehe-app *) {
+button:where(:not(.fehe-app, .fehe-app *)) {
   font-family: inherit;
 }
 
-h1:not(.fehe-app, .fehe-app *),
-h2:not(.fehe-app, .fehe-app *),
-h3:not(.fehe-app, .fehe-app *) {
+h1:where(:not(.fehe-app, .fehe-app *)),
+h2:where(:not(.fehe-app, .fehe-app *)),
+h3:where(:not(.fehe-app, .fehe-app *)) {
   margin: 0;
   line-height: 1.3;
   font-weight: 700;
 }
 
-p:not(.fehe-app, .fehe-app *) {
+p:where(:not(.fehe-app, .fehe-app *)) {
   margin: 0;
   color: var(--color-text-muted);
 }
