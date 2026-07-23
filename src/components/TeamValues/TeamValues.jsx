@@ -1,4 +1,5 @@
 import { useStickyProgress } from '../../hooks/useStickyProgress'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 import logo from '../../assets/images/logo/fdt-logo-square.png'
 import styles from './TeamValues.module.css'
 
@@ -97,9 +98,16 @@ function Card({ eyebrow, title, description, tags, visual, index, stepProgress }
   const visibility = Math.max(0, 1 - Math.abs(stepProgress - index) * 1.7)
   const Visual = VISUALS[visual]
 
+  // 모바일은 주소창이 들쭉날쭉해서 실제 기기 스크롤과 계산된 진행률이
+  // 살짝 어긋날 때가 있는데, 그때 rotateX 3D 효과가 걸려 있으면 카드
+  // 안의 목업이 세로로 눌린 것처럼 보인다. 좁은 화면에서는 회전 없이
+  // 페이드 + 위로 살짝 뜨는 정도로만 처리해서 그 문제를 피한다.
+  const isNarrow = useMediaQuery('(max-width: 720px)')
+  const rotateX = isNarrow ? 0 : (1 - visibility) * -35
+
   const style = {
     opacity: visibility,
-    transform: `translate(-50%, calc(-50% + ${(1 - visibility) * 24}px)) rotateX(${(1 - visibility) * -35}deg)`,
+    transform: `translate(-50%, calc(-50% + ${(1 - visibility) * 24}px)) rotateX(${rotateX}deg)`,
     zIndex: Math.round(visibility * 100),
   }
 
@@ -159,7 +167,7 @@ function TeamValues() {
       <div
         ref={ref}
         className={styles.stepWrapper}
-        style={{ height: `${(TIMELINE_LENGTH + 1) * 100}vh` }}
+        style={{ height: `${(TIMELINE_LENGTH + 1) * 100}dvh` }}
       >
         <div className={styles.stickyStage}>
           {PANELS.map((panel, index) => (
