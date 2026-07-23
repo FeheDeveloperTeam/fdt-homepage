@@ -22,13 +22,17 @@ const SERVICES = [
   },
 ]
 
-const STACK = [
-  'Discord.js',
-  'Node.js',
-  'React',
-  'Express',
-  'MongoDB',
-  'PostgreSQL',
+const PROCESS = [
+  { title: '문의', description: 'Discord나 이메일로 프로젝트 내용을 편하게 전달해주세요.' },
+  { title: '기획 · 견적', description: '요구사항을 정리하고 일정과 범위를 함께 조율합니다.' },
+  { title: '개발', description: '실시간으로 소통하며 기능을 빠르게 구현해 나갑니다.' },
+  { title: '배포 · 유지보수', description: '출시 후에도 기능 개선과 대응을 계속 이어갑니다.' },
+]
+
+const STACK_GROUPS = [
+  { label: 'Frontend', items: ['React'] },
+  { label: 'Backend', items: ['Discord.js', 'Node.js', 'Express'] },
+  { label: 'Database', items: ['MongoDB', 'PostgreSQL'] },
 ]
 
 function Services() {
@@ -48,20 +52,47 @@ function Services() {
         </p>
 
         <div className={styles.grid}>
-          {SERVICES.map((service) => (
+          {SERVICES.map((service, index) => (
             <div key={service.title} className={styles.card}>
+              <span className={styles.cardIndex}>{String(index + 1).padStart(2, '0')}</span>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
             </div>
           ))}
         </div>
 
-        <div className={styles.stack}>
-          {STACK.map((tech) => (
-            <span key={tech} className={styles.stackItem}>
-              {tech}
-            </span>
-          ))}
+        <div className={styles.processSection}>
+          <p className={styles.subEyebrow}>How We Work</p>
+          <h2 className={styles.subTitle}>진행 프로세스</h2>
+
+          <div className={styles.processGrid}>
+            {PROCESS.map((step, index) => (
+              <div key={step.title} className={styles.processStep}>
+                <span className={styles.processIndex}>{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                {index < PROCESS.length - 1 && <span className={styles.processArrow}>→</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.stackSection}>
+          <p className={styles.subEyebrow}>Tech Stack</p>
+          <div className={styles.stackGroups}>
+            {STACK_GROUPS.map((group) => (
+              <div key={group.label} className={styles.stackGroup}>
+                <span className={styles.stackLabel}>{group.label}</span>
+                <div className={styles.stackItems}>
+                  {group.items.map((tech) => (
+                    <span key={tech} className={styles.stackItem}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
