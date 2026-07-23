@@ -101,7 +101,7 @@ const SKILLS = [
   },
   {
     label: '디자인',
-    items: ['Photoshop (기본)'],
+    items: ['Photoshop (기본)', 'Figma'],
     cls: 'design',
   },
   {
