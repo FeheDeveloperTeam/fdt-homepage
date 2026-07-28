@@ -1,4 +1,5 @@
 import Seo from '../../components/Seo/Seo'
+import { SEO_DATA } from '../../seoData'
 import styles from './Services.module.css'
 
 const SERVICES = [
@@ -38,11 +39,7 @@ const STACK_GROUPS = [
 function Services() {
   return (
     <section className={styles.services}>
-      <Seo
-        title="하는 일 & 기술 스택"
-        description="디스코드 봇 개발, 봇 대시보드, 웹사이트 제작까지 FDT가 직접 만드는 것들과 기술 스택을 소개합니다."
-        path="/services"
-      />
+      <Seo {...SEO_DATA['/services']} path="/services" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>What We Build</p>
         <h1 className={styles.title}>하는 일 & 기술 스택</h1>

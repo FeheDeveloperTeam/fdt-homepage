@@ -1,5 +1,6 @@
 import Seo from '../../components/Seo/Seo'
 import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
+import { SEO_DATA } from '../../seoData'
 import styles from './Projects.module.css'
 
 const PROJECTS = [
@@ -24,11 +25,7 @@ const PROJECTS = [
 function Projects() {
   return (
     <section className={styles.projects}>
-      <Seo
-        title="프로젝트"
-        description="FDT가 직접 운영하는 디스코드 봇 치유미(Chiyumi)를 소개합니다."
-        path="/projects"
-      />
+      <Seo {...SEO_DATA['/projects']} path="/projects" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Projects</p>
         <h1 className={styles.title}>프로젝트</h1>

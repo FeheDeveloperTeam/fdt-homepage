@@ -1,14 +1,11 @@
 import Seo from '../../components/Seo/Seo'
+import { SEO_DATA } from '../../seoData'
 import styles from './Contact.module.css'
 
 function Contact() {
   return (
     <section className={styles.contact}>
-      <Seo
-        title="문의"
-        description="FeheDeveloperTeam(FDT)에 문의하거나 커뮤니티에 참여해보세요. Discord와 이메일로 연락하실 수 있습니다."
-        path="/contact"
-      />
+      <Seo {...SEO_DATA['/contact']} path="/contact" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Contact</p>
         <h1 className={styles.title}>문의</h1>

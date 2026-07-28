@@ -1,10 +1,8 @@
 import { Helmet } from 'react-helmet-async'
-
-const SITE_URL = 'https://www.fehe.dev'
-const SITE_NAME = 'FeheDeveloperTeam'
+import { SITE_URL, getFullTitle } from '../../seoData'
 
 function Seo({ title, description, path = '/', noindex = false }) {
-  const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`
+  const fullTitle = getFullTitle(title)
   const url = `${SITE_URL}${path}`
 
   return (

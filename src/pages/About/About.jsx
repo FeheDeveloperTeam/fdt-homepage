@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
 import feheProfile from '../../assets/images/team/fehe.png'
+import { SEO_DATA } from '../../seoData'
 import styles from './About.module.css'
 
 const MEMBERS = [
@@ -24,11 +25,7 @@ const MEMBERS = [
 function About() {
   return (
     <section className={styles.about}>
-      <Seo
-        title="팀 소개"
-        description="디스코드 봇과 웹 서비스를 직접 기획하고 만드는 FeheDeveloperTeam(FDT) 팀원을 소개합니다."
-        path="/about"
-      />
+      <Seo {...SEO_DATA['/about']} path="/about" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>About Us</p>
         <h1 className={styles.title}>팀 소개</h1>
