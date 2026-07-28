@@ -1,0 +1,60 @@
+@scope (.fehe-app) {
+.yt-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 1.25rem; overflow: hidden; text-decoration: none;
+  color: var(--text); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column;
+}
+.yt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(220,80,80,0.15);
+}
+
+.yt-thumb-wrap { position: relative; }
+.yt-thumb { width:100%; aspect-ratio:16/9; object-fit:cover; background:var(--sky-light); display:block; }
+
+.yt-live-badge {
+  position: absolute; top: 0.5rem; left: 0.5rem;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.55rem; border-radius: 999px;
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 0.04em;
+  color: #fff; background: #ff3b3b;
+  box-shadow: 0 2px 8px rgba(255,59,59,0.5);
+}
+.yt-live-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: #fff; animation: liveDotBlink 1.2s ease-in-out infinite;
+}
+
+.yt-card--live {
+  animation: liveCardBorder 1.4s ease-in-out infinite;
+}
+@keyframes liveCardBorder {
+  0%, 100% {
+    border-color: var(--border);
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  50% {
+    border-color: #ff3b3b;
+    box-shadow: 0 4px 24px rgba(255,59,59,0.4), 0 0 0 2px rgba(255,59,59,0.25);
+  }
+}
+@keyframes liveDotBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+.yt-info { padding:0.85rem 1rem; flex:1; }
+.yt-title {
+  font-size:0.82rem; font-weight:700; color:var(--text); line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.yt-date { font-size:0.7rem; color:var(--text-muted); margin-top:0.35rem; font-weight:500; }
+.yt-clip {
+  display:inline-block; margin-top:0.4rem; padding:0.15rem 0.45rem;
+  font-size:0.68rem; font-weight:600; color:#e05050;
+  background:rgba(248,113,113,0.12); border-radius:6px;
+}
+}

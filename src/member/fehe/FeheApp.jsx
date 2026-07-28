@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage/HomePage'
 import YoutubePage from './pages/YoutubePage/YoutubePage'
 import SecretPage from './pages/SecretPage/SecretPage'
 import StatusPage from './pages/StatusPage/StatusPage'
+import LivePreviewPage from './pages/LivePreviewPage/LivePreviewPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import './index.css'
 
@@ -22,6 +23,7 @@ export default function FeheApp() {
         <Route path="/youtube"     element={<YoutubePage />} />
         <Route path="/secret"      element={<SecretPage />} />
         <Route path="/status"      element={<StatusPage />} />
+        <Route path="/live-preview" element={<LivePreviewPage />} />
         <Route path="*"            element={<NotFoundPage />} />
       </Routes>
       <Footer />

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { IconYoutube } from '../../components/icons/icons'
+import YtCard from '../../components/YtCard/YtCard'
+import LiveBanner from '../../components/LiveBanner/LiveBanner'
 import './YoutubePage.css'
 
 const CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
@@ -36,31 +38,11 @@ function timeToSeconds(t) {
   return parts.reduce((acc, n) => acc * 60 + n, 0)
 }
 
-function YtCard({ item }) {
-  const videoId = item.id.videoId
-  const thumb   = item.snippet.thumbnails.medium?.url || item.snippet.thumbnails.default?.url
-  const date    = new Date(item.snippet.publishedAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-  const clip    = item._clip   // { start, end, startSeconds }
-  let href = `https://www.youtube.com/watch?v=${videoId}`
-  if (clip?.startSeconds) href += `&t=${clip.startSeconds}s`
-  return (
-    <a className="yt-card" href={href} target="_blank" rel="noopener noreferrer">
-      <img className="yt-thumb" src={thumb} alt={item.snippet.title} loading="lazy" />
-      <div className="yt-info">
-        <p className="yt-title">{item.snippet.title}</p>
-        <p className="yt-date">{date}</p>
-        {clip && (clip.start || clip.end) && (
-          <p className="yt-clip">⏱ {clip.start}{clip.end ? ` ~ ${clip.end}` : ''}</p>
-        )}
-      </div>
-    </a>
-  )
-}
-
 export default function YoutubePage() {
   const [ytTab, setYtTab]             = useState('home')
   const [homeItems, setHomeItems]     = useState([])
   const [liveItems, setLiveItems]     = useState([])
+  const [nowLiveItems, setNowLiveItems] = useState([])
   const [manualItems, setManualItems] = useState([])
   const [status, setStatus]           = useState('loading')
   const [error, setError]             = useState('')
@@ -98,22 +80,25 @@ export default function YoutubePage() {
     setStatus('loading')
     try {
       const params = `channelId=${CHANNEL_ID}&type=video&order=date&maxResults=12&key=${API_KEY}`
-      const [allRes, liveRes] = await Promise.all([
+      const [allRes, liveRes, nowLiveRes] = await Promise.all([
         fetch(`${BASE}?part=snippet&${params}`),
         fetch(`${BASE}?part=snippet&eventType=completed&${params}`),
+        fetch(`${BASE}?part=snippet&eventType=live&${params}`),
       ])
-      const [allData, liveData] = await Promise.all([allRes.json(), liveRes.json()])
+      const [allData, liveData, nowLiveData] = await Promise.all([allRes.json(), liveRes.json(), nowLiveRes.json()])
 
-      if (allData.error)  throw new Error(allData.error.message)
-      if (liveData.error) throw new Error(liveData.error.message)
+      if (allData.error)    throw new Error(allData.error.message)
+      if (liveData.error)   throw new Error(liveData.error.message)
+      if (nowLiveData.error) throw new Error(nowLiveData.error.message)
 
-      const liveIds   = new Set((liveData.items || []).map(i => i.id.videoId))
+      const liveIds = new Set((liveData.items || []).map(i => i.id.videoId))
 
       // 수동 등록 영상 불러오기 (다른 채널 영상도 가능) → 라이브 탭에 따로 표시
       const manual = await loadManual()
 
       setHomeItems((allData.items || []).filter(i => !liveIds.has(i.id.videoId)))
       setLiveItems(liveData.items || [])
+      setNowLiveItems(nowLiveData.items || [])
       setManualItems(manual)
       setStatus('ok')
     } catch (e) {
@@ -122,6 +107,9 @@ export default function YoutubePage() {
       setStatus('error')
     }
   }
+
+  const nowLiveIds = new Set(nowLiveItems.map(i => i.id.videoId))
+  const currentLive = nowLiveItems[0]
 
   return (
     <div className="yt-page">
@@ -136,6 +124,13 @@ export default function YoutubePage() {
           <small>페헤의 채널</small>
         </div>
       </div>
+
+      {status === 'ok' && currentLive && (
+        <LiveBanner
+          title={currentLive.snippet.title}
+          href={`https://www.youtube.com/watch?v=${currentLive.id.videoId}`}
+        />
+      )}
 
       <div className="yt-tabs">
         {['home', 'live'].map(tab => (
@@ -181,13 +176,23 @@ export default function YoutubePage() {
           </p>
         )}
 
+        {/* 지금 방송 중 */}
+        {status === 'ok' && nowLiveItems.length > 0 && (
+          <>
+            <p className="yt-subhead">지금 방송 중</p>
+            <div className="yt-grid">
+              {nowLiveItems.map(item => <YtCard key={item.id.videoId} item={item} isLive />)}
+            </div>
+          </>
+        )}
+
         {/* 내 라이브 */}
         {status === 'ok' && (
           <>
-            <p className="yt-subhead">내 라이브</p>
+            <p className="yt-subhead">지난 라이브</p>
             <div className="yt-grid">
               {liveItems.length === 0 && <p className="yt-status">라이브 영상이 없습니다.</p>}
-              {liveItems.map(item => <YtCard key={item.id.videoId} item={item} />)}
+              {liveItems.map(item => <YtCard key={item.id.videoId} item={item} isLive={nowLiveIds.has(item.id.videoId)} />)}
             </div>
           </>
         )}

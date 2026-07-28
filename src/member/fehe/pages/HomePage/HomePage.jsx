@@ -72,6 +72,14 @@ const TIMELINE = [
     botNote: '로컬 서버로 운영 중',
     ended: true,
   },
+  {
+    year: '2026. 06',
+    heading: 'FeheDeveloperTeam(FDT) 결성',
+    events: [
+      { date: '2026. 06. 18', text: 'FeheDeveloperTeam(FDT) 개발자 프리랜서팀 창설' },
+      { date: '2026. 06. 19', text: "디스코드 '치유미' 봇 개발 및 베타 서비스 시작" },
+    ],
+  },
 ]
 
 const SKILLS = [
@@ -204,6 +212,12 @@ export default function HomePage() {
                   <strong style={{ color: m.active ? 'var(--sky-deep)' : 'var(--text-muted)' }}>{m.name}</strong>
                   {' '}&mdash; {m.desc}{' '}
                   <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({m.note})</span>
+                </p>
+              ))}
+              {item.events && item.events.map((ev, ei) => (
+                <p key={ei} className="timeline-body" style={{ marginTop: ei === 0 ? '0.6rem' : '0.3rem', paddingTop: ei === 0 ? '0.6rem' : 0, borderTop: ei === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
+                  <strong style={{ color: 'var(--sky-deep)' }}>{ev.date}</strong>
+                  &nbsp; {ev.text}
                 </p>
               ))}
               {item.duties && item.duties.map((d, di) => (
