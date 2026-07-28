@@ -99,7 +99,7 @@ const TIMELINE = [
     year: '2026. 06',
     heading: 'FeheDeveloperTeam(FDT) 결성',
     events: [
-      { date: '2026. 06. 18', text: 'FeheDeveloperTeam(FDT) 개발자 프리랜서팀 창설' },
+      { date: '2026. 06. 18', text: 'FeheDeveloperTeam(FDT) 개발팀 창설' },
       { date: '2026. 06. 19', text: "디스코드 '치유미' 봇 개발 및 베타 서비스 시작" },
     ],
   },

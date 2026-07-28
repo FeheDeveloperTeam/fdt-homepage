@@ -6,7 +6,7 @@ import styles from './Header.module.css'
 const NAV_LINKS = [
   { to: '/', label: '홈' },
   { to: '/about', label: '팀 소개' },
-  { to: '/services', label: '서비스' },
+  { to: '/services', label: '하는 일' },
   { to: '/projects', label: '프로젝트' },
   { to: '/contact', label: '문의' },
 ]

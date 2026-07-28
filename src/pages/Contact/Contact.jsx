@@ -5,22 +5,17 @@ function Contact() {
   return (
     <section className={styles.contact}>
       <Seo
-        title="프로젝트 문의"
-        description="FeheDeveloperTeam(FDT)에 프로젝트를 문의하세요. Discord와 이메일로 연락하실 수 있습니다."
+        title="문의"
+        description="FeheDeveloperTeam(FDT)에 문의하거나 커뮤니티에 참여해보세요. Discord와 이메일로 연락하실 수 있습니다."
         path="/contact"
       />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Contact</p>
-        <h1 className={styles.title}>프로젝트 문의</h1>
+        <h1 className={styles.title}>문의</h1>
         <p className={styles.description}>
-          함께하고 싶은 프로젝트가 있다면 Discord나 이메일로 편하게
-          연락해주세요.
+          치유미 봇 관련 문의나 버그 제보, 그 외에 하고 싶은 말이 있다면
+          Discord나 이메일로 편하게 연락해주세요.
         </p>
-
-        <div className={styles.notice}>
-          현재 신규 프로젝트는 받고 있지 않습니다. 다만 문의는 언제든
-          남겨주시면 확인 후 답변드리겠습니다.
-        </div>
 
         <div className={styles.infoColumn}>
           <div className={styles.info}>

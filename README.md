@@ -1,6 +1,6 @@
 # FeheDeveloperTeam (FDT) Homepage
 
-디스코드 봇 개발과 웹 개발을 중심으로 하는 프리랜서 개발팀 FeheDeveloperTeam(FDT)의 소개 홈페이지입니다.
+디스코드 봇 개발과 웹 개발을 중심으로, 직접 기획한 프로젝트를 만들어가는 개발팀 FeheDeveloperTeam(FDT)의 소개 홈페이지입니다.
 
 ## 스택
 

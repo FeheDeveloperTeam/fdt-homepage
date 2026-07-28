@@ -37,16 +37,6 @@
   line-height: 1.7;
 }
 
-.notice {
-  margin-top: 28px;
-  max-width: 480px;
-  border-left: 2px solid #fbbf24;
-  color: #fbbf24;
-  font-size: 14px;
-  line-height: 1.6;
-  padding: 4px 0 4px 16px;
-}
-
 .infoColumn {
   margin-top: 40px;
   display: flex;

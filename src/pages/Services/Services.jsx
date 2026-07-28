@@ -5,28 +5,28 @@ const SERVICES = [
   {
     title: '디스코드 봇 개발',
     description:
-      '커스텀 명령어, 자동화, 관리/모더레이션 봇까지 서버 목적에 맞는 디스코드 봇을 제작합니다.',
+      '인증, 티켓, 로그, 미니게임 등 커뮤니티 운영에 필요하다고 판단한 기능을 담아 봇을 직접 만듭니다.',
   },
   {
     title: '봇 대시보드 개발',
     description:
-      '디스코드 봇 설정과 데이터를 웹에서 관리할 수 있는 대시보드를 함께 구축합니다.',
+      '직접 운영하는 봇의 설정과 데이터를 웹에서 관리할 수 있는 대시보드를 만듭니다.',
   },
   {
     title: '웹사이트/웹 서비스 개발',
-    description: 'React 기반 웹사이트, 랜딩 페이지, 웹 서비스를 기획부터 배포까지 개발합니다.',
+    description: 'React 기반으로 팀과 프로젝트를 소개하는 웹사이트, 웹 서비스를 기획부터 배포까지 직접 만듭니다.',
   },
   {
     title: '유지보수/운영',
-    description: '출시 이후 기능 개선, 버그 대응, 봇/서버 운영까지 지속적으로 지원합니다.',
+    description: '출시 이후에도 기능 개선, 버그 대응, 봇 운영까지 팀이 계속 챙깁니다.',
   },
 ]
 
 const PROCESS = [
-  { title: '문의', description: 'Discord나 이메일로 프로젝트 내용을 편하게 전달해주세요.' },
-  { title: '기획 · 견적', description: '요구사항을 정리하고 일정과 범위를 함께 조율합니다.' },
+  { title: '아이디어', description: '팀 내에서 필요하다고 느끼는 기능이나 프로젝트를 자유롭게 제안합니다.' },
+  { title: '기획', description: '실제로 만들 가치가 있는지 논의하고 범위를 정합니다.' },
   { title: '개발', description: '실시간으로 소통하며 기능을 빠르게 구현해 나갑니다.' },
-  { title: '배포 · 유지보수', description: '출시 후에도 기능 개선과 대응을 계속 이어갑니다.' },
+  { title: '운영', description: '출시 후에도 기능 개선과 대응을 팀이 직접 계속 이어갑니다.' },
 ]
 
 const STACK_GROUPS = [
@@ -39,16 +39,16 @@ function Services() {
   return (
     <section className={styles.services}>
       <Seo
-        title="서비스 & 기술 스택"
-        description="디스코드 봇 개발, 봇 대시보드, 웹사이트 제작까지 FDT의 서비스와 기술 스택을 소개합니다."
+        title="하는 일 & 기술 스택"
+        description="디스코드 봇 개발, 봇 대시보드, 웹사이트 제작까지 FDT가 직접 만드는 것들과 기술 스택을 소개합니다."
         path="/services"
       />
       <div className={styles.inner}>
-        <p className={styles.eyebrow}>Services</p>
-        <h1 className={styles.title}>서비스 & 기술 스택</h1>
+        <p className={styles.eyebrow}>What We Build</p>
+        <h1 className={styles.title}>하는 일 & 기술 스택</h1>
         <p className={styles.description}>
-          FDT는 디스코드 봇 개발과 웹 개발을 중심으로, 프로젝트 목적에 맞는
-          기술을 선택해 빠르고 안정적으로 결과물을 만듭니다.
+          FDT는 디스코드 봇 개발과 웹 개발을 중심으로, 팀에 필요하다고 판단한
+          프로젝트를 직접 기획하고 만듭니다.
         </p>
 
         <div className={styles.grid}>

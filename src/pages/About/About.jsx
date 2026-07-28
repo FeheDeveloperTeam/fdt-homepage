@@ -26,7 +26,7 @@ function About() {
     <section className={styles.about}>
       <Seo
         title="팀 소개"
-        description="디스코드 봇 개발과 웹 개발을 함께하는 FeheDeveloperTeam(FDT) 팀원을 소개합니다."
+        description="디스코드 봇과 웹 서비스를 직접 기획하고 만드는 FeheDeveloperTeam(FDT) 팀원을 소개합니다."
         path="/about"
       />
       <div className={styles.inner}>
@@ -34,8 +34,8 @@ function About() {
         <h1 className={styles.title}>팀 소개</h1>
         <p className={styles.description}>
           FeheDeveloperTeam(FDT)은 디스코드 봇 개발과 웹 개발을 중심으로 활동하는
-          프리랜서 개발팀입니다. 커뮤니티 운영에 필요한 디스코드 봇부터 이를
-          관리하는 웹 대시보드까지, 기획부터 배포·유지보수까지 함께합니다.
+          팀입니다. 커뮤니티 운영에 필요하다고 생각한 디스코드 봇과 이를 관리하는
+          웹 대시보드를, 기획부터 운영까지 직접 만들어갑니다.
         </p>
 
         <div className={styles.members}>
