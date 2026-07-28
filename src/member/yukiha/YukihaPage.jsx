@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
-import { SEO_DATA } from '../../seoData'
 import styles from './YukihaPage.module.css'
 
 function YukihaPage() {
   return (
     <section className={styles.page}>
-      <Seo {...SEO_DATA['/member/yukiha']} path="/member/yukiha" noindex />
+      <Seo
+        title="유키하"
+        description="유키하의 자기소개 페이지는 아직 준비 중입니다."
+        path="/member/yukiha"
+        noindex
+      />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>유키하</p>
         <h1 className={styles.title}>아직 자기소개서를 만들지 않았어요</h1>
