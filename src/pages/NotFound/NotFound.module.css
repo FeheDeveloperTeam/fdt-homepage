@@ -49,11 +49,11 @@
 
 .primaryButton {
   background: var(--color-primary);
-  color: #16110a;
+  color: #fff;
 }
 
 .primaryButton:hover {
-  background: #ffa663;
+  background: var(--color-primary-dark);
 }
 
 .secondaryButton {
