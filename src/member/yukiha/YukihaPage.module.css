@@ -1,0 +1,58 @@
+.page {
+  padding: 140px 24px 160px;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+
+.title {
+  margin-top: 16px;
+  font-size: 30px;
+  letter-spacing: -0.5px;
+  color: var(--color-text);
+  max-width: 560px;
+}
+
+.description {
+  margin-top: 16px;
+  max-width: 480px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.backButton {
+  display: inline-block;
+  margin-top: 32px;
+  padding-bottom: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.backButton:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}

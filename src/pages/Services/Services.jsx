@@ -65,16 +65,17 @@ function Services() {
           <p className={styles.subEyebrow}>How We Work</p>
           <h2 className={styles.subTitle}>진행 프로세스</h2>
 
-          <div className={styles.processGrid}>
+          <ol className={styles.processList}>
             {PROCESS.map((step, index) => (
-              <div key={step.title} className={styles.processStep}>
-                <span className={styles.processIndex}>{index + 1}</span>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-                {index < PROCESS.length - 1 && <span className={styles.processArrow}>→</span>}
-              </div>
+              <li key={step.title} className={styles.processStep}>
+                <span className={styles.processIndex}>{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
 
         <div className={styles.stackSection}>

@@ -10,6 +10,7 @@ import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
 import NotFound from './pages/NotFound/NotFound'
+import YukihaPage from './member/yukiha/YukihaPage'
 
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/member/yukiha" element={<YukihaPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route

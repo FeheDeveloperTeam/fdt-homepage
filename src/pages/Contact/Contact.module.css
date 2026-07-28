@@ -5,81 +5,87 @@
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  text-align: center;
 }
 
 .eyebrow {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
 }
 
 .title {
-  font-size: 36px;
+  margin-top: 16px;
+  font-size: 34px;
+  letter-spacing: -0.5px;
   color: var(--color-text);
 }
 
 .description {
-  margin: 20px auto 0;
+  margin-top: 18px;
   max-width: 560px;
   font-size: 16px;
+  line-height: 1.7;
 }
 
 .notice {
-  margin: 32px auto 0;
+  margin-top: 28px;
   max-width: 480px;
-  background: rgba(251, 191, 36, 0.08);
-  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-left: 2px solid #fbbf24;
   color: #fbbf24;
   font-size: 14px;
   line-height: 1.6;
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
+  padding: 4px 0 4px 16px;
 }
 
 .infoColumn {
-  margin: 32px auto 0;
-  max-width: 480px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  text-align: left;
+  max-width: 480px;
 }
 
 .info {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.info:last-child {
+  border-bottom: 1px solid var(--color-border);
 }
 
 .info h3 {
   color: var(--color-text);
-  font-size: 17px;
-  margin-bottom: 16px;
+  font-size: 16px;
+  margin-bottom: 12px;
 }
 
 .info p {
   font-size: 14px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .discordButton {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 18px;
   background: #5865f2;
   color: #fff;
   font-size: 14px;
   font-weight: 600;
-  padding: 12px 24px;
+  padding: 11px 22px;
   border-radius: var(--radius-md);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.15s ease;
 }
 
 .discordButton:hover {
-  background: #4752c4;
-  transform: translateY(-2px);
+  opacity: 0.85;
 }

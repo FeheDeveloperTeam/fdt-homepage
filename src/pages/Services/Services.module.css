@@ -1,98 +1,88 @@
 .services {
   padding: var(--section-padding);
-  background:
-    radial-gradient(circle at 15% 10%, rgba(91, 124, 250, 0.12), transparent 40%),
-    radial-gradient(circle at 85% 0%, rgba(123, 223, 242, 0.08), transparent 40%),
-    var(--color-bg);
 }
 
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  text-align: center;
 }
 
 .eyebrow,
 .subEyebrow {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.eyebrow::before,
+.subEyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
 }
 
 .title {
-  font-size: 36px;
+  margin-top: 16px;
+  font-size: 34px;
+  letter-spacing: -0.5px;
   color: var(--color-text);
 }
 
 .subTitle {
-  font-size: 26px;
+  margin-top: 12px;
+  font-size: 24px;
   color: var(--color-text);
 }
 
 .description {
-  margin: 20px auto 0;
-  max-width: 640px;
+  margin-top: 18px;
+  max-width: 560px;
   font-size: 16px;
+  line-height: 1.7;
 }
 
 .grid {
   margin-top: 56px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
-  text-align: left;
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
 }
 
 .card {
   position: relative;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  overflow: hidden;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  background: var(--color-bg);
+  padding: 32px 28px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s ease;
 }
 
 .card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-4px);
-}
-
-.card:hover::before {
-  opacity: 1;
+  background: var(--color-surface);
 }
 
 .cardIndex {
   display: block;
   font-size: 13px;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  margin-bottom: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 16px;
 }
 
 .card h3 {
   color: var(--color-text);
-  font-size: 18px;
-  margin-bottom: 12px;
+  font-size: 17px;
+  margin-bottom: 10px;
 }
 
 .card p {
   font-size: 14px;
+  line-height: 1.65;
 }
 
 /* ── 진행 프로세스 ── */
@@ -102,49 +92,39 @@
   border-top: 1px solid var(--color-border);
 }
 
-.processGrid {
-  margin-top: 48px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 32px;
+.processList {
+  margin-top: 40px;
+  max-width: 680px;
 }
 
 .processStep {
-  position: relative;
-  text-align: left;
+  display: flex;
+  gap: 24px;
+  padding: 22px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.processStep:last-child {
+  border-bottom: 1px solid var(--color-border);
 }
 
 .processIndex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: #fff;
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 16px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .processStep h3 {
   color: var(--color-text);
   font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .processStep p {
-  font-size: 13px;
-}
-
-.processArrow {
-  display: none;
-  position: absolute;
-  top: 8px;
-  right: -24px;
-  color: var(--color-border);
-  font-size: 18px;
+  font-size: 14px;
 }
 
 /* ── 기술 스택 ── */
@@ -155,50 +135,51 @@
 }
 
 .stackGroups {
-  margin-top: 32px;
+  margin-top: 28px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 680px;
 }
 
 .stackGroup {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  align-items: baseline;
+  gap: 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.stackGroup:last-child {
+  border-bottom: 1px solid var(--color-border);
 }
 
 .stackLabel {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  width: 90px;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-text-muted);
 }
 
 .stackItems {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+  gap: 8px 18px;
 }
 
 .stackItem {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
   color: var(--color-text);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  padding: 8px 18px;
 }
 
-@media (min-width: 900px) {
-  .processGrid {
-    grid-template-columns: repeat(4, 1fr);
+@media (max-width: 640px) {
+  .stackGroup {
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .processArrow {
-    display: block;
+  .stackLabel {
+    width: auto;
   }
 }

@@ -5,27 +5,36 @@
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  text-align: center;
 }
 
 .eyebrow {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
 }
 
 .title {
-  font-size: 36px;
+  margin-top: 16px;
+  font-size: 34px;
+  letter-spacing: -0.5px;
   color: var(--color-text);
 }
 
 .description {
-  margin: 20px auto 0;
+  margin-top: 18px;
   max-width: 560px;
   font-size: 16px;
+  line-height: 1.7;
 }
 
 .list {
@@ -36,19 +45,16 @@
 }
 
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 40px;
   display: flex;
-  gap: 28px;
-  align-items: center;
-  text-align: left;
+  gap: 32px;
+  align-items: flex-start;
 }
 
 .photo {
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -62,27 +68,28 @@
 .cardDescription {
   margin-top: 8px;
   font-size: 14px;
+  max-width: 480px;
 }
 
 .features {
-  margin-top: 16px;
+  margin-top: 18px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 16px;
 }
 
 .featureTag {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
   color: var(--color-text-muted);
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  padding: 6px 14px;
+}
+
+.featureTag::before {
+  content: '· ';
+  color: var(--color-border);
 }
 
 .actions {
-  margin-top: 20px;
+  margin-top: 24px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -91,43 +98,39 @@
 .inviteButton,
 .githubButton {
   display: inline-block;
-  color: #fff;
   font-size: 14px;
   font-weight: 600;
-  padding: 10px 22px;
+  padding: 11px 20px;
   border-radius: var(--radius-md);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
 }
 
 .inviteButton {
   background: #5865f2;
+  color: #fff;
 }
 
 .inviteButton:hover {
-  background: #4752c4;
-  transform: translateY(-2px);
+  opacity: 0.85;
 }
 
 .githubButton {
-  background: var(--color-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
 }
 
 .githubButton:hover {
-  background: var(--color-primary-dark);
-  transform: translateY(-2px);
+  border-color: var(--color-text-muted);
 }
 
 @media (max-width: 640px) {
   .card {
     flex-direction: column;
-    text-align: center;
   }
 
-  .features {
-    justify-content: center;
-  }
-
-  .actions {
-    justify-content: center;
+  .photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
   }
 }
