@@ -14,11 +14,11 @@
   padding: 0.9rem 1rem;
   width: 248px;
   background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 6px 28px var(--shadow), 0 1px 0 rgba(255,255,255,0.8) inset;
+  box-shadow: 0 8px 28px var(--shadow);
 }
 
 /* ── 상단 행 ── */
@@ -33,8 +33,8 @@
   flex-shrink: 0;
   width: 34px; height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--sky-mid, #6bbde0), var(--sky-deep));
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent));
+  color: #0a0e14;
   display: flex; align-items: center; justify-content: center;
 }
 .music-disc.spin {
@@ -72,17 +72,18 @@
   flex-shrink: 0;
   width: 32px; height: 32px;
   border-radius: 50%;
-  border: none;
-  background: var(--sky-light);
-  color: var(--sky-deep);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--accent);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
 }
 .music-toggle:hover { transform: scale(1.1); }
 .music-toggle.playing {
-  background: linear-gradient(135deg, var(--sky-mid, #6bbde0), var(--sky-deep));
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent));
+  border-color: transparent;
+  color: #0a0e14;
 }
 
 /* ── 재생바 ── */
@@ -102,7 +103,7 @@
   position: absolute;
   left: 0; top: 0; height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--sky-mid, #6bbde0), var(--sky-deep));
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent));
   transition: width 0.4s linear;
   pointer-events: none;
 }
@@ -112,8 +113,8 @@
   transform: translate(-50%, -50%);
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: var(--sky-deep);
-  box-shadow: 0 0 0 2px rgba(107,189,224,0.3);
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(126,231,135,0.3);
   pointer-events: none;
   transition: left 0.4s linear;
 }
@@ -163,8 +164,8 @@
   -webkit-appearance: none;
   width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--sky-deep);
-  box-shadow: 0 0 0 2px rgba(107,189,224,0.3);
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(126,231,135,0.3);
   cursor: pointer;
   transition: transform 0.15s;
 }
@@ -172,7 +173,7 @@
 .music-vol-slider::-moz-range-thumb {
   width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--sky-deep);
+  background: var(--accent);
   border: none;
   cursor: pointer;
 }

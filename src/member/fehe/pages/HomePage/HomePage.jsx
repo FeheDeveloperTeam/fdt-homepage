@@ -3,6 +3,29 @@ import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '
 import feheProfile from '../../../../assets/images/team/fehe.png'
 import './HomePage.css'
 
+function useTypewriter(text, speed = 150, startDelay = 300) {
+  const [out, setOut] = useState('')
+  const [done, setDone] = useState(false)
+  useEffect(() => {
+    setOut('')
+    setDone(false)
+    let i = 0
+    let interval
+    const start = setTimeout(() => {
+      interval = setInterval(() => {
+        i++
+        setOut(text.slice(0, i))
+        if (i >= text.length) {
+          clearInterval(interval)
+          setDone(true)
+        }
+      }, speed)
+    }, startDelay)
+    return () => { clearTimeout(start); clearInterval(interval) }
+  }, [text, speed, startDelay])
+  return { out, done }
+}
+
 const TMI_LIST = [
   '페헤의 첫 닉네임은 악마를 좋아해서 악마페헤 였습니다',
   '페헤는 초등학교 1학년 때 바지에 실수를 해서 안 좋은 기억이 있습니다',
@@ -128,6 +151,7 @@ const SKILLS = [
 export default function HomePage() {
   const [tmiIdx, setTmiIdx] = useState(0)
   const [tmiVisible, setTmiVisible] = useState(true)
+  const { out: heroName, done: heroNameDone } = useTypewriter('페헤', 160, 250)
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -145,32 +169,45 @@ export default function HomePage() {
       {/* ── Hero ── */}
       <section className="hero">
         <div className="hero-bubble">
-          <img
-            className="hero-avatar"
-            src={feheProfile}
-            alt="페헤 프로필"
-          />
-          <p className="hero-label">Hello! I&apos;m</p>
-          <h1 className="hero-name">페헤</h1>
-          <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
-          <div className="hero-badges">
-            <span className="badge">개발자</span>
-            <span className="badge">인플루언서</span>
-            <span className="badge">커뮤니티</span>
+          <div className="win-titlebar">
+            <div className="win-dots">
+              <span className="win-dot red" />
+              <span className="win-dot yellow" />
+              <span className="win-dot green" />
+            </div>
+            <span className="win-file">whoami.sh</span>
           </div>
-          <div className="hero-links">
-            <a className="hero-link gh" href="https://github.com/Fehe1234" target="_blank" rel="noopener noreferrer">
-              <IconGithub /> GitHub
-            </a>
-            <a className="hero-link yt" href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer">
-              <IconYoutube /> YouTube
-            </a>
-            <a className="hero-link steam" href="https://steamcommunity.com/profiles/76561199008770006/" target="_blank" rel="noopener noreferrer">
-              <IconSteam /> Steam
-            </a>
-            <a className="hero-link insta" href="https://www.instagram.com/fehe_developer/" target="_blank" rel="noopener noreferrer">
-              <IconInstagram /> Instagram
-            </a>
+          <div className="hero-body">
+            <img
+              className="hero-avatar"
+              src={feheProfile}
+              alt="페헤 프로필"
+            />
+            <p className="hero-label">Hello! I&apos;m</p>
+            <h1 className="hero-name">
+              {heroName}
+              {!heroNameDone && <span className="caret" />}
+            </h1>
+            <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
+            <div className="hero-badges">
+              <span className="badge">개발자</span>
+              <span className="badge">인플루언서</span>
+              <span className="badge">커뮤니티</span>
+            </div>
+            <div className="hero-links">
+              <a className="hero-link gh" href="https://github.com/Fehe1234" target="_blank" rel="noopener noreferrer">
+                <IconGithub /> GitHub
+              </a>
+              <a className="hero-link yt" href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer">
+                <IconYoutube /> YouTube
+              </a>
+              <a className="hero-link steam" href="https://steamcommunity.com/profiles/76561199008770006/" target="_blank" rel="noopener noreferrer">
+                <IconSteam /> Steam
+              </a>
+              <a className="hero-link insta" href="https://www.instagram.com/fehe_developer/" target="_blank" rel="noopener noreferrer">
+                <IconInstagram /> Instagram
+              </a>
+            </div>
           </div>
         </div>
 
@@ -209,26 +246,26 @@ export default function HomePage() {
               {item.extra && <div className="timeline-body">{item.extra}</div>}
               {item.managed && item.managed.map((m, mi) => (
                 <p key={mi} className="timeline-body" style={{ marginTop: mi === 0 ? '0.6rem' : '0.3rem', paddingTop: mi === 0 ? '0.6rem' : 0, borderTop: mi === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem', textDecoration: m.active ? 'none' : 'line-through' }}>
-                  <strong style={{ color: m.active ? 'var(--sky-deep)' : 'var(--text-muted)' }}>{m.name}</strong>
+                  <strong style={{ color: m.active ? 'var(--accent)' : 'var(--text-muted)' }}>{m.name}</strong>
                   {' '}&mdash; {m.desc}{' '}
                   <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({m.note})</span>
                 </p>
               ))}
               {item.events && item.events.map((ev, ei) => (
                 <p key={ei} className="timeline-body" style={{ marginTop: ei === 0 ? '0.6rem' : '0.3rem', paddingTop: ei === 0 ? '0.6rem' : 0, borderTop: ei === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
-                  <strong style={{ color: 'var(--sky-deep)' }}>{ev.date}</strong>
+                  <strong style={{ color: 'var(--accent)' }}>{ev.date}</strong>
                   &nbsp; {ev.text}
                 </p>
               ))}
               {item.duties && item.duties.map((d, di) => (
                 <p key={di} className="timeline-body" style={{ marginTop: di === 0 ? '0.6rem' : '0.3rem', paddingTop: di === 0 ? '0.6rem' : 0, borderTop: di === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
-                  <strong style={{ color: 'var(--sky-deep)' }}>{d.label}</strong>
+                  <strong style={{ color: 'var(--accent)' }}>{d.label}</strong>
                   &nbsp; {d.desc}
                 </p>
               ))}
               {item.projects && item.projects.map((proj, pi) => (
                 <p key={pi} className="timeline-body" style={{ marginTop: pi === 0 ? '0.6rem' : '0.3rem', paddingTop: pi === 0 ? '0.6rem' : 0, borderTop: pi === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
-                  <strong style={{ color: 'var(--sky-deep)' }}>프로젝트</strong>
+                  <strong style={{ color: 'var(--accent)' }}>프로젝트</strong>
                   &nbsp; {proj.name} — {proj.role}{' '}
                   <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({proj.period})</span>
                 </p>
@@ -277,21 +314,34 @@ export default function HomePage() {
           </div>
         </div>
 
-        {SKILLS.map((cat, i) => (
-          <div className="skill-card" key={i}>
-            <p className="skill-cat-label">{cat.label}</p>
-            <div className="skill-badges">
-              {cat.items.map((item, j) =>
-                <span className={`skill-badge ${cat.cls}`} key={j}>{item}</span>
-              )}
+        <div className="skills-window">
+          <div className="win-titlebar">
+            <div className="win-dots">
+              <span className="win-dot red" />
+              <span className="win-dot yellow" />
+              <span className="win-dot green" />
             </div>
+            <span className="win-file">stack.json</span>
           </div>
-        ))}
 
-        <div className="skill-card cert-card">
-          <p className="skill-cat-label">자격증</p>
-          <div className="skill-badges">
-            <span className="cert-empty">취득한 자격증이 없습니다.</span>
+          <div className="skills-body">
+            {SKILLS.map((cat, i) => (
+              <div className="skill-card" key={i}>
+                <p className="skill-cat-label">{cat.label}</p>
+                <div className="skill-badges">
+                  {cat.items.map((item, j) =>
+                    <span className={`skill-badge ${cat.cls}`} key={j}>{item}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            <div className="skill-card cert-card">
+              <p className="skill-cat-label">자격증</p>
+              <div className="skill-badges">
+                <span className="cert-empty">취득한 자격증이 없습니다.</span>
+              </div>
+            </div>
           </div>
         </div>
 

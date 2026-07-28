@@ -1,30 +1,44 @@
 @scope (.fehe-app) {
-  /* ── 배경 장식 ── */
+  /* ── 배경 장식: 다크 그리드 + 은은한 글로우 ── */
   .bg-deco {
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0; overflow: hidden;
+    background-image:
+      linear-gradient(rgba(126,231,135,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,231,135,0.05) 1px, transparent 1px);
+    background-size: 42px 42px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 90%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 90%);
   }
   .bg-deco span {
     position: absolute; border-radius: 50%;
-    background: radial-gradient(circle, rgba(168,216,240,0.35), transparent 70%);
-    animation: floatBlob 12s ease-in-out infinite;
+    filter: blur(10px);
+    animation: floatBlob 14s ease-in-out infinite;
   }
-  .bg-deco span:nth-child(1) { width:500px;height:500px;top:-120px;left:-100px;animation-delay:0s; }
-  .bg-deco span:nth-child(2) { width:380px;height:380px;top:40%;right:-80px;animation-delay:3s; }
-  .bg-deco span:nth-child(3) { width:280px;height:280px;bottom:5%;left:20%;animation-delay:6s; }
+  .bg-deco span:nth-child(1) {
+    width:480px;height:480px;top:-140px;left:-100px;animation-delay:0s;
+    background: radial-gradient(circle, rgba(126,231,135,0.14), transparent 70%);
+  }
+  .bg-deco span:nth-child(2) {
+    width:380px;height:380px;top:40%;right:-100px;animation-delay:3s;
+    background: radial-gradient(circle, rgba(107,189,224,0.12), transparent 70%);
+  }
+  .bg-deco span:nth-child(3) {
+    width:300px;height:300px;bottom:5%;left:15%;animation-delay:6s;
+    background: radial-gradient(circle, rgba(210,168,255,0.10), transparent 70%);
+  }
   @keyframes floatBlob {
     0%,100% { transform:translateY(0) scale(1); }
-    50%      { transform:translateY(-30px) scale(1.04); }
+    50%      { transform:translateY(-30px) scale(1.05); }
   }
 
   .stars { position:fixed;inset:0;pointer-events:none;z-index:0; }
   .star {
-    position:absolute; width:6px; height:6px; background:var(--sky-deep);
-    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    position:absolute; width:3px; height:3px; background:var(--accent);
     opacity:0; animation:twinkle 4s ease-in-out infinite;
   }
   @keyframes twinkle {
     0%,100% { opacity:0; transform:scale(0.6); }
-    50%      { opacity:0.55; transform:scale(1); }
+    50%      { opacity:0.65; transform:scale(1); }
   }
 }

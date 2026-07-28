@@ -9,28 +9,37 @@ export default function NotFoundPage() {
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      gap: '0.75rem',
+      gap: '0.6rem',
       padding: '4rem 1.5rem',
     }}>
-      <p style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--sky-deep)' }}>404</p>
-      <h1 style={{ fontSize: '1.5rem', color: 'var(--text)' }}>페이지를 찾을 수 없어요</h1>
-      <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', maxWidth: '360px' }}>
-        주소가 잘못됐거나, 페이지가 이동 또는 삭제되었을 수 있어요.
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+        $ cd {typeof window !== 'undefined' ? window.location.pathname : ''}
+      </p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '3rem', fontWeight: 700, color: 'var(--accent)', margin: '0.25rem 0' }}>
+        404
+      </p>
+      <h1 style={{ fontSize: '1.3rem', color: 'var(--text)', fontWeight: 700 }}>
+        페이지를 찾을 수 없어요
+      </h1>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'var(--accent-red)', maxWidth: '380px' }}>
+        bash: no such file or directory
       </p>
       <Link
         to="/member/fehe"
         style={{
-          marginTop: '1rem',
-          padding: '0.7rem 1.6rem',
-          borderRadius: '0.7rem',
-          background: 'var(--sky-deep)',
-          color: '#fff',
-          fontWeight: 700,
+          marginTop: '1.25rem',
+          padding: '0.65rem 1.5rem',
+          borderRadius: 'var(--radius-sm)',
+          background: 'var(--surface-2)',
+          border: '1px solid var(--border)',
+          color: 'var(--accent)',
+          fontFamily: 'var(--font-mono)',
+          fontWeight: 600,
           fontSize: '0.85rem',
           textDecoration: 'none',
         }}
       >
-        홈으로 가기
+        cd ~/home
       </Link>
     </div>
   )

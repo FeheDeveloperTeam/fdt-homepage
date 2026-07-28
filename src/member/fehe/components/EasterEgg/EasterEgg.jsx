@@ -20,7 +20,7 @@ function MatrixRain({ onDone }) {
     const interval = setInterval(() => {
       ctx.fillStyle = 'rgba(0,0,0,0.05)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.fillStyle = '#6bbde0'
+      ctx.fillStyle = '#7ee787'
       ctx.font = `${fontSize}px monospace`
 
       drops.forEach((y, i) => {

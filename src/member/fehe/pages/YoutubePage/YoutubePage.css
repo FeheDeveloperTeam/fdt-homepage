@@ -13,7 +13,8 @@
 }
 
 .yt-subhead {
-  font-size:0.9rem; font-weight:700; color:var(--text);
+  font-family: var(--font-mono);
+  font-size:0.85rem; font-weight:700; color:var(--text);
   margin:1.2rem 0 0.75rem; padding-left:0.6rem;
   border-left:3px solid #f87171;
 }
@@ -26,42 +27,43 @@
 
 .yt-more {
   display:inline-flex; align-items:center; gap:0.45rem;
-  margin-top:1.5rem; padding:0.55rem 1.4rem; border-radius:999px;
-  font-size:0.82rem; font-weight:700; color:#e05050;
-  background:linear-gradient(135deg,#fff5f5,#ffe8e8);
-  border:1.5px solid rgba(220,80,80,0.3); text-decoration:none;
-  transition:transform 0.2s, box-shadow 0.2s;
+  margin-top:1.5rem; padding:0.55rem 1.4rem; border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size:0.78rem; font-weight:600; color:#ff8a8a;
+  background: var(--surface-2);
+  border:1px solid rgba(248,113,113,0.3); text-decoration:none;
+  transition:transform 0.2s, border-color 0.2s;
 }
-.yt-more:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(220,80,80,0.2); }
-.yt-more svg { width:15px;height:15px;fill:#e05050; }
+.yt-more:hover { transform:translateY(-2px); border-color:#ff8a8a; }
+.yt-more svg { width:15px;height:15px;fill:#ff8a8a; }
 
 /* ── YOUTUBE TABS ── */
 .yt-tabs {
   display: flex; gap: 0.3rem; margin-bottom: 1.75rem;
-  border-bottom: 1.5px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0;
 }
 .yt-tab {
   padding: 0.55rem 1.1rem; border: none; background: transparent; cursor: pointer;
-  font-family: inherit; font-size: 0.85rem; font-weight: 700;
-  color: var(--text-muted); border-radius: 0.75rem 0.75rem 0 0;
-  position: relative; bottom: -1.5px;
-  border-bottom: 2.5px solid transparent;
+  font-family: var(--font-mono); font-size: 0.82rem; font-weight: 600;
+  color: var(--text-muted); border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  position: relative; bottom: -1px;
+  border-bottom: 2px solid transparent;
   transition: color 0.2s, border-color 0.2s;
 }
 .yt-tab:hover { color: var(--text-soft); }
 .yt-tab.active {
-  color: #e05050;
-  border-bottom-color: #e05050;
-  background: rgba(224,80,80,0.04);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: var(--accent-dim);
 }
 
 .yt-panel { display: none; }
 .yt-panel.active { display: block; }
 
 .yt-community-box {
-  background: var(--card); border: 1.5px solid var(--border);
-  border-radius: 1.5rem; padding: 2.5rem 2rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 2.5rem 2rem;
   text-align: center; backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px var(--shadow);

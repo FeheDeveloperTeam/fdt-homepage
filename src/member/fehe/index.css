@@ -6,10 +6,63 @@ html { scroll-behavior: smooth; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :scope {
-    font-family: 'M PLUS Rounded 1c', 'Apple SD Gothic Neo', sans-serif;
-    background: linear-gradient(160deg, #c2dff0 0%, #d4ecf8 40%, #e5f4fb 75%, #f0f9ff 100%);
+    font-family: var(--font-sans);
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(126,231,135,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(107,189,224,0.08), transparent 55%),
+      var(--bg);
     min-height: 100vh;
     color: var(--text);
     overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent-dim); color: var(--accent); }
+
+  code, .mono { font-family: var(--font-mono); }
+
+  a { color: var(--accent-blue); }
+
+  /* shared motion tokens, reused across pages */
+  .caret {
+    display: inline-block;
+    width: 0.55em;
+    margin-left: 2px;
+    background: var(--accent);
+    animation: caretBlink 1s step-end infinite;
+  }
+  @keyframes caretBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(126,231,135,0); }
+    50%      { box-shadow: 0 0 18px rgba(126,231,135,0.35); }
+  }
+
+  /* reusable "editor window" chrome — titlebar with traffic-light dots */
+  .win-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.9rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .win-dots { display: flex; gap: 0.4rem; flex-shrink: 0; }
+  .win-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .win-dot.red    { background: #ff5f57; }
+  .win-dot.yellow { background: #ffbd2e; }
+  .win-dot.green  { background: #28c840; }
+  .win-file {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
   }
 }

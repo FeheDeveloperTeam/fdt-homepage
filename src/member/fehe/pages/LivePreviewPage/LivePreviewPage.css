@@ -2,11 +2,12 @@
 .live-preview-note {
   margin-bottom: 1.25rem;
   padding: 0.75rem 1rem;
-  border-radius: 0.85rem;
-  background: rgba(255, 200, 0, 0.12);
-  border: 1.5px dashed rgba(200, 150, 0, 0.4);
-  color: var(--text-soft);
-  font-size: 0.78rem;
+  border-radius: var(--radius-md);
+  background: rgba(227, 179, 65, 0.08);
+  border: 1px dashed rgba(227, 179, 65, 0.4);
+  color: var(--accent-yellow);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   line-height: 1.6;
 }
 }

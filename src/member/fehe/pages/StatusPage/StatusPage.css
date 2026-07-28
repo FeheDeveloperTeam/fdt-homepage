@@ -35,11 +35,12 @@
 }
 .status-badge--ok       { background: rgba(46,160,67,0.15); color: #3fb950; border: 1px solid rgba(46,160,67,0.3); }
 .status-badge--error    { background: rgba(248,81,73,0.12); color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
-.status-badge--checking { background: rgba(107,189,224,0.12); color: var(--sky-deep); border: 1px solid rgba(107,189,224,0.3); }
+.status-badge--checking { background: rgba(107,189,224,0.12); color: var(--accent-blue); border: 1px solid rgba(107,189,224,0.3); }
 
 .status-title {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -51,8 +52,8 @@
 /* 카드 */
 .status-card {
   background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -61,9 +62,10 @@
 }
 
 .status-card-title {
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.1rem;
@@ -119,10 +121,10 @@
 .status-row-detail {
   font-size: 0.75rem;
   color: var(--text-muted);
-  background: rgba(0,0,0,0.04);
+  background: var(--surface-2);
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* 상태 점 */
@@ -142,7 +144,7 @@
   box-shadow: 0 0 6px rgba(248,81,73,0.6);
 }
 .status-dot--checking {
-  background: var(--sky-deep);
+  background: var(--accent-blue);
   animation: status-pulse 1.2s ease-in-out infinite;
 }
 @keyframes status-pulse {
@@ -176,7 +178,7 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text);
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .status-info-max {

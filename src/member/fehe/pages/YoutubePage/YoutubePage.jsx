@@ -151,7 +151,7 @@ export default function YoutubePage() {
           {status === 'error'   && (
             <p className="yt-status">
               영상을 불러올 수 없습니다.{' '}
-              <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--sky-deep)' }}>
+              <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
                 채널에서 확인하세요.
               </a>
             </p>
@@ -170,7 +170,7 @@ export default function YoutubePage() {
         {status === 'error'   && (
           <p className="yt-status">
             영상을 불러올 수 없습니다.{' '}
-            <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--sky-deep)' }}>
+            <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
               채널에서 확인하세요.
             </a>
           </p>
