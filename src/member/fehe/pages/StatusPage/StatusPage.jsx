@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { db, rtdb } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
-import { ref, get, onValue } from 'firebase/database'
+import { ref, get } from 'firebase/database'
 import { SITE_VERSION } from '../../version'
 import './StatusPage.css'
 
@@ -12,13 +12,16 @@ function StatusDot({ state }) {
   return <span className={`status-dot status-dot--${state}`} />
 }
 
-function StatusRow({ label, state, detail }) {
+function StatusRow({ label, purpose, state, detail }) {
   const stateLabel = { ok: '정상', error: '오류', checking: '확인 중' }
   return (
     <div className="status-row">
       <div className="status-row-left">
         <StatusDot state={state} />
-        <span className="status-row-label">{label}</span>
+        <div className="status-row-label-group">
+          <span className="status-row-label">{label}</span>
+          {purpose && <span className="status-row-purpose">{purpose}</span>}
+        </div>
       </div>
       <div className="status-row-right">
         <span className={`status-row-state status-row-state--${state}`}>
@@ -35,7 +38,6 @@ export default function StatusPage() {
   const [rtdbStatus, setRtdbStatus] = useState({ state: 'checking', ms: null })
   const [ipApi, setIpApi] = useState({ state: 'checking', ip: null })
   const [ytApi, setYtApi] = useState({ state: 'checking', ms: null, detail: null })
-  const [visitors, setVisitors] = useState(null)
   const [version, setVersion] = useState(null)
   const [checkedAt, setCheckedAt] = useState(null)
   const [secondsAgo, setSecondsAgo] = useState(0)
@@ -122,17 +124,6 @@ export default function StatusPage() {
     return () => { clearInterval(pingInterval); clearInterval(tickInterval) }
   }, [])
 
-  // 실시간 접속자 수
-  useEffect(() => {
-    const sessRef = ref(rtdb, 'sessions')
-    const unsub = onValue(sessRef, snap => {
-      const val = snap.val() || {}
-      const count = Object.keys(val).filter(k => k !== 'app').length
-      setVisitors(count)
-    })
-    return () => unsub()
-  }, [])
-
   const allOk = firestore.state === 'ok' && rtdbStatus.state === 'ok' && ipApi.state === 'ok' && ytApi.state === 'ok'
   const hasError = firestore.state === 'error' || rtdbStatus.state === 'error' || ytApi.state === 'error'
 
@@ -160,21 +151,25 @@ export default function StatusPage() {
           <p className="status-card-title">서비스</p>
           <StatusRow
             label="Firebase Firestore"
+            purpose="설정 데이터 연결 확인"
             state={firestore.state}
             detail={firestore.ms != null ? `${firestore.ms}ms` : null}
           />
           <StatusRow
             label="Firebase Realtime DB"
+            purpose="버전 알림 배너용 실시간 데이터"
             state={rtdbStatus.state}
             detail={rtdbStatus.ms != null ? `${rtdbStatus.ms}ms` : null}
           />
           <StatusRow
             label="외부 IP API"
+            purpose="ipify.org · 접속 IP 조회"
             state={ipApi.state}
             detail={ipApi.ms != null ? `${ipApi.ms}ms` : null}
           />
           <StatusRow
             label="YouTube Data API v3"
+            purpose="유튜브 채널 정보 조회"
             state={ytApi.state}
             detail={
               ytApi.state === 'ok' && ytApi.ms != null
@@ -209,13 +204,6 @@ export default function StatusPage() {
         <div className="status-card">
           <p className="status-card-title">사이트 정보</p>
           <div className="status-info-grid">
-            <div className="status-info-item">
-              <span className="status-info-label">현재 접속자</span>
-              <span className="status-info-value">
-                {visitors != null ? `${visitors}명` : '—'}
-                <span className="status-info-max"> / 10명 최대</span>
-              </span>
-            </div>
             <div className="status-info-item">
               <span className="status-info-label">사이트 버전</span>
               <span className="status-info-value">{SITE_VERSION}</span>

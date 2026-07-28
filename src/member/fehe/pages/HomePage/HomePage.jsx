@@ -64,12 +64,13 @@ const TIMELINE = [
     ],
   },
   {
-    year: '2024. 05. 16 — 무기한',
+    year: '2024. 05. 16 — 2026. 07. 31',
     heading: 'Hello! VRChat World! 디스코드 서버 운영',
     body: 'VRChat 비공식 친목 서버 Hello! VRChat World!를 개설하여 현재까지 운영 중입니다. VRChat 유저들이 편하게 모여 교류할 수 있는 커뮤니티를 만들어가고 있습니다.',
     discord: true,
     bot: 'HVW_Bot',
     botNote: '로컬 서버로 운영 중',
+    ended: true,
   },
 ]
 
@@ -191,7 +192,7 @@ export default function HomePage() {
 
         <div className="timeline">
           {TIMELINE.map((item, i) => (
-            <div className="timeline-card" key={i}>
+            <div className={`timeline-card${item.ended ? ' timeline-card--ended' : ''}`} key={i}>
               <div className="card-top">
                 <span className="timeline-year">{item.year}</span>
               </div>
@@ -221,12 +222,18 @@ export default function HomePage() {
               {(item.discord || item.bot) && (
                 <div className="timeline-badge-row">
                   {item.discord && (
-                    <a className="timeline-link" href="https://discord.gg/6K2CT7fUZA" target="_blank" rel="noopener noreferrer">
-                      <IconDiscord /> Discord 서버 참가
-                    </a>
+                    item.ended ? (
+                      <span className="timeline-link timeline-link--disabled" aria-disabled="true">
+                        <IconDiscord /> Discord 서버 종료 예정
+                      </span>
+                    ) : (
+                      <a className="timeline-link" href="https://discord.gg/6K2CT7fUZA" target="_blank" rel="noopener noreferrer">
+                        <IconDiscord /> Discord 서버 참가
+                      </a>
+                    )
                   )}
                   {item.bot && (
-                    <p className="timeline-bot">
+                    <p className={`timeline-bot${item.ended ? ' timeline-bot--ended' : ''}`}>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                       </svg>
