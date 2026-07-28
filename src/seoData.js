@@ -22,6 +22,14 @@ export const SEO_DATA = {
     title: '문의',
     description: 'FeheDeveloperTeam(FDT)에 문의하거나 커뮤니티에 참여해보세요. Discord와 이메일로 연락하실 수 있습니다.',
   },
+  '/member/fehe': {
+    title: '페헤',
+    description: 'FeheDeveloperTeam(FDT) 팀장 페헤의 자기소개 페이지입니다.',
+  },
+  '/member/yukiha': {
+    title: '유키하',
+    description: '유키하의 자기소개 페이지는 아직 준비 중입니다.',
+  },
 }
 
 export function getFullTitle(title) {
