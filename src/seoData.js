@@ -25,6 +25,10 @@ export const SEO_DATA = {
   '/member/fehe': {
     title: '페헤',
     description: 'FeheDeveloperTeam(FDT) 팀장 페헤의 자기소개 페이지입니다.',
+    image: `${SITE_URL}/og-fehe.png`,
+    imageWidth: 400,
+    imageHeight: 400,
+    imageAlt: '페헤 프로필 사진',
   },
   '/member/yukiha': {
     title: '유키하',

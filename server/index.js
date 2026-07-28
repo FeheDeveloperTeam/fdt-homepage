@@ -23,13 +23,27 @@ function injectSeo(html, pathname) {
   const fullTitle = escapeHtml(getFullTitle(meta.title))
   const description = escapeHtml(meta.description)
 
-  return html
+  let out = html
     .replace(/<title>.*?<\/title>/, `<title>${fullTitle}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/, `$1${description}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${fullTitle}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${description}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${fullTitle}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${description}$2`)
+
+  // 프로필 사진처럼 페이지 전용 이미지가 있으면 기본 로고 대신 그걸 쓴다.
+  if (meta.image) {
+    const image = escapeHtml(meta.image)
+    const imageAlt = escapeHtml(meta.imageAlt || fullTitle)
+    out = out
+      .replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${image}$2`)
+      .replace(/(<meta property="og:image:width" content=")[^"]*(")/, `$1${meta.imageWidth}$2`)
+      .replace(/(<meta property="og:image:height" content=")[^"]*(")/, `$1${meta.imageHeight}$2`)
+      .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, `$1${imageAlt}$2`)
+      .replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${image}$2`)
+  }
+
+  return out
 }
 
 async function createServer() {
