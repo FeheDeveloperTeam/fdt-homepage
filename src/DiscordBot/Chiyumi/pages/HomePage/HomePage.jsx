@@ -64,6 +64,7 @@ const DOCS = [
 
 export default function HomePage() {
   const [loginMessage, setLoginMessage] = useState(null)
+  const [toastLeaving, setToastLeaving] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -76,9 +77,26 @@ export default function HomePage() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!loginMessage) return
+    const leaveTimer = setTimeout(() => setToastLeaving(true), 2600)
+    const removeTimer = setTimeout(() => {
+      setLoginMessage(null)
+      setToastLeaving(false)
+    }, 3000)
+    return () => {
+      clearTimeout(leaveTimer)
+      clearTimeout(removeTimer)
+    }
+  }, [loginMessage])
+
   return (
     <div className="chiyumi-home">
-      {loginMessage && <div className="login-toast">{loginMessage}</div>}
+      {loginMessage && (
+        <div className={`login-toast${toastLeaving ? ' login-toast--leaving' : ''}`}>
+          {loginMessage}
+        </div>
+      )}
 
       <section className="hero">
         <div className="hero-photo-wrap">

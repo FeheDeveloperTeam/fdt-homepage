@@ -11,14 +11,17 @@ export default function Header() {
 
   return (
     <header className="chiyumi-header">
-      <Link className="chiyumi-logo" to="/DiscordBot/Chiyumi">
-        <img src={chiyumiPhoto} alt="" className="chiyumi-logo-photo" />
-        치유미
-      </Link>
-      <div className="chiyumi-header-actions">
+      <div className="chiyumi-header-left">
         <Link className="chiyumi-back" to="/projects">
-          FDT로 돌아가기
+          ← FDT
         </Link>
+        <span className="chiyumi-header-divider" />
+        <Link className="chiyumi-logo" to="/DiscordBot/Chiyumi">
+          <img src={chiyumiPhoto} alt="" className="chiyumi-logo-photo" />
+          치유미
+        </Link>
+      </div>
+      <div className="chiyumi-header-actions">
         <a
           className="chiyumi-invite-btn"
           href={INVITE_URL}
@@ -37,7 +40,7 @@ export default function Header() {
               </a>
             </div>
           ) : (
-            <a className="chiyumi-login" href="/api/auth/discord/login">
+            <a className="chiyumi-login-btn" href="/api/auth/discord/login">
               Discord로 로그인
             </a>
           )

@@ -22,6 +22,21 @@
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.82rem;
   color: var(--text-soft);
+  animation: toastIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.login-toast--leaving {
+  animation: toastOut 0.4s ease both;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0); max-height: 60px; margin-bottom: 1.5rem; }
+  to   { opacity: 0; transform: translateY(-6px); max-height: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
 }
 
 /* ── HERO — 캐릭터 아트가 배경과 자연스럽게 섞이도록 ── */
