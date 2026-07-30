@@ -1,4 +1,4 @@
-import { readSession } from '../../server/discordAuth.js'
+import { readSession } from '../_lib/discordAuth.js'
 
 export default function handler(req, res) {
   const user = readSession(req)

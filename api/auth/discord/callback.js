@@ -4,7 +4,7 @@ import {
   createSessionCookie,
   readStateCookie,
   clearStateCookie,
-} from '../../../server/discordAuth.js'
+} from '../../_lib/discordAuth.js'
 
 function redirectTo(res, path) {
   res.writeHead(302, { Location: path })

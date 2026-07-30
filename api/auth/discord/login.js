@@ -1,4 +1,4 @@
-import { buildAuthorizeUrl, createStateCookie, randomState } from '../../../server/discordAuth.js'
+import { buildAuthorizeUrl, createStateCookie, randomState } from '../../_lib/discordAuth.js'
 
 export default function handler(req, res) {
   if (!process.env.DISCORD_CLIENT_ID) {

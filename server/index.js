@@ -55,7 +55,7 @@ async function createServer() {
   app.use(express.json())
 
   // 로컬 dev/프로덕션 테스트용 — 실제 Vercel 배포에서는 /api 아래의 같은
-  // 파일들이 서버리스 함수로 각각 독립 실행된다. (server/discordAuth.js 공유)
+  // 파일들이 서버리스 함수로 각각 독립 실행된다. (api/_lib/discordAuth.js 공유)
   app.get('/api/auth/discord/login', discordLogin)
   app.get('/api/auth/discord/callback', discordCallback)
   app.get('/api/auth/me', authMe)
