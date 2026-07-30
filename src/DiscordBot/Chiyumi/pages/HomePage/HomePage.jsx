@@ -7,7 +7,7 @@ const GITHUB_URL = 'https://github.com/FeheDeveloperTeam/Chiyumi'
 
 const COMMAND_GROUPS = [
   {
-    label: '🛡️ 서버 관리',
+    label: '서버 관리',
     items: [
       { cmd: '/인증', desc: '버튼 클릭으로 인증 완료 → 지정 역할 자동 지급' },
       { cmd: '/공지', desc: '지정 채널에 임베드 공지 전송' },
@@ -21,7 +21,7 @@ const COMMAND_GROUPS = [
     ],
   },
   {
-    label: '💰 경제',
+    label: '경제',
     items: [
       { cmd: '/출석', desc: '하루 1회 치유미코인 + 경험치 지급' },
       { cmd: '/코인', desc: '치유미코인 잔액 조회' },
@@ -31,14 +31,14 @@ const COMMAND_GROUPS = [
     ],
   },
   {
-    label: '🎮 게임 & 육성',
+    label: '게임 & 육성',
     items: [
       { cmd: '/끝말잇기', desc: '채널에서 파티 모집 후 스레드에서 봇과 함께 끝말잇기' },
       { cmd: '/키우기', desc: '가상 고양이 입양 — 밥·씻기·놀기, 경과 시간에 따라 성장' },
     ],
   },
   {
-    label: '📊 조회 & 유틸리티',
+    label: '조회 & 유틸리티',
     items: [
       { cmd: '/순위', desc: '채팅·음성 활동 기반 레벨·경험치 카드 이미지 및 서버 순위 조회' },
       { cmd: '/전적검색', desc: '리그 오브 레전드 최근 전적·라인별 매치업·티어 조회' },
@@ -55,46 +55,35 @@ const DOCS = [
   { label: '오류 코드 안내', href: 'https://fehedeveloperteam.github.io/Chiyumi/errors.html' },
 ]
 
-const SPARKLES = [
-  { top: '10%', left: '6%', size: '1.1rem', delay: '0s' },
-  { top: '18%', left: '90%', size: '0.8rem', delay: '0.8s' },
-  { top: '55%', left: '3%', size: '0.7rem', delay: '1.6s' },
-  { top: '70%', left: '94%', size: '1rem', delay: '2.2s' },
-]
-
 export default function HomePage() {
   return (
     <div className="chiyumi-home">
-      {SPARKLES.map((s, i) => (
-        <span key={i} className="sparkle" style={{ top: s.top, left: s.left, fontSize: s.size, animationDelay: s.delay }}>
-          ✦
-        </span>
-      ))}
-
       <section className="hero">
-        <img src={chiyumiPhoto} alt="치유미" className="hero-photo" />
-        <div className="hero-text">
-          <p className="eyebrow">Discord Bot</p>
-          <h1 className="hero-title">치유미 (Chiyumi)</h1>
-          <p className="hero-desc">
-            서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇이에요. 모든 명령어는
-            슬래시 명령어로 제공되며, 처음 사용 시 이용약관·개인정보 처리방침 동의
-            절차를 거쳐요.
-          </p>
-          <div className="hero-actions">
-            <a href={INVITE_URL} target="_blank" rel="noreferrer" className="invite-btn">
-              봇 초대하기
-            </a>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="github-btn">
-              GitHub 저장소 보기
-            </a>
-          </div>
+        <div className="hero-photo-wrap">
+          <span className="hero-glow" />
+          <img src={chiyumiPhoto} alt="치유미" className="hero-photo" />
+        </div>
+
+        <p className="eyebrow">Discord Bot</p>
+        <h1 className="hero-title">치유미 (Chiyumi)</h1>
+        <p className="hero-desc">
+          서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇이에요. 모든 명령어는
+          슬래시 명령어로 제공되며, 처음 사용 시 이용약관·개인정보 처리방침 동의
+          절차를 거쳐요.
+        </p>
+        <div className="hero-actions">
+          <a href={INVITE_URL} target="_blank" rel="noreferrer" className="invite-btn">
+            봇 초대하기
+          </a>
+          <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="github-btn">
+            GitHub 저장소 보기
+          </a>
         </div>
       </section>
 
-      <div className="ai-card">
-        <strong>🤖 AI 채팅</strong>
-        <p>&quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가 AI로 응답해요. 채널별로 대화 맥락을 유지해요.</p>
+      <div className="ai-notice">
+        <strong>AI 채팅</strong>
+        <span>&quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가 AI로 응답해요. 채널별로 대화 맥락을 유지해요.</span>
       </div>
 
       <div className="menu-heading">
@@ -104,7 +93,7 @@ export default function HomePage() {
 
       <div className="groups">
         {COMMAND_GROUPS.map((group) => (
-          <section key={group.label} className="group-card">
+          <section key={group.label} className="group-section">
             <p className="group-label">{group.label}</p>
             <ul className="command-list">
               {group.items.map((item) => (

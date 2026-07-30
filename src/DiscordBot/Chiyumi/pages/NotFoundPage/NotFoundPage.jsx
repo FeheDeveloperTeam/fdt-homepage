@@ -12,7 +12,7 @@ export default function NotFoundPage() {
       gap: '0.6rem',
       padding: '4rem 1.5rem',
     }}>
-      <p style={{ fontSize: '2.4rem' }}>🐾</p>
+      <p style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--accent)' }}>404</p>
       <h1 style={{ fontSize: '1.3rem', color: 'var(--accent-brown)', fontWeight: 800 }}>
         페이지를 찾을 수 없어요
       </h1>

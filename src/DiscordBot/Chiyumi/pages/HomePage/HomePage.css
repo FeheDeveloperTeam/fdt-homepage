@@ -1,15 +1,10 @@
 @scope (.chiyumi-app) {
 .chiyumi-home {
   position: relative;
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 3.5rem 1.5rem calc(var(--footer-h) + 3rem);
+  padding: 2.5rem 1.5rem calc(var(--footer-h) + 3rem);
   z-index: 1;
-}
-
-.sparkle {
-  position: fixed;
-  z-index: 0;
 }
 
 .eyebrow {
@@ -18,35 +13,40 @@
   letter-spacing: 0.06em;
   color: var(--accent);
 }
-.eyebrow::before {
-  content: '✦ ';
-}
 
-/* ── HERO ── */
+/* ── HERO — 캐릭터 아트가 배경과 자연스럽게 섞이도록 ── */
 .hero {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2.25rem;
-  box-shadow: 0 12px 40px var(--shadow);
-  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.hero-photo-wrap {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin-bottom: 1rem;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -30px;
+  background: radial-gradient(circle, rgba(240, 160, 172, 0.4), rgba(217, 154, 63, 0.22) 55%, transparent 78%);
+  filter: blur(28px);
 }
 
 .hero-photo {
-  width: 132px;
-  height: 132px;
-  border-radius: 50%;
+  position: relative;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  flex-shrink: 0;
-  border: 4px solid var(--surface);
-  box-shadow: 0 6px 20px var(--shadow), 0 0 0 3px var(--border-soft);
+  -webkit-mask-image: radial-gradient(circle, black 55%, transparent 86%);
+          mask-image: radial-gradient(circle, black 55%, transparent 86%);
 }
 
 .hero-title {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   font-size: 2rem;
   font-weight: 800;
   color: var(--accent-brown);
@@ -64,6 +64,7 @@
   margin-top: 1.5rem;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.7rem;
 }
 
@@ -87,7 +88,6 @@
 }
 
 .github-btn {
-  background: var(--surface);
   border: 1.5px solid var(--border);
   color: var(--text);
 }
@@ -96,28 +96,31 @@
   color: var(--accent-brown);
 }
 
-/* ── AI 카드 ── */
-.ai-card {
-  margin-top: 1.5rem;
-  padding: 1.1rem 1.4rem;
-  background: var(--surface-2);
-  border: 1px dashed var(--border-soft);
-  border-radius: var(--radius-md);
+/* ── AI 안내 — 카드 없이 구분선만 ── */
+.ai-notice {
+  margin-top: 3rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
   font-size: 0.85rem;
   line-height: 1.7;
-  color: var(--text-soft);
 }
-.ai-card strong {
-  display: block;
-  margin-bottom: 0.3rem;
+.ai-notice strong {
+  flex-shrink: 0;
   color: var(--accent-brown);
-  font-size: 0.9rem;
+}
+.ai-notice span {
+  color: var(--text-soft);
 }
 
 /* ── 메뉴 헤딩 ── */
 .menu-heading {
   margin-top: 3rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 .menu-heading h2 {
   margin-top: 0.5rem;
@@ -126,27 +129,19 @@
   color: var(--text);
 }
 
-/* ── 명령어 그룹 카드 ── */
+/* ── 명령어 그룹 — 카드 없이 타이포그래피로만 구분 ── */
 .groups {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.group-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 1.5rem 1.75rem;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 6px 24px var(--shadow);
+  gap: 2.5rem;
 }
 
 .group-label {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: var(--accent-brown);
-  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--border);
 }
 
 .command-list {
@@ -157,11 +152,11 @@
 .command-item {
   display: flex;
   gap: 1.1rem;
-  padding: 0.7rem 0;
-  border-top: 1px solid var(--border-soft);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-soft);
 }
-.command-item:first-child {
-  border-top: none;
+.command-item:last-child {
+  border-bottom: none;
 }
 
 .command-name {
@@ -200,16 +195,12 @@
 }
 
 @media (max-width: 620px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.75rem;
+  .hero-photo-wrap {
+    width: 220px;
+    height: 220px;
   }
   .hero-desc {
     max-width: none;
-  }
-  .hero-actions {
-    justify-content: center;
   }
   .command-item {
     flex-direction: column;

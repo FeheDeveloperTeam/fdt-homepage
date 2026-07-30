@@ -20,18 +20,4 @@
   h1, h2, h3 { line-height: 1.3; }
 
   ::selection { background: var(--accent-dim); color: var(--accent-brown); }
-
-  /* 배경에 흩뿌린 반짝임 — 캐릭터 아트의 별 모티프에서 */
-  .sparkle {
-    position: fixed;
-    color: var(--accent);
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 0;
-    animation: sparkleTwinkle 3.5s ease-in-out infinite;
-  }
-  @keyframes sparkleTwinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.85); }
-    50%      { opacity: 0.6; transform: scale(1.05); }
-  }
 }

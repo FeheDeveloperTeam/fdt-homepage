@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
 import './Header.css'
 
 const INVITE_URL =
@@ -8,7 +9,8 @@ export default function Header() {
   return (
     <header className="chiyumi-header">
       <Link className="chiyumi-logo" to="/DiscordBot/Chiyumi">
-        🐾 <span>치유미</span>
+        <img src={chiyumiPhoto} alt="" className="chiyumi-logo-photo" />
+        치유미
       </Link>
       <div className="chiyumi-header-actions">
         <Link className="chiyumi-back" to="/projects">
