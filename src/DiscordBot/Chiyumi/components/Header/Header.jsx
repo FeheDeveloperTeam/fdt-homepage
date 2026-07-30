@@ -33,6 +33,11 @@ export default function Header() {
         {!loading && (
           user ? (
             <div className="chiyumi-user">
+              {user.isAdmin && (
+                <Link className="chiyumi-admin-btn" to="/DiscordBot/Chiyumi/admin">
+                  관리자
+                </Link>
+              )}
               <img src={user.avatar} alt="" className="chiyumi-user-avatar" />
               <span className="chiyumi-user-name">{user.username}</span>
               <a className="chiyumi-logout" href="/api/auth/logout">

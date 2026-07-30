@@ -110,3 +110,11 @@ export function readStateCookie(req) {
 export function clearStateCookie() {
   return serialize(STATE_COOKIE, '', { httpOnly: true, path: '/', maxAge: 0 })
 }
+
+export function isAdminUser(id) {
+  const admins = (process.env.ADMIN_DISCORD_IDS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  return admins.includes(String(id))
+}
