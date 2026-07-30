@@ -1,22 +1,13 @@
 @scope (.chiyumi-app) {
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 90;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
   min-height: var(--footer-h);
-  padding: 0.6rem 1.5rem calc(0.6rem + env(safe-area-inset-bottom));
+  padding: 1rem 1.5rem calc(1rem + env(safe-area-inset-bottom));
   text-align: center;
   border-top: 1px solid var(--border);
-  background: rgba(255, 251, 243, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--surface-2);
   font-size: 0.75rem;
   color: var(--text-muted);
 }
@@ -24,15 +15,5 @@ footer {
 footer span {
   color: var(--accent-brown);
   font-weight: 700;
-}
-
-.chiyumi-footer-link {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent);
-  transition: color 0.15s ease;
-}
-.chiyumi-footer-link:hover {
-  color: var(--accent-brown);
 }
 }

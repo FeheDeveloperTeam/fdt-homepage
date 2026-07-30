@@ -10,11 +10,13 @@ export default function ChiyumiApp() {
   return (
     <div className="chiyumi-app">
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <main className="chiyumi-main">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   )

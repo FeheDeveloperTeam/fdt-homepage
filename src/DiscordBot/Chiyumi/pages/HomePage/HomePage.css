@@ -3,7 +3,7 @@
   position: relative;
   max-width: 720px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem calc(var(--footer-h) + 3rem);
+  padding: 2.5rem 1.5rem 3rem;
   z-index: 1;
 }
 
