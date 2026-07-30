@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
 import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
 import { SEO_DATA } from '../../seoData'
@@ -19,6 +20,7 @@ const PROJECTS = [
     github: 'https://github.com/FeheDeveloperTeam/Chiyumi',
     invite:
       'https://discord.com/oauth2/authorize?client_id=1517170922732388423&scope=bot&permissions=0',
+    dashboard: '/DiscordBot/Chiyumi',
   },
 ]
 
@@ -63,6 +65,11 @@ function Projects() {
                   >
                     봇 초대하기
                   </a>
+                  {project.dashboard && (
+                    <Link to={project.dashboard} className={styles.githubButton}>
+                      대시보드 보기
+                    </Link>
+                  )}
                   <a
                     href={project.github}
                     target="_blank"

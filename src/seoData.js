@@ -34,6 +34,14 @@ export const SEO_DATA = {
     title: '유키하',
     description: '유키하의 자기소개 페이지는 아직 준비 중입니다.',
   },
+  '/DiscordBot/Chiyumi': {
+    title: '치유미 봇 초대',
+    description: '서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇 치유미를 초대하고, 명령어를 살펴보세요.',
+    image: `${SITE_URL}/og-chiyumi.png`,
+    imageWidth: 400,
+    imageHeight: 400,
+    imageAlt: '치유미 프로필 사진',
+  },
 }
 
 export function getFullTitle(title) {
