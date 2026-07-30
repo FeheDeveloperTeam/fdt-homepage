@@ -1,7 +1,5 @@
-import Seo from '../../components/Seo/Seo'
-import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
-import { SEO_DATA } from '../../seoData'
-import styles from './ChiyumiPage.module.css'
+import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
+import './HomePage.css'
 
 const INVITE_URL =
   'https://discord.com/oauth2/authorize?client_id=1517170922732388423&scope=bot&permissions=0'
@@ -57,63 +55,76 @@ const DOCS = [
   { label: '오류 코드 안내', href: 'https://fehedeveloperteam.github.io/Chiyumi/errors.html' },
 ]
 
-function ChiyumiPage() {
+const SPARKLES = [
+  { top: '10%', left: '6%', size: '1.1rem', delay: '0s' },
+  { top: '18%', left: '90%', size: '0.8rem', delay: '0.8s' },
+  { top: '55%', left: '3%', size: '0.7rem', delay: '1.6s' },
+  { top: '70%', left: '94%', size: '1rem', delay: '2.2s' },
+]
+
+export default function HomePage() {
   return (
-    <section className={styles.page}>
-      <Seo {...SEO_DATA['/DiscordBot/Chiyumi']} path="/DiscordBot/Chiyumi" />
+    <div className="chiyumi-home">
+      {SPARKLES.map((s, i) => (
+        <span key={i} className="sparkle" style={{ top: s.top, left: s.left, fontSize: s.size, animationDelay: s.delay }}>
+          ✦
+        </span>
+      ))}
 
-      <div className={styles.hero}>
-        <img src={chiyumiPhoto} alt="치유미 프로필" className={styles.photo} />
-        <div className={styles.heroText}>
-          <p className={styles.eyebrow}>Discord Bot</p>
-          <h1 className={styles.title}>치유미 (Chiyumi)</h1>
-          <p className={styles.description}>
-            서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇입니다. 모든 명령어는
+      <section className="hero">
+        <img src={chiyumiPhoto} alt="치유미" className="hero-photo" />
+        <div className="hero-text">
+          <p className="eyebrow">Discord Bot</p>
+          <h1 className="hero-title">치유미 (Chiyumi)</h1>
+          <p className="hero-desc">
+            서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇이에요. 모든 명령어는
             슬래시 명령어로 제공되며, 처음 사용 시 이용약관·개인정보 처리방침 동의
-            절차를 거칩니다.
+            절차를 거쳐요.
           </p>
-
-          <div className={styles.actions}>
-            <a href={INVITE_URL} target="_blank" rel="noreferrer" className={styles.inviteButton}>
+          <div className="hero-actions">
+            <a href={INVITE_URL} target="_blank" rel="noreferrer" className="invite-btn">
               봇 초대하기
             </a>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={styles.githubButton}>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="github-btn">
               GitHub 저장소 보기
             </a>
           </div>
         </div>
+      </section>
+
+      <div className="ai-card">
+        <strong>🤖 AI 채팅</strong>
+        <p>&quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가 AI로 응답해요. 채널별로 대화 맥락을 유지해요.</p>
       </div>
 
-      <div className={styles.aiNotice}>
-        <strong>🤖 AI 채팅</strong> — &quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가
-        AI로 응답합니다. 채널별로 대화 맥락을 유지합니다.
+      <div className="menu-heading">
+        <p className="eyebrow">Menu</p>
+        <h2>치유미가 할 수 있는 것들</h2>
       </div>
 
-      <div className={styles.groups}>
+      <div className="groups">
         {COMMAND_GROUPS.map((group) => (
-          <div key={group.label} className={styles.group}>
-            <p className={styles.groupLabel}>{group.label}</p>
-            <ul className={styles.commandList}>
+          <section key={group.label} className="group-card">
+            <p className="group-label">{group.label}</p>
+            <ul className="command-list">
               {group.items.map((item) => (
-                <li key={item.cmd} className={styles.commandRow}>
-                  <span className={styles.commandName}>{item.cmd}</span>
-                  <span className={styles.commandDesc}>{item.desc}</span>
+                <li key={item.cmd} className="command-item">
+                  <span className="command-name">{item.cmd}</span>
+                  <span className="command-desc">{item.desc}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
         ))}
       </div>
 
-      <div className={styles.docs}>
+      <div className="docs">
         {DOCS.map((doc) => (
-          <a key={doc.href} href={doc.href} target="_blank" rel="noreferrer" className={styles.docLink}>
+          <a key={doc.href} href={doc.href} target="_blank" rel="noreferrer" className="doc-link">
             {doc.label}
           </a>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
-
-export default ChiyumiPage

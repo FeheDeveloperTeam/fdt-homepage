@@ -11,9 +11,9 @@ import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
 import NotFound from './pages/NotFound/NotFound'
 import YukihaPage from './member/yukiha/YukihaPage'
-import ChiyumiPage from './DiscordBot/Chiyumi/ChiyumiPage'
 
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
+const ChiyumiApp = lazy(() => import('./DiscordBot/Chiyumi/ChiyumiApp'))
 
 // 예전 /fehe 경로로 들어오는 북마크/링크를 새 /member/fehe 경로로 보내준다.
 function RedirectToMemberFehe() {
@@ -45,7 +45,6 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/member/yukiha" element={<YukihaPage />} />
-          <Route path="/DiscordBot/Chiyumi" element={<ChiyumiPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route
@@ -57,6 +56,14 @@ function App() {
           }
         />
         <Route path="/fehe/*" element={<RedirectToMemberFehe />} />
+        <Route
+          path="/DiscordBot/Chiyumi/*"
+          element={
+            <Suspense fallback={null}>
+              <ChiyumiApp />
+            </Suspense>
+          }
+        />
       </Routes>
       <Analytics />
       <SpeedInsights />

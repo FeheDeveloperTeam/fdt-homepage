@@ -1,0 +1,59 @@
+@scope (.chiyumi-app) {
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding: 0 1.5rem;
+  background: rgba(255, 251, 243, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.chiyumi-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent-brown);
+}
+
+.chiyumi-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.chiyumi-back {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.chiyumi-back:hover {
+  color: var(--accent-brown);
+}
+
+.chiyumi-invite-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: var(--discord);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.chiyumi-invite-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 540px) {
+  .chiyumi-back { display: none; }
+}
+}

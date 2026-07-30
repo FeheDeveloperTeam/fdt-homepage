@@ -1,0 +1,36 @@
+@scope (.chiyumi-app) {
+  :scope {
+    /* ── surfaces (warm cream, sourced from the character art background) ── */
+    --bg:        #f7ecd9;
+    --bg-deep:   #efe0c4;
+    --surface:   #fffbf3;
+    --surface-2: #fbf1de;
+    --card:      rgba(255, 251, 243, 0.85);
+
+    /* ── text ── */
+    --text:       #4a3626;
+    --text-soft:  #6e5540;
+    --text-muted: #9c8768;
+
+    /* ── borders / shadow ── */
+    --border:        #e4cea3;
+    --border-soft:   rgba(217, 154, 63, 0.25);
+    --shadow:        rgba(139, 94, 60, 0.16);
+
+    /* ── accents (honey-gold eyes / blush pink / ribbon brown / discord blurple) ── */
+    --accent:        #d99a3f;
+    --accent-dim:    rgba(217, 154, 63, 0.14);
+    --accent-pink:   #f0a0ac;
+    --accent-brown:  #8b5e3c;
+    --discord:       #5865f2;
+
+    --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, sans-serif;
+
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 26px;
+
+    --header-h: 64px;
+    --footer-h: 56px;
+  }
+}
