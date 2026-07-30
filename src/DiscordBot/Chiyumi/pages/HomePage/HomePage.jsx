@@ -1,5 +1,12 @@
+import { useEffect, useState } from 'react'
 import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
 import './HomePage.css'
+
+const LOGIN_MESSAGES = {
+  success: '디스코드 로그인이 완료됐어요.',
+  error: '로그인에 실패했어요. 다시 시도해주세요.',
+  cancelled: '로그인이 취소됐어요.',
+}
 
 const INVITE_URL =
   'https://discord.com/oauth2/authorize?client_id=1517170922732388423&scope=bot&permissions=0'
@@ -56,8 +63,23 @@ const DOCS = [
 ]
 
 export default function HomePage() {
+  const [loginMessage, setLoginMessage] = useState(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const login = params.get('login')
+    if (login && LOGIN_MESSAGES[login]) {
+      setLoginMessage(LOGIN_MESSAGES[login])
+      params.delete('login')
+      const query = params.toString()
+      window.history.replaceState(null, '', window.location.pathname + (query ? `?${query}` : ''))
+    }
+  }, [])
+
   return (
     <div className="chiyumi-home">
+      {loginMessage && <div className="login-toast">{loginMessage}</div>}
+
       <section className="hero">
         <div className="hero-photo-wrap">
           <span className="hero-glow" />

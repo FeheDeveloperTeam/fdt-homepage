@@ -3,6 +3,10 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import express from 'express'
 import { SEO_DATA, getFullTitle } from '../src/seoData.js'
+import discordLogin from '../api/auth/discord/login.js'
+import discordCallback from '../api/auth/discord/callback.js'
+import authMe from '../api/auth/me.js'
+import authLogout from '../api/auth/logout.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -49,6 +53,13 @@ function injectSeo(html, pathname) {
 async function createServer() {
   const app = express()
   app.use(express.json())
+
+  // 로컬 dev/프로덕션 테스트용 — 실제 Vercel 배포에서는 /api 아래의 같은
+  // 파일들이 서버리스 함수로 각각 독립 실행된다. (server/discordAuth.js 공유)
+  app.get('/api/auth/discord/login', discordLogin)
+  app.get('/api/auth/discord/callback', discordCallback)
+  app.get('/api/auth/me', authMe)
+  app.get('/api/auth/logout', authLogout)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

@@ -61,7 +61,54 @@ header {
   transform: translateY(-1px);
 }
 
+.chiyumi-login {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-brown);
+  border-bottom: 1px solid var(--border-soft);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.chiyumi-login:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.chiyumi-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chiyumi-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chiyumi-user-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chiyumi-logout {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.chiyumi-logout:hover {
+  color: var(--accent-brown);
+  border-color: var(--accent-brown);
+}
+
 @media (max-width: 540px) {
   .chiyumi-back { display: none; }
+  .chiyumi-user-name { display: none; }
 }
 }
