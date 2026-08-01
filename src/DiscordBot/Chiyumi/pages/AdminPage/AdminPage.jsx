@@ -4,7 +4,7 @@ import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './AdminPage.css'
 
 export default function AdminPage() {
-  useDocumentTitle('관리자 | 치유미')
+  useDocumentTitle('관리자')
   const { user, loading } = useDiscordUser()
 
   if (loading) return null

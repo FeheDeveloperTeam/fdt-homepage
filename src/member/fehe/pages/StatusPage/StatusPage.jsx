@@ -35,7 +35,7 @@ function StatusRow({ label, purpose, state, detail }) {
 }
 
 export default function StatusPage() {
-  useDocumentTitle('서버 상태 | 페헤')
+  useDocumentTitle('서버 상태')
   const [firestore, setFirestore] = useState({ state: 'checking', ms: null })
   const [rtdbStatus, setRtdbStatus] = useState({ state: 'checking', ms: null })
   const [ipApi, setIpApi] = useState({ state: 'checking', ip: null })
