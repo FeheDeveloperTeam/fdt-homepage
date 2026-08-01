@@ -42,6 +42,18 @@ export const SEO_DATA = {
     imageHeight: 400,
     imageAlt: '치유미 프로필 사진',
   },
+  '/DiscordBot/Chiyumi/terms': {
+    title: '이용약관',
+    description: '치유미 봇의 이용약관입니다.',
+  },
+  '/DiscordBot/Chiyumi/privacy': {
+    title: '개인정보 처리방침',
+    description: '치유미 봇의 개인정보 처리방침입니다.',
+  },
+  '/DiscordBot/Chiyumi/errors': {
+    title: '오류 코드 안내',
+    description: '치유미 봇 사용 중 표시되는 오류 코드의 의미를 안내합니다.',
+  },
 }
 
 export function getFullTitle(title) {

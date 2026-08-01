@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './HomePage.css'
@@ -58,9 +59,9 @@ const COMMAND_GROUPS = [
 ]
 
 const DOCS = [
-  { label: '이용약관', href: 'https://fehedeveloperteam.github.io/Chiyumi/terms.html' },
-  { label: '개인정보 처리방침', href: 'https://fehedeveloperteam.github.io/Chiyumi/privacy.html' },
-  { label: '오류 코드 안내', href: 'https://fehedeveloperteam.github.io/Chiyumi/errors.html' },
+  { label: '이용약관', to: '/DiscordBot/Chiyumi/terms' },
+  { label: '개인정보 처리방침', to: '/DiscordBot/Chiyumi/privacy' },
+  { label: '오류 코드 안내', to: '/DiscordBot/Chiyumi/errors' },
 ]
 
 export default function HomePage() {
@@ -151,9 +152,9 @@ export default function HomePage() {
 
       <div className="docs">
         {DOCS.map((doc) => (
-          <a key={doc.href} href={doc.href} target="_blank" rel="noreferrer" className="doc-link">
+          <Link key={doc.to} to={doc.to} className="doc-link">
             {doc.label}
-          </a>
+          </Link>
         ))}
       </div>
     </div>
