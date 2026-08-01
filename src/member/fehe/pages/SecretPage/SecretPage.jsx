@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './SecretPage.css'
 
 const LINES = [
@@ -66,6 +67,7 @@ function AccessDenied() {
 }
 
 export default function SecretPage() {
+  useDocumentTitle('CLASSIFIED | 페헤')
   const navigate = useNavigate()
   const [authed] = useState(() => !!sessionStorage.getItem('secret_auth'))
   const [visibleCount, setVisibleCount] = useState(0)

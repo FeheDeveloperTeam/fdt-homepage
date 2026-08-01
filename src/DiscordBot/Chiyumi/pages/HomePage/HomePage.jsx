@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './HomePage.css'
 
 const LOGIN_MESSAGES = {
@@ -63,6 +64,7 @@ const DOCS = [
 ]
 
 export default function HomePage() {
+  useDocumentTitle('치유미')
   const [loginMessage, setLoginMessage] = useState(null)
   const [toastLeaving, setToastLeaving] = useState(false)
 

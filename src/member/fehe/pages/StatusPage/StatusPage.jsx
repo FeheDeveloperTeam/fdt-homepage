@@ -3,6 +3,7 @@ import { db, rtdb } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { ref, get } from 'firebase/database'
 import { SITE_VERSION } from '../../version'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './StatusPage.css'
 
 const YT_CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
@@ -34,6 +35,7 @@ function StatusRow({ label, purpose, state, detail }) {
 }
 
 export default function StatusPage() {
+  useDocumentTitle('서버 상태 | 페헤')
   const [firestore, setFirestore] = useState({ state: 'checking', ms: null })
   const [rtdbStatus, setRtdbStatus] = useState({ state: 'checking', ms: null })
   const [ipApi, setIpApi] = useState({ state: 'checking', ip: null })

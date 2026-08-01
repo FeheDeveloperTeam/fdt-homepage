@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '../../components/icons/icons'
 import feheProfile from '../../../../assets/images/team/fehe.png'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './HomePage.css'
 
 function useTypewriter(text, speed = 150, startDelay = 300) {
@@ -149,6 +150,7 @@ const SKILLS = [
 ]
 
 export default function HomePage() {
+  useDocumentTitle('페헤')
   const [tmiIdx, setTmiIdx] = useState(0)
   const [tmiVisible, setTmiVisible] = useState(true)
   const { out: heroName, done: heroNameDone } = useTypewriter('페헤', 160, 250)

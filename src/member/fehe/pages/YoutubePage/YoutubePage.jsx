@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { IconYoutube } from '../../components/icons/icons'
 import YtCard from '../../components/YtCard/YtCard'
 import LiveBanner from '../../components/LiveBanner/LiveBanner'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './YoutubePage.css'
 
 const CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
@@ -39,6 +40,7 @@ function timeToSeconds(t) {
 }
 
 export default function YoutubePage() {
+  useDocumentTitle('유튜브 | 페헤')
   const [ytTab, setYtTab]             = useState('home')
   const [homeItems, setHomeItems]     = useState([])
   const [liveItems, setLiveItems]     = useState([])

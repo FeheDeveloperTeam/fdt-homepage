@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useDiscordUser } from '../../hooks/useDiscordUser'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './AdminPage.css'
 
 export default function AdminPage() {
+  useDocumentTitle('관리자 | 치유미')
   const { user, loading } = useDiscordUser()
 
   if (loading) return null

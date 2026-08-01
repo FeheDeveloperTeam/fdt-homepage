@@ -1,5 +1,6 @@
 import YtCard from '../../components/YtCard/YtCard'
 import LiveBanner from '../../components/LiveBanner/LiveBanner'
+import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import '../YoutubePage/YoutubePage.css'
 import './LivePreviewPage.css'
 
@@ -27,6 +28,7 @@ const MOCK_PAST_ITEM = {
 }
 
 export default function LivePreviewPage() {
+  useDocumentTitle('실시간 방송 미리보기 | 페헤')
   return (
     <div className="yt-page">
       <div className="live-preview-note">
