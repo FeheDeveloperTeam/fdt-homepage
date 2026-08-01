@@ -28,7 +28,7 @@ const MOCK_PAST_ITEM = {
 }
 
 export default function LivePreviewPage() {
-  useDocumentTitle('실시간 방송 미리보기')
+  useDocumentTitle('실시간 방송 미리보기', 'Fehe')
   return (
     <div className="yt-page">
       <div className="live-preview-note">

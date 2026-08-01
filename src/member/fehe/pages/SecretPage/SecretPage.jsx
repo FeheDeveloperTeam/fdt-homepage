@@ -67,7 +67,7 @@ function AccessDenied() {
 }
 
 export default function SecretPage() {
-  useDocumentTitle('CLASSIFIED')
+  useDocumentTitle('CLASSIFIED', 'Fehe')
   const navigate = useNavigate()
   const [authed] = useState(() => !!sessionStorage.getItem('secret_auth'))
   const [visibleCount, setVisibleCount] = useState(0)

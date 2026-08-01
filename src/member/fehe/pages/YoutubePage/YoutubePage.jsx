@@ -40,7 +40,7 @@ function timeToSeconds(t) {
 }
 
 export default function YoutubePage() {
-  useDocumentTitle('유튜브')
+  useDocumentTitle('유튜브', 'Fehe')
   const [ytTab, setYtTab]             = useState('home')
   const [homeItems, setHomeItems]     = useState([])
   const [liveItems, setLiveItems]     = useState([])

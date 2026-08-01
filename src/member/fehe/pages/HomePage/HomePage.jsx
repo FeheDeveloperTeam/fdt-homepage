@@ -150,7 +150,7 @@ const SKILLS = [
 ]
 
 export default function HomePage() {
-  useDocumentTitle('페헤')
+  useDocumentTitle('페헤', 'Fehe')
   const [tmiIdx, setTmiIdx] = useState(0)
   const [tmiVisible, setTmiVisible] = useState(true)
   const { out: heroName, done: heroNameDone } = useTypewriter('페헤', 160, 250)

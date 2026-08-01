@@ -64,7 +64,7 @@ const DOCS = [
 ]
 
 export default function HomePage() {
-  useDocumentTitle('치유미')
+  useDocumentTitle('치유미', 'Chiyumi')
   const [loginMessage, setLoginMessage] = useState(null)
   const [toastLeaving, setToastLeaving] = useState(false)
 
