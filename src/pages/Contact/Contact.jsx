@@ -31,7 +31,7 @@ function Contact() {
           <div className={styles.info}>
             <h3>Direct Contact</h3>
             <p>이메일: help@fehe.dev</p>
-            <p>운영 시간: 평일 10:00 - 19:00 (주말 제외)</p>
+            <p>운영 시간: 평일 19:00 - 24:00 (주말 제외)</p>
           </div>
         </div>
       </div>
