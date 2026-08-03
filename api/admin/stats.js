@@ -120,8 +120,9 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(payload))
   } catch (err) {
+    console.error('[admin/stats]', err)
     res.statusCode = 500
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: err.message }))
+    res.end(JSON.stringify({ error: '통계를 불러오지 못했어요. 잠시 후 다시 시도해주세요.' }))
   }
 }

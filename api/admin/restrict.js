@@ -25,8 +25,9 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify({ ok: true }))
   } catch (err) {
+    console.error('[admin/restrict]', err)
     res.statusCode = 500
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: err.message }))
+    res.end(JSON.stringify({ error: '이용제한 처리에 실패했어요. 잠시 후 다시 시도해주세요.' }))
   }
 }
