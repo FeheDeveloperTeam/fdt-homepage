@@ -1,5 +1,6 @@
 import { requireAdmin } from '../_lib/adminAuth.js'
 import { getSupabase } from '../_lib/supabase.js'
+import { discordApi } from '../_lib/discordApi.js'
 
 const MEMORIES_DAYS = 14
 const TOP_GUILD_LIMIT = 8
@@ -8,20 +9,6 @@ const CACHE_TTL_MS = 60 * 1000
 
 let cache = null
 let cacheAt = 0
-
-function requireEnv(name) {
-  const value = process.env[name]
-  if (!value) throw new Error(`${name} 환경변수가 설정되지 않았습니다.`)
-  return value
-}
-
-async function discordApi(path) {
-  const res = await fetch(`https://discord.com/api/v10${path}`, {
-    headers: { Authorization: `Bot ${requireEnv('DISCORD_TOKEN')}` },
-  })
-  if (!res.ok) throw new Error(`디스코드 API 호출 실패 (${path}): ${res.status}`)
-  return res.json()
-}
 
 async function fetchGuilds() {
   const guilds = await discordApi('/users/@me/guilds?with_counts=true&limit=200')
@@ -78,7 +65,7 @@ export default async function handler(req, res) {
     return
   }
 
-  const admin = requireAdmin(req, res)
+  const admin = await requireAdmin(req, res)
   if (!admin) return
 
   if (cache && Date.now() - cacheAt < CACHE_TTL_MS) {

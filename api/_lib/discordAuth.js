@@ -1,6 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import jwt from 'jsonwebtoken'
 import { serialize, parse } from 'cookie'
+import { getSupabase } from './supabase.js'
 
 const SESSION_COOKIE = 'fdt_session'
 const STATE_COOKIE = 'fdt_oauth_state'
@@ -111,10 +112,25 @@ export function clearStateCookie() {
   return serialize(STATE_COOKIE, '', { httpOnly: true, path: '/', maxAge: 0 })
 }
 
-export function isAdminUser(id) {
-  const admins = (process.env.ADMIN_DISCORD_IDS || '')
+export function getRootAdminIds() {
+  return (process.env.ADMIN_DISCORD_IDS || '')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean)
-  return admins.includes(String(id))
+}
+
+export async function isAdminUser(id) {
+  const strId = String(id)
+  if (getRootAdminIds().includes(strId)) return true
+
+  const { data, error } = await getSupabase()
+    .from('admins')
+    .select('user_id')
+    .eq('user_id', strId)
+    .maybeSingle()
+  if (error) {
+    console.error('[isAdminUser]', error)
+    return false
+  }
+  return Boolean(data)
 }

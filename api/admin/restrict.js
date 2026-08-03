@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return
   }
 
-  const admin = requireAdmin(req, res)
+  const admin = await requireAdmin(req, res)
   if (!admin) return
 
   const { userId, reason } = req.body || {}

@@ -7,6 +7,7 @@ import AdminOverviewPage from './pages/AdminOverviewPage/AdminOverviewPage'
 import AdminRestrictPage from './pages/AdminRestrictPage/AdminRestrictPage'
 import AdminUnrestrictPage from './pages/AdminUnrestrictPage/AdminUnrestrictPage'
 import AdminCheckPage from './pages/AdminCheckPage/AdminCheckPage'
+import AdminManagePage from './pages/AdminManagePage/AdminManagePage'
 import TermsPage from './pages/TermsPage/TermsPage'
 import PrivacyPage from './pages/PrivacyPage/PrivacyPage'
 import ErrorsPage from './pages/ErrorsPage/ErrorsPage'
@@ -25,6 +26,7 @@ export default function ChiyumiApp() {
             <Route path="restrict" element={<AdminRestrictPage />} />
             <Route path="unrestrict" element={<AdminUnrestrictPage />} />
             <Route path="check" element={<AdminCheckPage />} />
+            <Route path="admins" element={<AdminManagePage />} />
           </Route>
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

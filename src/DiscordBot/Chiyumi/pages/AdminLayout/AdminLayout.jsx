@@ -15,6 +15,10 @@ const MENU = [
       { label: '이용제한 확인', to: '/DiscordBot/Chiyumi/admin/check' },
     ],
   },
+  {
+    label: '팀 관리',
+    items: [{ label: '관리자 관리', to: '/DiscordBot/Chiyumi/admin/admins' }],
+  },
 ]
 
 export default function AdminLayout() {
