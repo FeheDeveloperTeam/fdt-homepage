@@ -251,6 +251,9 @@
 }
 .timeline-bot--ended {
   animation: none;
+  box-shadow: none;
+  border-color: var(--border);
+  color: var(--text-muted);
   opacity: 0.6;
 }
 .timeline-bot strong { color:var(--accent); font-weight:700; }
