@@ -32,16 +32,125 @@
   color: var(--text);
 }
 
-.admin-placeholder {
-  margin-top: 2rem;
-  padding: 1.1rem 1.4rem;
-  background: var(--surface-2);
-  border: 1px dashed var(--border-soft);
-  border-radius: var(--radius-md);
+/* ── 이용제한 관리 ── */
+.admin-section {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.admin-section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent-brown);
+}
+
+.admin-section-desc {
+  margin-top: 0.4rem;
   font-size: 0.85rem;
-  line-height: 1.7;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.admin-form {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-field span {
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--text-soft);
 }
+
+.admin-field input {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.admin-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.admin-field input:disabled {
+  opacity: 0.6;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.admin-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.admin-btn:hover:not(:disabled) { opacity: 0.85; }
+.admin-btn:active:not(:disabled) { transform: scale(0.97); }
+.admin-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+
+.admin-btn--check {
+  background: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text-soft);
+}
+.admin-btn--restrict {
+  background: var(--danger);
+  color: #fff;
+}
+.admin-btn--unrestrict {
+  background: var(--accent);
+  color: #fff;
+}
+
+.admin-status {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.admin-status--success { color: var(--accent-brown); }
+.admin-status--error { color: var(--danger); }
+
+.admin-result {
+  margin-top: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.83rem;
+}
+.admin-result-row span { color: var(--text-muted); }
+.admin-result-row strong { color: var(--text); font-weight: 700; text-align: right; }
 
 /* ── 권한 없음 ── */
 .admin-page--denied {

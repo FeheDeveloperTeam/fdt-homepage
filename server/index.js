@@ -7,6 +7,9 @@ import discordLogin from '../api/auth/discord/login.js'
 import discordCallback from '../api/auth/discord/callback.js'
 import authMe from '../api/auth/me.js'
 import authLogout from '../api/auth/logout.js'
+import adminRestrict from '../api/admin/restrict.js'
+import adminUnrestrict from '../api/admin/unrestrict.js'
+import adminRestriction from '../api/admin/restriction.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -60,6 +63,9 @@ async function createServer() {
   app.get('/api/auth/discord/callback', discordCallback)
   app.get('/api/auth/me', authMe)
   app.get('/api/auth/logout', authLogout)
+  app.post('/api/admin/restrict', adminRestrict)
+  app.post('/api/admin/unrestrict', adminUnrestrict)
+  app.get('/api/admin/restriction', adminRestriction)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')
