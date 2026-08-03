@@ -9,6 +9,26 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
+.header-left {
+  display: flex; align-items: center; gap: 0.8rem;
+  min-width: 0;
+}
+
+.header-back {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--text-muted); text-decoration: none;
+  transition: color 0.15s;
+}
+.header-back:hover { color: var(--accent); }
+
+.header-divider {
+  flex-shrink: 0;
+  width: 1px; height: 16px;
+  background: var(--border);
+}
+
 .header-logo {
   display: flex; align-items: center; gap: 0.4rem;
   font-family: var(--font-mono);
@@ -94,4 +114,8 @@ header {
   display: none; position: fixed; inset: 0; z-index: 98;
 }
 .overlay.open { display: block; }
+
+@media (max-width: 420px) {
+  .header-back, .header-divider { display: none; }
+}
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { IconHome, IconYoutube, IconStatus, IconGithub, IconSteam, IconInstagram } from '../icons/icons'
 import './Header.css'
 
@@ -20,9 +20,15 @@ export default function Header() {
   return (
     <>
       <header>
-        <button className="header-logo" onClick={() => switchPage('/member/fehe')}>
-          페헤<span>/ Fehe</span>
-        </button>
+        <div className="header-left">
+          <Link className="header-back" to="/about">
+            ← FDT
+          </Link>
+          <span className="header-divider" />
+          <button className="header-logo" onClick={() => switchPage('/member/fehe')}>
+            페헤<span>/ Fehe</span>
+          </button>
+        </div>
         <button
           className={`hamburger ${drawerOpen ? 'open' : ''}`}
           aria-label="메뉴"
