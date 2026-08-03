@@ -1,34 +1,40 @@
 @scope (.chiyumi-app) {
-.admin-shortcuts {
+.admin-stats-row {
   margin-top: 2rem;
-  max-width: 480px;
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  gap: 1.6rem;
+  flex-wrap: wrap;
 }
 
-.admin-shortcut {
+.admin-stat {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  padding: 0.9rem 1.1rem;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
-  transition: border-color 0.15s, background 0.15s;
-}
-.admin-shortcut:hover {
-  border-color: var(--accent);
-  background: var(--accent-dim);
 }
 
-.admin-shortcut-label {
-  font-size: 0.9rem;
-  font-weight: 700;
+.admin-stat-value {
+  font-size: 1.7rem;
+  font-weight: 800;
   color: var(--accent-brown);
+  font-variant-numeric: tabular-nums;
 }
 
-.admin-shortcut-desc {
-  font-size: 0.8rem;
+.admin-stat-label {
+  font-size: 0.76rem;
   color: var(--text-muted);
+}
+
+.admin-chart-section {
+  margin-top: 2.2rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--border-soft);
+  max-width: 620px;
+}
+
+.admin-chart-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  margin-bottom: 1.1rem;
 }
 }

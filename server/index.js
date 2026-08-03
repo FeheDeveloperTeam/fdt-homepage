@@ -10,6 +10,7 @@ import authLogout from '../api/auth/logout.js'
 import adminRestrict from '../api/admin/restrict.js'
 import adminUnrestrict from '../api/admin/unrestrict.js'
 import adminRestriction from '../api/admin/restriction.js'
+import adminStats from '../api/admin/stats.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -66,6 +67,7 @@ async function createServer() {
   app.post('/api/admin/restrict', adminRestrict)
   app.post('/api/admin/unrestrict', adminUnrestrict)
   app.get('/api/admin/restriction', adminRestriction)
+  app.get('/api/admin/stats', adminStats)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

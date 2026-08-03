@@ -1,0 +1,93 @@
+@scope (.chiyumi-app) {
+.admin-chart-empty {
+  padding: 1.5rem 0;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+/* ── 막대 차트 (서버별 멤버 수) ── */
+.admin-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.admin-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.admin-bar-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.admin-bar-icon--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-dim);
+  color: var(--accent-brown);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.admin-bar-track-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-bar-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-bar-track {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.admin-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-pink));
+  transition: width 0.4s ease;
+}
+
+.admin-bar-value {
+  flex-shrink: 0;
+  min-width: 3ch;
+  text-align: right;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── 추이 라인 차트 ── */
+.admin-trend-chart {
+  width: 100%;
+}
+
+.admin-trend-svg {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.admin-trend-label {
+  font-size: 8.5px;
+  fill: var(--text-muted);
+}
+}
