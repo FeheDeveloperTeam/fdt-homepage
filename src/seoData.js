@@ -36,7 +36,7 @@ export const SEO_DATA = {
   },
   '/DiscordBot/Chiyumi': {
     title: '치유미 봇 초대',
-    description: '서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇 치유미를 초대하고, 명령어를 살펴보세요.',
+    description: '서버 관리부터 AI 채팅·기억 기능, 날씨·자연재해 조회, 경제·게임까지 — 다양한 기능을 갖춘 디스코드 봇 치유미를 초대하고 명령어를 살펴보세요.',
     image: `${SITE_URL}/og-chiyumi.png`,
     imageWidth: 400,
     imageHeight: 400,
