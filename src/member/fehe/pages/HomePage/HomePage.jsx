@@ -207,7 +207,7 @@ export default function HomePage() {
               <a className="hero-link steam" href="https://steamcommunity.com/profiles/76561199008770006/" target="_blank" rel="noopener noreferrer">
                 <IconSteam /> Steam
               </a>
-              <a className="hero-link insta" href="https://www.instagram.com/fehe_developer/" target="_blank" rel="noopener noreferrer">
+              <a className="hero-link insta" href="https://www.instagram.com/fehe12345/" target="_blank" rel="noopener noreferrer">
                 <IconInstagram /> Instagram
               </a>
             </div>
