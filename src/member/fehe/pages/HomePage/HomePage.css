@@ -64,6 +64,8 @@
   color: var(--text-muted); margin-bottom: 0.6rem; font-weight: 500;
 }
 .hero-name {
+  position: relative;
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: clamp(2.4rem, 9vw, 3.6rem); font-weight: 700;
   color: var(--text);
@@ -71,6 +73,10 @@
   min-height: 1.1em;
 }
 .hero-prompt {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  margin-right: 0.15em;
   color: var(--accent);
   animation: caretBlink 1s step-end infinite;
 }

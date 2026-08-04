@@ -187,7 +187,8 @@ export default function HomePage() {
             />
             <p className="hero-label">Hello! I&apos;m</p>
             <h1 className="hero-name">
-              <span className="hero-prompt">&gt;</span> {heroName}
+              <span className="hero-prompt">&gt;_</span>
+              {heroName}
               {!heroNameDone && <span className="caret" />}
             </h1>
             <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
