@@ -9,6 +9,7 @@ import About from './pages/About/About'
 import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
+import NetworkTest from './pages/NetworkTest/NetworkTest'
 import NotFound from './pages/NotFound/NotFound'
 import YukihaPage from './member/yukiha/YukihaPage'
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/유틸리티/네트워크-테스트" element={<NetworkTest />} />
           <Route path="/member/yukiha" element={<YukihaPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>

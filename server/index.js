@@ -15,6 +15,9 @@ import adminAdmins from '../api/admin/admins.js'
 import adminSheet from '../api/admin/sheet.js'
 import adminCoinBalance from '../api/admin/coins/balance.js'
 import adminCoinAdjust from '../api/admin/coins/adjust.js'
+import networkTestIp from '../api/network-test/ip.js'
+import networkTestPing from '../api/network-test/ping.js'
+import networkTestDownload from '../api/network-test/download.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -31,7 +34,14 @@ function escapeHtml(str) {
 }
 
 function injectSeo(html, pathname) {
-  const meta = SEO_DATA[pathname] || SEO_DATA['/']
+  // req.path는 퍼센트 인코딩된 그대로 들어오므로(예: 한글 경로) 디코딩 후 조회한다.
+  let decodedPathname = pathname
+  try {
+    decodedPathname = decodeURIComponent(pathname)
+  } catch {
+    // 잘못된 인코딩이면 원본 그대로 사용
+  }
+  const meta = SEO_DATA[decodedPathname] || SEO_DATA['/']
   const fullTitle = escapeHtml(getFullTitle(meta.title))
   const description = escapeHtml(meta.description)
 
@@ -78,6 +88,9 @@ async function createServer() {
   app.get('/api/admin/sheet', adminSheet)
   app.get('/api/admin/coins/balance', adminCoinBalance)
   app.post('/api/admin/coins/adjust', adminCoinAdjust)
+  app.get('/api/network-test/ip', networkTestIp)
+  app.get('/api/network-test/ping', networkTestPing)
+  app.get('/api/network-test/download', networkTestDownload)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')
