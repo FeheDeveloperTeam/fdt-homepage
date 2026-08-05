@@ -85,6 +85,12 @@ export default function HomePage() {
         문제가 있다면 예상되는 원인을 알려드립니다.
       </p>
 
+      <p className="nettest-permission-notice">
+        테스트 중 브라우저가 "로컬 네트워크 기기에 접근" 권한을 요청할 수 있어요. 이 권한은
+        오직 공유기의 응답 속도(ms)를 측정하는 용도로만 사용되고, 그 외의 어떤 정보도 수집하거나
+        서버로 전송하지 않아요. 허용하지 않아도 나머지 측정 항목은 정상적으로 진행돼요.
+      </p>
+
       <div className="nettest-gauge-wrap">
         <SpeedGauge
           mbps={result?.speed?.mbps ?? null}

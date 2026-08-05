@@ -29,6 +29,18 @@
   color: var(--text-soft);
 }
 
+.nettest-permission-notice {
+  margin: 1.1rem auto 0;
+  max-width: 480px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
 .nettest-gauge-wrap {
   margin-top: 2.4rem;
 }
