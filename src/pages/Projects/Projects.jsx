@@ -5,17 +5,6 @@ import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
 import { SEO_DATA } from '../../seoData'
 import styles from './Projects.module.css'
 
-function IconGrid() {
-  return (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
-      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
-      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
-      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
-    </svg>
-  )
-}
-
 function IconBot() {
   return (
     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -38,7 +27,6 @@ function IconFolder() {
 }
 
 const CATEGORIES = [
-  { key: 'all', label: '전체', Icon: IconGrid },
   { key: 'discord-bot', label: '디스코드 봇', Icon: IconBot },
   { key: 'general', label: '일반 프로젝트', Icon: IconFolder },
 ]
@@ -72,11 +60,9 @@ const PROJECTS = [
 ]
 
 function Projects() {
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].key)
 
-  const visibleProjects = PROJECTS.filter(
-    (project) => activeCategory === 'all' || project.category === activeCategory,
-  )
+  const visibleProjects = PROJECTS.filter((project) => project.category === activeCategory)
 
   return (
     <section className={styles.projects}>

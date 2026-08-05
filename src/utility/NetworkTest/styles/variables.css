@@ -1,0 +1,39 @@
+@scope (.nettest-app) {
+  :scope {
+    /* ── surfaces (dark diagnostic HUD) ── */
+    --bg:        #0a0e14;
+    --bg-deep:   #05070a;
+    --surface:   #101720;
+    --surface-2: #141d29;
+    --card:      rgba(16, 23, 32, 0.85);
+
+    /* ── text ── */
+    --text:       #e8edf3;
+    --text-soft:  #a8b6c6;
+    --text-muted: #5b6b7f;
+
+    /* ── borders / shadow ── */
+    --border:      #1f2937;
+    --border-soft: rgba(56, 189, 248, 0.18);
+    --shadow:      rgba(0, 0, 0, 0.5);
+
+    /* ── accents (cyan HUD glow) ── */
+    --accent:      #38bdf8;
+    --accent-dim:  rgba(56, 189, 248, 0.12);
+    --accent-glow: #7dd3fc;
+
+    --ok:       #34d399;
+    --warning:  #fbbf24;
+    --critical: #f87171;
+
+    --font-mono: 'SFMono-Regular', 'JetBrains Mono', Menlo, Monaco, Consolas, 'D2Coding', monospace;
+    --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+
+    --header-h: 64px;
+    --footer-h: 52px;
+  }
+}

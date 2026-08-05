@@ -9,12 +9,12 @@ import About from './pages/About/About'
 import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
-import NetworkTest from './pages/NetworkTest/NetworkTest'
 import NotFound from './pages/NotFound/NotFound'
 import YukihaPage from './member/yukiha/YukihaPage'
 
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 const ChiyumiApp = lazy(() => import('./DiscordBot/Chiyumi/ChiyumiApp'))
+const NetworkTestApp = lazy(() => import('./utility/NetworkTest/NetworkTestApp'))
 
 // 예전 /fehe 경로로 들어오는 북마크/링크를 새 /member/fehe 경로로 보내준다.
 function RedirectToMemberFehe() {
@@ -45,7 +45,6 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/utility/network-test" element={<NetworkTest />} />
           <Route path="/member/yukiha" element={<YukihaPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
@@ -63,6 +62,14 @@ function App() {
           element={
             <Suspense fallback={null}>
               <ChiyumiApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/utility/network-test/*"
+          element={
+            <Suspense fallback={null}>
+              <NetworkTestApp />
             </Suspense>
           }
         />

@@ -1,0 +1,58 @@
+@scope (.nettest-app) {
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 1.5rem;
+  background: rgba(10, 14, 20, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nettest-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.nettest-back {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.nettest-back:hover {
+  color: var(--accent);
+}
+
+.nettest-header-divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+
+.nettest-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+@media (max-width: 480px) {
+  .nettest-back,
+  .nettest-header-divider {
+    display: none;
+  }
+}
+}
