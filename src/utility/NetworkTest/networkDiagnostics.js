@@ -1,8 +1,8 @@
 const PING_ATTEMPTS = 8
 const PING_TIMEOUT_MS = 3000
 const DOWNLOAD_CHUNK_BYTES = 3_000_000
-const DOWNLOAD_MIN_DURATION_MS = 2500
-const DOWNLOAD_MAX_ROUNDS = 5
+const DOWNLOAD_MIN_DURATION_MS = 10_000
+const DOWNLOAD_MAX_ROUNDS = 60
 
 function noStoreUrl(path) {
   return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}`

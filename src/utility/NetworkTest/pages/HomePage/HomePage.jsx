@@ -16,7 +16,7 @@ const STEP_LABELS = {
   ip: 'IP 주소 확인 중...',
   latency: '지연 시간 측정 중...',
   gateway: '공유기 접근 확인 중... (브라우저 권한 요청이 뜰 수 있어요)',
-  speed: '다운로드 속도 측정 중... (몇 초간 여러 번 측정해서 값을 정착시켜요)',
+  speed: '다운로드 속도 측정 중... (10초간 여러 번 측정해서 값을 정착시켜요)',
 }
 
 const SEVERITY_LABEL = { ok: '정상', warning: '주의', critical: '위험' }
