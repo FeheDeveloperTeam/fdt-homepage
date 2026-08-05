@@ -39,6 +39,10 @@
   transition: stroke-dashoffset 1.3s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.4s ease;
 }
 
+.speedGauge--live .speedGauge-progress {
+  transition: stroke-dashoffset 0.35s ease-out, stroke 0.4s ease;
+}
+
 .speedGauge-tick {
   stroke: var(--text-muted);
   stroke-width: 1.5;
@@ -61,6 +65,10 @@
 
 .speedGauge-needle--searching {
   animation: needleSearch 1.4s ease-in-out infinite alternate;
+}
+
+.speedGauge-needle--live {
+  transition: transform 0.35s ease-out;
 }
 
 @keyframes needleSearch {

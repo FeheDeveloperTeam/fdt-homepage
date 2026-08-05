@@ -1,6 +1,8 @@
 const PING_ATTEMPTS = 8
 const PING_TIMEOUT_MS = 3000
-const DOWNLOAD_BYTES = 2_000_000
+const DOWNLOAD_CHUNK_BYTES = 3_000_000
+const DOWNLOAD_MIN_DURATION_MS = 2500
+const DOWNLOAD_MAX_ROUNDS = 5
 
 function noStoreUrl(path) {
   return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}`
@@ -66,16 +68,59 @@ export async function runLatencyTest(attempts = PING_ATTEMPTS) {
   }
 }
 
-export async function runDownloadSpeedTest(bytes = DOWNLOAD_BYTES) {
-  const start = performance.now()
-  const res = await fetchWithTimeout(noStoreUrl(`/api/network-test?type=download&bytes=${bytes}`), {
-    timeoutMs: 15000,
-  })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const blob = await res.blob()
-  const seconds = (performance.now() - start) / 1000
-  const mbps = (blob.size * 8) / 1_000_000 / seconds
-  return { mbps, bytes: blob.size, seconds }
+// 한 번 받고 끝내지 않고 최소 DOWNLOAD_MIN_DURATION_MS 동안 여러 라운드로
+// 나눠 받는다 — 실제 회선 상태는 몇 초 사이에도 흔들리기 때문에, 순간 속도
+// 하나만 재면 우연히 튄 값을 그대로 보여줄 수 있다. onProgress로 매 순간
+// 속도를 흘려보내면 게이지 바늘이 스피드테스트처럼 실시간으로 움직이다가
+// 정착하는 것처럼 보인다.
+export async function runDownloadSpeedTest(onProgress) {
+  const testStart = performance.now()
+  let totalBytes = 0
+  let round = 0
+
+  while (round < DOWNLOAD_MAX_ROUNDS && performance.now() - testStart < DOWNLOAD_MIN_DURATION_MS) {
+    round += 1
+    const res = await fetchWithTimeout(
+      noStoreUrl(`/api/network-test?type=download&bytes=${DOWNLOAD_CHUNK_BYTES}`),
+      { timeoutMs: 15000 },
+    )
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+    if (!res.body || typeof res.body.getReader !== 'function') {
+      // 스트리밍 미지원 브라우저 — 라운드 단위 총량으로만 폴백.
+      const blob = await res.blob()
+      totalBytes += blob.size
+      continue
+    }
+
+    const reader = res.body.getReader()
+    let lastSampleTime = performance.now()
+    let lastSampleBytes = totalBytes
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      totalBytes += value.byteLength
+
+      const now = performance.now()
+      if (onProgress && now - lastSampleTime > 150) {
+        const intervalSeconds = (now - lastSampleTime) / 1000
+        const instantMbps = ((totalBytes - lastSampleBytes) * 8) / 1_000_000 / intervalSeconds
+        const elapsedSeconds = (now - testStart) / 1000
+        const avgMbps = (totalBytes * 8) / 1_000_000 / elapsedSeconds
+        // 순간 속도와 누적 평균을 섞어서, 바늘이 튀지 않고 서서히 정착하게 한다.
+        onProgress(instantMbps * 0.4 + avgMbps * 0.6)
+        lastSampleTime = now
+        lastSampleBytes = totalBytes
+      }
+    }
+  }
+
+  const seconds = (performance.now() - testStart) / 1000
+  const mbps = (totalBytes * 8) / 1_000_000 / seconds
+  onProgress?.(mbps)
+  return { mbps, bytes: totalBytes, seconds }
 }
 
 const COMMON_GATEWAY_IPS = ['192.168.1.1', '192.168.0.1', '192.168.1.254', '10.0.0.1', '192.168.29.1']
@@ -142,6 +187,31 @@ export function estimateConnectionType(latency) {
   if (latency.avg < 40 && latency.jitter < 8) return '유선일 가능성이 높음 (추정)'
   if (latency.jitter > 25) return '무선(Wi-Fi 등)일 가능성이 높음 (추정)'
   return '판단하기 어려움 (추정)'
+}
+
+const EFFECTIVE_TYPE_LABELS = {
+  'slow-2g': '2G 이하급',
+  '2g': '2G급',
+  '3g': '3G급',
+  '4g': '4G급 이상',
+}
+
+// 유선/무선 실측 정보(navigator.connection.type)는 최신 브라우저 대부분이
+// 개인정보 보호를 이유로 막아뒀다(거의 항상 'unknown'). 대신 아래 순서로
+// 구할 수 있는 것 중 제일 신뢰도 높은 값을 쓴다:
+// 1) 실제로 브라우저가 알려준 값 2) 브라우저가 보고하는 회선 등급/대역폭
+// 3) 우리 쪽 지연 시간 측정 기반 추정치
+export function describeConnection(connectionInfo, latency) {
+  if (connectionInfo.label) return connectionInfo.label
+
+  if (connectionInfo.effectiveType) {
+    const grade = EFFECTIVE_TYPE_LABELS[connectionInfo.effectiveType] || connectionInfo.effectiveType
+    const speedNote =
+      typeof connectionInfo.downlinkMbps === 'number' ? ` · 약 ${connectionInfo.downlinkMbps}Mbps` : ''
+    return `${grade}${speedNote} (브라우저 보고값)`
+  }
+
+  return estimateConnectionType(latency) || '확인 불가'
 }
 
 export function diagnose({ online, ip, latency, speed, speedError }) {

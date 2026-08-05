@@ -47,10 +47,11 @@ export default function SpeedGauge({ mbps, phase, step, severity }) {
     [],
   )
 
-  const searching = phase === 'running'
+  const measuringSpeed = phase === 'running' && step === 'speed'
+  const searching = phase === 'running' && !measuringSpeed
 
   return (
-    <div className={`speedGauge ${colorClass}`}>
+    <div className={`speedGauge ${colorClass}${measuringSpeed ? ' speedGauge--live' : ''}`}>
       <svg viewBox="0 0 220 128" className="speedGauge-svg">
         <path
           d={`M ${CENTER.x - RADIUS} ${CENTER.y} A ${RADIUS} ${RADIUS} 0 0 1 ${CENTER.x + RADIUS} ${CENTER.y}`}
@@ -76,7 +77,11 @@ export default function SpeedGauge({ mbps, phase, step, severity }) {
         ))}
 
         <g
-          className={`speedGauge-needle${searching ? ' speedGauge-needle--searching' : ''}`}
+          className={
+            'speedGauge-needle' +
+            (searching ? ' speedGauge-needle--searching' : '') +
+            (measuringSpeed ? ' speedGauge-needle--live' : '')
+          }
           style={searching ? undefined : { transform: `rotate(${needleAngle}deg)` }}
         >
           <line x1={CENTER.x} y1={CENTER.y} x2={CENTER.x} y2={CENTER.y - RADIUS + 14} />
