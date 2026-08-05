@@ -8,7 +8,6 @@ const NAV_LINKS = [
   { to: '/about', label: '팀 소개' },
   { to: '/services', label: '하는 일' },
   { to: '/projects', label: '프로젝트' },
-  { to: '/유틸리티/네트워크-테스트', label: '네트워크 테스트' },
   { to: '/contact', label: '문의' },
 ]
 

@@ -54,7 +54,7 @@ export const SEO_DATA = {
     title: '오류 코드 안내',
     description: '치유미 봇 사용 중 표시되는 오류 코드의 의미를 안내합니다.',
   },
-  '/유틸리티/네트워크-테스트': {
+  '/utility/network-test': {
     title: '네트워크 테스트',
     description: 'IP 주소, 지연 시간, 다운로드 속도를 측정해 내 인터넷 연결 상태를 진단합니다.',
   },

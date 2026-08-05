@@ -45,7 +45,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/유틸리티/네트워크-테스트" element={<NetworkTest />} />
+          <Route path="/utility/network-test" element={<NetworkTest />} />
           <Route path="/member/yukiha" element={<YukihaPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>

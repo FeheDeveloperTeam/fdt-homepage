@@ -11,7 +11,7 @@ import {
 } from './networkDiagnostics'
 import styles from './NetworkTest.module.css'
 
-const SEO_PATH = '/유틸리티/네트워크-테스트'
+const SEO_PATH = '/utility/network-test'
 
 const STEP_LABELS = {
   ip: 'IP 주소 확인 중...',

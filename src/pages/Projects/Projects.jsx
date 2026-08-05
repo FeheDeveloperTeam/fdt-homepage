@@ -5,10 +5,42 @@ import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
 import { SEO_DATA } from '../../seoData'
 import styles from './Projects.module.css'
 
+function IconGrid() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+    </svg>
+  )
+}
+
+function IconBot() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="4" y="8" width="16" height="11" rx="3" />
+      <path d="M12 8V4" strokeLinecap="round" />
+      <circle cx="12" cy="3" r="1.2" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="13.5" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="13.5" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M2.5 12v3M21.5 12v3" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconFolder() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M3.5 6.5a1.5 1.5 0 0 1 1.5-1.5h4.2l2 2.2H19a1.5 1.5 0 0 1 1.5 1.5v9.3a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V6.5Z" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 const CATEGORIES = [
-  { key: 'all', label: '전체' },
-  { key: 'discord-bot', label: '디스코드 봇' },
-  { key: 'general', label: '일반 프로젝트' },
+  { key: 'all', label: '전체', Icon: IconGrid },
+  { key: 'discord-bot', label: '디스코드 봇', Icon: IconBot },
+  { key: 'general', label: '일반 프로젝트', Icon: IconFolder },
 ]
 
 const PROJECTS = [
@@ -33,9 +65,9 @@ const PROJECTS = [
   {
     category: 'general',
     name: '네트워크 테스트',
-    description: SEO_DATA['/유틸리티/네트워크-테스트'].description,
+    description: SEO_DATA['/utility/network-test'].description,
     features: ['IP 주소 확인', '지연 시간 측정', '다운로드 속도 측정'],
-    link: '/유틸리티/네트워크-테스트',
+    link: '/utility/network-test',
   },
 ]
 
@@ -57,19 +89,25 @@ function Projects() {
         </p>
 
         <div className={styles.categoryTabs}>
-          {CATEGORIES.map((category) => (
-            <button
-              key={category.key}
-              type="button"
-              className={
-                styles.categoryTab +
-                (category.key === activeCategory ? ` ${styles.categoryTabActive}` : '')
-              }
-              onClick={() => setActiveCategory(category.key)}
-            >
-              {category.label}
-            </button>
-          ))}
+          {CATEGORIES.map((category) => {
+            const count =
+              category.key === 'all'
+                ? PROJECTS.length
+                : PROJECTS.filter((p) => p.category === category.key).length
+            const isActive = category.key === activeCategory
+            return (
+              <button
+                key={category.key}
+                type="button"
+                className={styles.categoryTab + (isActive ? ` ${styles.categoryTabActive}` : '')}
+                onClick={() => setActiveCategory(category.key)}
+              >
+                <category.Icon />
+                {category.label}
+                <span className={styles.categoryCount}>{count}</span>
+              </button>
+            )
+          })}
         </div>
 
         <div className={styles.list}>
