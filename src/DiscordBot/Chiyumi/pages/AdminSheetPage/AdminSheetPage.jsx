@@ -5,6 +5,8 @@ import '../AdminForm.css'
 import './AdminSheetPage.css'
 
 const SHEETS = ['코인', '레벨', '음성시간', '출석', '서버설정', '서버목록', '주식시세', '주식포트폴리오']
+const PAGE_SIZE = 20
+const PAGE_WINDOW = 4
 
 export default function AdminSheetPage() {
   useDocumentTitle('구글 시트', 'Chiyumi')
@@ -13,6 +15,7 @@ export default function AdminSheetPage() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [search, setSearch] = useState('')
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -39,6 +42,28 @@ export default function AdminSheetPage() {
     )
   }, [data, search])
 
+  const totalPages = Math.max(Math.ceil(filteredRows.length / PAGE_SIZE), 1)
+  const currentPage = Math.min(page, totalPages - 1)
+  const pagedRows = filteredRows.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
+
+  const pageNumbers = useMemo(() => {
+    const start = Math.max(0, Math.min(currentPage - Math.floor(PAGE_WINDOW / 2), totalPages - PAGE_WINDOW))
+    const from = Math.max(0, start)
+    const to = Math.min(totalPages, from + PAGE_WINDOW)
+    return Array.from({ length: to - from }, (_, i) => from + i)
+  }, [currentPage, totalPages])
+
+  function changeSheet(name) {
+    setActiveSheet(name)
+    setSearch('')
+    setPage(0)
+  }
+
+  function handleSearch(value) {
+    setSearch(value)
+    setPage(0)
+  }
+
   return (
     <div>
       <p className="eyebrow">Admin</p>
@@ -53,10 +78,7 @@ export default function AdminSheetPage() {
             key={name}
             type="button"
             className={'admin-sheet-tab' + (name === activeSheet ? ' admin-sheet-tab--active' : '')}
-            onClick={() => {
-              setActiveSheet(name)
-              setSearch('')
-            }}
+            onClick={() => changeSheet(name)}
           >
             {name}
           </button>
@@ -68,7 +90,7 @@ export default function AdminSheetPage() {
         className="admin-sheet-search"
         placeholder="검색 (유저ID, 서버ID 등)"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value)}
         disabled={!data}
       />
 
@@ -91,8 +113,8 @@ export default function AdminSheetPage() {
                 </tr>
               </thead>
               <tbody>
-                {filteredRows.map((row, i) => (
-                  <tr key={i}>
+                {pagedRows.map((row, i) => (
+                  <tr key={currentPage * PAGE_SIZE + i}>
                     {data.header.map((_, j) => (
                       <td key={j}>{row[j] ?? ''}</td>
                     ))}
@@ -101,6 +123,39 @@ export default function AdminSheetPage() {
               </tbody>
             </table>
           </div>
+
+          {totalPages > 1 && (
+            <div className="admin-sheet-pager">
+              <button
+                type="button"
+                className="admin-sheet-page-btn"
+                onClick={() => setPage(currentPage - 1)}
+                disabled={currentPage === 0}
+              >
+                ‹
+              </button>
+              {pageNumbers.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  className={
+                    'admin-sheet-page-btn' + (n === currentPage ? ' admin-sheet-page-btn--active' : '')
+                  }
+                  onClick={() => setPage(n)}
+                >
+                  {n + 1}
+                </button>
+              ))}
+              <button
+                type="button"
+                className="admin-sheet-page-btn"
+                onClick={() => setPage(currentPage + 1)}
+                disabled={currentPage === totalPages - 1}
+              >
+                ›
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

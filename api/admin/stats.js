@@ -1,9 +1,10 @@
 import { requireAdmin } from '../_lib/adminAuth.js'
 import { getSupabase } from '../_lib/supabase.js'
-import { discordApi } from '../_lib/discordApi.js'
+import { discordApi, fetchDiscordProfile } from '../_lib/discordApi.js'
+import { getSheetValues } from '../_lib/googleSheets.js'
 
-const MEMORIES_DAYS = 14
 const TOP_GUILD_LIMIT = 8
+const TOP_COIN_LIMIT = 8
 const FALLBACK_GUILD_LIMIT = 25
 const CACHE_TTL_MS = 60 * 1000
 
@@ -28,26 +29,21 @@ async function fetchGuilds() {
   return [...withCounts, ...guilds.slice(FALLBACK_GUILD_LIMIT)]
 }
 
-async function fetchMemoriesPerDay(days) {
-  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString()
-  const { data, error } = await getSupabase()
-    .from('memories')
-    .select('created_at')
-    .gte('created_at', since)
-    .order('created_at', { ascending: true })
-    .limit(5000)
-  if (error) throw new Error(`기억 데이터 조회 실패: ${error.message}`)
+async function fetchTopCoinHolders() {
+  const { rows } = await getSheetValues('코인')
+  const top = rows
+    .map(([id, balance]) => ({ id, balance: Number(balance) || 0 }))
+    .filter((r) => r.id)
+    .sort((a, b) => b.balance - a.balance)
+    .slice(0, TOP_COIN_LIMIT)
 
-  const buckets = new Map()
-  for (let i = days - 1; i >= 0; i--) {
-    const key = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
-    buckets.set(key, 0)
-  }
-  for (const row of data) {
-    const key = row.created_at.slice(0, 10)
-    if (buckets.has(key)) buckets.set(key, buckets.get(key) + 1)
-  }
-  return Array.from(buckets, ([date, count]) => ({ date, count }))
+  const profiles = await Promise.all(top.map((r) => fetchDiscordProfile(r.id)))
+  return top.map((r, i) => ({
+    id: r.id,
+    name: profiles[i].username,
+    icon: profiles[i].avatar,
+    value: r.balance,
+  }))
 }
 
 async function fetchRestrictedCount() {
@@ -76,9 +72,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const [guilds, memoriesPerDay, restrictedCount] = await Promise.all([
+    const [guilds, topCoinHolders, restrictedCount] = await Promise.all([
       fetchGuilds(),
-      fetchMemoriesPerDay(MEMORIES_DAYS),
+      fetchTopCoinHolders(),
       fetchRestrictedCount(),
     ])
 
@@ -98,7 +94,7 @@ export default async function handler(req, res) {
       totalMembers,
       restrictedCount,
       topGuilds,
-      memoriesPerDay,
+      topCoinHolders,
     }
     cache = payload
     cacheAt = Date.now()
