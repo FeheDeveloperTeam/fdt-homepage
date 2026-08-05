@@ -39,6 +39,7 @@ const PROJECTS = [
     photo: chiyumiPhoto,
     description: '서버 운영과 놀이 기능을 함께 제공하는 디스코드 봇입니다.',
     features: [
+      { label: 'AI 채팅 · 기억', featured: true },
       '인증 · 티켓 · 로그 · 검열',
       '출석 · 코인 · 도박 미니게임',
       '고양이 키우기',
@@ -117,11 +118,18 @@ function Projects() {
                 <p className={styles.cardDescription}>{project.description}</p>
 
                 <div className={styles.features}>
-                  {project.features.map((feature) => (
-                    <span key={feature} className={styles.featureTag}>
-                      {feature}
-                    </span>
-                  ))}
+                  {project.features.map((feature) => {
+                    const label = typeof feature === 'string' ? feature : feature.label
+                    const featured = typeof feature === 'object' && feature.featured
+                    return (
+                      <span
+                        key={label}
+                        className={styles.featureTag + (featured ? ` ${styles.featureTagFeatured}` : '')}
+                      >
+                        {label}
+                      </span>
+                    )
+                  })}
                 </div>
 
                 <div className={styles.actions}>

@@ -140,13 +140,39 @@
 }
 
 .featureTag {
+  display: inline-block;
   font-size: 13px;
-  color: var(--color-text-muted);
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease,
+    background 0.15s ease;
 }
 
-.featureTag::before {
-  content: '· ';
-  color: var(--color-border);
+.featureTag:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-bg);
+  transform: translateY(-1px);
+}
+
+.featureTagFeatured {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 9px 18px;
+  color: #fff;
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  box-shadow: 0 6px 18px rgba(61, 127, 209, 0.32);
+}
+
+.featureTagFeatured:hover {
+  color: #fff;
+  border-color: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
 }
 
 .actions {
