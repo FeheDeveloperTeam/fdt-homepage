@@ -147,6 +147,7 @@ const ERROR_GROUPS = [
       ['MEM-001', '기억 저장 중 오류가 발생했습니다 (Supabase 연결 문제). 잠시 후 다시 시도해주세요.'],
       ['MEM-002', '기억 삭제 중 오류가 발생했습니다 (Supabase 연결 문제). 잠시 후 다시 시도해주세요.'],
       ['MEM-003', '기억 수정 중 오류가 발생했습니다 (Supabase 연결 문제). 잠시 후 다시 시도해주세요.'],
+      ['MEM-004', '기억 목록 조회 중 오류가 발생했습니다 (Supabase 연결 문제). 잠시 후 다시 시도해주세요.'],
     ],
   },
   {
@@ -182,7 +183,7 @@ export default function ErrorsPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 오류 코드 안내</h1>
-      <p className="doc-date">최종 수정일: 2026-07-28</p>
+      <p className="doc-date">최종 수정일: 2026-08-05</p>
       <p className="doc-intro">
         치유미 사용 중 메시지 끝에 <span className="doc-code">(오류 코드: XXX-000)</span> 형태로
         표시되는 코드의 의미를 정리한 페이지입니다. 문의 시 이 코드를 함께 알려주시면 더 빠르게

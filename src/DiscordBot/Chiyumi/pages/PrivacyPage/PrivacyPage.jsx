@@ -15,6 +15,7 @@ const COLLECTED_ITEMS = [
   '서버 관리자가 레이드 검열을 켠 경우, 레이드 감지 시 입장한 멤버의 사용자 ID 및 태그(관리자 알림 채널 및 로그 채널에만 전송, 별도 영구 저장 없음)',
   '/문의로 제출한 신고·피드백·버그 신고 내용(작성자, 서버 이름, 서버 주소, 내용)',
   '"유미야"로 시작하는 대화 메시지의 채널 ID, 발화자 사용자 ID, 메시지 내용 — AI 응답 생성을 위해 Groq API에 전달되며, 채널별 대화 맥락은 메모리에만 임시 보관되고 봇 재시작 시 초기화됨',
+  '"유미야 기억해"로 저장한 기억 내용 — 계정 단위로 Supabase에 영구 저장되며, 이후 AI 대화에 자동 반영됨(최대 10개, 개발자 무제한)',
   '운영자가 이용제한을 적용한 사용자의 ID, 제한 사유, 제한 시각, 제한을 적용한 운영자 정보',
 ]
 
@@ -43,7 +44,7 @@ export default function PrivacyPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 개인정보 처리방침</h1>
-      <p className="doc-date">최종 수정일: 2026-07-28</p>
+      <p className="doc-date">최종 수정일: 2026-08-05</p>
 
       <section className="doc-section">
         <h2>1. 수집하는 정보</h2>
@@ -76,7 +77,7 @@ export default function PrivacyPage() {
 
       <section className="doc-section">
         <h2>4. 정보 보관 및 위치</h2>
-        <p>데이터는 봇이 실행되는 서버의 로컬 저장소(JSON 파일)에 보관되며, 전적검색 조회 결과는 최대 10분간 메모리에만 임시 보관됩니다. 구글 시트 백업이 설정된 경우 동일한 데이터의 사본이 운영자 소유의 비공개 구글 시트에도 보관됩니다.</p>
+        <p>데이터는 봇이 실행되는 서버의 로컬 저장소(JSON 파일)에 보관되며, 전적검색 조회 결과는 최대 10분간 메모리에만 임시 보관됩니다. AI 기억 기능("유미야 기억해")으로 저장된 데이터는 Supabase(Supabase Inc.)에 보관됩니다. 구글 시트 백업이 설정된 경우 동일한 데이터의 사본이 운영자 소유의 비공개 구글 시트에도 보관됩니다.</p>
       </section>
 
       <section className="doc-section">
