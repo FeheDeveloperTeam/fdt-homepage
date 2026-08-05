@@ -6,18 +6,20 @@ function Hero() {
     <section className={styles.hero}>
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>Fehe Developer Team</p>
-          <h1 className={styles.title}>
+          <p className={`${styles.eyebrow} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 0 }}>
+            Fehe Developer Team
+          </p>
+          <h1 className={`${styles.title} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 1 }}>
             디스코드 봇부터 웹까지
             <br />
             우리 손으로 직접 기획하고 만드는 팀
           </h1>
-          <p className={styles.subtitle}>
+          <p className={`${styles.subtitle} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
             필요하다고 생각한 디스코드 봇과 웹 서비스를 팀 내에서 직접 기획하고,
             만들고, 운영합니다.
           </p>
 
-          <div className={styles.actions}>
+          <div className={`${styles.actions} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 3 }}>
             <Link to="/projects" className={styles.primaryButton}>
               프로젝트 보러가기
             </Link>
@@ -27,7 +29,7 @@ function Hero() {
           </div>
         </div>
 
-        <dl className={styles.stats}>
+        <dl className={`${styles.stats} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 4 }}>
           <div className={styles.stat}>
             <dt>운영 중인 봇</dt>
             <dd>치유미</dd>

@@ -72,3 +72,27 @@ p:where(:not(.fehe-app, .fehe-app *)) {
   margin: 0;
   color: var(--color-text-muted);
 }
+
+/* ── 스크롤/마운트 등장 애니메이션 (메인 FDT 사이트 전용) ── */
+@keyframes fdtRevealUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fdt-reveal {
+  opacity: 0;
+}
+
+.fdt-reveal-visible {
+  animation: fdtRevealUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--reveal-i, 0) * 90ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fdt-reveal {
+    opacity: 1;
+  }
+  .fdt-reveal-visible {
+    animation: none;
+  }
+}

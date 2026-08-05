@@ -100,10 +100,17 @@
 
 .card {
   border-top: 1px solid var(--color-border);
-  padding-top: 40px;
+  padding: 40px 20px 12px;
+  margin: 0 -20px;
+  border-radius: var(--radius-md);
   display: flex;
   gap: 32px;
   align-items: flex-start;
+  transition: background 0.2s ease;
+}
+
+.card:hover {
+  background: var(--color-surface);
 }
 
 .photo {
@@ -156,7 +163,8 @@
   font-weight: 600;
   padding: 11px 20px;
   border-radius: var(--radius-md);
-  transition: opacity 0.15s ease, border-color 0.15s ease;
+  transition: opacity 0.15s ease, border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .inviteButton {
@@ -165,7 +173,9 @@
 }
 
 .inviteButton:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(88, 101, 242, 0.32);
 }
 
 .githubButton {
@@ -175,6 +185,7 @@
 
 .githubButton:hover {
   border-color: var(--color-text-muted);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 640px) {

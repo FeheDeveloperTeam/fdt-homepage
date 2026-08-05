@@ -45,8 +45,15 @@
 }
 
 .info {
-  padding: 28px 0;
+  padding: 28px 16px;
+  margin: 0 -16px;
   border-top: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+
+.info:hover {
+  background: var(--color-surface);
 }
 
 .info:last-child {
@@ -73,9 +80,11 @@
   font-weight: 600;
   padding: 11px 22px;
   border-radius: var(--radius-md);
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .discordButton:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(88, 101, 242, 0.32);
 }

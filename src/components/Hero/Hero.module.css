@@ -64,7 +64,9 @@
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  display: inline-block;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+    transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .primaryButton {
@@ -74,6 +76,8 @@
 
 .primaryButton:hover {
   background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(61, 127, 209, 0.28);
 }
 
 .secondaryButton {
@@ -84,6 +88,7 @@
 .secondaryButton:hover {
   border-color: var(--color-text-muted);
   color: var(--color-text);
+  transform: translateY(-2px);
 }
 
 .stats {

@@ -1,4 +1,5 @@
 import Seo from '../../components/Seo/Seo'
+import RevealItem from '../../components/RevealItem/RevealItem'
 import { SEO_DATA } from '../../seoData'
 import styles from './Services.module.css'
 
@@ -41,20 +42,24 @@ function Services() {
     <section className={styles.services}>
       <Seo {...SEO_DATA['/services']} path="/services" />
       <div className={styles.inner}>
-        <p className={styles.eyebrow}>What We Build</p>
-        <h1 className={styles.title}>하는 일 & 기술 스택</h1>
-        <p className={styles.description}>
+        <p className={`${styles.eyebrow} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 0 }}>
+          What We Build
+        </p>
+        <h1 className={`${styles.title} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 1 }}>
+          하는 일 & 기술 스택
+        </h1>
+        <p className={`${styles.description} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
           FDT는 디스코드 봇 개발과 웹 개발을 중심으로, 팀에 필요하다고 판단한
           프로젝트를 직접 기획하고 만듭니다.
         </p>
 
         <div className={styles.grid}>
           {SERVICES.map((service, index) => (
-            <div key={service.title} className={styles.card}>
+            <RevealItem key={service.title} index={index} className={styles.card}>
               <span className={styles.cardIndex}>{String(index + 1).padStart(2, '0')}</span>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-            </div>
+            </RevealItem>
           ))}
         </div>
 
@@ -64,13 +69,18 @@ function Services() {
 
           <ol className={styles.processList}>
             {PROCESS.map((step, index) => (
-              <li key={step.title} className={styles.processStep}>
+              <RevealItem
+                key={step.title}
+                index={index}
+                as="li"
+                className={styles.processStep}
+              >
                 <span className={styles.processIndex}>{String(index + 1).padStart(2, '0')}</span>
                 <div>
                   <h3>{step.title}</h3>
                   <p>{step.description}</p>
                 </div>
-              </li>
+              </RevealItem>
             ))}
           </ol>
         </div>
@@ -78,8 +88,8 @@ function Services() {
         <div className={styles.stackSection}>
           <p className={styles.subEyebrow}>Tech Stack</p>
           <div className={styles.stackGroups}>
-            {STACK_GROUPS.map((group) => (
-              <div key={group.label} className={styles.stackGroup}>
+            {STACK_GROUPS.map((group, index) => (
+              <RevealItem key={group.label} index={index} className={styles.stackGroup}>
                 <span className={styles.stackLabel}>{group.label}</span>
                 <div className={styles.stackItems}>
                   {group.items.map((tech) => (
@@ -88,7 +98,7 @@ function Services() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </RevealItem>
             ))}
           </div>
         </div>

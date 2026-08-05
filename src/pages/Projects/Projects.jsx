@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
+import RevealItem from '../../components/RevealItem/RevealItem'
 import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
 import { SEO_DATA } from '../../seoData'
 import styles from './Projects.module.css'
@@ -68,18 +69,22 @@ function Projects() {
     <section className={styles.projects}>
       <Seo {...SEO_DATA['/projects']} path="/projects" />
       <div className={styles.inner}>
-        <p className={styles.eyebrow}>Projects</p>
-        <h1 className={styles.title}>프로젝트</h1>
-        <p className={styles.description}>
+        <p className={`${styles.eyebrow} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 0 }}>
+          Projects
+        </p>
+        <h1 className={`${styles.title} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 1 }}>
+          프로젝트
+        </h1>
+        <p className={`${styles.description} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
           FDT가 직접 운영하고 있는 프로젝트를 소개합니다.
         </p>
 
-        <div className={styles.categoryTabs}>
+        <div
+          className={`${styles.categoryTabs} fdt-reveal fdt-reveal-visible`}
+          style={{ '--reveal-i': 3 }}
+        >
           {CATEGORIES.map((category) => {
-            const count =
-              category.key === 'all'
-                ? PROJECTS.length
-                : PROJECTS.filter((p) => p.category === category.key).length
+            const count = PROJECTS.filter((p) => p.category === category.key).length
             const isActive = category.key === activeCategory
             return (
               <button
@@ -97,8 +102,8 @@ function Projects() {
         </div>
 
         <div className={styles.list}>
-          {visibleProjects.map((project) => (
-            <div key={project.name} className={styles.card}>
+          {visibleProjects.map((project, index) => (
+            <RevealItem key={project.name} index={index} className={styles.card}>
               {project.photo && (
                 <img
                   src={project.photo}
@@ -152,7 +157,7 @@ function Projects() {
                   )}
                 </div>
               </div>
-            </div>
+            </RevealItem>
           ))}
         </div>
       </div>
