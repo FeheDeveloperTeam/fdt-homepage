@@ -23,7 +23,7 @@ export default function AdminCoinCheckPage() {
     setStatus(null)
     setBalance(null)
     try {
-      const data = await callAdminApi(`/api/admin/coins/balance?userId=${encodeURIComponent(targetId)}`)
+      const data = await callAdminApi(`/api/admin/coins?userId=${encodeURIComponent(targetId)}`)
       setBalance(data.balance)
     } catch (err) {
       setStatus({ type: 'error', text: err.message })

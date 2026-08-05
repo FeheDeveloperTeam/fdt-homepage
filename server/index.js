@@ -7,17 +7,12 @@ import discordLogin from '../api/auth/discord/login.js'
 import discordCallback from '../api/auth/discord/callback.js'
 import authMe from '../api/auth/me.js'
 import authLogout from '../api/auth/logout.js'
-import adminRestrict from '../api/admin/restrict.js'
-import adminUnrestrict from '../api/admin/unrestrict.js'
-import adminRestriction from '../api/admin/restriction.js'
+import adminRestrictions from '../api/admin/restrictions.js'
 import adminStats from '../api/admin/stats.js'
 import adminAdmins from '../api/admin/admins.js'
 import adminSheet from '../api/admin/sheet.js'
-import adminCoinBalance from '../api/admin/coins/balance.js'
-import adminCoinAdjust from '../api/admin/coins/adjust.js'
-import networkTestIp from '../api/network-test/ip.js'
-import networkTestPing from '../api/network-test/ping.js'
-import networkTestDownload from '../api/network-test/download.js'
+import adminCoins from '../api/admin/coins.js'
+import networkTest from '../api/network-test.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -78,19 +73,17 @@ async function createServer() {
   app.get('/api/auth/discord/callback', discordCallback)
   app.get('/api/auth/me', authMe)
   app.get('/api/auth/logout', authLogout)
-  app.post('/api/admin/restrict', adminRestrict)
-  app.post('/api/admin/unrestrict', adminUnrestrict)
-  app.get('/api/admin/restriction', adminRestriction)
+  app.get('/api/admin/restrictions', adminRestrictions)
+  app.post('/api/admin/restrictions', adminRestrictions)
+  app.delete('/api/admin/restrictions', adminRestrictions)
   app.get('/api/admin/stats', adminStats)
   app.get('/api/admin/admins', adminAdmins)
   app.post('/api/admin/admins', adminAdmins)
   app.delete('/api/admin/admins', adminAdmins)
   app.get('/api/admin/sheet', adminSheet)
-  app.get('/api/admin/coins/balance', adminCoinBalance)
-  app.post('/api/admin/coins/adjust', adminCoinAdjust)
-  app.get('/api/network-test/ip', networkTestIp)
-  app.get('/api/network-test/ping', networkTestPing)
-  app.get('/api/network-test/download', networkTestDownload)
+  app.get('/api/admin/coins', adminCoins)
+  app.post('/api/admin/coins', adminCoins)
+  app.get('/api/network-test', networkTest)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

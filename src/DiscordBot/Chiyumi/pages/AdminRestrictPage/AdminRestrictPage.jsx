@@ -22,7 +22,7 @@ export default function AdminRestrictPage() {
     setBusy(true)
     setStatus(null)
     try {
-      await callAdminApi('/api/admin/restrict', {
+      await callAdminApi('/api/admin/restrictions', {
         method: 'POST',
         body: JSON.stringify({ userId: targetId, reason: reason.trim() }),
       })

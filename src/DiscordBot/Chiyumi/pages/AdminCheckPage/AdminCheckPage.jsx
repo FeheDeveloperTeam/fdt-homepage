@@ -24,7 +24,7 @@ export default function AdminCheckPage() {
     setResult(null)
     try {
       const data = await callAdminApi(
-        `/api/admin/restriction?userId=${encodeURIComponent(targetId)}`,
+        `/api/admin/restrictions?userId=${encodeURIComponent(targetId)}`,
       )
       setResult(data)
       setStatus({

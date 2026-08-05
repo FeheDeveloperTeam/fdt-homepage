@@ -21,9 +21,8 @@ export default function AdminUnrestrictPage() {
     setBusy(true)
     setStatus(null)
     try {
-      const data = await callAdminApi('/api/admin/unrestrict', {
-        method: 'POST',
-        body: JSON.stringify({ userId: targetId }),
+      const data = await callAdminApi(`/api/admin/restrictions?userId=${encodeURIComponent(targetId)}`, {
+        method: 'DELETE',
       })
       setStatus({
         type: 'success',

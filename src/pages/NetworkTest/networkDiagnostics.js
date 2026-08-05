@@ -18,7 +18,7 @@ async function fetchWithTimeout(url, { timeoutMs = PING_TIMEOUT_MS } = {}) {
 
 export async function fetchPublicIp() {
   try {
-    const res = await fetchWithTimeout(noStoreUrl('/api/network-test/ip'), { timeoutMs: 5000 })
+    const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ip'), { timeoutMs: 5000 })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data = await res.json()
     return data.ip || null
@@ -41,7 +41,7 @@ export async function runLatencyTest(attempts = PING_ATTEMPTS) {
   for (let i = 0; i < attempts; i += 1) {
     const start = performance.now()
     try {
-      const res = await fetchWithTimeout(noStoreUrl('/api/network-test/ping'))
+      const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ping'))
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       await res.json()
       samples.push(performance.now() - start)
@@ -68,7 +68,7 @@ export async function runLatencyTest(attempts = PING_ATTEMPTS) {
 
 export async function runDownloadSpeedTest(bytes = DOWNLOAD_BYTES) {
   const start = performance.now()
-  const res = await fetchWithTimeout(noStoreUrl(`/api/network-test/download?bytes=${bytes}`), {
+  const res = await fetchWithTimeout(noStoreUrl(`/api/network-test?type=download&bytes=${bytes}`), {
     timeoutMs: 15000,
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)

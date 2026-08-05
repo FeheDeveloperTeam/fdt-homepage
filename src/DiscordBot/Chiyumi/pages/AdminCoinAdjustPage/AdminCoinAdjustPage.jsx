@@ -27,7 +27,7 @@ export default function AdminCoinAdjustPage() {
     setBusy(true)
     setStatus(null)
     try {
-      const data = await callAdminApi('/api/admin/coins/adjust', {
+      const data = await callAdminApi('/api/admin/coins', {
         method: 'POST',
         body: JSON.stringify({ userId: targetId, delta: sign * parsed }),
       })
