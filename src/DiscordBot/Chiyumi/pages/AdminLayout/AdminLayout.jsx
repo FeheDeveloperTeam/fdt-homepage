@@ -16,6 +16,13 @@ const MENU = [
     ],
   },
   {
+    label: '코인 관리',
+    items: [
+      { label: '코인 조회', to: '/DiscordBot/Chiyumi/admin/coins/check' },
+      { label: '코인 지급/차감', to: '/DiscordBot/Chiyumi/admin/coins/adjust' },
+    ],
+  },
+  {
     label: '데이터 조회',
     items: [{ label: '구글 시트', to: '/DiscordBot/Chiyumi/admin/sheets' }],
   },

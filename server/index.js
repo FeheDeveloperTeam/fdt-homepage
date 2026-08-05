@@ -13,6 +13,8 @@ import adminRestriction from '../api/admin/restriction.js'
 import adminStats from '../api/admin/stats.js'
 import adminAdmins from '../api/admin/admins.js'
 import adminSheet from '../api/admin/sheet.js'
+import adminCoinBalance from '../api/admin/coins/balance.js'
+import adminCoinAdjust from '../api/admin/coins/adjust.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -74,6 +76,8 @@ async function createServer() {
   app.post('/api/admin/admins', adminAdmins)
   app.delete('/api/admin/admins', adminAdmins)
   app.get('/api/admin/sheet', adminSheet)
+  app.get('/api/admin/coins/balance', adminCoinBalance)
+  app.post('/api/admin/coins/adjust', adminCoinAdjust)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

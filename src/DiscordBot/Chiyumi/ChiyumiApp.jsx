@@ -9,6 +9,8 @@ import AdminUnrestrictPage from './pages/AdminUnrestrictPage/AdminUnrestrictPage
 import AdminCheckPage from './pages/AdminCheckPage/AdminCheckPage'
 import AdminManagePage from './pages/AdminManagePage/AdminManagePage'
 import AdminSheetPage from './pages/AdminSheetPage/AdminSheetPage'
+import AdminCoinCheckPage from './pages/AdminCoinCheckPage/AdminCoinCheckPage'
+import AdminCoinAdjustPage from './pages/AdminCoinAdjustPage/AdminCoinAdjustPage'
 import TermsPage from './pages/TermsPage/TermsPage'
 import PrivacyPage from './pages/PrivacyPage/PrivacyPage'
 import ErrorsPage from './pages/ErrorsPage/ErrorsPage'
@@ -29,6 +31,8 @@ export default function ChiyumiApp() {
             <Route path="check" element={<AdminCheckPage />} />
             <Route path="admins" element={<AdminManagePage />} />
             <Route path="sheets" element={<AdminSheetPage />} />
+            <Route path="coins/check" element={<AdminCoinCheckPage />} />
+            <Route path="coins/adjust" element={<AdminCoinAdjustPage />} />
           </Route>
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
