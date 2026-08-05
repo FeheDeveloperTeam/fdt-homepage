@@ -12,6 +12,7 @@ import adminUnrestrict from '../api/admin/unrestrict.js'
 import adminRestriction from '../api/admin/restriction.js'
 import adminStats from '../api/admin/stats.js'
 import adminAdmins from '../api/admin/admins.js'
+import adminSheet from '../api/admin/sheet.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -72,6 +73,7 @@ async function createServer() {
   app.get('/api/admin/admins', adminAdmins)
   app.post('/api/admin/admins', adminAdmins)
   app.delete('/api/admin/admins', adminAdmins)
+  app.get('/api/admin/sheet', adminSheet)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

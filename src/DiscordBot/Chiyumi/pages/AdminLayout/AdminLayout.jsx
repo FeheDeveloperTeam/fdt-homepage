@@ -16,6 +16,10 @@ const MENU = [
     ],
   },
   {
+    label: '데이터 조회',
+    items: [{ label: '구글 시트', to: '/DiscordBot/Chiyumi/admin/sheets' }],
+  },
+  {
     label: '팀 관리',
     items: [{ label: '관리자 관리', to: '/DiscordBot/Chiyumi/admin/admins' }],
   },

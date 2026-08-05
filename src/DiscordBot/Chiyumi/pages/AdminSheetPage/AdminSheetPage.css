@@ -1,0 +1,90 @@
+@scope (.chiyumi-app) {
+.admin-sheet-tabs {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.admin-sheet-tab {
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.admin-sheet-tab:hover {
+  border-color: var(--accent);
+}
+.admin-sheet-tab--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.admin-sheet-search {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 320px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.admin-sheet-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.admin-sheet-count {
+  margin-top: 0.7rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.admin-sheet-table-wrap {
+  margin-top: 0.6rem;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+}
+
+.admin-sheet-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.admin-sheet-table th,
+.admin-sheet-table td {
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.admin-sheet-table th {
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+}
+
+.admin-sheet-table tbody tr:hover {
+  background: var(--accent-dim);
+}
+
+.admin-sheet-table tbody tr:last-child td {
+  border-bottom: none;
+}
+}
