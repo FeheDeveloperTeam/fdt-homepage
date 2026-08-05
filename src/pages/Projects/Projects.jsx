@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
 import RevealItem from '../../components/RevealItem/RevealItem'
 import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
@@ -62,13 +61,20 @@ const PROJECTS = [
 ]
 
 function Projects() {
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].key)
+  const { category } = useParams()
+  const isValidCategory = CATEGORIES.some((c) => c.key === category)
 
+  if (!isValidCategory) {
+    return <Navigate to={`/projects/${CATEGORIES[0].key}`} replace />
+  }
+
+  const activeCategory = category
   const visibleProjects = PROJECTS.filter((project) => project.category === activeCategory)
+  const seoPath = `/projects/${activeCategory}`
 
   return (
     <section className={styles.projects}>
-      <Seo {...SEO_DATA['/projects']} path="/projects" />
+      <Seo {...SEO_DATA[seoPath]} path={seoPath} />
       <div className={styles.inner}>
         <p className={`${styles.eyebrow} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 0 }}>
           Projects
@@ -84,20 +90,19 @@ function Projects() {
           className={`${styles.categoryTabs} fdt-reveal fdt-reveal-visible`}
           style={{ '--reveal-i': 3 }}
         >
-          {CATEGORIES.map((category) => {
-            const count = PROJECTS.filter((p) => p.category === category.key).length
-            const isActive = category.key === activeCategory
+          {CATEGORIES.map((cat) => {
+            const count = PROJECTS.filter((p) => p.category === cat.key).length
+            const isActive = cat.key === activeCategory
             return (
-              <button
-                key={category.key}
-                type="button"
+              <Link
+                key={cat.key}
+                to={`/projects/${cat.key}`}
                 className={styles.categoryTab + (isActive ? ` ${styles.categoryTabActive}` : '')}
-                onClick={() => setActiveCategory(category.key)}
               >
-                <category.Icon />
-                {category.label}
+                <cat.Icon />
+                {cat.label}
                 <span className={styles.categoryCount}>{count}</span>
-              </button>
+              </Link>
             )
           })}
         </div>

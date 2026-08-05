@@ -18,6 +18,14 @@ export const SEO_DATA = {
     title: '프로젝트',
     description: 'FDT가 직접 운영하는 디스코드 봇 치유미(Chiyumi)를 소개합니다.',
   },
+  '/projects/discord-bot': {
+    title: '디스코드 봇 프로젝트',
+    description: 'FDT가 직접 운영하는 디스코드 봇 치유미(Chiyumi)를 소개합니다.',
+  },
+  '/projects/general': {
+    title: '일반 프로젝트',
+    description: 'FDT가 직접 만든 웹 유틸리티 등 일반 프로젝트를 소개합니다.',
+  },
   '/contact': {
     title: '문의',
     description: 'FeheDeveloperTeam(FDT)에 문의하거나 커뮤니티에 참여해보세요. Discord와 이메일로 연락하실 수 있습니다.',
