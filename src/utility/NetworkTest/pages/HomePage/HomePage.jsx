@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import {
+  checkGatewayAccess,
   detectConnectionInfo,
   diagnose,
   estimateConnectionType,
@@ -14,6 +15,7 @@ import './HomePage.css'
 const STEP_LABELS = {
   ip: 'IP 주소 확인 중...',
   latency: '지연 시간 측정 중...',
+  gateway: '공유기 접근 확인 중... (브라우저 권한 요청이 뜰 수 있어요)',
   speed: '다운로드 속도 측정 중...',
 }
 
@@ -46,6 +48,9 @@ export default function HomePage() {
       setStep('latency')
       const latency = await runLatencyTest()
 
+      setStep('gateway')
+      const gateway = await checkGatewayAccess()
+
       setStep('speed')
       let speed = null
       let speedError = false
@@ -58,7 +63,7 @@ export default function HomePage() {
       const diagnosis = diagnose({ online, ip, latency, speed, speedError })
       const estimatedType = connectionInfo.label ? null : estimateConnectionType(latency)
 
-      setResult({ ip, online, connectionInfo, estimatedType, latency, speed, diagnosis })
+      setResult({ ip, online, connectionInfo, estimatedType, latency, gateway, speed, diagnosis })
       setStatus('done')
     } catch (err) {
       console.error('[network-test]', err)
@@ -84,6 +89,7 @@ export default function HomePage() {
         <SpeedGauge
           mbps={result?.speed?.mbps ?? null}
           phase={gaugePhase}
+          step={step}
           severity={result?.diagnosis?.severity ?? null}
         />
       </div>
@@ -127,6 +133,14 @@ export default function HomePage() {
               ['지터 (변동폭)', formatMs(result.latency.jitter)],
               ['패킷 손실률', `${result.latency.lossPercent}%`],
               [
+                '공유기 접근 (실험적)',
+                !result.gateway.supported
+                  ? '지원 안 함'
+                  : result.gateway.reachable
+                    ? `${result.gateway.ip} · ${result.gateway.ms}ms`
+                    : '확인 불가',
+              ],
+              [
                 '다운로드 속도',
                 result.speed ? `${result.speed.mbps.toFixed(1)} Mbps` : '측정 실패',
               ],
@@ -141,7 +155,10 @@ export default function HomePage() {
           <p className="nettest-disclaimer">
             연결 방식(유선/무선) 감지는 브라우저가 제공하는 정보를 기반으로 하며, 일부
             브라우저(Safari, Firefox 등)에서는 지원되지 않아 지연 시간 패턴 기반의 추정값으로
-            대체됩니다. 모든 측정값은 참고용이며 실제 회선 상태와 다를 수 있습니다.
+            대체됩니다. 공유기 접근 확인은 Chrome의 로컬 네트워크 접근 권한을 이용한 실험적
+            기능으로, 흔히 쓰이는 공유기 기본 IP 몇 개만 시도하기 때문에 실제로 접근 가능해도
+            확인되지 않을 수 있습니다. 모든 측정값은 참고용이며 실제 회선 상태와 다를 수
+            있습니다.
           </p>
         </div>
       )}

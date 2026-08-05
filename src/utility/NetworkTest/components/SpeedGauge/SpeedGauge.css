@@ -1,5 +1,6 @@
 @scope (.nettest-app) {
 .speedGauge {
+  --phase-color: var(--accent-glow);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -7,6 +8,15 @@
   width: min(320px, 100%);
   margin: 0 auto;
 }
+
+.speedGauge--phase-ip       { --phase-color: #38bdf8; }
+.speedGauge--phase-latency  { --phase-color: #a78bfa; }
+.speedGauge--phase-gateway  { --phase-color: #34d8c3; }
+.speedGauge--phase-speed    { --phase-color: #7dd3fc; }
+
+.speedGauge--ok       { --phase-color: var(--ok); }
+.speedGauge--warning  { --phase-color: var(--warning); }
+.speedGauge--critical { --phase-color: var(--critical); }
 
 .speedGauge-svg {
   width: 100%;
@@ -23,15 +33,11 @@
 
 .speedGauge-progress {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--phase-color);
   stroke-width: 12;
   stroke-linecap: round;
   transition: stroke-dashoffset 1.3s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.4s ease;
 }
-
-.speedGauge--ok .speedGauge-progress { stroke: var(--ok); }
-.speedGauge--warning .speedGauge-progress { stroke: var(--warning); }
-.speedGauge--critical .speedGauge-progress { stroke: var(--critical); }
 
 .speedGauge-tick {
   stroke: var(--text-muted);
@@ -46,10 +52,11 @@
 }
 
 .speedGauge-needle line {
-  stroke: var(--accent-glow);
+  stroke: var(--phase-color);
   stroke-width: 3;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 5px rgba(125, 211, 252, 0.7));
+  filter: drop-shadow(0 0 5px var(--phase-color));
+  transition: stroke 0.4s ease;
 }
 
 .speedGauge-needle--searching {
@@ -62,8 +69,9 @@
 }
 
 .speedGauge-pivot {
-  fill: var(--accent-glow);
-  filter: drop-shadow(0 0 4px rgba(125, 211, 252, 0.8));
+  fill: var(--phase-color);
+  filter: drop-shadow(0 0 4px var(--phase-color));
+  transition: fill 0.4s ease;
 }
 
 .speedGauge-readout {

@@ -6,11 +6,11 @@ function noStoreUrl(path) {
   return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}`
 }
 
-async function fetchWithTimeout(url, { timeoutMs = PING_TIMEOUT_MS } = {}) {
+async function fetchWithTimeout(url, { timeoutMs = PING_TIMEOUT_MS, ...fetchOptions } = {}) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    return await fetch(url, { cache: 'no-store', signal: controller.signal })
+    return await fetch(url, { cache: 'no-store', signal: controller.signal, ...fetchOptions })
   } finally {
     clearTimeout(timer)
   }
@@ -76,6 +76,31 @@ export async function runDownloadSpeedTest(bytes = DOWNLOAD_BYTES) {
   const seconds = (performance.now() - start) / 1000
   const mbps = (blob.size * 8) / 1_000_000 / seconds
   return { mbps, bytes: blob.size, seconds }
+}
+
+const COMMON_GATEWAY_IPS = ['192.168.1.1', '192.168.0.1', '192.168.1.254', '10.0.0.1', '192.168.29.1']
+const GATEWAY_TIMEOUT_MS = 1200
+
+// 브라우저가 사설망(공유기 등) 접근을 지원/허용하는지는 실제로 fetch를
+// 시도해보기 전까지 알 수 없다 (Chrome의 Local Network Access 권한 프롬프트가
+// 이 시점에 뜬다). 흔한 공유기 기본 IP를 순서대로 하나씩 시도하고,
+// 동시에 여러 개를 시도해 권한 프롬프트가 중복으로 뜨지 않게 한다.
+export async function checkGatewayAccess() {
+  if (typeof fetch !== 'function') {
+    return { supported: false, reachable: false, ip: null, ms: null }
+  }
+
+  for (const ip of COMMON_GATEWAY_IPS) {
+    const start = performance.now()
+    try {
+      await fetchWithTimeout(`http://${ip}/`, { timeoutMs: GATEWAY_TIMEOUT_MS, mode: 'no-cors' })
+      return { supported: true, reachable: true, ip, ms: Math.round(performance.now() - start) }
+    } catch {
+      // 이 IP는 실패 — 다음 후보로 넘어간다. (권한 거부/차단/타임아웃 모두 동일하게 처리)
+    }
+  }
+
+  return { supported: true, reachable: false, ip: null, ms: null }
 }
 
 const CONNECTION_TYPE_LABELS = {

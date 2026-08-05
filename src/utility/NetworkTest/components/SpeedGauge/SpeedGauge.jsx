@@ -20,12 +20,19 @@ function pointOnArc(percent) {
   }
 }
 
-export default function SpeedGauge({ mbps, phase, severity }) {
+// phase: 'idle' | 'running' | 'done'
+// step(=phase==='running'일 때만 의미 있음): 'ip' | 'latency' | 'gateway' | 'speed'
+export default function SpeedGauge({ mbps, phase, step, severity }) {
   const percent = mbps === null ? 0 : Math.min(mbps / GAUGE_MAX, 1)
   const needleAngle = angleForPercent(percent)
   const progressOffset = ARC_LENGTH * (1 - percent)
 
-  const severityClass = severity ? `speedGauge--${severity}` : ''
+  const colorClass =
+    phase === 'done' && severity
+      ? `speedGauge--${severity}`
+      : phase === 'running' && step
+        ? `speedGauge--phase-${step}`
+        : ''
 
   const tickMarks = useMemo(
     () =>
@@ -40,8 +47,10 @@ export default function SpeedGauge({ mbps, phase, severity }) {
     [],
   )
 
+  const searching = phase === 'running'
+
   return (
-    <div className={`speedGauge ${severityClass}`}>
+    <div className={`speedGauge ${colorClass}`}>
       <svg viewBox="0 0 220 128" className="speedGauge-svg">
         <path
           d={`M ${CENTER.x - RADIUS} ${CENTER.y} A ${RADIUS} ${RADIUS} 0 0 1 ${CENTER.x + RADIUS} ${CENTER.y}`}
@@ -67,8 +76,8 @@ export default function SpeedGauge({ mbps, phase, severity }) {
         ))}
 
         <g
-          className={`speedGauge-needle${phase === 'searching' ? ' speedGauge-needle--searching' : ''}`}
-          style={phase === 'searching' ? undefined : { transform: `rotate(${needleAngle}deg)` }}
+          className={`speedGauge-needle${searching ? ' speedGauge-needle--searching' : ''}`}
+          style={searching ? undefined : { transform: `rotate(${needleAngle}deg)` }}
         >
           <line x1={CENTER.x} y1={CENTER.y} x2={CENTER.x} y2={CENTER.y - RADIUS + 14} />
         </g>
