@@ -24,6 +24,10 @@
     --accent-dim:   rgba(111, 174, 76, 0.18);
     --accent-brown: #8b5a2b;
 
+    /* 에디션 구분 색 — 자바는 클래식 그린, 베드락은 블루 계열 */
+    --java-color:    #6fae4c;
+    --bedrock-color: #4d9fd6;
+
     --ok:       #6fae4c;
     --warning:  #d6a94d;
     --critical: #d6644d;

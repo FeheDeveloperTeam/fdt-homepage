@@ -18,13 +18,10 @@
 }
 
 .wiki-landing {
-  max-width: 1040px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 3.5rem;
-}
-
-.wiki-landing-header {
-  max-width: 620px;
+  padding: 4rem 1.5rem 3.5rem;
+  text-align: center;
 }
 
 .wiki-hero-eyebrow {
@@ -43,33 +40,46 @@
 }
 
 .wiki-hero-desc {
-  margin-top: 0.7rem;
+  margin: 0.7rem auto 0;
+  max-width: 480px;
   font-size: 0.88rem;
   line-height: 1.7;
   color: var(--text-soft);
 }
 
-.wiki-landing-grid {
-  margin-top: 2.2rem;
+.wiki-edition-grid {
+  margin-top: 2.4rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+  text-align: left;
 }
 
-.wiki-landing-card {
-  padding: 1.2rem 1.3rem 1.4rem;
-}
-
-.wiki-landing-card-title {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.wiki-landing-card-items {
-  margin-top: 0.8rem;
+.wiki-edition-card {
+  padding: 1.4rem 1.5rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.4rem;
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+.wiki-edition-card:hover {
+  background: #454545;
+  transform: translateY(-2px);
+}
+
+.wiki-edition-card-label {
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.wiki-edition-card--java .wiki-edition-card-label { color: var(--java-color); }
+.wiki-edition-card--bedrock .wiki-edition-card-label { color: var(--bedrock-color); }
+
+.wiki-edition-card-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 }

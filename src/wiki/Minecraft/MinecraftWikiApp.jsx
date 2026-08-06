@@ -7,6 +7,7 @@ import WikiHomePage from './pages/WikiHomePage/WikiHomePage'
 import WikiLayout from './pages/WikiLayout/WikiLayout'
 import JavaIndexPage from './pages/JavaIndexPage/JavaIndexPage'
 import WikiEntryPage from './pages/WikiEntryPage/WikiEntryPage'
+import BedrockIndexPage from './pages/BedrockIndexPage/BedrockIndexPage'
 import './index.css'
 
 export default function MinecraftWikiApp() {
@@ -22,6 +23,7 @@ export default function MinecraftWikiApp() {
             <Route path="/java" element={<JavaIndexPage />} />
             <Route path="/java/:slug" element={<WikiEntryPage />} />
           </Route>
+          <Route path="/bedrock" element={<BedrockIndexPage />} />
           <Route path="*" element={<Navigate to="/wiki/minecraft" replace />} />
         </Routes>
       </main>
