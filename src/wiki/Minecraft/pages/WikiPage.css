@@ -28,13 +28,19 @@
   color: var(--text);
 }
 
+.wiki-page-code-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  width: 100%;
+  max-width: 640px;
+}
+
 .wiki-page-code {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 0.9rem;
-  width: 100%;
-  max-width: 640px;
   padding: 0.65rem 1.1rem 0.65rem 0.65rem;
   border-radius: var(--radius-lg);
   background: var(--surface-2);
@@ -106,7 +112,7 @@
   color: var(--accent);
 }
 
-.wiki-page-section .wiki-page-code {
+.wiki-page-section .wiki-page-code-group {
   margin-top: 0.7rem;
 }
 

@@ -17,27 +17,38 @@ function renderInlineCommands(text) {
 }
 
 function CodeBlock({ code }) {
-  const [copied, setCopied] = useState(false)
+  const lines = code.split('\n')
+  const [copiedIndex, setCopiedIndex] = useState(null)
 
-  async function handleCopy() {
+  async function handleCopy(line, index) {
     try {
-      await navigator.clipboard.writeText(code)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
+      await navigator.clipboard.writeText(line)
+      setCopiedIndex(index)
+      setTimeout(() => {
+        setCopiedIndex((current) => (current === index ? null : current))
+      }, 1500)
     } catch {
       // 클립보드 권한이 없는 환경 — 버튼은 그대로 두고 무시
     }
   }
 
   return (
-    <div className="wiki-page-code">
-      <span className="wiki-page-code-icon" aria-hidden="true">
-        &gt;
-      </span>
-      <code>{code}</code>
-      <button type="button" className="wiki-page-code-copy" onClick={handleCopy}>
-        {copied ? '복사됨' : '복사'}
-      </button>
+    <div className="wiki-page-code-group">
+      {lines.map((line, index) => (
+        <div className="wiki-page-code" key={index}>
+          <span className="wiki-page-code-icon" aria-hidden="true">
+            &gt;
+          </span>
+          <code>{line}</code>
+          <button
+            type="button"
+            className="wiki-page-code-copy"
+            onClick={() => handleCopy(line, index)}
+          >
+            {copiedIndex === index ? '복사됨' : '복사'}
+          </button>
+        </div>
+      ))}
     </div>
   )
 }

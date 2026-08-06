@@ -71,7 +71,7 @@ export const JAVA_WIKI = [
             title: '사용법',
             code: '/datapack enable "file/locator_bar"\n/datapack disable "file/locator_bar"',
             paragraphs: [
-              '이미 만들어진 월드나 서버라면 위 명령어로 로케이터 바를 켜고 끌 수 있어요. enable을 입력하면 켜지고 disable을 입력하면 꺼지며, 두 명령 모두 op 권한이 있어야 실행할 수 있어요.',
+              '이미 만들어진 월드나 서버라면 위 두 명령어로 로케이터 바를 켜고 끌 수 있어요. 첫 번째(enable)를 입력하면 켜지고 두 번째(disable)를 입력하면 꺼지며, 둘 다 op 권한이 있어야 실행할 수 있어요.',
               "새 월드를 만드는 경우에는 생성 화면의 '실험적 기능(Experiments)' 항목에서 로케이터 바를 미리 켜 둘 수도 있어요.",
               '`/team add <팀 이름>` 명령어로 팀을 만들고 `/team join <팀 이름> <플레이어>`로 플레이어를 팀에 소속시키면, 같은 팀원끼리 자동으로 로케이터 바에 표시돼요.',
             ],
@@ -93,7 +93,7 @@ export const JAVA_WIKI = [
             title: '사용법',
             code: '/gamerule keepInventory true\n/gamerule keepInventory false',
             paragraphs: [
-              'true를 입력하면 켜지고 false를 입력하면 꺼져요. op 권한이 있는 플레이어나 콘솔에서 실행할 수 있고, 입력하는 즉시 적용돼요.',
+              '위 두 명령어 중 첫 번째(true)를 입력하면 켜지고 두 번째(false)를 입력하면 꺼져요. op 권한이 있는 플레이어나 콘솔에서 실행할 수 있고, 입력하는 즉시 적용돼요.',
               '값을 넣지 않고 `/gamerule keepInventory`만 입력하면 현재 설정값을 확인할 수 있어요.',
             ],
           },
