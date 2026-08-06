@@ -91,9 +91,9 @@ export const JAVA_WIKI = [
           },
           {
             title: '사용법',
-            code: '/gamerule keepInventory true',
+            code: '/gamerule keepInventory true\n/gamerule keepInventory false',
             paragraphs: [
-              'op 권한이 있는 플레이어나 콘솔에서 위 명령어를 입력하면 즉시 적용돼요. 다시 끄고 싶으면 true 대신 false를 입력하면 돼요.',
+              'true를 입력하면 켜지고 false를 입력하면 꺼져요. op 권한이 있는 플레이어나 콘솔에서 실행할 수 있고, 입력하는 즉시 적용돼요.',
               '값을 넣지 않고 /gamerule keepInventory만 입력하면 현재 설정값을 확인할 수 있어요.',
             ],
           },
