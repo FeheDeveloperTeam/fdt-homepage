@@ -7,7 +7,7 @@
 .wiki-reveal {
   opacity: 0;
   animation: mcwikiReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--reveal-i, 0) * 90ms);
+  animation-delay: calc(var(--reveal-i, 0) * 80ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -17,15 +17,14 @@
   }
 }
 
-.wiki-hero {
-  max-width: 640px;
+.wiki-landing {
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 2.5rem 1.5rem 3.5rem;
 }
 
-.wiki-hero-panel {
-  padding: 2.4rem 2rem;
-  text-align: center;
+.wiki-landing-header {
+  max-width: 620px;
 }
 
 .wiki-hero-eyebrow {
@@ -37,21 +36,40 @@
 }
 
 .wiki-hero-title {
-  margin-top: 0.7rem;
-  font-size: clamp(1.7rem, 6vw, 2.3rem);
+  margin-top: 0.6rem;
+  font-size: clamp(1.8rem, 5vw, 2.3rem);
   font-weight: 800;
   color: var(--text);
 }
 
 .wiki-hero-desc {
-  margin: 0.9rem auto 0;
-  max-width: 440px;
+  margin-top: 0.7rem;
   font-size: 0.88rem;
   line-height: 1.7;
   color: var(--text-soft);
 }
 
-.wiki-hero-btn {
-  margin-top: 1.8rem;
+.wiki-landing-grid {
+  margin-top: 2.2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.wiki-landing-card {
+  padding: 1.2rem 1.3rem 1.4rem;
+}
+
+.wiki-landing-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.wiki-landing-card-items {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 }
