@@ -73,7 +73,7 @@ const PROJECTS = [
     category: 'wiki',
     name: '마인크래프트 위키',
     description: SEO_DATA['/wiki/minecraft'].description,
-    features: ['준비 중'],
+    features: ['모드팩', '서버 소프트웨어', '명령어', '게임모드'],
     link: '/wiki/minecraft',
   },
 ]

@@ -7,7 +7,7 @@
 .wiki-reveal {
   opacity: 0;
   animation: mcwikiReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--reveal-i, 0) * 80ms);
+  animation-delay: calc(var(--reveal-i, 0) * 90ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -18,9 +18,13 @@
 }
 
 .wiki-hero {
-  max-width: 720px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 4rem 1.5rem 4rem;
+  padding: 4rem 1.5rem;
+}
+
+.wiki-hero-panel {
+  padding: 2.4rem 2rem;
   text-align: center;
 }
 
@@ -29,21 +33,25 @@
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .wiki-hero-title {
-  margin-top: 0.6rem;
-  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  margin-top: 0.7rem;
+  font-size: clamp(1.7rem, 6vw, 2.3rem);
   font-weight: 800;
   color: var(--text);
 }
 
 .wiki-hero-desc {
   margin: 0.9rem auto 0;
-  max-width: 480px;
-  font-size: 0.9rem;
+  max-width: 440px;
+  font-size: 0.88rem;
   line-height: 1.7;
   color: var(--text-soft);
+}
+
+.wiki-hero-btn {
+  margin-top: 1.8rem;
 }
 }

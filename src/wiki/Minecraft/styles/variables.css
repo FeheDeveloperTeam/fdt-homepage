@@ -1,30 +1,28 @@
 @scope (.mcwiki-app) {
   :scope {
-    /* ── surfaces (이끼/흙 느낌의 어두운 톤) ── */
-    --bg:        #1a1f15;
-    --bg-deep:   #12150f;
-    --surface:   #232a1b;
-    --surface-2: #2b3322;
-    --card:      rgba(35, 42, 27, 0.85);
+    /* ── 배경 (블러 처리된 어두운 월드처럼) ── */
+    --bg:        #232323;
+    --bg-deep:   #161616;
 
-    /* ── text (양피지 느낌의 밝은 톤) ── */
-    --text:       #ece7d6;
-    --text-soft:  #c2bda2;
-    --text-muted: #8a8569;
+    /* ── GUI 패널 (돌 회색 + 베벨 테두리) ── */
+    --panel:       #3c3c3c;
+    --panel-2:     #333333;
+    --panel-light: #6b6b6b;
+    --panel-dark:  #161616;
+    --panel-border: #0a0a0a;
 
-    /* ── borders / shadow ── */
-    --border:      #3a4230;
-    --border-soft: rgba(122, 178, 73, 0.22);
-    --shadow:      rgba(0, 0, 0, 0.5);
+    /* ── text (마인크래프트 GUI 특유의 흰 글자 + 그림자) ── */
+    --text:       #ffffff;
+    --text-soft:  #d8d8d8;
+    --text-muted: #a3a3a3;
+
+    --border:      #0a0a0a;
+    --border-soft: #4a4a4a;
 
     /* ── accents ── */
     --accent:       #6fae4c;
-    --accent-dim:   rgba(111, 174, 76, 0.14);
-    --accent-brown: #a06a37;
-
-    /* 에디션 구분 색 — 자바는 클래식 그린, 베드락은 블루 계열 */
-    --java-color:    #6fae4c;
-    --bedrock-color: #4d9fd6;
+    --accent-dim:   rgba(111, 174, 76, 0.18);
+    --accent-brown: #8b5a2b;
 
     --ok:       #6fae4c;
     --warning:  #d6a94d;
@@ -32,10 +30,6 @@
 
     --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, sans-serif;
     --font-mono: 'SFMono-Regular', 'JetBrains Mono', Menlo, Monaco, Consolas, 'D2Coding', monospace;
-
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 14px;
 
     --header-h: 64px;
     --footer-h: 52px;

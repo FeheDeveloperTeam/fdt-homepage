@@ -72,7 +72,7 @@ export const SEO_DATA = {
   },
   '/wiki/minecraft': {
     title: '마인크래프트 위키',
-    description: '마인크래프트 위키를 준비 중입니다.',
+    description: '마인크래프트 자바 에디션의 모드팩, 서버 소프트웨어, 명령어, 게임모드를 정리합니다.',
   },
 }
 
