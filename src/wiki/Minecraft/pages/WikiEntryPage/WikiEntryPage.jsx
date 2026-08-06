@@ -17,7 +17,14 @@ export default function WikiEntryPage() {
     <div className="wiki-content-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
       <span className="wiki-page-category">{entry.category}</span>
       <h1 className="wiki-page-title">{entry.label}</h1>
-      {entry.code && <code className="wiki-page-code">{entry.code}</code>}
+      {entry.code && (
+        <div className="wiki-page-code">
+          <span className="wiki-page-code-icon" aria-hidden="true">
+            &gt;
+          </span>
+          <code>{entry.code}</code>
+        </div>
+      )}
 
       <div className="wiki-page-body">
         {entry.body.map((paragraph) => (
