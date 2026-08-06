@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { findJavaEntry } from '../../javaWikiData'
@@ -12,6 +13,32 @@ function renderInlineCommands(text) {
     ) : (
       part
     ),
+  )
+}
+
+function CodeBlock({ code }) {
+  const [copied, setCopied] = useState(false)
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // 클립보드 권한이 없는 환경 — 버튼은 그대로 두고 무시
+    }
+  }
+
+  return (
+    <div className="wiki-page-code">
+      <span className="wiki-page-code-icon" aria-hidden="true">
+        &gt;
+      </span>
+      <code>{code}</code>
+      <button type="button" className="wiki-page-code-copy" onClick={handleCopy}>
+        {copied ? '복사됨' : '복사'}
+      </button>
+    </div>
   )
 }
 
@@ -34,14 +61,7 @@ export default function WikiEntryPage() {
         entry.sections.map((section) => (
           <section className="wiki-page-section" key={section.title}>
             <h2 className="wiki-page-section-title">{section.title}</h2>
-            {section.code && (
-              <div className="wiki-page-code">
-                <span className="wiki-page-code-icon" aria-hidden="true">
-                  &gt;
-                </span>
-                <code>{section.code}</code>
-              </div>
-            )}
+            {section.code && <CodeBlock code={section.code} />}
             <div className="wiki-page-body">
               {section.paragraphs.map((paragraph) => (
                 <p key={paragraph.slice(0, 20)}>{renderInlineCommands(paragraph)}</p>
