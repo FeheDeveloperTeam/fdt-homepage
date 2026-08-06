@@ -25,6 +25,50 @@
   color: var(--accent);
 }
 
+.mcwiki-search {
+  position: relative;
+  margin-bottom: 1.1rem;
+}
+
+.mcwiki-search-input {
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.mcwiki-search-input::placeholder {
+  color: var(--text-muted);
+}
+.mcwiki-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.mcwiki-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 0.2rem;
+}
+.mcwiki-search-clear:hover {
+  color: var(--text);
+}
+
+.mcwiki-search-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.3rem 0.6rem;
+}
+
 .mcwiki-nav {
   display: flex;
   flex-direction: column;
@@ -56,6 +100,13 @@
 .mcwiki-nav-label:hover {
   color: var(--text);
   background: var(--surface-2);
+}
+.mcwiki-nav-label:disabled {
+  cursor: default;
+}
+.mcwiki-nav-label:disabled:hover {
+  color: var(--text-muted);
+  background: none;
 }
 
 .mcwiki-nav-arrow {
