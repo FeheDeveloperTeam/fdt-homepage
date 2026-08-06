@@ -6,12 +6,10 @@
   min-height: var(--footer-h);
   padding: 1rem 1.5rem calc(1rem + env(safe-area-inset-bottom));
   text-align: center;
-  border-top: 2px solid var(--panel-border);
-  box-shadow: 0 -2px 0 var(--panel-light);
-  background: var(--panel-2);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
   font-size: 0.75rem;
   color: var(--text-muted);
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .mcwiki-footer span {

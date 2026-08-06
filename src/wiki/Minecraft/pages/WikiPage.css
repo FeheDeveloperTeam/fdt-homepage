@@ -15,10 +15,10 @@
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
   background: var(--accent-dim);
   color: var(--accent);
-  border: 1px solid var(--panel-border);
 }
 
 .wiki-page-title {
@@ -34,9 +34,10 @@
   font-family: var(--font-mono);
   font-size: 0.8rem;
   padding: 0.3rem 0.6rem;
-  background: var(--panel-2);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
   color: var(--accent);
-  border: 1px solid var(--panel-border);
+  border: 1px solid var(--border);
 }
 
 .wiki-page-body {
@@ -65,7 +66,6 @@
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--accent);
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .wiki-index-items {
@@ -77,8 +77,9 @@
 
 .wiki-index-item {
   padding: 0.5rem 0.9rem;
-  background: var(--panel-2);
-  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-soft);

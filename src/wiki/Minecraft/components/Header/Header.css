@@ -7,9 +7,10 @@
   align-items: center;
   height: var(--header-h);
   padding: 0 1.5rem;
-  background: var(--panel-2);
-  border-bottom: 2px solid var(--panel-border);
-  box-shadow: 0 2px 0 var(--panel-dark);
+  background: rgba(27, 30, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
 }
 
 .mcwiki-header-left {
@@ -23,9 +24,8 @@
   flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-muted);
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
   transition: color 0.15s ease;
 }
 .mcwiki-back:hover {
@@ -34,25 +34,23 @@
 
 .mcwiki-header-divider {
   flex-shrink: 0;
-  width: 2px;
-  height: 20px;
-  background: var(--panel-border);
-  box-shadow: 1px 0 0 var(--panel-light);
+  width: 1px;
+  height: 18px;
+  background: var(--border);
 }
 
 .mcwiki-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 1.05rem;
-  font-weight: 800;
+  gap: 0.55rem;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--text);
-  letter-spacing: 0;
 }
 
 .mcwiki-logo-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   image-rendering: pixelated;
   flex-shrink: 0;
 }

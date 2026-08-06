@@ -64,14 +64,14 @@
 }
 
 .wiki-edition-card:hover {
-  background: #454545;
+  background: var(--surface-2);
+  border-color: var(--border-soft);
   transform: translateY(-2px);
 }
 
 .wiki-edition-card-label {
   font-size: 1.05rem;
   font-weight: 800;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .wiki-edition-card--java .wiki-edition-card-label { color: var(--java-color); }

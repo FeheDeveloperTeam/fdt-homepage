@@ -22,11 +22,10 @@
   display: block;
   padding: 0.5rem 0.6rem;
   margin-bottom: 0.9rem;
-  border-bottom: 2px solid var(--panel-border);
+  border-bottom: 1px solid var(--border);
   font-size: 0.95rem;
   font-weight: 800;
   color: var(--accent);
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .mcwiki-nav {
@@ -51,6 +50,7 @@
 
 .mcwiki-nav-link {
   padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
   font-size: 0.83rem;
   font-weight: 600;
   color: var(--text-soft);
@@ -58,7 +58,7 @@
   transition: background 0.1s ease, color 0.1s ease, border-color 0.1s ease;
 }
 .mcwiki-nav-link:hover {
-  background: rgba(111, 174, 76, 0.12);
+  background: var(--accent-dim);
   color: var(--text);
 }
 .mcwiki-nav-link--active {
