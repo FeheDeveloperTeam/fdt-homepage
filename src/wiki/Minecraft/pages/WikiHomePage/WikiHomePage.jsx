@@ -9,14 +9,14 @@ export default function WikiHomePage() {
 
   return (
     <section className="wiki-landing">
-      <header className="wiki-landing-header wiki-reveal" style={{ '--reveal-i': 0 }}>
+      <div className="wiki-landing-header wiki-reveal" style={{ '--reveal-i': 0 }}>
         <p className="wiki-hero-eyebrow">Minecraft Wiki</p>
         <h1 className="wiki-hero-title">마인크래프트 위키</h1>
         <p className="wiki-hero-desc">
           일반적인 마인크래프트 사용법, 모드, 명령어를 정리해둔 위키예요. 아래 목록에서
           바로 문서를 열어보세요.
         </p>
-      </header>
+      </div>
 
       <div className="wiki-landing-grid">
         {JAVA_WIKI.map((group, i) => (
