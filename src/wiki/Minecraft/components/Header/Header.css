@@ -1,0 +1,58 @@
+@scope (.mcwiki-app) {
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 1.5rem;
+  background: rgba(26, 31, 21, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.mcwiki-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.mcwiki-back {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.mcwiki-back:hover {
+  color: var(--accent);
+}
+
+.mcwiki-header-divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+
+.mcwiki-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 480px) {
+  .mcwiki-back,
+  .mcwiki-header-divider {
+    display: none;
+  }
+}
+}

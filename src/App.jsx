@@ -15,6 +15,7 @@ import YukihaPage from './member/yukiha/YukihaPage'
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 const ChiyumiApp = lazy(() => import('./DiscordBot/Chiyumi/ChiyumiApp'))
 const NetworkTestApp = lazy(() => import('./utility/NetworkTest/NetworkTestApp'))
+const MinecraftWikiApp = lazy(() => import('./wiki/Minecraft/MinecraftWikiApp'))
 
 // 예전 /fehe 경로로 들어오는 북마크/링크를 새 /member/fehe 경로로 보내준다.
 function RedirectToMemberFehe() {
@@ -71,6 +72,14 @@ function App() {
           element={
             <Suspense fallback={null}>
               <NetworkTestApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/wiki/minecraft/*"
+          element={
+            <Suspense fallback={null}>
+              <MinecraftWikiApp />
             </Suspense>
           }
         />

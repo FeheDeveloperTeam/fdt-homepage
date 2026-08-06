@@ -1,0 +1,58 @@
+@scope (.mcwiki-app) {
+.wiki-page-title {
+  margin-top: 0.4rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.wiki-page-desc {
+  margin-top: 0.6rem;
+  max-width: 560px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+.wiki-edition-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+}
+
+.wiki-edition-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.wiki-edition-badge--java {
+  color: var(--java-color);
+  background: rgba(111, 174, 76, 0.14);
+}
+.wiki-edition-badge--java::before { background: var(--java-color); }
+
+.wiki-edition-badge--bedrock {
+  color: var(--bedrock-color);
+  background: rgba(77, 159, 214, 0.14);
+}
+.wiki-edition-badge--bedrock::before { background: var(--bedrock-color); }
+
+.wiki-empty-note {
+  margin-top: 2rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--surface-2);
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+}

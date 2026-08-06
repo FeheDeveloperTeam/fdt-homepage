@@ -1,0 +1,19 @@
+@scope (.mcwiki-app) {
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--footer-h);
+  padding: 1rem 1.5rem calc(1rem + env(safe-area-inset-bottom));
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+footer span {
+  color: var(--accent);
+  font-weight: 700;
+}
+}

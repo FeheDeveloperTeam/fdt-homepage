@@ -1,0 +1,43 @@
+@scope (.mcwiki-app) {
+  :scope {
+    /* ── surfaces (이끼/흙 느낌의 어두운 톤) ── */
+    --bg:        #1a1f15;
+    --bg-deep:   #12150f;
+    --surface:   #232a1b;
+    --surface-2: #2b3322;
+    --card:      rgba(35, 42, 27, 0.85);
+
+    /* ── text (양피지 느낌의 밝은 톤) ── */
+    --text:       #ece7d6;
+    --text-soft:  #c2bda2;
+    --text-muted: #8a8569;
+
+    /* ── borders / shadow ── */
+    --border:      #3a4230;
+    --border-soft: rgba(122, 178, 73, 0.22);
+    --shadow:      rgba(0, 0, 0, 0.5);
+
+    /* ── accents ── */
+    --accent:       #6fae4c;
+    --accent-dim:   rgba(111, 174, 76, 0.14);
+    --accent-brown: #a06a37;
+
+    /* 에디션 구분 색 — 자바는 클래식 그린, 베드락은 블루 계열 */
+    --java-color:    #6fae4c;
+    --bedrock-color: #4d9fd6;
+
+    --ok:       #6fae4c;
+    --warning:  #d6a94d;
+    --critical: #d6644d;
+
+    --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, sans-serif;
+    --font-mono: 'SFMono-Regular', 'JetBrains Mono', Menlo, Monaco, Consolas, 'D2Coding', monospace;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+
+    --header-h: 64px;
+    --footer-h: 52px;
+  }
+}

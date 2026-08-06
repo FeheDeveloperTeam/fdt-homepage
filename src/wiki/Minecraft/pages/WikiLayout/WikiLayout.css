@@ -1,0 +1,106 @@
+@scope (.mcwiki-app) {
+.mcwiki-shell {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.mcwiki-sidebar {
+  flex-shrink: 0;
+  width: 220px;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 2rem 1rem 2rem 1.5rem;
+  border-right: 1px solid var(--border-soft);
+}
+
+.mcwiki-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.mcwiki-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mcwiki-nav-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  padding: 0 0.75rem 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mcwiki-nav-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.mcwiki-nav-label--java::before { background: var(--java-color); }
+.mcwiki-nav-label--bedrock::before { background: var(--bedrock-color); }
+
+.mcwiki-nav-link {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition: background 0.15s, color 0.15s;
+}
+.mcwiki-nav-link:hover {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+.mcwiki-nav-link--active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.mcwiki-content {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 2rem 3rem;
+}
+
+@media (max-width: 780px) {
+  .mcwiki-shell {
+    flex-direction: column;
+  }
+  .mcwiki-sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 1.5rem 1.5rem 1rem;
+  }
+  .mcwiki-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .mcwiki-nav-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .mcwiki-nav-label {
+    padding: 0;
+  }
+  .mcwiki-content {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+}
+}

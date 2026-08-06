@@ -66,6 +66,18 @@ export const SEO_DATA = {
     title: '네트워크 테스트',
     description: 'IP 주소, 지연 시간, 다운로드 속도를 측정해 내 인터넷 연결 상태를 진단합니다.',
   },
+  '/wiki/minecraft': {
+    title: '마인크래프트 위키',
+    description: '마인크래프트 자바/베드락 에디션의 일반적인 사용법과 명령어를 정리합니다.',
+  },
+  '/wiki/minecraft/java': {
+    title: '자바 에디션',
+    description: '마인크래프트 자바 에디션(PC)의 사용법과 명령어를 정리합니다.',
+  },
+  '/wiki/minecraft/bedrock': {
+    title: '베드락 에디션',
+    description: '마인크래프트 베드락 에디션의 사용법과 명령어를 정리합니다.',
+  },
 }
 
 export function getFullTitle(title) {

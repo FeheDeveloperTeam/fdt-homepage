@@ -58,6 +58,13 @@ const PROJECTS = [
     features: ['IP 주소 확인', '지연 시간 측정', '다운로드 속도 측정'],
     link: '/utility/network-test',
   },
+  {
+    category: 'general',
+    name: '마인크래프트 위키',
+    description: SEO_DATA['/wiki/minecraft'].description,
+    features: ['자바 에디션', '베드락 에디션'],
+    link: '/wiki/minecraft',
+  },
 ]
 
 function Projects() {
