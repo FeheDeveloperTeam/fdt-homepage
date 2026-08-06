@@ -11,8 +11,10 @@
       아래 description / og:title / og:description / twitter:title / twitter:description / <title>
       기본값은 홈페이지 기준이다. Discord 등 링크 미리보기 크롤러는 JS를 실행하지 않기 때문에
       react-helmet-async(src/components/Seo/Seo.jsx)가 붙이는 값은 크롤러에게 보이지 않는다.
-      그래서 server/index.js가 요청 경로별로 이 태그들을 실제 값으로 치환해서 응답한다
-      (src/seoData.js 가 두 곳의 공통 데이터 소스). react-helmet-async는 이 정적 태그를 대체하지
+      그래서 요청 경로별로 이 태그들을 실제 값으로 치환해서 응답한다 — 로컬/프로덕션 테스트는
+      server/index.js, 실제 Vercel 배포는 vercel.json의 rewrite가 모든 경로를 걸어주는
+      api/render.js가 담당하고, 둘 다 api/_lib/seoRender.js의 injectSeo를 함께 쓴다
+      (src/seoData.js 가 공통 데이터 소스). react-helmet-async는 이 정적 태그를 대체하지
       않고 추가만 하지만, 실제 브라우저에서는 중복돼도 티가 나지 않으므로 그대로 둔다.
     -->
     <meta name="description" content="디스코드 봇 개발과 웹 개발을 중심으로, 직접 기획한 프로젝트를 만들어가는 개발팀 FDT입니다." />

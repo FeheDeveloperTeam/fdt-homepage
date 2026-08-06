@@ -1,3 +1,5 @@
+import { JAVA_WIKI } from './wiki/Minecraft/javaWikiData.js'
+
 export const SITE_NAME = 'FeheDeveloperTeam'
 export const SITE_URL = 'https://www.fehe.dev'
 
@@ -74,6 +76,31 @@ export const SEO_DATA = {
     title: '마인크래프트 위키',
     description: '마인크래프트 자바 에디션의 모드팩, 서버 소프트웨어, 명령어, 게임모드를 정리합니다.',
   },
+  '/wiki/minecraft/java': {
+    title: '자바 에디션',
+    description: '마인크래프트 자바 에디션의 모드팩, 서버 소프트웨어, 버전, 아이템, 명령어, 게임모드, 서버 관리 문서를 정리합니다.',
+  },
+  '/wiki/minecraft/bedrock': {
+    title: '베드락 에디션',
+    description: '마인크래프트 베드락 에디션 위키는 아직 준비 중입니다.',
+  },
+}
+
+// 위키 문서 하나하나에 SEO 항목을 직접 손으로 안 적어도 되게, javaWikiData.js를
+// 그대로 훑어서 만들어준다 (문서 추가/수정이 자동으로 미리보기에도 반영됨).
+function describeJavaEntry(entry) {
+  const raw = entry.sections ? entry.sections[0]?.paragraphs?.[0] : entry.body?.[0]
+  const plain = (raw || '내용 준비중입니다.').replace(/`([^`]+)`/g, '$1')
+  return plain.length > 90 ? `${plain.slice(0, 90)}…` : plain
+}
+
+for (const group of JAVA_WIKI) {
+  for (const entry of group.entries) {
+    SEO_DATA[`/wiki/minecraft/java/${entry.slug}`] = {
+      title: entry.label,
+      description: describeJavaEntry(entry),
+    }
+  }
 }
 
 export function getFullTitle(title) {
