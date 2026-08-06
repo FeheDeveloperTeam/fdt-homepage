@@ -2,20 +2,17 @@
 .mcwiki-shell {
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 1.75rem 1.5rem 3rem;
 }
 
 .mcwiki-sidebar {
   flex-shrink: 0;
-  width: 220px;
+  width: 240px;
   position: sticky;
-  top: calc(var(--header-h) + 1.75rem);
-  max-height: calc(100vh - var(--header-h) - 3.5rem);
-  overflow-y: auto;
-  padding: 1rem;
+  top: var(--header-h);
+  align-self: flex-start;
+  padding: 1.75rem 1.25rem;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .mcwiki-index-link {
@@ -70,6 +67,7 @@
 .mcwiki-content {
   flex: 1;
   min-width: 0;
+  padding: 1.75rem 2rem 3rem;
 }
 
 @media (max-width: 780px) {
@@ -79,7 +77,11 @@
   .mcwiki-sidebar {
     width: 100%;
     position: static;
-    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .mcwiki-content {
+    padding: 1.5rem 1.5rem 2.5rem;
   }
 }
 }

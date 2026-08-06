@@ -5,7 +5,7 @@ import './WikiLayout.css'
 export default function WikiLayout() {
   return (
     <div className="mcwiki-shell">
-      <aside className="mcwiki-sidebar mc-panel">
+      <aside className="mcwiki-sidebar">
         <NavLink to="/wiki/minecraft/java" end className="mcwiki-index-link">
           자바 에디션
         </NavLink>
