@@ -69,8 +69,10 @@ export const JAVA_WIKI = [
           },
           {
             title: '사용법',
+            code: '/datapack enable "file/locator_bar"\n/datapack disable "file/locator_bar"',
             paragraphs: [
-              "월드를 새로 만들 때 '실험적 기능(Experiments)' 항목에서 로케이터 바를 켜면 사용할 수 있어요. 이미 생성된 월드나 서버에 나중에 추가하려면 데이터팩으로 넣어줘야 해요.",
+              '이미 만들어진 월드나 서버라면 위 명령어로 로케이터 바를 켜고 끌 수 있어요. enable을 입력하면 켜지고 disable을 입력하면 꺼지며, 두 명령 모두 op 권한이 있어야 실행할 수 있어요.',
+              "새 월드를 만드는 경우에는 생성 화면의 '실험적 기능(Experiments)' 항목에서 로케이터 바를 미리 켜 둘 수도 있어요.",
               '/team add 명령어로 팀을 만들고 /team join <팀 이름> <플레이어>로 플레이어를 팀에 소속시키면, 같은 팀원끼리 자동으로 로케이터 바에 표시돼요.',
             ],
           },
@@ -119,6 +121,7 @@ export const JAVA_WIKI = [
             paragraphs: [
               '자기 자신에게 적용할 때는 플레이어 이름을 생략해도 돼요. 다른 플레이어에게 적용하려면 /gamemode creative <닉네임>처럼 이름을 뒤에 붙이고, 이 경우 op 권한이 필요해요.',
               '단축 명령어로 /gamemode c 만 입력해도 동일하게 작동해요.',
+              '다시 서바이벌로 돌아가고 싶다면 /gamemode survival을 입력하면 돼요.',
             ],
           },
         ],
@@ -140,6 +143,7 @@ export const JAVA_WIKI = [
             paragraphs: [
               '다른 플레이어를 서바이벌로 되돌리고 싶을 때는 /gamemode survival <닉네임>처럼 대상을 지정하면 돼요.',
               '서버 전체의 기본 게임모드는 server.properties 파일의 gamemode 항목에서 survival로 지정할 수 있어요.',
+              '다시 크리에이티브로 전환하고 싶다면 /gamemode creative를 입력하면 돼요.',
             ],
           },
         ],
@@ -165,6 +169,7 @@ export const JAVA_WIKI = [
             paragraphs: [
               '콘솔이나 이미 OP 권한이 있는 플레이어만 실행할 수 있어요. 닉네임 대신 서버 파일의 ops.json을 직접 편집해서 등록할 수도 있어요.',
               'server.properties의 op-permission-level 값(1~4)으로 OP가 실제로 사용할 수 있는 명령어 범위를 세밀하게 조정할 수 있어요.',
+              '부여한 권한을 다시 회수하려면 /deop <닉네임>을 입력하면 돼요.',
             ],
           },
         ],
@@ -184,6 +189,7 @@ export const JAVA_WIKI = [
             code: '/deop <닉네임>',
             paragraphs: [
               'OP와 마찬가지로 콘솔이나 다른 OP 플레이어만 실행할 수 있어요. ops.json 파일에서 해당 플레이어 항목을 직접 지워도 동일한 효과가 있어요.',
+              '다시 권한을 주고 싶다면 /op <닉네임>을 입력하면 돼요.',
             ],
           },
         ],
