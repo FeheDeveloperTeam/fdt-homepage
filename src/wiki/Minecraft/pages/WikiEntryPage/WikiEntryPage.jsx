@@ -14,7 +14,7 @@ export default function WikiEntryPage() {
   }
 
   return (
-    <div className="wiki-content-panel mc-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
+    <div className="wiki-content-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
       <span className="wiki-page-category">{entry.category}</span>
       <h1 className="wiki-page-title">{entry.label}</h1>
       {entry.code && <code className="wiki-page-code">{entry.code}</code>}

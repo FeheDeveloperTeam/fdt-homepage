@@ -7,7 +7,7 @@ export default function BedrockIndexPage() {
 
   return (
     <div className="wiki-standalone">
-      <div className="wiki-content-panel mc-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
+      <div className="wiki-content-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
         <span className="wiki-page-category">BEDROCK EDITION</span>
         <h1 className="wiki-page-title">베드락 에디션</h1>
         <div className="wiki-page-body">

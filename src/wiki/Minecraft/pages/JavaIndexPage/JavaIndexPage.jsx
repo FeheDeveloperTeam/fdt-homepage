@@ -7,13 +7,15 @@ export default function JavaIndexPage() {
   useDocumentTitle('자바 에디션', '마인크래프트 위키')
 
   return (
-    <div className="wiki-content-panel mc-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
+    <div className="wiki-content-panel wiki-reveal" style={{ '--reveal-i': 0 }}>
       <span className="wiki-page-category">JAVA EDITION</span>
       <h1 className="wiki-page-title">자바 에디션</h1>
-      <p className="wiki-page-body" style={{ marginTop: '0.9rem' }}>
-        Windows/macOS/Linux에서 실행되는 자바 에디션 문서 목차예요. 왼쪽 메뉴나 아래
-        목록에서 원하는 문서를 열어보세요.
-      </p>
+      <div className="wiki-page-body">
+        <p>
+          Windows/macOS/Linux에서 실행되는 자바 에디션 문서 목차예요. 왼쪽 메뉴나 아래
+          목록에서 원하는 문서를 열어보세요.
+        </p>
+      </div>
 
       <div className="wiki-index-groups">
         {JAVA_WIKI.map((group) => (

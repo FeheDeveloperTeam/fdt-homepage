@@ -1,8 +1,20 @@
+import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { JAVA_WIKI } from '../../javaWikiData'
 import './WikiLayout.css'
 
 export default function WikiLayout() {
+  const [collapsed, setCollapsed] = useState(() => new Set())
+
+  function toggleGroup(category) {
+    setCollapsed((prev) => {
+      const next = new Set(prev)
+      if (next.has(category)) next.delete(category)
+      else next.add(category)
+      return next
+    })
+  }
+
   return (
     <div className="mcwiki-shell">
       <aside className="mcwiki-sidebar">
@@ -11,22 +23,39 @@ export default function WikiLayout() {
         </NavLink>
 
         <nav className="mcwiki-nav">
-          {JAVA_WIKI.map((group) => (
-            <div className="mcwiki-nav-group" key={group.category}>
-              <p className="mcwiki-nav-label">{group.category}</p>
-              {group.entries.map((entry) => (
-                <NavLink
-                  key={entry.slug}
-                  to={`/wiki/minecraft/java/${entry.slug}`}
-                  className={({ isActive }) =>
-                    'mcwiki-nav-link' + (isActive ? ' mcwiki-nav-link--active' : '')
-                  }
+          {JAVA_WIKI.map((group) => {
+            const isOpen = !collapsed.has(group.category)
+            return (
+              <div className="mcwiki-nav-group" key={group.category}>
+                <button
+                  type="button"
+                  className="mcwiki-nav-label"
+                  onClick={() => toggleGroup(group.category)}
+                  aria-expanded={isOpen}
                 >
-                  {entry.label}
-                </NavLink>
-              ))}
-            </div>
-          ))}
+                  <span className={'mcwiki-nav-arrow' + (isOpen ? ' mcwiki-nav-arrow--open' : '')}>
+                    ▸
+                  </span>
+                  {group.category}
+                </button>
+                {isOpen && (
+                  <div className="mcwiki-nav-items">
+                    {group.entries.map((entry) => (
+                      <NavLink
+                        key={entry.slug}
+                        to={`/wiki/minecraft/java/${entry.slug}`}
+                        className={({ isActive }) =>
+                          'mcwiki-nav-link' + (isActive ? ' mcwiki-nav-link--active' : '')
+                        }
+                      >
+                        {entry.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </nav>
       </aside>
 

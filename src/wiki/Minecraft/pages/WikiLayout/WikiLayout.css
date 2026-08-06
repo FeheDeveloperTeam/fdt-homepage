@@ -34,15 +34,45 @@
 .mcwiki-nav-group {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.15rem;
 }
 
 .mcwiki-nav-label {
-  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   color: var(--text-muted);
-  padding: 0 0.6rem 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.1s ease, background 0.1s ease;
+}
+.mcwiki-nav-label:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.mcwiki-nav-arrow {
+  display: inline-block;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+.mcwiki-nav-arrow--open {
+  transform: rotate(90deg);
+}
+
+.mcwiki-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-left: 0.3rem;
 }
 
 .mcwiki-nav-link {
