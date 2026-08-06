@@ -3,6 +3,18 @@ import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { findJavaEntry } from '../../javaWikiData'
 import '../WikiPage.css'
 
+function renderInlineCommands(text) {
+  return text.split(/(`[^`]+`)/g).map((part, i) =>
+    part.startsWith('`') && part.endsWith('`') ? (
+      <code className="wiki-inline-code" key={i}>
+        {part.slice(1, -1)}
+      </code>
+    ) : (
+      part
+    ),
+  )
+}
+
 export default function WikiEntryPage() {
   const { slug } = useParams()
   const entry = findJavaEntry(slug)
@@ -32,7 +44,7 @@ export default function WikiEntryPage() {
             )}
             <div className="wiki-page-body">
               {section.paragraphs.map((paragraph) => (
-                <p key={paragraph.slice(0, 20)}>{paragraph}</p>
+                <p key={paragraph.slice(0, 20)}>{renderInlineCommands(paragraph)}</p>
               ))}
             </div>
           </section>

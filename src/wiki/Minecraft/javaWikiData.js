@@ -41,11 +41,11 @@ export const JAVA_WIKI = [
           },
           {
             title: '사용법',
-            code: 'command_block',
+            code: '/give @s command_block',
             paragraphs: [
-              '크리에이티브 인벤토리에는 없어서 /give @s command_block 명령어로만 얻을 수 있어요. op 권한이 있는 플레이어만 실행할 수 있어요.',
-              '블록을 설치한 뒤 우클릭하면 편집 창이 열려요. 여기서 실행할 명령어를 입력하고, 상단에서 임펄스/체인/반복 중 어떤 방식으로 작동할지, 무조건 실행할지 이전 블록이 성공했을 때만 실행할지(조건부)를 선택할 수 있어요.',
-              "레드스톤 신호 없이도 항상 활성화 상태로 둘 수 있는 '항상 활성화' 옵션도 있어서, 반복형과 함께 쓰면 매 틱마다 자동으로 명령어가 실행돼요.",
+              '명령 블록은 크리에이티브 인벤토리에 없어서 위 명령어로 직접 꺼내야 해요. op 권한이 있는 플레이어만 실행할 수 있어요.',
+              "블록을 설치한 뒤 우클릭하면 편집 창이 열려요. 맨 위 'Console Command' 입력창에 실행할 명령어를 적고, 왼쪽 버튼으로 Impulse(임펄스)·Chain(체인)·Repeat(반복) 중 작동 방식을 고르면 돼요.",
+              "가운데 버튼은 Needs Redstone(레드스톤 신호가 있을 때만 작동)과 Always Active(신호 없이 항상 작동)를 전환하고, 오른쪽 버튼은 Unconditional(무조건 실행)과 Conditional(바로 앞 명령 블록이 성공했을 때만 실행)을 전환해요. 다 설정했으면 Done을 눌러 저장하면 돼요.",
             ],
           },
         ],
@@ -73,7 +73,7 @@ export const JAVA_WIKI = [
             paragraphs: [
               '이미 만들어진 월드나 서버라면 위 명령어로 로케이터 바를 켜고 끌 수 있어요. enable을 입력하면 켜지고 disable을 입력하면 꺼지며, 두 명령 모두 op 권한이 있어야 실행할 수 있어요.',
               "새 월드를 만드는 경우에는 생성 화면의 '실험적 기능(Experiments)' 항목에서 로케이터 바를 미리 켜 둘 수도 있어요.",
-              '/team add 명령어로 팀을 만들고 /team join <팀 이름> <플레이어>로 플레이어를 팀에 소속시키면, 같은 팀원끼리 자동으로 로케이터 바에 표시돼요.',
+              '`/team add <팀 이름>` 명령어로 팀을 만들고 `/team join <팀 이름> <플레이어>`로 플레이어를 팀에 소속시키면, 같은 팀원끼리 자동으로 로케이터 바에 표시돼요.',
             ],
           },
         ],
@@ -94,7 +94,7 @@ export const JAVA_WIKI = [
             code: '/gamerule keepInventory true\n/gamerule keepInventory false',
             paragraphs: [
               'true를 입력하면 켜지고 false를 입력하면 꺼져요. op 권한이 있는 플레이어나 콘솔에서 실행할 수 있고, 입력하는 즉시 적용돼요.',
-              '값을 넣지 않고 /gamerule keepInventory만 입력하면 현재 설정값을 확인할 수 있어요.',
+              '값을 넣지 않고 `/gamerule keepInventory`만 입력하면 현재 설정값을 확인할 수 있어요.',
             ],
           },
         ],
@@ -119,9 +119,9 @@ export const JAVA_WIKI = [
             title: '사용법',
             code: '/gamemode creative',
             paragraphs: [
-              '자기 자신에게 적용할 때는 플레이어 이름을 생략해도 돼요. 다른 플레이어에게 적용하려면 /gamemode creative <닉네임>처럼 이름을 뒤에 붙이고, 이 경우 op 권한이 필요해요.',
-              '단축 명령어로 /gamemode c 만 입력해도 동일하게 작동해요.',
-              '다시 서바이벌로 돌아가고 싶다면 /gamemode survival을 입력하면 돼요.',
+              '자기 자신에게 적용할 때는 플레이어 이름을 생략해도 돼요. 다른 플레이어에게 적용하려면 `/gamemode creative <닉네임>`처럼 이름을 뒤에 붙이고, 이 경우 op 권한이 필요해요.',
+              '단축 명령어로 `/gamemode c` 만 입력해도 동일하게 작동해요.',
+              '다시 서바이벌로 돌아가고 싶다면 `/gamemode survival`을 입력하면 돼요.',
             ],
           },
         ],
@@ -141,9 +141,9 @@ export const JAVA_WIKI = [
             title: '사용법',
             code: '/gamemode survival',
             paragraphs: [
-              '다른 플레이어를 서바이벌로 되돌리고 싶을 때는 /gamemode survival <닉네임>처럼 대상을 지정하면 돼요.',
+              '다른 플레이어를 서바이벌로 되돌리고 싶을 때는 `/gamemode survival <닉네임>`처럼 대상을 지정하면 돼요.',
               '서버 전체의 기본 게임모드는 server.properties 파일의 gamemode 항목에서 survival로 지정할 수 있어요.',
-              '다시 크리에이티브로 전환하고 싶다면 /gamemode creative를 입력하면 돼요.',
+              '다시 크리에이티브로 전환하고 싶다면 `/gamemode creative`를 입력하면 돼요.',
             ],
           },
         ],
@@ -169,7 +169,7 @@ export const JAVA_WIKI = [
             paragraphs: [
               '콘솔이나 이미 OP 권한이 있는 플레이어만 실행할 수 있어요. 닉네임 대신 서버 파일의 ops.json을 직접 편집해서 등록할 수도 있어요.',
               'server.properties의 op-permission-level 값(1~4)으로 OP가 실제로 사용할 수 있는 명령어 범위를 세밀하게 조정할 수 있어요.',
-              '부여한 권한을 다시 회수하려면 /deop <닉네임>을 입력하면 돼요.',
+              '부여한 권한을 다시 회수하려면 `/deop <닉네임>`을 입력하면 돼요.',
             ],
           },
         ],
@@ -189,7 +189,7 @@ export const JAVA_WIKI = [
             code: '/deop <닉네임>',
             paragraphs: [
               'OP와 마찬가지로 콘솔이나 다른 OP 플레이어만 실행할 수 있어요. ops.json 파일에서 해당 플레이어 항목을 직접 지워도 동일한 효과가 있어요.',
-              '다시 권한을 주고 싶다면 /op <닉네임>을 입력하면 돼요.',
+              '다시 권한을 주고 싶다면 `/op <닉네임>`을 입력하면 돼요.',
             ],
           },
         ],
