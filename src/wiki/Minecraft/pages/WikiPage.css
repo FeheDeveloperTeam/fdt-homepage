@@ -64,6 +64,27 @@
   word-break: break-word;
 }
 
+.wiki-page-section {
+  margin-top: 1.8rem;
+}
+.wiki-page-section:first-of-type {
+  margin-top: 1.4rem;
+}
+
+.wiki-page-section-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.wiki-page-section .wiki-page-code {
+  margin-top: 0.7rem;
+}
+
+.wiki-page-section .wiki-page-body {
+  margin-top: 0.7rem;
+}
+
 .wiki-page-body {
   margin-top: 1.4rem;
   max-width: 640px;
