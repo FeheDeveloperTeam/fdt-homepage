@@ -26,6 +26,10 @@ export const SEO_DATA = {
     title: '일반 프로젝트',
     description: 'FDT가 직접 만든 웹 유틸리티 등 일반 프로젝트를 소개합니다.',
   },
+  '/projects/wiki': {
+    title: '위키',
+    description: 'FDT가 직접 만든 위키를 소개합니다.',
+  },
   '/contact': {
     title: '문의',
     description: 'FeheDeveloperTeam(FDT)에 문의하거나 커뮤니티에 참여해보세요. Discord와 이메일로 연락하실 수 있습니다.',

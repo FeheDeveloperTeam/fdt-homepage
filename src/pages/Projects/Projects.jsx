@@ -26,9 +26,20 @@ function IconFolder() {
   )
 }
 
+function IconBook() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M4 4.5C4 3.7 4.7 3 5.5 3H12v18H5.5c-.8 0-1.5-.7-1.5-1.5v-15Z" strokeLinejoin="round" />
+      <path d="M20 4.5c0-.8-.7-1.5-1.5-1.5H12v18h6.5c.8 0 1.5-.7 1.5-1.5v-15Z" strokeLinejoin="round" />
+      <path d="M12 3v18" />
+    </svg>
+  )
+}
+
 const CATEGORIES = [
   { key: 'discord-bot', label: '디스코드 봇', Icon: IconBot },
   { key: 'general', label: '일반 프로젝트', Icon: IconFolder },
+  { key: 'wiki', label: '위키', Icon: IconBook },
 ]
 
 const PROJECTS = [
@@ -59,7 +70,7 @@ const PROJECTS = [
     link: '/utility/network-test',
   },
   {
-    category: 'general',
+    category: 'wiki',
     name: '마인크래프트 위키',
     description: SEO_DATA['/wiki/minecraft'].description,
     features: ['자바 에디션', '베드락 에디션'],
