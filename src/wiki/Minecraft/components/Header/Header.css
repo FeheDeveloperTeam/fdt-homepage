@@ -49,6 +49,13 @@ header {
   letter-spacing: -0.2px;
 }
 
+.mcwiki-logo-icon {
+  width: 26px;
+  height: 26px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
 @media (max-width: 480px) {
   .mcwiki-back,
   .mcwiki-header-divider {

@@ -68,6 +68,21 @@
   color: var(--accent);
 }
 
+.mcwiki-switch-edition {
+  display: block;
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+
+.mcwiki-switch-edition:hover {
+  color: var(--accent);
+}
+
 .mcwiki-content {
   flex: 1;
   min-width: 0;

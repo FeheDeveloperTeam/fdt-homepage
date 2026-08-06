@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
+import '../WikiPage.css'
 import './WikiHomePage.css'
 
 const EDITIONS = [
@@ -22,16 +23,25 @@ export default function WikiHomePage() {
 
   return (
     <section className="wiki-hero">
-      <p className="wiki-hero-eyebrow">Minecraft Wiki</p>
-      <h1 className="wiki-hero-title">마인크래프트 위키</h1>
-      <p className="wiki-hero-desc">
+      <p className="wiki-hero-eyebrow wiki-reveal" style={{ '--reveal-i': 0 }}>
+        Minecraft Wiki
+      </p>
+      <h1 className="wiki-hero-title wiki-reveal" style={{ '--reveal-i': 1 }}>
+        마인크래프트 위키
+      </h1>
+      <p className="wiki-hero-desc wiki-reveal" style={{ '--reveal-i': 2 }}>
         일반적인 마인크래프트 사용법과 명령어를 정리해둔 위키예요. 자바/베드락 에디션을
         선택해서 문서를 확인해보세요.
       </p>
 
       <div className="wiki-hero-editions">
-        {EDITIONS.map((edition) => (
-          <Link key={edition.key} to={edition.to} className={`wiki-edition-card wiki-edition-card--${edition.key}`}>
+        {EDITIONS.map((edition, i) => (
+          <Link
+            key={edition.key}
+            to={edition.to}
+            className={`wiki-edition-card wiki-edition-card--${edition.key} wiki-reveal`}
+            style={{ '--reveal-i': i + 3 }}
+          >
             <span className="wiki-edition-card-label">{edition.label}</span>
             <span className="wiki-edition-card-desc">{edition.desc}</span>
           </Link>
