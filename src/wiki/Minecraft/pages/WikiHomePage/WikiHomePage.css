@@ -1,4 +1,22 @@
 @scope (.mcwiki-app) {
+@keyframes mcwikiReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.wiki-reveal {
+  opacity: 0;
+  animation: mcwikiReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wiki-reveal {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 .wiki-hero {
   max-width: 720px;
   margin: 0 auto;
@@ -27,47 +45,5 @@
   font-size: 0.9rem;
   line-height: 1.7;
   color: var(--text-soft);
-}
-
-.wiki-hero-editions {
-  margin-top: 2.6rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  text-align: left;
-}
-
-.wiki-edition-card {
-  padding: 1.4rem 1.5rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-soft);
-  background: var(--surface);
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
-}
-
-.wiki-edition-card:hover {
-  transform: translateY(-2px);
-  background: var(--surface-2);
-}
-
-.wiki-edition-card--java:hover { border-color: var(--java-color); }
-.wiki-edition-card--bedrock:hover { border-color: var(--bedrock-color); }
-
-.wiki-edition-card-label {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.wiki-edition-card--java .wiki-edition-card-label { color: var(--java-color); }
-.wiki-edition-card--bedrock .wiki-edition-card-label { color: var(--bedrock-color); }
-
-.wiki-edition-card-desc {
-  font-size: 0.82rem;
-  line-height: 1.6;
-  color: var(--text-muted);
 }
 }

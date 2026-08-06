@@ -72,31 +72,7 @@ export const SEO_DATA = {
   },
   '/wiki/minecraft': {
     title: '마인크래프트 위키',
-    description: '마인크래프트 자바/베드락 에디션의 일반적인 사용법과 명령어를 정리합니다.',
-  },
-  '/wiki/minecraft/java': {
-    title: '자바 에디션',
-    description: '마인크래프트 자바 에디션(PC)의 사용법과 명령어를 정리합니다.',
-  },
-  '/wiki/minecraft/java/server': {
-    title: '자바 에디션 서버 운영',
-    description: '마인크래프트 자바 에디션 서버를 여는 방법과 주요 설정을 정리합니다.',
-  },
-  '/wiki/minecraft/java/mods': {
-    title: '자바 에디션 모드',
-    description: '마인크래프트 자바 에디션 모드 로더와 설치 방법을 정리합니다.',
-  },
-  '/wiki/minecraft/bedrock': {
-    title: '베드락 에디션',
-    description: '마인크래프트 베드락 에디션의 사용법과 명령어를 정리합니다.',
-  },
-  '/wiki/minecraft/bedrock/server': {
-    title: '베드락 에디션 서버 운영',
-    description: '마인크래프트 베드락 에디션 서버(BDS)를 여는 방법과 주요 설정을 정리합니다.',
-  },
-  '/wiki/minecraft/bedrock/addons': {
-    title: '베드락 에디션 애드온',
-    description: '마인크래프트 베드락 에디션의 애드온(비헤이비어 팩/리소스 팩)을 정리합니다.',
+    description: '마인크래프트 위키를 준비 중입니다.',
   },
 }
 
