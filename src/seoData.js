@@ -86,6 +86,19 @@ export const SEO_DATA = {
   },
 }
 
+// 위키 페이지는 전용 배너 이미지 하나를 공유한다 (문서마다 다른 사진을 만들
+// 여력은 없어서, 잔디블록 아이콘 기반 브랜드 이미지를 위키 전체에 재사용).
+const WIKI_IMAGE = {
+  image: `${SITE_URL}/og-wiki-minecraft.png`,
+  imageWidth: 1200,
+  imageHeight: 630,
+  imageAlt: '마인크래프트 위키 배너',
+}
+
+for (const path of ['/wiki/minecraft', '/wiki/minecraft/java', '/wiki/minecraft/bedrock']) {
+  Object.assign(SEO_DATA[path], WIKI_IMAGE)
+}
+
 // 위키 문서 하나하나에 SEO 항목을 직접 손으로 안 적어도 되게, javaWikiData.js를
 // 그대로 훑어서 만들어준다 (문서 추가/수정이 자동으로 미리보기에도 반영됨).
 function describeJavaEntry(entry) {
@@ -99,6 +112,7 @@ for (const group of JAVA_WIKI) {
     SEO_DATA[`/wiki/minecraft/java/${entry.slug}`] = {
       title: entry.label,
       description: describeJavaEntry(entry),
+      ...WIKI_IMAGE,
     }
   }
 }
