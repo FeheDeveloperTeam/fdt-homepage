@@ -85,7 +85,7 @@ const TIMELINE = [
       { label: 'VAN 결제', desc: 'VAN사 연동 결제 시스템 운영 · 설정 · 장애 처리' },
       { label: '문서 작업', desc: '엑셀을 활용한 데이터 정리 및 업무 문서 작성' },
       { label: '블로그 관리', desc: '네이버 블로그 콘텐츠 작성 및 게시물 관리' },
-      { label: '사이트 개발', desc: '다인아이앤씨 사내 ERP 개발 서포터 및 (주)라함 사내 대시보드 풀스택 단독 개발' },
+      { label: '사이트 개발', desc: '다인아이앤씨 사내 ERP 개발 서포터 및 (주)라함 사내 대시보드 단독 개발' },
     ],
   },
   {
@@ -193,7 +193,7 @@ export default function HomePage() {
             </h1>
             <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
             <div className="hero-badges">
-              <span className="badge">개발자</span>
+              <span className="badge">풀스택 개발자</span>
               <span className="badge">인플루언서</span>
               <span className="badge">커뮤니티</span>
             </div>
