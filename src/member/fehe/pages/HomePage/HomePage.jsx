@@ -119,7 +119,7 @@ const SKILLS = [
   },
   {
     label: 'DB',
-    items: ['MySQL', 'MariaDB', 'Firebase', 'Supabase', 'SQLite', 'Turso'],
+    items: ['MySQL', 'MariaDB', 'Firebase', 'Supabase', 'SQLite', 'Turso', 'MSSQL'],
     cls: 'db',
   },
   {
