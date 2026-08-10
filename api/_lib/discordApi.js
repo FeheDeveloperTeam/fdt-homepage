@@ -52,6 +52,14 @@ export async function fetchGuildChannels(guildId) {
     .map((c) => ({ id: c.id, name: c.name }))
 }
 
+// 참여율 계산용 — 봇/유저를 나눠 사람 멤버 id만 돌려준다. 1000명까지만 가져오고
+// (한 번의 REST 호출 한도) 그 이상은 페이지네이션하지 않아 대형 서버에서는
+// 근사치가 된다.
+export async function fetchGuildMemberIds(guildId) {
+  const members = await discordApi(`/guilds/${guildId}/members?limit=1000`)
+  return members.filter((m) => !m.user?.bot).map((m) => m.user.id)
+}
+
 export async function fetchGuildRoles(guildId) {
   const roles = await discordApi(`/guilds/${guildId}/roles`)
   return roles

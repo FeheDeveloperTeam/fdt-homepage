@@ -49,6 +49,30 @@ export default function GuildOverviewPage() {
             </div>
           </div>
 
+          <div className="admin-stats-row" style={{ marginTop: '0.8rem' }}>
+            <div className="admin-stat">
+              <span className="admin-stat-value">{data.participation.chatRate}%</span>
+              <span className="admin-stat-label">
+                채팅 참여율 ({data.participation.chatCount}/{data.participation.totalMembers}명)
+              </span>
+            </div>
+            <div className="admin-stat">
+              <span className="admin-stat-value">{data.participation.voiceRate}%</span>
+              <span className="admin-stat-label">
+                음성 참여율 ({data.participation.voiceCount}/{data.participation.totalMembers}명)
+              </span>
+            </div>
+            <div className="admin-stat">
+              <span className="admin-stat-value">{data.participation.attendanceRate}%</span>
+              <span className="admin-stat-label">
+                출석 참여율 · 평균 연속 {data.participation.avgStreak}일
+              </span>
+            </div>
+          </div>
+          <p className="guild-hint">
+            출석은 서버 구분 없이 봇 전체에서 공유되는 기록이라, 이 서버 멤버만 걸러서 계산한 값이에요.
+          </p>
+
           <section className="admin-chart-section">
             <h2 className="admin-chart-title">채팅 활동 순위 (누적 XP)</h2>
             <RankBarChart

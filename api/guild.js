@@ -4,6 +4,7 @@ import {
   fetchGuildInfo,
   fetchGuildChannels,
   fetchGuildRoles,
+  fetchGuildMemberIds,
   fetchDiscordProfile,
   banGuildMember,
   kickGuildMember,
@@ -13,7 +14,7 @@ import { rateLimit } from './_lib/rateLimit.js'
 import { isDiscordId } from './_lib/validate.js'
 import * as guildConfig from './_lib/sftpGuildConfig.js'
 import { getUserWarnings, addWarning, removeWarning, resetWarnings } from './_lib/sftpWarnings.js'
-import { getGuildChatLeaderboard, getGuildVoiceLeaderboard } from './_lib/sftpActivity.js'
+import { getGuildActivity, getAllClaims } from './_lib/sftpActivity.js'
 import {
   getGuildAlerts,
   addAlert,
@@ -49,22 +50,43 @@ async function handleOverview(req, res, guildId) {
   if (!access) return
 
   try {
-    const [info, chatBoard, voiceBoard] = await Promise.all([
+    const [info, activity, claims, memberIds] = await Promise.all([
       fetchGuildInfo(guildId),
-      getGuildChatLeaderboard(guildId, 10),
-      getGuildVoiceLeaderboard(guildId, 10),
+      getGuildActivity(guildId, 10),
+      getAllClaims(),
+      fetchGuildMemberIds(guildId),
     ])
 
-    const profileIds = [...new Set([...chatBoard, ...voiceBoard].map((e) => e.userId))]
+    const profileIds = [...new Set([...activity.topChat, ...activity.topVoice].map((e) => e.userId))]
     const profiles = await Promise.all(profileIds.map(fetchDiscordProfile))
     const profileMap = new Map(profiles.map((p) => [p.id, p]))
-
     const attach = (entry) => ({ ...entry, ...(profileMap.get(entry.userId) || { username: entry.userId, avatar: null }) })
+
+    // 출석(claims.json)은 길드 구분 없이 봇 전체가 공유하는 데이터라, 이 서버
+    // 멤버 목록과 교집합을 내야 "이 서버의" 출석 참여율이 된다.
+    const rate = (count) => (memberIds.length ? Math.round((count / memberIds.length) * 1000) / 10 : 0)
+
+    const chatCount = memberIds.filter((id) => activity.chatParticipantIds.has(id)).length
+    const voiceCount = memberIds.filter((id) => activity.voiceParticipantIds.has(id)).length
+    const attendanceStreaks = memberIds.map((id) => claims[id]?.streak).filter((s) => typeof s === 'number' && s > 0)
+    const avgStreak = attendanceStreaks.length
+      ? Math.round((attendanceStreaks.reduce((sum, s) => sum + s, 0) / attendanceStreaks.length) * 10) / 10
+      : 0
 
     sendJson(res, 200, {
       guild: info,
-      topChat: chatBoard.map(attach),
-      topVoice: voiceBoard.map(attach),
+      topChat: activity.topChat.map(attach),
+      topVoice: activity.topVoice.map(attach),
+      participation: {
+        totalMembers: memberIds.length,
+        chatCount,
+        chatRate: rate(chatCount),
+        voiceCount,
+        voiceRate: rate(voiceCount),
+        attendanceCount: attendanceStreaks.length,
+        attendanceRate: rate(attendanceStreaks.length),
+        avgStreak,
+      },
     })
   } catch (err) {
     console.error('[guild overview]', err)
