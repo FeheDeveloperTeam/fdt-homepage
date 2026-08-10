@@ -41,7 +41,7 @@ export const JAVA_WIKI = [
           },
           {
             title: '사용법',
-            code: '/give @s command_block',
+            code: '/give @p command_block',
             paragraphs: [
               '명령 블록은 크리에이티브 인벤토리에 없어서 위 명령어로 직접 꺼내야 해요. op 권한이 있는 플레이어만 실행할 수 있어요.',
               "블록을 설치한 뒤 우클릭하면 편집 창이 열려요. 맨 위 'Console Command' 입력창에 실행할 명령어를 적고, 왼쪽 버튼으로 Impulse(임펄스)·Chain(체인)·Repeat(반복) 중 작동 방식을 고르면 돼요.",
