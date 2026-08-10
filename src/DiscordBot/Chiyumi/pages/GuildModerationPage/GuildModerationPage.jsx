@@ -50,7 +50,7 @@ function ActionForm({ title, desc, actionLabel, confirmText, onSubmit, busy }) {
 }
 
 export default function GuildModerationPage() {
-  useDocumentTitle('모데레이션', 'Chiyumi')
+  useDocumentTitle('멤버 제재', 'Chiyumi')
   const { guildId } = useOutletContext()
 
   const [busy, setBusy] = useState(false)
@@ -75,9 +75,10 @@ export default function GuildModerationPage() {
   return (
     <div>
       <p className="eyebrow">Server Settings</p>
-      <h1 className="admin-page-title">모데레이션</h1>
+      <h1 className="admin-page-title">멤버 제재</h1>
       <p className="admin-page-desc">
-        즉시 실행되는 조치예요. 실행하면 바로 적용되고 되돌릴 수 없으니 신중하게 사용해주세요.
+        멤버를 차단(밴)하거나 추방(킥)해요. 실행하면 바로 적용되고 되돌릴 수 없으니 신중하게
+        사용해주세요.
       </p>
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}

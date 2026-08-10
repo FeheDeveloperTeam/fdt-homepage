@@ -29,6 +29,22 @@ export default function GuildTicketPage() {
     }
   }
 
+  async function handlePublish() {
+    setBusy(true)
+    setStatus(null)
+    try {
+      await callGuildApi(`/api/guild?resource=config&guildId=${guildId}`, {
+        method: 'POST',
+        body: JSON.stringify({ section: 'ticket', field: 'publish' }),
+      })
+      setStatus({ type: 'success', text: '티켓 채널에 생성 버튼을 게시했어요.' })
+    } catch (err) {
+      setStatus({ type: 'error', text: err.message })
+    } finally {
+      setBusy(false)
+    }
+  }
+
   return (
     <div>
       <p className="eyebrow">Server Settings</p>
@@ -57,8 +73,19 @@ export default function GuildTicketPage() {
           />
         </label>
       </div>
+
+      <div className="admin-actions" style={{ marginTop: '1.2rem' }}>
+        <button
+          type="button"
+          className="admin-btn admin-btn--accent"
+          disabled={busy || !config.ticketChannelId}
+          onClick={handlePublish}
+        >
+          채널에 게시하기
+        </button>
+      </div>
       <p className="guild-hint">
-        실제로 서버 채널에 티켓 패널 메시지를 게시하는 건 디스코드 안에서 /티켓 명령어로 해야 해요.
+        위 버튼을 누르면 티켓 채널에 '티켓 생성' 버튼이 달린 안내 메시지를 바로 올려요.
       </p>
     </div>
   )

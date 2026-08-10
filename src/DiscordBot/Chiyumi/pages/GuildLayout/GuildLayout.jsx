@@ -10,7 +10,7 @@ const MENU = [
   { label: '입퇴장', to: 'welcome' },
   { label: '티켓', to: 'ticket' },
   { label: '경고', to: 'warn' },
-  { label: '모데레이션', to: 'moderation' },
+  { label: '멤버 제재', to: 'moderation' },
   { label: '검열 · 스팸 · 레이드', to: 'censor' },
   { label: '끝말잇기', to: 'wordchain' },
   { label: '방송알림', to: 'streamalert' },

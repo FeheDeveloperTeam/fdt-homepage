@@ -75,6 +75,13 @@ export async function kickGuildMember(guildId, userId, reason) {
   })
 }
 
+export async function sendChannelMessage(channelId, payload) {
+  return discordApi(`/channels/${channelId}/messages`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export async function fetchDiscordProfile(id) {
   try {
     const data = await discordApi(`/users/${id}`)

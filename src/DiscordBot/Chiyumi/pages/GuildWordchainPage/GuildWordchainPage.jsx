@@ -28,6 +28,22 @@ export default function GuildWordchainPage() {
     }
   }
 
+  async function handlePublish() {
+    setBusy(true)
+    setStatus(null)
+    try {
+      await callGuildApi(`/api/guild?resource=config&guildId=${guildId}`, {
+        method: 'POST',
+        body: JSON.stringify({ section: 'wordchain', field: 'publish' }),
+      })
+      setStatus({ type: 'success', text: '끝말잇기 채널에 파티 만들기 버튼을 게시했어요.' })
+    } catch (err) {
+      setStatus({ type: 'error', text: err.message })
+    } finally {
+      setBusy(false)
+    }
+  }
+
   return (
     <div>
       <p className="eyebrow">Server Settings</p>
@@ -45,8 +61,19 @@ export default function GuildWordchainPage() {
           onChange={(value) => post({ section: 'wordchain', field: 'channel', value })}
         />
       </div>
+
+      <div className="admin-actions" style={{ marginTop: '1.2rem' }}>
+        <button
+          type="button"
+          className="admin-btn admin-btn--accent"
+          disabled={busy || !config.wordChainChannelId}
+          onClick={handlePublish}
+        >
+          채널에 게시하기
+        </button>
+      </div>
       <p className="guild-hint">
-        게임 시작 패널 메시지를 채널에 게시하는 건 디스코드 안에서 /끝말잇기 명령어로 해야 해요.
+        위 버튼을 누르면 끝말잇기 채널에 '파티 만들기' 버튼이 달린 안내 메시지를 바로 올려요.
       </p>
     </div>
   )

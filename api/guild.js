@@ -7,6 +7,7 @@ import {
   fetchDiscordProfile,
   banGuildMember,
   kickGuildMember,
+  sendChannelMessage,
 } from './_lib/discordApi.js'
 import { rateLimit } from './_lib/rateLimit.js'
 import { isDiscordId } from './_lib/validate.js'
@@ -153,6 +154,20 @@ async function handleConfigPost(req, res, guildId) {
         await guildConfig.setTicketMessage(guildId, String(value ?? '').slice(0, 512))
         break
       }
+      case 'ticket.publish': {
+        const current = await guildConfig.getGuildConfig(guildId)
+        if (!current.ticketChannelId) return badRequest(res, '먼저 티켓 채널을 설정해주세요.')
+        await sendChannelMessage(current.ticketChannelId, {
+          embeds: [{ description: current.ticketMessage, color: 0xe1aa74 }],
+          components: [
+            {
+              type: 1,
+              components: [{ type: 2, style: 3, label: '티켓 생성', custom_id: 'ticket-create' }],
+            },
+          ],
+        })
+        break
+      }
       case 'warn.threshold': {
         const { count, roleId, action, duration } = req.body
         if (!Number.isInteger(count) || count < 1) return badRequest(res, 'count는 1 이상의 정수여야 해요.')
@@ -197,6 +212,20 @@ async function handleConfigPost(req, res, guildId) {
         await guildConfig.setWordChainChannel(guildId, value)
         break
       }
+      case 'wordchain.publish': {
+        const current = await guildConfig.getGuildConfig(guildId)
+        if (!current.wordChainChannelId) return badRequest(res, '먼저 끝말잇기 채널을 설정해주세요.')
+        await sendChannelMessage(current.wordChainChannelId, {
+          embeds: [{ description: '아래 버튼을 눌러 끝말잇기 파티를 만들어보세요!', color: 0xe1aa74 }],
+          components: [
+            {
+              type: 1,
+              components: [{ type: 2, style: 3, label: '파티 만들기', custom_id: 'wordchain-create' }],
+            },
+          ],
+        })
+        break
+      }
       case 'announce.channel': {
         const { value } = req.body
         if (value !== null && !isDiscordId(value)) return badRequest(res, '올바른 채널 ID가 아니에요.')
@@ -210,7 +239,7 @@ async function handleConfigPost(req, res, guildId) {
     sendJson(res, 200, { ok: true, config })
   } catch (err) {
     console.error('[guild config POST]', err)
-    sendJson(res, 500, { error: '설정 저장에 실패했어요. 잠시 후 다시 시도해주세요.' })
+    sendJson(res, 500, { error: '처리에 실패했어요. 봇 권한이나 채널 설정을 확인하고 잠시 후 다시 시도해주세요.' })
   }
 }
 
