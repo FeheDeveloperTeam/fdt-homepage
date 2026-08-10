@@ -15,6 +15,7 @@ import { isDiscordId } from './_lib/validate.js'
 import * as guildConfig from './_lib/sftpGuildConfig.js'
 import { getUserWarnings, addWarning, removeWarning, resetWarnings } from './_lib/sftpWarnings.js'
 import { getGuildActivity, getAllClaims } from './_lib/sftpActivity.js'
+import { getGuildOnlineHumans } from './_lib/sftpPresence.js'
 import {
   getGuildAlerts,
   addAlert,
@@ -50,11 +51,12 @@ async function handleOverview(req, res, guildId) {
   if (!access) return
 
   try {
-    const [info, activity, claims, members] = await Promise.all([
+    const [info, activity, claims, members, onlinePresence] = await Promise.all([
       fetchGuildInfo(guildId),
       getGuildActivity(guildId, 10),
       getAllClaims(),
       fetchGuildMembers(guildId),
+      getGuildOnlineHumans(guildId),
     ])
     const memberIds = members.humanIds
 
@@ -75,7 +77,14 @@ async function handleOverview(req, res, guildId) {
       : 0
 
     sendJson(res, 200, {
-      guild: { ...info, humanCount: members.humanIds.length, botCount: members.botCount },
+      guild: {
+        ...info,
+        humanCount: members.humanIds.length,
+        botCount: members.botCount,
+        onlineHumans: onlinePresence?.onlineHumans ?? null,
+        onlineHumansUpdatedAt: onlinePresence?.updatedAt ?? null,
+        onlineHumansHistory: onlinePresence?.history ?? [],
+      },
       topChat: activity.topChat.map(attach),
       topVoice: activity.topVoice.map(attach),
       participation: {

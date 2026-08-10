@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import RankBarChart from '../../components/AdminCharts/RankBarChart'
+import TrendLineChart from '../../components/AdminCharts/TrendLineChart'
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 import '../AdminOverviewPage/AdminOverviewPage.css'
@@ -52,18 +53,24 @@ export default function GuildOverviewPage() {
                 label={`전체 멤버 수 (사람 ${data.guild.humanCount.toLocaleString()} · 봇 ${data.guild.botCount.toLocaleString()})`}
               />
               <StatCard
-                value={(data.guild.onlineCount ?? 0).toLocaleString()}
-                label="현재 접속 중 (봇 포함 추정치)"
+                value={data.guild.onlineHumans !== null ? data.guild.onlineHumans.toLocaleString() : '준비 중'}
+                label="현재 접속 중 (사람만)"
               />
               <StatCard
                 value={data.guild.boostCount ?? 0}
                 label={`부스트 (레벨 ${data.guild.boostLevel ?? 0})`}
               />
             </div>
-            <p className="guild-hint">
-              디스코드 API는 온라인 상태를 사람/봇으로 나눠 알려주지 않아서(별도의 프레즌스 권한이
-              필요해요), 접속 중 인원에는 봇도 함께 포함돼요.
-            </p>
+            {data.guild.onlineHumans === null ? (
+              <p className="guild-hint">
+                사람만 집계한 접속자 수는 봇이 업데이트를 반영한 뒤부터 표시돼요. 잠시 후 다시
+                확인해주세요.
+              </p>
+            ) : (
+              <p className="guild-hint">
+                봇이 2분 간격으로 집계한 값이에요 (실시간은 아니에요).
+              </p>
+            )}
           </div>
 
           <div className="guild-stats-group">
@@ -86,6 +93,15 @@ export default function GuildOverviewPage() {
               출석은 서버 구분 없이 봇 전체에서 공유되는 기록이라, 이 서버 멤버만 걸러서 계산한 값이에요.
             </p>
           </div>
+
+          <section className="admin-chart-section">
+            <h2 className="admin-chart-title">접속 인원 추이 (사람만, 30분 간격)</h2>
+            <TrendLineChart
+              points={data.guild.onlineHumansHistory}
+              unit="명"
+              emptyText="데이터가 더 쌓이면 그래프로 보여드릴게요 (봇이 30분마다 기록해요)."
+            />
+          </section>
 
           <section className="admin-chart-section">
             <h2 className="admin-chart-title">채팅 활동 순위 (누적 XP)</h2>
