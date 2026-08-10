@@ -61,16 +61,6 @@ export default function GuildOverviewPage() {
                 label={`부스트 (레벨 ${data.guild.boostLevel ?? 0})`}
               />
             </div>
-            {data.guild.onlineHumans === null ? (
-              <p className="guild-hint">
-                사람만 집계한 접속자 수는 봇이 업데이트를 반영한 뒤부터 표시돼요. 잠시 후 다시
-                확인해주세요.
-              </p>
-            ) : (
-              <p className="guild-hint">
-                봇이 2분 간격으로 집계한 값이에요 (실시간은 아니에요).
-              </p>
-            )}
           </div>
 
           <div className="guild-stats-group">
@@ -89,9 +79,6 @@ export default function GuildOverviewPage() {
                 label={`출석 참여율 · 평균 연속 ${data.participation.avgStreak}일`}
               />
             </div>
-            <p className="guild-hint">
-              출석은 서버 구분 없이 봇 전체에서 공유되는 기록이라, 이 서버 멤버만 걸러서 계산한 값이에요.
-            </p>
           </div>
 
           <section className="admin-chart-section">
