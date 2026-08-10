@@ -105,11 +105,6 @@ export default function GuildOverviewPage() {
               emptyText="아직 음성채널 활동 기록이 없어요."
             />
           </section>
-
-          <p className="guild-hint">
-            채팅·음성 활동은 봇이 지금까지 누적으로 기록한 총량 기준이에요 (일별 추이는 아직 제공하지
-            않아요).
-          </p>
         </>
       )}
     </div>
