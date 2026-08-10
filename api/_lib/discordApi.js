@@ -52,12 +52,21 @@ export async function fetchGuildChannels(guildId) {
     .map((c) => ({ id: c.id, name: c.name }))
 }
 
-// 참여율 계산용 — 봇/유저를 나눠 사람 멤버 id만 돌려준다. 1000명까지만 가져오고
-// (한 번의 REST 호출 한도) 그 이상은 페이지네이션하지 않아 대형 서버에서는
-// 근사치가 된다.
-export async function fetchGuildMemberIds(guildId) {
+// 참여율·인원 통계용 — 사람 멤버 id 목록과 봇 수를 나눠서 돌려준다. 1000명까지만
+// 가져오고(한 번의 REST 호출 한도) 그 이상은 페이지네이션하지 않아 대형
+// 서버에서는 근사치가 된다.
+// (REST API는 멤버의 온라인 상태를 안 줘서 — 그건 게이트웨이 프레즌스 인텐트가
+// 있어야만 알 수 있고 이 봇엔 없음 — "현재 접속 중 X명" 자체를 사람/봇으로
+// 나누는 건 불가능하다. 대신 정확히 셀 수 있는 전체 인원의 사람/봇 구성을 준다.)
+export async function fetchGuildMembers(guildId) {
   const members = await discordApi(`/guilds/${guildId}/members?limit=1000`)
-  return members.filter((m) => !m.user?.bot).map((m) => m.user.id)
+  const humanIds = []
+  let botCount = 0
+  for (const m of members) {
+    if (m.user?.bot) botCount += 1
+    else humanIds.push(m.user.id)
+  }
+  return { humanIds, botCount }
 }
 
 export async function fetchGuildRoles(guildId) {

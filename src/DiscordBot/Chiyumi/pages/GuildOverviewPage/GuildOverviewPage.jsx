@@ -37,17 +37,23 @@ export default function GuildOverviewPage() {
           <div className="admin-stats-row">
             <div className="admin-stat">
               <span className="admin-stat-value">{(data.guild.memberCount ?? 0).toLocaleString()}</span>
-              <span className="admin-stat-label">전체 멤버 수</span>
+              <span className="admin-stat-label">
+                전체 멤버 수 (사람 {data.guild.humanCount.toLocaleString()} · 봇 {data.guild.botCount.toLocaleString()})
+              </span>
             </div>
             <div className="admin-stat">
               <span className="admin-stat-value">{(data.guild.onlineCount ?? 0).toLocaleString()}</span>
-              <span className="admin-stat-label">현재 접속 중</span>
+              <span className="admin-stat-label">현재 접속 중 (봇 포함 추정치)</span>
             </div>
             <div className="admin-stat">
               <span className="admin-stat-value">{data.guild.boostCount ?? 0}</span>
               <span className="admin-stat-label">부스트 (레벨 {data.guild.boostLevel ?? 0})</span>
             </div>
           </div>
+          <p className="guild-hint">
+            디스코드 API는 온라인 상태를 사람/봇으로 나눠 알려주지 않아서(별도의 프레즌스 권한이
+            필요해요), 접속 중 인원에는 봇도 함께 포함돼요.
+          </p>
 
           <div className="admin-stats-row" style={{ marginTop: '0.8rem' }}>
             <div className="admin-stat">

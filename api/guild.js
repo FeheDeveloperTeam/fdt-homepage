@@ -4,7 +4,7 @@ import {
   fetchGuildInfo,
   fetchGuildChannels,
   fetchGuildRoles,
-  fetchGuildMemberIds,
+  fetchGuildMembers,
   fetchDiscordProfile,
   banGuildMember,
   kickGuildMember,
@@ -50,12 +50,13 @@ async function handleOverview(req, res, guildId) {
   if (!access) return
 
   try {
-    const [info, activity, claims, memberIds] = await Promise.all([
+    const [info, activity, claims, members] = await Promise.all([
       fetchGuildInfo(guildId),
       getGuildActivity(guildId, 10),
       getAllClaims(),
-      fetchGuildMemberIds(guildId),
+      fetchGuildMembers(guildId),
     ])
+    const memberIds = members.humanIds
 
     const profileIds = [...new Set([...activity.topChat, ...activity.topVoice].map((e) => e.userId))]
     const profiles = await Promise.all(profileIds.map(fetchDiscordProfile))
@@ -74,7 +75,7 @@ async function handleOverview(req, res, guildId) {
       : 0
 
     sendJson(res, 200, {
-      guild: info,
+      guild: { ...info, humanCount: members.humanIds.length, botCount: members.botCount },
       topChat: activity.topChat.map(attach),
       topVoice: activity.topVoice.map(attach),
       participation: {
