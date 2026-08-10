@@ -55,7 +55,7 @@ export default function GuildTicketPage() {
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}
 
-      <div className="admin-form" style={{ maxWidth: 420 }}>
+      <div className="admin-form">
         <ChannelSelect
           label="티켓 채널"
           value={config.ticketChannelId}

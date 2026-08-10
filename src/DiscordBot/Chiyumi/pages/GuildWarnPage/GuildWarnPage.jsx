@@ -121,7 +121,7 @@ export default function GuildWarnPage() {
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}
 
-      <div className="admin-form" style={{ maxWidth: 420 }}>
+      <div className="admin-form">
         <ChannelSelect
           label="경고 로그 채널"
           value={config.warnConfig.logChannelId}
@@ -143,7 +143,6 @@ export default function GuildWarnPage() {
         </label>
       </div>
 
-      <div className="guild-two-col">
       <div className="guild-section">
         <p className="guild-section-title">임계값</p>
         <p className="guild-section-desc">경고가 이 횟수에 도달하면 지정한 조치를 자동으로 실행해요.</p>
@@ -261,7 +260,6 @@ export default function GuildWarnPage() {
             ))}
           </div>
         )}
-      </div>
       </div>
     </div>
   )

@@ -49,7 +49,7 @@ export default function GuildLogPage() {
         서버에서 일어나는 일들을 기본 로그 채널로 보내거나, 항목별로 다른 채널을 지정할 수 있어요.
       </p>
 
-      <div className="admin-form" style={{ maxWidth: 420 }}>
+      <div className="admin-form">
         <ChannelSelect
           label="기본 로그 채널"
           value={config.logChannelId}

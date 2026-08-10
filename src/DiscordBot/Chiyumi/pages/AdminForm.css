@@ -16,16 +16,20 @@
 
 .admin-form {
   margin-top: 1.8rem;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem 1.5rem;
+  align-items: start;
 }
 
 .admin-field {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+.admin-field:has(textarea) {
+  grid-column: 1 / -1;
 }
 
 .admin-field span {
@@ -57,6 +61,9 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-top: 0.2rem;
+}
+.admin-form > .admin-actions {
+  grid-column: 1 / -1;
 }
 
 .admin-btn {

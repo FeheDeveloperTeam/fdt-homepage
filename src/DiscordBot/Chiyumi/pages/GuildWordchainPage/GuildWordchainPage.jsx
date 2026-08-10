@@ -52,7 +52,7 @@ export default function GuildWordchainPage() {
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}
 
-      <div className="admin-form" style={{ maxWidth: 420 }}>
+      <div className="admin-form">
         <ChannelSelect
           label="끝말잇기 채널"
           value={config.wordChainChannelId}

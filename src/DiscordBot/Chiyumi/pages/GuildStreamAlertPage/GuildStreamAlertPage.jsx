@@ -24,7 +24,7 @@ function EditRow({ alert, channels, busy, onSave, onCancel }) {
   const [mention, setMention] = useState(alert.mention || 'none')
 
   return (
-    <div className="admin-form" style={{ maxWidth: 420, marginTop: '0.6rem' }}>
+    <div className="admin-form" style={{ marginTop: '0.6rem' }}>
       <ChannelSelect label="알림 채널" value={notifChannelId} channels={channels} disabled={busy} allowNone={false} onChange={setNotifChannelId} />
       <label className="admin-field">
         <span>알림 문구 (선택, {'{name}'}/{'{url}'} 사용 가능)</span>
@@ -187,7 +187,7 @@ export default function GuildStreamAlertPage() {
 
       <div className="guild-section">
         <p className="guild-section-title">새 방송알림 등록</p>
-        <form className="admin-form" onSubmit={handleAdd} style={{ maxWidth: 420 }}>
+        <form className="admin-form" onSubmit={handleAdd}>
           <label className="admin-field">
             <span>플랫폼</span>
             <select value={platform} disabled={busy} onChange={(e) => setPlatform(e.target.value)}>

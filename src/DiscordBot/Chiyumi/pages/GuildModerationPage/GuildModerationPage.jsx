@@ -24,7 +24,7 @@ function ActionForm({ title, desc, actionLabel, confirmText, onSubmit, busy }) {
     <div className="guild-section">
       <p className="guild-section-title">{title}</p>
       <p className="guild-section-desc">{desc}</p>
-      <form className="admin-form" onSubmit={handleSubmit} style={{ maxWidth: 420 }}>
+      <form className="admin-form" onSubmit={handleSubmit}>
         <label className="admin-field">
           <span>디스코드 유저 ID</span>
           <input
