@@ -3,7 +3,7 @@ import '../DocPage.css'
 
 const COLLECTED_ITEMS = [
   '디스코드 사용자 ID (고유 식별자)',
-  '치유미코인 보유량 및 출석(/출석) 이력',
+  '치유미코인 보유량 및 출석 이력(코인 지급은 계정 단위 하루 1회, 경험치 지급은 서버별 하루 1회)',
   '/키우기로 키우는 가상 고양이의 이름, 입양일, 상태 수치, 마지막 보살핌 일자(서버 구분 없이 계정 단위로 누적)',
   '채팅·음성 활동, /출석으로 누적되는 경험치, 레벨, 음성 채널 체류 시간(서버별로 따로 누적)',
   '이용약관 동의 여부 및 동의 시각',
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 개인정보 처리방침</h1>
-      <p className="doc-date">최종 수정일: 2026-08-05</p>
+      <p className="doc-date">최종 수정일: 2026-08-10</p>
 
       <section className="doc-section">
         <h2>1. 수집하는 정보</h2>
