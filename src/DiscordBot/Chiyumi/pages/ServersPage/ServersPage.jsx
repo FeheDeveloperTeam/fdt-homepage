@@ -6,6 +6,9 @@ import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 import './ServersPage.css'
 
+const INVITE_URL =
+  'https://discord.com/oauth2/authorize?client_id=1517170922732388423&scope=bot&permissions=0'
+
 export default function ServersPage() {
   useDocumentTitle('내 서버', 'Chiyumi')
   const { user, loading: userLoading } = useDiscordUser()
@@ -60,26 +63,36 @@ export default function ServersPage() {
 
       {guilds && guilds.length === 0 && (
         <p className="admin-chart-empty">
-          관리 권한을 가진 서버 중 치유미가 들어와 있는 서버가 없어요.
+          관리 권한을 가진 서버 중 치유미가 들어와 있는 서버가 없어요. 아래에서 먼저 서버에 초대해보세요.
         </p>
       )}
 
-      <div className="servers-grid">
-        {guilds?.map((g) => (
-          <Link to={`/DiscordBot/Chiyumi/servers/${g.id}`} className="servers-card" key={g.id}>
-            {g.icon ? (
-              <img src={g.icon} alt="" className="servers-card-icon" />
-            ) : (
-              <span className="servers-card-icon servers-card-icon--fallback">{g.name.slice(0, 1)}</span>
-            )}
+      {guilds && (
+        <div className="servers-grid">
+          {guilds.map((g) => (
+            <Link to={`/DiscordBot/Chiyumi/servers/${g.id}`} className="servers-card" key={g.id}>
+              {g.icon ? (
+                <img src={g.icon} alt="" className="servers-card-icon" />
+              ) : (
+                <span className="servers-card-icon servers-card-icon--fallback">{g.name.slice(0, 1)}</span>
+              )}
+              <div className="servers-card-body">
+                <span className="servers-card-name">{g.name}</span>
+                <span className="servers-card-id">{g.id}</span>
+              </div>
+              <span className="servers-card-arrow" aria-hidden="true">→</span>
+            </Link>
+          ))}
+
+          <a href={INVITE_URL} target="_blank" rel="noopener noreferrer" className="servers-card servers-card--add">
+            <span className="servers-card-icon servers-card-icon--add">+</span>
             <div className="servers-card-body">
-              <span className="servers-card-name">{g.name}</span>
-              <span className="servers-card-id">{g.id}</span>
+              <span className="servers-card-name">치유미 초대하기</span>
+              <span className="servers-card-id">새 서버에 봇을 추가해요</span>
             </div>
-            <span className="servers-card-arrow" aria-hidden="true">→</span>
-          </Link>
-        ))}
-      </div>
+          </a>
+        </div>
+      )}
     </div>
   )
 }

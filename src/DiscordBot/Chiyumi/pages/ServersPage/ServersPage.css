@@ -1,4 +1,10 @@
 @scope (.chiyumi-app) {
+.servers-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
 .servers-grid {
   margin-top: 2rem;
   display: grid;
@@ -76,5 +82,29 @@
 .servers-card:hover .servers-card-arrow {
   transform: translateX(3px);
   color: var(--accent);
+}
+
+.servers-card--add {
+  background: transparent;
+  border: 1.5px dashed var(--border-soft);
+  box-shadow: none;
+}
+.servers-card--add:hover {
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px var(--shadow);
+}
+.servers-card--add .servers-card-name {
+  color: var(--accent-brown);
+}
+
+.servers-card-icon--add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1;
 }
 }
