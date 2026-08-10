@@ -82,7 +82,7 @@ const TIMELINE = [
     duties: [
       { label: '원격 지원', desc: '씨트롤 · K-Remote 활용, 현장 장애 대응 및 기술 지원' },
       { label: '기기 관리', desc: '크라이저 활용, 키오스크 설정 · 유지보수 보조' },
-      { label: 'VAN 결제', desc: '폐업 매장 VAN사 등록 탈퇴 · 삭제 처리 보조' },
+      { label: 'VAN 결제', desc: '폐업 매장 VAN사 정보 삭제 처리 보조' },
       { label: '문서 작업', desc: '엑셀을 활용한 데이터 정리 및 업무 문서 작성' },
       { label: '블로그 관리', desc: '직접 개발한 사내 ERP에 Claude Code 연동 후 AI를 이용해 네이버 블로그 콘텐츠 작성' },
       { label: '사이트 개발', desc: '다인아이앤씨 사내 ERP 개발 서포터 및 (주)라함 사내 대시보드 단독 개발' },
