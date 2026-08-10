@@ -35,16 +35,20 @@ async function handleGuildsList(req, res) {
   sendJson(res, 200, { guilds })
 }
 
+// meta에 config까지 함께 내려준다 — GuildLayout이 처음 페이지를 열 때 필요한
+// 정보를 요청 한 번으로 다 받아서, 인증 체크가 걸린 요청 여러 개가 동시에
+// 나가면서 디스코드 API rate limit에 걸리는 걸 애초에 막는다.
 async function handleMeta(req, res, guildId) {
   const access = await requireGuildManager(req, res, guildId)
   if (!access) return
 
-  const [info, channels, roles] = await Promise.all([
+  const [info, channels, roles, config] = await Promise.all([
     fetchGuildInfo(guildId),
     fetchGuildChannels(guildId),
     fetchGuildRoles(guildId),
+    guildConfig.getGuildConfig(guildId),
   ])
-  sendJson(res, 200, { guild: info, channels, roles })
+  sendJson(res, 200, { guild: info, channels, roles, config })
 }
 
 async function handleConfigGet(req, res, guildId) {

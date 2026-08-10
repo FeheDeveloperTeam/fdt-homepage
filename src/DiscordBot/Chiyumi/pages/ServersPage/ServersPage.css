@@ -1,23 +1,80 @@
 @scope (.chiyumi-app) {
-.servers-list-row {
-  text-decoration: none;
-  transition: background 0.12s ease, border-color 0.12s ease;
-}
-.servers-list-row:hover {
-  background: var(--surface-2);
-  border-color: var(--accent);
+.servers-grid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
 }
 
-.servers-list-fallback-icon {
-  width: 40px;
-  height: 40px;
+.servers-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 6px 18px var(--shadow);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.servers-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 26px var(--shadow);
+}
+
+.servers-card-icon {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.servers-card-icon--fallback {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-2);
-  color: var(--text-soft);
+  background: var(--accent-dim);
+  color: var(--accent-brown);
   font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.servers-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.servers-card-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.servers-card-id {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.servers-card-arrow {
   flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+.servers-card:hover .servers-card-arrow {
+  transform: translateX(3px);
+  color: var(--accent);
 }
 }

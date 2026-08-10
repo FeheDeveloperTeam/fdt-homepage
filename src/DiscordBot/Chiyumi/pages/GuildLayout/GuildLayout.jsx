@@ -32,13 +32,12 @@ export default function GuildLayout() {
   useEffect(() => {
     if (!user) return
     setError(null)
-    Promise.all([
-      callGuildApi(`/api/guild?resource=meta&guildId=${guildId}`),
-      callGuildApi(`/api/guild?resource=config&guildId=${guildId}`),
-    ])
-      .then(([metaData, configData]) => {
-        setMeta(metaData)
-        setConfig(configData.config)
+    // meta 요청 하나에 config까지 같이 받는다 — 인증 체크가 걸린 요청을 동시에
+    // 여러 개 날리면 디스코드 API rate limit에 걸릴 수 있어서 하나로 합쳤다.
+    callGuildApi(`/api/guild?resource=meta&guildId=${guildId}`)
+      .then((data) => {
+        setMeta(data)
+        setConfig(data.config)
       })
       .catch((err) => setError(err.message))
   }, [guildId, user])

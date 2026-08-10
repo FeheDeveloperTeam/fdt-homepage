@@ -10,6 +10,35 @@ const PERMISSION_BITS = {
   KICK_MEMBERS: 0x2n,
 }
 
+// 길드 대시보드 페이지 하나를 열 때마다 meta/config 등 여러 리소스가 각자
+// requireGuildManager를 거치면서 /users/@me/guilds를 동시에 여러 번 호출하면
+// 디스코드 쪽 rate limit(이 엔드포인트는 특히 엄격하다)에 바로 걸린다. 그래서
+// 결과를 아주 짧게 캐시해서 같은 요청 묶음 안에서는 한 번만 실제로 호출한다.
+const cache = new Map()
+
+async function cached(key, ttlMs, factory) {
+  const now = Date.now()
+  const hit = cache.get(key)
+  if (hit) {
+    if (now < hit.expiresAt) return hit.value
+    cache.delete(key)
+  }
+  for (const [k, v] of cache) {
+    if (now >= v.expiresAt) cache.delete(k)
+  }
+  const value = await factory()
+  cache.set(key, { value, expiresAt: now + ttlMs })
+  return value
+}
+
+function getUserGuildsCached(accessToken) {
+  return cached(`userGuilds:${accessToken}`, 10_000, () => fetchUserGuilds(accessToken))
+}
+
+function getBotGuildIdsCached() {
+  return cached('botGuildIds', 30_000, () => fetchBotGuildIds())
+}
+
 function deny(res, status, error) {
   res.statusCode = status
   res.setHeader('Content-Type', 'application/json')
@@ -26,8 +55,8 @@ export async function requireGuildManager(req, res, guildId, requiredBit = 'MANA
 
   try {
     const [userGuilds, botGuildIds] = await Promise.all([
-      fetchUserGuilds(session.accessToken),
-      fetchBotGuildIds(),
+      getUserGuildsCached(session.accessToken),
+      getBotGuildIdsCached(),
     ])
 
     const guild = userGuilds.find((g) => g.id === guildId)
@@ -48,8 +77,8 @@ export async function requireGuildManager(req, res, guildId, requiredBit = 'MANA
 // 길드 피커(목록) 페이지용 — "봇이 있고 + ManageGuild 권한이 있는" 길드만 추려서 돌려준다.
 export async function listManageableGuilds(session) {
   const [userGuilds, botGuildIds] = await Promise.all([
-    fetchUserGuilds(session.accessToken),
-    fetchBotGuildIds(),
+    getUserGuildsCached(session.accessToken),
+    getBotGuildIdsCached(),
   ])
 
   return userGuilds

@@ -64,18 +64,19 @@ export default function ServersPage() {
         </p>
       )}
 
-      <div className="admin-list servers-list">
+      <div className="servers-grid">
         {guilds?.map((g) => (
-          <Link to={`/DiscordBot/Chiyumi/servers/${g.id}`} className="admin-list-row servers-list-row" key={g.id}>
+          <Link to={`/DiscordBot/Chiyumi/servers/${g.id}`} className="servers-card" key={g.id}>
             {g.icon ? (
-              <img src={g.icon} alt="" className="admin-list-avatar" />
+              <img src={g.icon} alt="" className="servers-card-icon" />
             ) : (
-              <span className="servers-list-fallback-icon">{g.name.slice(0, 1)}</span>
+              <span className="servers-card-icon servers-card-icon--fallback">{g.name.slice(0, 1)}</span>
             )}
-            <div className="admin-list-info">
-              <span className="admin-list-name">{g.name}</span>
-              <span className="admin-list-id">{g.id}</span>
+            <div className="servers-card-body">
+              <span className="servers-card-name">{g.name}</span>
+              <span className="servers-card-id">{g.id}</span>
             </div>
+            <span className="servers-card-arrow" aria-hidden="true">→</span>
           </Link>
         ))}
       </div>
