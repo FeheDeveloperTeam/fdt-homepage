@@ -35,8 +35,6 @@
 .admin-shell {
   display: flex;
   align-items: flex-start;
-  max-width: 1040px;
-  margin: 0 auto;
 }
 
 .admin-sidebar {
@@ -46,8 +44,9 @@
   top: var(--header-h);
   height: calc(100vh - var(--header-h));
   overflow-y: auto;
-  padding: 2rem 1rem 2rem 1.5rem;
+  padding: 2rem 1.25rem 2rem 1.5rem;
   border-right: 1px solid var(--border-soft);
+  background: var(--surface);
 }
 
 .admin-sidebar-user {
@@ -124,6 +123,7 @@
 .admin-content {
   flex: 1;
   min-width: 0;
+  max-width: 860px;
   padding: 2.5rem 2rem 3rem;
 }
 
