@@ -30,11 +30,15 @@ export async function fetchBotGuildIds() {
 }
 
 export async function fetchGuildInfo(guildId) {
-  const g = await discordApi(`/guilds/${guildId}`)
+  const g = await discordApi(`/guilds/${guildId}?with_counts=true`)
   return {
     id: g.id,
     name: g.name,
     icon: g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128` : null,
+    memberCount: g.approximate_member_count ?? null,
+    onlineCount: g.approximate_presence_count ?? null,
+    boostLevel: g.premium_tier ?? 0,
+    boostCount: g.premium_subscription_count ?? 0,
   }
 }
 

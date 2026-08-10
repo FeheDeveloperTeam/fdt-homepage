@@ -5,6 +5,7 @@ import { callGuildApi } from '../guildApi'
 import './GuildLayout.css'
 
 const MENU = [
+  { label: '개요', to: '', end: true },
   { label: '로그', to: 'log' },
   { label: '입퇴장', to: 'welcome' },
   { label: '티켓', to: 'ticket' },
@@ -88,8 +89,9 @@ export default function GuildLayout() {
           <div className="admin-nav-group">
             {MENU.map((item) => (
               <NavLink
-                key={item.to}
-                to={`/DiscordBot/Chiyumi/servers/${guildId}/${item.to}`}
+                key={item.to || 'overview'}
+                to={`/DiscordBot/Chiyumi/servers/${guildId}${item.to ? `/${item.to}` : ''}`}
+                end={item.end}
                 className={({ isActive }) =>
                   'admin-nav-link' + (isActive ? ' admin-nav-link--active' : '')
                 }

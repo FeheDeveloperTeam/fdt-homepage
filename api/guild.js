@@ -1,10 +1,18 @@
 import { readSession } from './_lib/discordAuth.js'
 import { requireGuildManager, listManageableGuilds } from './_lib/guildAuth.js'
-import { fetchGuildInfo, fetchGuildChannels, fetchGuildRoles, banGuildMember, kickGuildMember } from './_lib/discordApi.js'
+import {
+  fetchGuildInfo,
+  fetchGuildChannels,
+  fetchGuildRoles,
+  fetchDiscordProfile,
+  banGuildMember,
+  kickGuildMember,
+} from './_lib/discordApi.js'
 import { rateLimit } from './_lib/rateLimit.js'
 import { isDiscordId } from './_lib/validate.js'
 import * as guildConfig from './_lib/sftpGuildConfig.js'
 import { getUserWarnings, addWarning, removeWarning, resetWarnings } from './_lib/sftpWarnings.js'
+import { getGuildChatLeaderboard, getGuildVoiceLeaderboard } from './_lib/sftpActivity.js'
 import {
   getGuildAlerts,
   addAlert,
@@ -33,6 +41,34 @@ async function handleGuildsList(req, res) {
   if (!session.accessToken) return sendJson(res, 401, { error: '다시 로그인해주세요.' })
   const guilds = await listManageableGuilds(session)
   sendJson(res, 200, { guilds })
+}
+
+async function handleOverview(req, res, guildId) {
+  const access = await requireGuildManager(req, res, guildId)
+  if (!access) return
+
+  try {
+    const [info, chatBoard, voiceBoard] = await Promise.all([
+      fetchGuildInfo(guildId),
+      getGuildChatLeaderboard(guildId, 10),
+      getGuildVoiceLeaderboard(guildId, 10),
+    ])
+
+    const profileIds = [...new Set([...chatBoard, ...voiceBoard].map((e) => e.userId))]
+    const profiles = await Promise.all(profileIds.map(fetchDiscordProfile))
+    const profileMap = new Map(profiles.map((p) => [p.id, p]))
+
+    const attach = (entry) => ({ ...entry, ...(profileMap.get(entry.userId) || { username: entry.userId, avatar: null }) })
+
+    sendJson(res, 200, {
+      guild: info,
+      topChat: chatBoard.map(attach),
+      topVoice: voiceBoard.map(attach),
+    })
+  } catch (err) {
+    console.error('[guild overview]', err)
+    sendJson(res, 500, { error: '통계를 불러오지 못했어요. 잠시 후 다시 시도해주세요.' })
+  }
 }
 
 // meta에 config까지 함께 내려준다 — GuildLayout이 처음 페이지를 열 때 필요한
@@ -307,6 +343,7 @@ export default async function handler(req, res) {
   try {
     if (resource === 'guilds') return await handleGuildsList(req, res)
     if (resource === 'meta') return await handleMeta(req, res, guildId)
+    if (resource === 'overview') return await handleOverview(req, res, guildId)
     if (resource === 'config') {
       if (req.method === 'GET') return await handleConfigGet(req, res, guildId)
       if (req.method === 'POST') return await handleConfigPost(req, res, guildId)
