@@ -67,7 +67,7 @@ export default function GuildLogPage() {
           채널을 따로 지정하지 않으면 기본 로그 채널로 보내요.
         </p>
 
-        <div style={{ maxWidth: 560, marginTop: '1rem' }}>
+        <div className="guild-toggle-grid" style={{ marginTop: '1rem' }}>
           {LOG_OPTIONS.map((opt) => {
             const overrideValue = opt.usesAnnounceChannel
               ? config.announceChannelId

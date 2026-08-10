@@ -143,11 +143,12 @@ export default function GuildWarnPage() {
         </label>
       </div>
 
+      <div className="guild-two-col">
       <div className="guild-section">
         <p className="guild-section-title">임계값</p>
         <p className="guild-section-desc">경고가 이 횟수에 도달하면 지정한 조치를 자동으로 실행해요.</p>
 
-        <div className="admin-list" style={{ maxWidth: 560 }}>
+        <div className="admin-list">
           {config.warnConfig.thresholds.length === 0 && (
             <p className="admin-chart-empty">등록된 임계값이 없어요.</p>
           )}
@@ -172,7 +173,7 @@ export default function GuildWarnPage() {
           ))}
         </div>
 
-        <form className="admin-form" onSubmit={handleAddThreshold} style={{ maxWidth: 420, marginTop: '1.4rem' }}>
+        <form className="admin-form" onSubmit={handleAddThreshold} style={{ marginTop: '1.4rem' }}>
           <label className="admin-field">
             <span>경고 횟수</span>
             <input
@@ -215,7 +216,7 @@ export default function GuildWarnPage() {
 
       <div className="guild-section">
         <p className="guild-section-title">경고 부여 · 제거 · 조회</p>
-        <div className="admin-form" style={{ maxWidth: 420 }}>
+        <div className="admin-form">
           <label className="admin-field">
             <span>디스코드 유저 ID</span>
             <input
@@ -247,7 +248,7 @@ export default function GuildWarnPage() {
         </div>
 
         {lookup && (
-          <div className="admin-result" style={{ maxWidth: 420 }}>
+          <div className="admin-result">
             <div className="admin-result-row">
               <span>현재 경고 횟수</span>
               <strong>{lookup.count}회</strong>
@@ -260,6 +261,7 @@ export default function GuildWarnPage() {
             ))}
           </div>
         )}
+      </div>
       </div>
     </div>
   )

@@ -49,66 +49,68 @@ export default function GuildWelcomePage() {
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}
 
-      <div className="guild-section">
-        <p className="guild-section-title">입장</p>
-        <ToggleRow
-          label="입장 메시지 사용"
-          checked={Boolean(config.welcomeOptions.joinEnabled)}
-          disabled={busy}
-          onChange={(value) => post({ section: 'welcome', field: 'option', key: 'joinEnabled', value })}
-        />
-        <div className="admin-form" style={{ maxWidth: 420, marginTop: '1rem' }}>
-          <ChannelSelect
-            label="입장 채널"
-            value={config.joinChannelId}
-            channels={channels}
+      <div className="guild-two-col">
+        <div className="guild-section">
+          <p className="guild-section-title">입장</p>
+          <ToggleRow
+            label="입장 메시지 사용"
+            checked={Boolean(config.welcomeOptions.joinEnabled)}
             disabled={busy}
-            onChange={(value) => post({ section: 'welcome', field: 'joinChannel', value })}
+            onChange={(value) => post({ section: 'welcome', field: 'option', key: 'joinEnabled', value })}
           />
-          <label className="admin-field">
-            <span>입장 메시지</span>
-            <textarea
-              value={joinMessage}
+          <div className="admin-form" style={{ marginTop: '1rem' }}>
+            <ChannelSelect
+              label="입장 채널"
+              value={config.joinChannelId}
+              channels={channels}
               disabled={busy}
-              onChange={(e) => setJoinMessage(e.target.value)}
-              onBlur={() => post({ section: 'welcome', field: 'message', key: 'join', value: joinMessage })}
+              onChange={(value) => post({ section: 'welcome', field: 'joinChannel', value })}
             />
-          </label>
+            <label className="admin-field">
+              <span>입장 메시지</span>
+              <textarea
+                value={joinMessage}
+                disabled={busy}
+                onChange={(e) => setJoinMessage(e.target.value)}
+                onBlur={() => post({ section: 'welcome', field: 'message', key: 'join', value: joinMessage })}
+              />
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div className="guild-section">
-        <p className="guild-section-title">퇴장</p>
-        <ToggleRow
-          label="퇴장 메시지 사용"
-          checked={Boolean(config.welcomeOptions.leaveEnabled)}
-          disabled={busy}
-          onChange={(value) => post({ section: 'welcome', field: 'option', key: 'leaveEnabled', value })}
-        />
-        <div className="admin-form" style={{ maxWidth: 420, marginTop: '1rem' }}>
-          <ChannelSelect
-            label="퇴장 채널"
-            value={config.leaveChannelId}
-            channels={channels}
+        <div className="guild-section">
+          <p className="guild-section-title">퇴장</p>
+          <ToggleRow
+            label="퇴장 메시지 사용"
+            checked={Boolean(config.welcomeOptions.leaveEnabled)}
             disabled={busy}
-            onChange={(value) => post({ section: 'welcome', field: 'leaveChannel', value })}
+            onChange={(value) => post({ section: 'welcome', field: 'option', key: 'leaveEnabled', value })}
           />
-          <label className="admin-field">
-            <span>퇴장 메시지</span>
-            <textarea
-              value={leaveMessage}
+          <div className="admin-form" style={{ marginTop: '1rem' }}>
+            <ChannelSelect
+              label="퇴장 채널"
+              value={config.leaveChannelId}
+              channels={channels}
               disabled={busy}
-              onChange={(e) => setLeaveMessage(e.target.value)}
-              onBlur={() => post({ section: 'welcome', field: 'message', key: 'leave', value: leaveMessage })}
+              onChange={(value) => post({ section: 'welcome', field: 'leaveChannel', value })}
             />
-          </label>
+            <label className="admin-field">
+              <span>퇴장 메시지</span>
+              <textarea
+                value={leaveMessage}
+                disabled={busy}
+                onChange={(e) => setLeaveMessage(e.target.value)}
+                onBlur={() => post({ section: 'welcome', field: 'message', key: 'leave', value: leaveMessage })}
+              />
+            </label>
+          </div>
         </div>
       </div>
 
       <div className="guild-section">
         <p className="guild-section-title">표시 항목</p>
         <p className="guild-section-desc">메시지 안에 추가로 표시할 정보를 골라요.</p>
-        <div style={{ maxWidth: 560, marginTop: '0.8rem' }}>
+        <div className="guild-toggle-grid" style={{ marginTop: '0.8rem' }}>
           {INFO_TOGGLES.map((opt) => (
             <ToggleRow
               key={opt.key}
