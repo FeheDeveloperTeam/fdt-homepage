@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import RankBarChart from '../../components/AdminCharts/RankBarChart'
-import TrendLineChart from '../../components/AdminCharts/TrendLineChart'
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 import '../AdminOverviewPage/AdminOverviewPage.css'
@@ -80,15 +79,6 @@ export default function GuildOverviewPage() {
               />
             </div>
           </div>
-
-          <section className="admin-chart-section">
-            <h2 className="admin-chart-title">접속 인원 추이 (사람만, 30분 간격)</h2>
-            <TrendLineChart
-              points={data.guild.onlineHumansHistory}
-              unit="명"
-              emptyText="데이터가 더 쌓이면 그래프로 보여드릴게요 (봇이 30분마다 기록해요)."
-            />
-          </section>
 
           <section className="admin-chart-section">
             <h2 className="admin-chart-title">채팅 활동 순위 (누적 XP)</h2>
