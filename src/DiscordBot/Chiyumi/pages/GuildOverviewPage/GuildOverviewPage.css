@@ -1,0 +1,53 @@
+@scope (.chiyumi-app) {
+.guild-stats-group {
+  margin-top: 1.8rem;
+}
+.guild-stats-group:first-of-type {
+  margin-top: 1.6rem;
+}
+
+.guild-stats-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.guild-stats-grid {
+  margin-top: 0.7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.7rem;
+  max-width: 720px;
+}
+
+.guild-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.guild-stat-value {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--accent-brown);
+  font-variant-numeric: tabular-nums;
+}
+
+.guild-stat-label {
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.guild-stats-group .guild-hint {
+  margin-top: 0.6rem;
+  max-width: 720px;
+}
+}

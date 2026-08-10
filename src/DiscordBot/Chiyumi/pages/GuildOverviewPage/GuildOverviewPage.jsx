@@ -5,9 +5,19 @@ import RankBarChart from '../../components/AdminCharts/RankBarChart'
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 import '../AdminOverviewPage/AdminOverviewPage.css'
+import './GuildOverviewPage.css'
 
 function formatVoiceMinutes(ms) {
   return Math.round(ms / 60000)
+}
+
+function StatCard({ value, label }) {
+  return (
+    <div className="guild-stat-card">
+      <span className="guild-stat-value">{value}</span>
+      <span className="guild-stat-label">{label}</span>
+    </div>
+  )
 }
 
 export default function GuildOverviewPage() {
@@ -34,50 +44,48 @@ export default function GuildOverviewPage() {
 
       {data && (
         <>
-          <div className="admin-stats-row">
-            <div className="admin-stat">
-              <span className="admin-stat-value">{(data.guild.memberCount ?? 0).toLocaleString()}</span>
-              <span className="admin-stat-label">
-                전체 멤버 수 (사람 {data.guild.humanCount.toLocaleString()} · 봇 {data.guild.botCount.toLocaleString()})
-              </span>
+          <div className="guild-stats-group">
+            <p className="guild-stats-group-title">서버 인원</p>
+            <div className="guild-stats-grid">
+              <StatCard
+                value={(data.guild.memberCount ?? 0).toLocaleString()}
+                label={`전체 멤버 수 (사람 ${data.guild.humanCount.toLocaleString()} · 봇 ${data.guild.botCount.toLocaleString()})`}
+              />
+              <StatCard
+                value={(data.guild.onlineCount ?? 0).toLocaleString()}
+                label="현재 접속 중 (봇 포함 추정치)"
+              />
+              <StatCard
+                value={data.guild.boostCount ?? 0}
+                label={`부스트 (레벨 ${data.guild.boostLevel ?? 0})`}
+              />
             </div>
-            <div className="admin-stat">
-              <span className="admin-stat-value">{(data.guild.onlineCount ?? 0).toLocaleString()}</span>
-              <span className="admin-stat-label">현재 접속 중 (봇 포함 추정치)</span>
-            </div>
-            <div className="admin-stat">
-              <span className="admin-stat-value">{data.guild.boostCount ?? 0}</span>
-              <span className="admin-stat-label">부스트 (레벨 {data.guild.boostLevel ?? 0})</span>
-            </div>
+            <p className="guild-hint">
+              디스코드 API는 온라인 상태를 사람/봇으로 나눠 알려주지 않아서(별도의 프레즌스 권한이
+              필요해요), 접속 중 인원에는 봇도 함께 포함돼요.
+            </p>
           </div>
-          <p className="guild-hint">
-            디스코드 API는 온라인 상태를 사람/봇으로 나눠 알려주지 않아서(별도의 프레즌스 권한이
-            필요해요), 접속 중 인원에는 봇도 함께 포함돼요.
-          </p>
 
-          <div className="admin-stats-row" style={{ marginTop: '0.8rem' }}>
-            <div className="admin-stat">
-              <span className="admin-stat-value">{data.participation.chatRate}%</span>
-              <span className="admin-stat-label">
-                채팅 참여율 ({data.participation.chatCount}/{data.participation.totalMembers}명)
-              </span>
+          <div className="guild-stats-group">
+            <p className="guild-stats-group-title">참여율</p>
+            <div className="guild-stats-grid">
+              <StatCard
+                value={`${data.participation.chatRate}%`}
+                label={`채팅 참여율 (${data.participation.chatCount}/${data.participation.totalMembers}명)`}
+              />
+              <StatCard
+                value={`${data.participation.voiceRate}%`}
+                label={`음성 참여율 (${data.participation.voiceCount}/${data.participation.totalMembers}명)`}
+              />
+              <StatCard
+                value={`${data.participation.attendanceRate}%`}
+                label={`출석 참여율 · 평균 연속 ${data.participation.avgStreak}일`}
+              />
             </div>
-            <div className="admin-stat">
-              <span className="admin-stat-value">{data.participation.voiceRate}%</span>
-              <span className="admin-stat-label">
-                음성 참여율 ({data.participation.voiceCount}/{data.participation.totalMembers}명)
-              </span>
-            </div>
-            <div className="admin-stat">
-              <span className="admin-stat-value">{data.participation.attendanceRate}%</span>
-              <span className="admin-stat-label">
-                출석 참여율 · 평균 연속 {data.participation.avgStreak}일
-              </span>
-            </div>
+            <p className="guild-hint">
+              출석은 서버 구분 없이 봇 전체에서 공유되는 기록이라, 이 서버 멤버만 걸러서 계산한 값이에요.
+            </p>
           </div>
-          <p className="guild-hint">
-            출석은 서버 구분 없이 봇 전체에서 공유되는 기록이라, 이 서버 멤버만 걸러서 계산한 값이에요.
-          </p>
 
           <section className="admin-chart-section">
             <h2 className="admin-chart-title">채팅 활동 순위 (누적 XP)</h2>
