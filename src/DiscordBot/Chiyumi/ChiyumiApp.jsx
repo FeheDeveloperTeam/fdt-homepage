@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useFavicon } from '../../hooks/useFavicon'
 import chiyumiPhoto from '../../assets/images/projects/chiyumi.png'
 import Header from './components/Header/Header'
@@ -13,6 +13,16 @@ import AdminManagePage from './pages/AdminManagePage/AdminManagePage'
 import AdminSheetPage from './pages/AdminSheetPage/AdminSheetPage'
 import AdminCoinCheckPage from './pages/AdminCoinCheckPage/AdminCoinCheckPage'
 import AdminCoinAdjustPage from './pages/AdminCoinAdjustPage/AdminCoinAdjustPage'
+import ServersPage from './pages/ServersPage/ServersPage'
+import GuildLayout from './pages/GuildLayout/GuildLayout'
+import GuildLogPage from './pages/GuildLogPage/GuildLogPage'
+import GuildWelcomePage from './pages/GuildWelcomePage/GuildWelcomePage'
+import GuildTicketPage from './pages/GuildTicketPage/GuildTicketPage'
+import GuildWarnPage from './pages/GuildWarnPage/GuildWarnPage'
+import GuildModerationPage from './pages/GuildModerationPage/GuildModerationPage'
+import GuildCensorPage from './pages/GuildCensorPage/GuildCensorPage'
+import GuildWordchainPage from './pages/GuildWordchainPage/GuildWordchainPage'
+import GuildStreamAlertPage from './pages/GuildStreamAlertPage/GuildStreamAlertPage'
 import TermsPage from './pages/TermsPage/TermsPage'
 import PrivacyPage from './pages/PrivacyPage/PrivacyPage'
 import ErrorsPage from './pages/ErrorsPage/ErrorsPage'
@@ -37,6 +47,18 @@ export default function ChiyumiApp() {
             <Route path="sheets" element={<AdminSheetPage />} />
             <Route path="coins/check" element={<AdminCoinCheckPage />} />
             <Route path="coins/adjust" element={<AdminCoinAdjustPage />} />
+          </Route>
+          <Route path="/servers" element={<ServersPage />} />
+          <Route path="/servers/:guildId" element={<GuildLayout />}>
+            <Route index element={<Navigate to="log" replace />} />
+            <Route path="log" element={<GuildLogPage />} />
+            <Route path="welcome" element={<GuildWelcomePage />} />
+            <Route path="ticket" element={<GuildTicketPage />} />
+            <Route path="warn" element={<GuildWarnPage />} />
+            <Route path="moderation" element={<GuildModerationPage />} />
+            <Route path="censor" element={<GuildCensorPage />} />
+            <Route path="wordchain" element={<GuildWordchainPage />} />
+            <Route path="streamalert" element={<GuildStreamAlertPage />} />
           </Route>
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

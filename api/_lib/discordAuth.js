@@ -28,7 +28,7 @@ export function buildAuthorizeUrl(req, state) {
     client_id: requireEnv('DISCORD_CLIENT_ID'),
     redirect_uri: getRedirectUri(req),
     response_type: 'code',
-    scope: 'identify',
+    scope: 'identify guilds',
     state,
   })
   return `https://discord.com/oauth2/authorize?${params.toString()}`
@@ -64,6 +64,25 @@ export async function fetchDiscordUser(accessToken) {
       ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=128`
       : `https://cdn.discordapp.com/embed/avatars/${Number(data.discriminator || 0) % 5}.png`,
   }
+}
+
+// 서버 대시보드용 — 유저 액세스 토큰으로 "이 유저가 속한 길드 + 그 안에서의 권한
+// 비트"를 가져온다. 봇이 그 길드에 있는지는 이걸로 알 수 없어서, api/_lib/discordApi.js
+// 쪽의 봇 토큰 기반 fetchBotGuildIds()와 교집합을 내서 써야 한다.
+export async function fetchUserGuilds(accessToken) {
+  const res = await fetch('https://discord.com/api/users/@me/guilds', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+  if (!res.ok) throw new Error(`디스코드 길드 목록 조회 실패: ${res.status}`)
+  const data = await res.json()
+  return data.map((g) => ({
+    id: g.id,
+    name: g.name,
+    icon: g.icon
+      ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=64`
+      : null,
+    permissions: BigInt(g.permissions ?? 0),
+  }))
 }
 
 export function createSessionCookie(user) {

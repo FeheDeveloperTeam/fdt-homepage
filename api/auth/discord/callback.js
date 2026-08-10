@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   try {
     const { access_token: accessToken } = await exchangeCodeForToken(req, code)
     const user = await fetchDiscordUser(accessToken)
-    res.setHeader('Set-Cookie', [createSessionCookie(user), clearStateCookie()])
+    res.setHeader('Set-Cookie', [createSessionCookie({ ...user, accessToken }), clearStateCookie()])
     redirectTo(res, '/DiscordBot/Chiyumi?login=success')
   } catch (err) {
     console.error('[discord-auth] callback failed:', err)

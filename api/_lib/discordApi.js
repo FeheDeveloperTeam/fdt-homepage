@@ -4,12 +4,71 @@ function requireEnv(name) {
   return value
 }
 
-export async function discordApi(path) {
+export async function discordApi(path, options = {}) {
   const res = await fetch(`https://discord.com/api/v10${path}`, {
-    headers: { Authorization: `Bot ${requireEnv('DISCORD_TOKEN')}` },
+    ...options,
+    headers: {
+      Authorization: `Bot ${requireEnv('DISCORD_TOKEN')}`,
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...options.headers,
+    },
   })
-  if (!res.ok) throw new Error(`디스코드 API 호출 실패 (${path}): ${res.status}`)
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '')
+    throw new Error(`디스코드 API 호출 실패 (${path}): ${res.status} ${detail}`.trim())
+  }
+  // 204 No Content 응답(밴/킥 등)엔 바디가 없다.
+  if (res.status === 204) return null
   return res.json()
+}
+
+// 봇이 실제로 들어가 있는 길드 id 목록. 유저 OAuth 길드 목록과 교집합을 내서
+// "사용자가 관리 권한을 가진 + 봇도 있는" 서버만 걸러내는 데 쓴다.
+export async function fetchBotGuildIds() {
+  const guilds = await discordApi('/users/@me/guilds?limit=200')
+  return new Set(guilds.map((g) => g.id))
+}
+
+export async function fetchGuildInfo(guildId) {
+  const g = await discordApi(`/guilds/${guildId}`)
+  return {
+    id: g.id,
+    name: g.name,
+    icon: g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128` : null,
+  }
+}
+
+const TEXT_CHANNEL_TYPES = new Set([0, 5]) // GUILD_TEXT, GUILD_ANNOUNCEMENT
+
+export async function fetchGuildChannels(guildId) {
+  const channels = await discordApi(`/guilds/${guildId}/channels`)
+  return channels
+    .filter((c) => TEXT_CHANNEL_TYPES.has(c.type))
+    .sort((a, b) => a.position - b.position)
+    .map((c) => ({ id: c.id, name: c.name }))
+}
+
+export async function fetchGuildRoles(guildId) {
+  const roles = await discordApi(`/guilds/${guildId}/roles`)
+  return roles
+    .filter((r) => r.name !== '@everyone')
+    .sort((a, b) => b.position - a.position)
+    .map((r) => ({ id: r.id, name: r.name, color: r.color }))
+}
+
+export async function banGuildMember(guildId, userId, reason) {
+  await discordApi(`/guilds/${guildId}/bans/${userId}`, {
+    method: 'PUT',
+    headers: reason ? { 'X-Audit-Log-Reason': encodeURIComponent(reason) } : {},
+    body: JSON.stringify({}),
+  })
+}
+
+export async function kickGuildMember(guildId, userId, reason) {
+  await discordApi(`/guilds/${guildId}/members/${userId}`, {
+    method: 'DELETE',
+    headers: reason ? { 'X-Audit-Log-Reason': encodeURIComponent(reason) } : {},
+  })
 }
 
 export async function fetchDiscordProfile(id) {

@@ -14,6 +14,7 @@ import adminAdmins from '../api/admin/admins.js'
 import adminSheet from '../api/admin/sheet.js'
 import adminCoins from '../api/admin/coins.js'
 import networkTest from '../api/network-test.js'
+import guild from '../api/guild.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -41,6 +42,8 @@ async function createServer() {
   app.get('/api/admin/coins', adminCoins)
   app.post('/api/admin/coins', adminCoins)
   app.get('/api/network-test', networkTest)
+  app.get('/api/guild', guild)
+  app.post('/api/guild', guild)
 
   if (isProduction) {
     const distPath = path.join(root, 'dist')

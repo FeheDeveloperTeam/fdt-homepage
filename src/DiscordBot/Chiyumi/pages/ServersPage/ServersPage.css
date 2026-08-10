@@ -1,0 +1,23 @@
+@scope (.chiyumi-app) {
+.servers-list-row {
+  text-decoration: none;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.servers-list-row:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+.servers-list-fallback-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+}

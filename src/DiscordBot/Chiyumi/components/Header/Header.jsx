@@ -33,6 +33,9 @@ export default function Header() {
         {!loading && (
           user ? (
             <div className="chiyumi-user">
+              <Link className="chiyumi-admin-btn" to="/DiscordBot/Chiyumi/servers">
+                내 서버
+              </Link>
               {user.isAdmin && (
                 <Link className="chiyumi-admin-btn" to="/DiscordBot/Chiyumi/admin">
                   관리자
