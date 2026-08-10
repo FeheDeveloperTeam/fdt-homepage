@@ -1,4 +1,5 @@
 import crypto from 'node:crypto'
+import { rateLimit } from './_lib/rateLimit.js'
 
 const MIN_BYTES = 50_000
 const MAX_BYTES = 3_000_000
@@ -41,6 +42,9 @@ function handlePing(req, res) {
 }
 
 function handleDownload(req, res) {
+  // 실제 다운로드 테스트는 10초 동안 최대 60회까지 연속 요청하므로, 그 정상
+  // 사용량에 여유를 두면서도 무제한 대역폭 남용은 막을 수 있는 선에서 제한한다.
+  if (!rateLimit(req, res, 'network-test-download', { windowMs: 60_000, max: 150 })) return
   const requested = Number.parseInt(req.query?.bytes, 10)
   const size = Number.isFinite(requested)
     ? Math.min(Math.max(requested, MIN_BYTES), MAX_BYTES)

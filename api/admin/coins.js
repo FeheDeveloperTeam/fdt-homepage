@@ -1,12 +1,13 @@
 import { requireAdmin } from '../_lib/adminAuth.js'
 import { getCreditBalance, adjustCreditBalance } from '../_lib/sftpCredits.js'
+import { isDiscordId } from '../_lib/validate.js'
 
 async function handleGet(req, res) {
   const userId = req.query?.userId
-  if (!userId) {
+  if (!isDiscordId(userId)) {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: 'userId가 필요해요.' }))
+    res.end(JSON.stringify({ error: '올바른 디스코드 ID가 아니에요.' }))
     return
   }
 
@@ -27,10 +28,10 @@ async function handlePost(req, res) {
   const { userId, delta } = req.body || {}
   const parsedDelta = Number(delta)
 
-  if (!userId || !Number.isFinite(parsedDelta) || parsedDelta === 0) {
+  if (!isDiscordId(userId) || !Number.isFinite(parsedDelta) || parsedDelta === 0) {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: 'userId와 0이 아닌 delta가 필요해요.' }))
+    res.end(JSON.stringify({ error: '올바른 디스코드 ID와 0이 아닌 delta가 필요해요.' }))
     return
   }
 

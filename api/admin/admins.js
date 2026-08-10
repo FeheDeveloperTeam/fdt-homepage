@@ -2,6 +2,7 @@ import { requireAdmin } from '../_lib/adminAuth.js'
 import { getRootAdminIds } from '../_lib/discordAuth.js'
 import { listDbAdmins, addAdmin, removeAdmin } from '../_lib/admins.js'
 import { fetchDiscordProfile } from '../_lib/discordApi.js'
+import { isDiscordId } from '../_lib/validate.js'
 
 async function handleGet(res) {
   const rootIds = getRootAdminIds()
@@ -31,10 +32,10 @@ async function handleGet(res) {
 
 async function handlePost(req, res, admin) {
   const { userId } = req.body || {}
-  if (!userId) {
+  if (!isDiscordId(userId)) {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: 'userId가 필요해요.' }))
+    res.end(JSON.stringify({ error: '올바른 디스코드 ID가 아니에요.' }))
     return
   }
 
@@ -46,10 +47,10 @@ async function handlePost(req, res, admin) {
 
 async function handleDelete(req, res) {
   const userId = req.query?.userId
-  if (!userId) {
+  if (!isDiscordId(userId)) {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: 'userId가 필요해요.' }))
+    res.end(JSON.stringify({ error: '올바른 디스코드 ID가 아니에요.' }))
     return
   }
 

@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import express from 'express'
 import { injectSeo } from '../api/_lib/seoRender.js'
+import { isForeignRequest, isAdminPagePath, GEO_BLOCK_HTML } from '../api/_lib/geoBlock.js'
 import discordLogin from '../api/auth/discord/login.js'
 import discordCallback from '../api/auth/discord/callback.js'
 import authMe from '../api/auth/me.js'
@@ -49,6 +50,10 @@ async function createServer() {
     // 아래 커스텀 핸들러가 항상 경로별 메타 태그를 치환할 수 있게 한다.
     app.use(express.static(distPath, { index: false }))
     app.use((req, res) => {
+      if (isAdminPagePath(req.path) && isForeignRequest(req)) {
+        res.status(403).set('Content-Type', 'text/html; charset=utf-8').send(GEO_BLOCK_HTML)
+        return
+      }
       res.set('Content-Type', 'text/html; charset=utf-8')
       res.send(injectSeo(template, req.path))
     })

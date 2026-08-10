@@ -5,6 +5,7 @@ import {
   readStateCookie,
   clearStateCookie,
 } from '../../_lib/discordAuth.js'
+import { rateLimit } from '../../_lib/rateLimit.js'
 
 function redirectTo(res, path) {
   res.writeHead(302, { Location: path })
@@ -12,6 +13,8 @@ function redirectTo(res, path) {
 }
 
 export default async function handler(req, res) {
+  if (!rateLimit(req, res, 'discord-callback', { windowMs: 5 * 60_000, max: 20 })) return
+
   const { code, state, error } = req.query || {}
 
   if (error) {
