@@ -1,0 +1,61 @@
+@scope (.chiyumi-app) {
+.turnstile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 54, 38, 0.45);
+  padding: 1.5rem;
+}
+
+.turnstile-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px var(--shadow);
+  max-width: 340px;
+  width: 100%;
+}
+
+.turnstile-modal-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.turnstile-widget {
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.turnstile-modal-error {
+  font-size: 0.8rem;
+  color: var(--danger);
+  text-align: center;
+}
+
+.turnstile-modal-close {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.turnstile-modal-close:hover {
+  background: var(--accent-dim);
+  color: var(--accent-brown);
+}
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { useDiscordUser } from '../../hooks/useDiscordUser'
+import DiscordLoginButton from '../../components/DiscordLoginButton/DiscordLoginButton'
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 import './ServersPage.css'
@@ -34,9 +35,7 @@ export default function ServersPage() {
           치유미가 들어와 있는 서버에서 서버 관리 권한이 있다면, 디스코드 앱 밖에서도 설정을 바꿀 수
           있어요. 먼저 디스코드로 로그인해주세요.
         </p>
-        <a className="admin-btn admin-btn--accent" href="/api/auth/discord/login">
-          Discord로 로그인
-        </a>
+        <DiscordLoginButton className="admin-btn admin-btn--accent" />
       </div>
     )
   }
@@ -53,9 +52,9 @@ export default function ServersPage() {
         <div>
           <p className="admin-status admin-status--error">{error}</p>
           {error.includes('로그인') && (
-            <a className="admin-btn admin-btn--accent" href="/api/auth/discord/login" style={{ marginTop: '0.8rem', display: 'inline-block' }}>
+            <DiscordLoginButton className="admin-btn admin-btn--accent" style={{ marginTop: '0.8rem' }}>
               다시 로그인
-            </a>
+            </DiscordLoginButton>
           )}
         </div>
       )}

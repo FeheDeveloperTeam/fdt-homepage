@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import chiyumiPhoto from '../../../../assets/images/projects/chiyumi.png'
 import { useDiscordUser } from '../../hooks/useDiscordUser'
+import DiscordLoginButton from '../DiscordLoginButton/DiscordLoginButton'
 import './Header.css'
 
 const INVITE_URL =
@@ -48,9 +49,7 @@ export default function Header() {
               </a>
             </div>
           ) : (
-            <a className="chiyumi-login-btn" href="/api/auth/discord/login">
-              Discord로 로그인
-            </a>
+            <DiscordLoginButton className="chiyumi-login-btn" />
           )
         )}
       </div>
