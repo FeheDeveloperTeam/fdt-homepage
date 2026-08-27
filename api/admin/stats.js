@@ -1,5 +1,5 @@
 import { requireAdmin } from '../_lib/adminAuth.js'
-import { getSupabase } from '../_lib/supabase.js'
+import { getRestrictedCount } from '../_lib/restrictions.js'
 import { discordApi, fetchDiscordProfile } from '../_lib/discordApi.js'
 import { getSheetValues } from '../_lib/googleSheets.js'
 
@@ -47,11 +47,7 @@ async function fetchTopCoinHolders() {
 }
 
 async function fetchRestrictedCount() {
-  const { count, error } = await getSupabase()
-    .from('restrictions')
-    .select('*', { count: 'exact', head: true })
-  if (error) throw new Error(`이용제한 인원 조회 실패: ${error.message}`)
-  return count ?? 0
+  return getRestrictedCount()
 }
 
 export default async function handler(req, res) {

@@ -1,35 +1,42 @@
-import { getSupabase } from './supabase.js'
+import { withSftp, readJson, writeJson } from './sftpClient.js'
+
+// 봇 저장소의 src/utils/restrictions.js(data/restrictions.json)와 스키마를 맞춘다.
+// Supabase는 AI 기능(memories 테이블) 전용으로 쓰기로 했고, 봇도 이 기능은 애초에
+// Supabase가 아니라 이 파일을 직접 읽고 있었어서 SFTP JSON으로 통일한다.
+const REMOTE_PATH = 'data/restrictions.json'
 
 export async function getRestriction(userId) {
-  const { data, error } = await getSupabase()
-    .from('restrictions')
-    .select('reason, restricted_by, restricted_at')
-    .eq('user_id', userId)
-    .maybeSingle()
-  if (error) throw new Error(`이용제한 조회 실패: ${error.message}`)
-  if (!data) return null
-  return {
-    reason: data.reason,
-    restrictedBy: data.restricted_by,
-    restrictedAt: data.restricted_at,
-  }
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    return all[userId] ?? null
+  })
 }
 
 export async function restrictUser(userId, reason, byId) {
-  const { error } = await getSupabase()
-    .from('restrictions')
-    .upsert({
-      user_id: userId,
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    all[userId] = {
       reason: reason || '사유 없음',
-      restricted_by: byId,
-      restricted_at: new Date().toISOString(),
-    })
-  if (error) throw new Error(`이용제한 등록 실패: ${error.message}`)
+      restrictedBy: byId,
+      restrictedAt: new Date().toISOString(),
+    }
+    await writeJson(client, REMOTE_PATH, all)
+  })
 }
 
 export async function unrestrictUser(userId) {
-  const existed = Boolean(await getRestriction(userId))
-  const { error } = await getSupabase().from('restrictions').delete().eq('user_id', userId)
-  if (error) throw new Error(`이용제한 해제 실패: ${error.message}`)
-  return existed
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    if (!all[userId]) return false
+    delete all[userId]
+    await writeJson(client, REMOTE_PATH, all)
+    return true
+  })
+}
+
+export async function getRestrictedCount() {
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    return Object.keys(all).length
+  })
 }
