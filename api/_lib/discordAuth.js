@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import jwt from 'jsonwebtoken'
 import { serialize, parse } from 'cookie'
-import { getSupabase } from './supabase.js'
+import { isDbAdmin } from './admins.js'
 
 const SESSION_COOKIE = 'fdt_session'
 const STATE_COOKIE = 'fdt_oauth_state'
@@ -142,14 +142,10 @@ export async function isAdminUser(id) {
   const strId = String(id)
   if (getRootAdminIds().includes(strId)) return true
 
-  const { data, error } = await getSupabase()
-    .from('admins')
-    .select('user_id')
-    .eq('user_id', strId)
-    .maybeSingle()
-  if (error) {
+  try {
+    return await isDbAdmin(strId)
+  } catch (error) {
     console.error('[isAdminUser]', error)
     return false
   }
-  return Boolean(data)
 }

@@ -1,26 +1,37 @@
-import { getSupabase } from './supabase.js'
+import { withSftp, readJson, writeJson } from './sftpClient.js'
+
+// 이 사이트 관리자 대시보드 접근 권한자 목록 — 봇은 이 데이터를 쓰지 않는, 웹 전용 개념이라
+// 봇 저장소의 다른 data/*.json과는 별도 파일로 둔다.
+const REMOTE_PATH = 'data/webAdmins.json'
 
 export async function listDbAdmins() {
-  const { data, error } = await getSupabase()
-    .from('admins')
-    .select('user_id, added_by, added_at')
-    .order('added_at', { ascending: true })
-  if (error) throw new Error(`관리자 목록 조회 실패: ${error.message}`)
-  return (data || []).map((row) => ({
-    userId: row.user_id,
-    addedBy: row.added_by,
-    addedAt: row.added_at,
-  }))
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    return Object.entries(all)
+      .map(([userId, entry]) => ({ userId, addedBy: entry.addedBy, addedAt: entry.addedAt }))
+      .sort((a, b) => new Date(a.addedAt) - new Date(b.addedAt))
+  })
+}
+
+export async function isDbAdmin(userId) {
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    return Boolean(all[userId])
+  })
 }
 
 export async function addAdmin(userId, byId) {
-  const { error } = await getSupabase()
-    .from('admins')
-    .upsert({ user_id: userId, added_by: byId, added_at: new Date().toISOString() })
-  if (error) throw new Error(`관리자 추가 실패: ${error.message}`)
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    all[userId] = { addedBy: byId, addedAt: new Date().toISOString() }
+    await writeJson(client, REMOTE_PATH, all)
+  })
 }
 
 export async function removeAdmin(userId) {
-  const { error } = await getSupabase().from('admins').delete().eq('user_id', userId)
-  if (error) throw new Error(`관리자 제거 실패: ${error.message}`)
+  return withSftp(async (client) => {
+    const all = await readJson(client, REMOTE_PATH)
+    delete all[userId]
+    await writeJson(client, REMOTE_PATH, all)
+  })
 }
