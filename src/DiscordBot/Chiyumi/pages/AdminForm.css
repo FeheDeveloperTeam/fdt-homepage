@@ -122,4 +122,38 @@
 }
 .admin-result-row span { color: var(--text-muted); }
 .admin-result-row strong { color: var(--text); font-weight: 700; text-align: right; }
+
+.admin-pager {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.admin-pager-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.admin-pager-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.admin-pager-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+.admin-pager-btn--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
 }

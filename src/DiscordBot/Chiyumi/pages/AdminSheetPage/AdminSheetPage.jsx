@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { callAdminApi } from '../adminApi'
+import AdminPager from '../../components/AdminPager/AdminPager'
 import '../AdminForm.css'
 import './AdminSheetPage.css'
 
 const SHEETS = ['코인', '레벨', '음성시간', '출석', '서버설정', '서버목록', '주식시세', '주식포트폴리오']
-const PAGE_SIZE = 20
-const PAGE_WINDOW = 4
+const PAGE_SIZE = 10
 
 export default function AdminSheetPage() {
   useDocumentTitle('구글 시트', 'Chiyumi')
@@ -45,13 +45,6 @@ export default function AdminSheetPage() {
   const totalPages = Math.max(Math.ceil(filteredRows.length / PAGE_SIZE), 1)
   const currentPage = Math.min(page, totalPages - 1)
   const pagedRows = filteredRows.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
-
-  const pageNumbers = useMemo(() => {
-    const start = Math.max(0, Math.min(currentPage - Math.floor(PAGE_WINDOW / 2), totalPages - PAGE_WINDOW))
-    const from = Math.max(0, start)
-    const to = Math.min(totalPages, from + PAGE_WINDOW)
-    return Array.from({ length: to - from }, (_, i) => from + i)
-  }, [currentPage, totalPages])
 
   function changeSheet(name) {
     setActiveSheet(name)
@@ -124,38 +117,7 @@ export default function AdminSheetPage() {
             </table>
           </div>
 
-          {totalPages > 1 && (
-            <div className="admin-sheet-pager">
-              <button
-                type="button"
-                className="admin-sheet-page-btn"
-                onClick={() => setPage(currentPage - 1)}
-                disabled={currentPage === 0}
-              >
-                ‹
-              </button>
-              {pageNumbers.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  className={
-                    'admin-sheet-page-btn' + (n === currentPage ? ' admin-sheet-page-btn--active' : '')
-                  }
-                  onClick={() => setPage(n)}
-                >
-                  {n + 1}
-                </button>
-              ))}
-              <button
-                type="button"
-                className="admin-sheet-page-btn"
-                onClick={() => setPage(currentPage + 1)}
-                disabled={currentPage === totalPages - 1}
-              >
-                ›
-              </button>
-            </div>
-          )}
+          <AdminPager page={currentPage} totalPages={totalPages} onChange={setPage} />
         </>
       )}
     </div>

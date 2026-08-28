@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { callAdminApi, formatDate } from '../adminApi'
+import AdminPager from '../../components/AdminPager/AdminPager'
 import '../AdminForm.css'
 import './AdminManagePage.css'
+
+const PAGE_SIZE = 10
 
 export default function AdminManagePage() {
   useDocumentTitle('관리자 관리', 'Chiyumi')
@@ -13,6 +16,7 @@ export default function AdminManagePage() {
   const [userId, setUserId] = useState('')
   const [busy, setBusy] = useState(false)
   const [status, setStatus] = useState(null)
+  const [page, setPage] = useState(0)
 
   function loadAdmins() {
     return callAdminApi('/api/admin/admins')
@@ -65,6 +69,10 @@ export default function AdminManagePage() {
     }
   }
 
+  const totalPages = Math.max(Math.ceil((admins?.length || 0) / PAGE_SIZE), 1)
+  const currentPage = Math.min(page, totalPages - 1)
+  const pagedAdmins = admins ? admins.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE) : []
+
   return (
     <div>
       <p className="eyebrow">Admin</p>
@@ -99,7 +107,7 @@ export default function AdminManagePage() {
       <div className="admin-list">
         {!admins && !status && <p className="admin-chart-empty">불러오는 중이에요…</p>}
         {admins &&
-          admins.map((a) => (
+          pagedAdmins.map((a) => (
             <div className="admin-list-row" key={a.id}>
               <img src={a.avatar} alt="" className="admin-list-avatar" />
               <div className="admin-list-info">
@@ -127,6 +135,8 @@ export default function AdminManagePage() {
             </div>
           ))}
       </div>
+
+      {admins && <AdminPager page={currentPage} totalPages={totalPages} onChange={setPage} />}
     </div>
   )
 }
