@@ -1,11 +1,11 @@
 import './AdminCharts.css'
 
-export default function RankBarChart({ items, emptyText }) {
+export default function RankBarChart({ items, emptyText, maxValue }) {
   if (!items.length) {
     return <p className="admin-chart-empty">{emptyText}</p>
   }
 
-  const max = Math.max(...items.map((item) => item.value), 1)
+  const max = maxValue ?? Math.max(...items.map((item) => item.value), 1)
 
   return (
     <div className="admin-bar-chart">

@@ -3,8 +3,27 @@ import { useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import { callAdminApi } from '../adminApi'
 import RankBarChart from '../../components/AdminCharts/RankBarChart'
+import AdminPager from '../../components/AdminPager/AdminPager'
 import '../AdminForm.css'
 import './AdminOverviewPage.css'
+
+const PAGE_SIZE = 10
+
+function RankSection({ title, items, emptyText }) {
+  const [page, setPage] = useState(0)
+  const totalPages = Math.max(Math.ceil(items.length / PAGE_SIZE), 1)
+  const currentPage = Math.min(page, totalPages - 1)
+  const pagedItems = items.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
+  const maxValue = Math.max(...items.map((item) => item.value), 1)
+
+  return (
+    <section className="admin-chart-section">
+      <h2 className="admin-chart-title">{title}</h2>
+      <RankBarChart items={pagedItems} emptyText={emptyText} maxValue={maxValue} />
+      <AdminPager page={currentPage} totalPages={totalPages} onChange={setPage} />
+    </section>
+  )
+}
 
 export default function AdminOverviewPage() {
   useDocumentTitle('관리자', 'Chiyumi')
@@ -56,15 +75,17 @@ export default function AdminOverviewPage() {
             </div>
           </div>
 
-          <section className="admin-chart-section">
-            <h2 className="admin-chart-title">서버별 멤버 수</h2>
-            <RankBarChart items={stats.topGuilds.map((g) => ({ ...g, value: g.memberCount }))} emptyText="아직 봇이 참여 중인 서버가 없어요." />
-          </section>
+          <RankSection
+            title="서버별 멤버 수"
+            items={stats.topGuilds.map((g) => ({ ...g, value: g.memberCount }))}
+            emptyText="아직 봇이 참여 중인 서버가 없어요."
+          />
 
-          <section className="admin-chart-section">
-            <h2 className="admin-chart-title">치유미코인 보유 순위</h2>
-            <RankBarChart items={stats.topCoinHolders} emptyText="아직 코인을 보유한 유저가 없어요." />
-          </section>
+          <RankSection
+            title="치유미코인 보유 순위"
+            items={stats.topCoinHolders}
+            emptyText="아직 코인을 보유한 유저가 없어요."
+          />
         </>
       )}
     </div>

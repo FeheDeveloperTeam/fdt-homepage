@@ -3,8 +3,6 @@ import { getRestrictedCount } from '../_lib/restrictions.js'
 import { discordApi, fetchDiscordProfile } from '../_lib/discordApi.js'
 import { getSheetValues } from '../_lib/googleSheets.js'
 
-const TOP_GUILD_LIMIT = 8
-const TOP_COIN_LIMIT = 8
 const FALLBACK_GUILD_LIMIT = 25
 const CACHE_TTL_MS = 60 * 1000
 
@@ -31,14 +29,13 @@ async function fetchGuilds() {
 
 async function fetchTopCoinHolders() {
   const { rows } = await getSheetValues('코인')
-  const top = rows
+  const holders = rows
     .map(([id, balance]) => ({ id, balance: Number(balance) || 0 }))
     .filter((r) => r.id)
     .sort((a, b) => b.balance - a.balance)
-    .slice(0, TOP_COIN_LIMIT)
 
-  const profiles = await Promise.all(top.map((r) => fetchDiscordProfile(r.id)))
-  return top.map((r, i) => ({
+  const profiles = await Promise.all(holders.map((r) => fetchDiscordProfile(r.id)))
+  return holders.map((r, i) => ({
     id: r.id,
     name: profiles[i].username,
     icon: profiles[i].avatar,
@@ -77,7 +74,6 @@ export default async function handler(req, res) {
     const totalMembers = guilds.reduce((sum, g) => sum + (g.approximate_member_count || 0), 0)
     const topGuilds = [...guilds]
       .sort((a, b) => (b.approximate_member_count || 0) - (a.approximate_member_count || 0))
-      .slice(0, TOP_GUILD_LIMIT)
       .map((g) => ({
         id: g.id,
         name: g.name,
