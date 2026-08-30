@@ -225,6 +225,48 @@
 }
 .timeline-body { font-size:0.87rem; color:var(--text-soft); line-height:1.75; }
 
+.timeline-duty {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  line-height: 1.75;
+}
+.timeline-duty--first {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.timeline-duty-label { color: var(--accent); }
+.timeline-duty--grouped {
+  margin-top: 0.65rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.timeline-duty--grouped .timeline-duty-label {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+.timeline-duty-list {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.timeline-duty-list li {
+  position: relative;
+  padding-left: 0.9rem;
+}
+.timeline-duty-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .timeline-link {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:0.85rem; padding:0.35rem 0.95rem; border-radius: var(--radius-sm);

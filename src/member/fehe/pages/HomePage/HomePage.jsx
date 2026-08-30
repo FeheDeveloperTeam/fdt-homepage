@@ -89,7 +89,14 @@ const TIMELINE = [
       { label: '블로그 관리', desc: '직접 개발한 사내 ERP에 Claude Code 연동 후 AI를 이용해 네이버 블로그 콘텐츠 작성' },
       {
         label: '프로그램 및 사이트 개발',
-        desc: '다인아이앤씨 사내 ERP 개발 지원 · 다인 서버 관리(Ops) · (주)라함 미팅 관리 사이트 개발 · 작업일지와 개발일지를 게시하는 서버 작업 리스트 사이트 개발 · 네이버 블로그 자동 발행 프로그램 개발 · 유휴 PC를 활용한 Ubuntu Desktop 26.04 서버 구축',
+        details: [
+          '다인아이앤씨 사내 ERP 개발 지원',
+          '다인 서버 관리(Ops)',
+          '(주)라함 미팅 관리 사이트 개발',
+          '작업일지와 개발일지를 게시하는 서버 작업 리스트 사이트 개발',
+          '네이버 블로그 자동 발행 프로그램 개발',
+          '유휴 PC를 활용한 Ubuntu Desktop 26.04 서버 구축',
+        ],
       },
     ],
   },
@@ -266,10 +273,25 @@ export default function HomePage() {
                 </p>
               ))}
               {item.duties && item.duties.map((d, di) => (
-                <p key={di} className="timeline-body" style={{ marginTop: di === 0 ? '0.6rem' : '0.3rem', paddingTop: di === 0 ? '0.6rem' : 0, borderTop: di === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
-                  <strong style={{ color: 'var(--accent)' }}>{d.label}</strong>
-                  &nbsp; {d.desc}
-                </p>
+                <div
+                  key={di}
+                  className={
+                    `timeline-duty${di === 0 ? ' timeline-duty--first' : ''}${
+                      d.details ? ' timeline-duty--grouped' : ''
+                    }`
+                  }
+                >
+                  <strong className="timeline-duty-label">{d.label}</strong>
+                  {d.details ? (
+                    <ul className="timeline-duty-list">
+                      {d.details.map((detail) => (
+                        <li key={detail}>{detail}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span>&nbsp; {d.desc}</span>
+                  )}
+                </div>
               ))}
               {item.projects && item.projects.map((proj, pi) => (
                 <p key={pi} className="timeline-body" style={{ marginTop: pi === 0 ? '0.6rem' : '0.3rem', paddingTop: pi === 0 ? '0.6rem' : 0, borderTop: pi === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>

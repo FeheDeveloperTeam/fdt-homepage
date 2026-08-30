@@ -222,7 +222,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
-- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx`
+- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (`duties[].details`는 여러 업무를 목록으로 표시)
 - 배포 설정: `vercel.json`
 
 ## 10. 문서 유지 체크리스트
