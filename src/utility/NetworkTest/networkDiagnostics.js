@@ -180,7 +180,7 @@ export function detectConnectionInfo() {
   }
 }
 
-export function estimateConnectionType(latency) {
+function estimateConnectionType(latency) {
   if (!latency || latency.avg === null) return null
   // 유선 회선은 보통 지연 시간이 낮고 흔들림(지터)도 작다.
   // 정밀한 판별은 아니고 어디까지나 참고용 추정치다.

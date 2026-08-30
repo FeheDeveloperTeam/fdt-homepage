@@ -47,7 +47,6 @@ export default function YoutubePage() {
   const [nowLiveItems, setNowLiveItems] = useState([])
   const [manualItems, setManualItems] = useState([])
   const [status, setStatus]           = useState('loading')
-  const [error, setError]             = useState('')
 
   useEffect(() => {
     loadYoutube()
@@ -105,7 +104,6 @@ export default function YoutubePage() {
       setStatus('ok')
     } catch (e) {
       console.error('[YT]', e)
-      setError(e.message)
       setStatus('error')
     }
   }
@@ -137,6 +135,7 @@ export default function YoutubePage() {
       <div className="yt-tabs">
         {['home', 'live'].map(tab => (
           <button
+            type="button"
             key={tab}
             className={`yt-tab ${ytTab === tab ? 'active' : ''}`}
             onClick={() => setYtTab(tab)}

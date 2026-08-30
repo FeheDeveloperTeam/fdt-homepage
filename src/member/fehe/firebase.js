@@ -1,6 +1,4 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
-import { getDatabase } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBbyBjAPMNSKXn_tzd1h0G2LF2ghy5bjj0",
@@ -13,6 +11,4 @@ const firebaseConfig = {
   databaseURL: "https://fehe-selfintroduction-default-rtdb.firebaseio.com"
 }
 
-const app = initializeApp(firebaseConfig)
-export const db = getFirestore(app)
-export const rtdb = getDatabase(app)
+export const firebaseApp = initializeApp(firebaseConfig)

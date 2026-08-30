@@ -1,5 +1,6 @@
 .services {
   padding: var(--section-padding);
+  background: linear-gradient(180deg, rgb(var(--color-primary-rgb) / 0.035), transparent 360px);
 }
 
 .inner {
@@ -27,8 +28,8 @@
 
 .title {
   margin-top: 16px;
-  font-size: 34px;
-  letter-spacing: -0.5px;
+  font-size: var(--page-title-size);
+  letter-spacing: -0.025em;
   color: var(--color-text);
 }
 
@@ -48,22 +49,24 @@
 .grid {
   margin-top: 56px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  border-top: 1px solid var(--color-border);
-  border-left: 1px solid var(--color-border);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 12px;
 }
 
 .card {
   position: relative;
-  background: var(--color-bg);
+  background: linear-gradient(145deg, var(--color-surface), var(--color-bg-alt));
   padding: 32px 28px;
-  border-right: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  transition: background 0.15s ease;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .card:hover {
-  background: var(--color-surface);
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
 }
 
 .cardIndex {
@@ -94,25 +97,25 @@
 
 .processList {
   margin-top: 40px;
-  max-width: 680px;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .processStep {
   display: flex;
   gap: 24px;
-  padding: 22px 16px;
-  margin: 0 -16px;
-  border-top: 1px solid var(--color-border);
+  padding: 20px;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  transition: background 0.15s ease;
+  background: rgb(255 255 255 / 0.012);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .processStep:hover {
   background: var(--color-surface);
-}
-
-.processStep:last-child {
-  border-bottom: 1px solid var(--color-border);
+  border-color: var(--color-border-strong);
 }
 
 .processIndex {
@@ -145,27 +148,24 @@
   margin-top: 28px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 680px;
+  gap: 10px;
+  max-width: 720px;
 }
 
 .stackGroup {
   display: flex;
   align-items: baseline;
   gap: 20px;
-  padding: 14px 16px;
-  margin: 0 -16px;
-  border-top: 1px solid var(--color-border);
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  transition: background 0.15s ease;
+  background: rgb(255 255 255 / 0.012);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .stackGroup:hover {
   background: var(--color-surface);
-}
-
-.stackGroup:last-child {
-  border-bottom: 1px solid var(--color-border);
+  border-color: var(--color-border-strong);
 }
 
 .stackLabel {
@@ -188,6 +188,20 @@
 }
 
 @media (max-width: 640px) {
+  .grid {
+    margin-top: 40px;
+  }
+
+  .card {
+    padding: 28px 24px;
+  }
+
+  .processSection,
+  .stackSection {
+    margin-top: 64px;
+    padding-top: 48px;
+  }
+
   .stackGroup {
     flex-direction: column;
     gap: 8px;

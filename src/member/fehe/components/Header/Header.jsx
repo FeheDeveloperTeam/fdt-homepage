@@ -25,11 +25,12 @@ export default function Header() {
             ← FDT
           </Link>
           <span className="header-divider" />
-          <button className="header-logo" onClick={() => switchPage('/member/fehe')}>
+          <button type="button" className="header-logo" onClick={() => switchPage('/member/fehe')}>
             페헤<span>/ Fehe</span>
           </button>
         </div>
         <button
+          type="button"
           className={`hamburger ${drawerOpen ? 'open' : ''}`}
           aria-label="메뉴"
           onClick={() => setDrawerOpen(o => !o)}
@@ -43,18 +44,21 @@ export default function Header() {
       <nav className={`drawer ${drawerOpen ? 'open' : ''}`}>
         <p className="drawer-label">메뉴</p>
         <button
+          type="button"
           className={`drawer-btn ${activePage === 'home' ? 'active' : ''}`}
           onClick={() => switchPage('/member/fehe')}
         >
           <IconHome /> 홈
         </button>
         <button
+          type="button"
           className={`drawer-btn ${activePage === 'youtube' ? 'active' : ''}`}
           onClick={() => switchPage('/member/fehe/youtube')}
         >
           <IconYoutube /> YouTube 영상
         </button>
-<button
+        <button
+          type="button"
           className={`drawer-btn ${activePage === 'status' ? 'active' : ''}`}
           onClick={() => switchPage('/member/fehe/status')}
         >

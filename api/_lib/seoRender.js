@@ -3,7 +3,7 @@ import { SEO_DATA, getFullTitle } from '../../src/seoData.js'
 // Discord 등 링크 미리보기 크롤러는 JS를 실행하지 않아 react-helmet-async가
 // 붙이는 og:title/og:description을 못 본다. 그래서 index.html의 기본 태그를
 // 요청 경로에 맞는 값으로 직접 치환해서 내려준다.
-export function escapeHtml(str) {
+function escapeHtml(str) {
   return str.replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[c])

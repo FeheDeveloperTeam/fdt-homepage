@@ -1,12 +1,15 @@
 .values {
-  padding-top: 96px;
-  background: var(--color-bg-alt);
+  padding-top: var(--section-space-y);
+  background:
+    radial-gradient(circle at 15% 12%, rgb(var(--color-primary-rgb) / 0.07), transparent 28rem),
+    var(--color-bg-alt);
   border-top: 1px solid var(--color-border);
 }
 
 .header {
   max-width: var(--max-width);
   margin: 0 auto 40px;
+  padding: 0 var(--content-gutter);
 }
 
 .eyebrow {
@@ -27,8 +30,8 @@
 }
 
 .headline {
-  font-size: 30px;
-  letter-spacing: -0.5px;
+  font-size: clamp(1.75rem, 4vw, 1.875rem);
+  letter-spacing: -0.025em;
   color: var(--color-text);
 }
 
@@ -50,13 +53,17 @@
   top: 50%;
   left: 50%;
   width: min(880px, 92vw);
+  max-height: calc(100dvh - 96px);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 56px;
+  padding: clamp(32px, 5vw, 56px);
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: clamp(28px, 5vw, 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: var(--shadow-lg);
   transform-origin: top center;
   will-change: transform, opacity;
 }
@@ -75,7 +82,7 @@
 }
 
 .panelTitle {
-  font-size: 30px;
+  font-size: clamp(1.5rem, 4vw, 1.875rem);
   color: var(--color-text);
 }
 
@@ -193,7 +200,7 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--color-accent);
-  background: rgba(61, 127, 209, 0.12);
+  background: rgb(var(--color-primary-rgb) / 0.12);
   border: 1px solid var(--color-border);
   border-radius: 999px;
   padding: 5px 12px;
@@ -260,6 +267,7 @@
   border-radius: 50%;
   object-fit: cover;
   z-index: 1;
+  box-shadow: 0 12px 32px rgb(var(--color-primary-rgb) / 0.24);
 }
 
 .pulseRing {
@@ -289,7 +297,7 @@
   .panel {
     flex-direction: column;
     align-items: stretch;
-    padding: 36px;
+    padding: clamp(24px, 7vw, 36px);
     gap: 28px;
   }
 
@@ -297,7 +305,43 @@
     max-width: none;
   }
 
-  .panelTitle {
-    font-size: 24px;
+  .discordMock,
+  .browserMock {
+    max-width: 260px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .values {
+    padding-bottom: var(--section-space-y);
+  }
+
+  .stepWrapper {
+    height: auto !important;
+  }
+
+  .stickyStage {
+    position: relative;
+    display: grid;
+    gap: 16px;
+    height: auto;
+    padding: 0 var(--content-gutter);
+    overflow: visible;
+    perspective: none;
+  }
+
+  .panel {
+    position: relative;
+    inset: auto;
+    width: min(880px, 100%);
+    max-height: none;
+    margin: 0 auto;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .pulseRing {
+    display: none;
   }
 }

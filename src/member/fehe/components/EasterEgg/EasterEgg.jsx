@@ -132,7 +132,7 @@ function VRNovel({ onEnd }) {
       if (i >= text.length) { clearInterval(timer); setDone(true) }
     }, speed)
     return () => clearInterval(timer)
-  }, [key])
+  }, [key, node.text])
 
   function skip() {
     if (!done) { setDisplayed(node.text); setDone(true) }
@@ -162,7 +162,7 @@ function VRNovel({ onEnd }) {
         {done && node.choices && (
           <div className="vr-choices">
             {node.choices.map((c, i) => (
-              <button key={i} className="vr-choice" onClick={() => choose(c.next)}>
+              <button type="button" key={i} className="vr-choice" onClick={() => choose(c.next)}>
                 {c.label}
               </button>
             ))}
@@ -175,7 +175,7 @@ function VRNovel({ onEnd }) {
 
         {done && node.next === null && (
           <div className="vr-choices">
-            <button className="vr-choice vr-end" onClick={onEnd}>[ 접속 종료 ]</button>
+            <button type="button" className="vr-choice vr-end" onClick={onEnd}>[ 접속 종료 ]</button>
           </div>
         )}
       </div>
@@ -247,7 +247,7 @@ export default function EasterEgg() {
     { type: 'system', text: '' },
   ])
   const [cmdHistory, setCmdHistory] = useState([])
-  const [histIdx, setHistIdx] = useState(-1)
+  const histIdxRef = useRef(-1)
   const [matrix, setMatrix] = useState(false)
   const [secretModal, setSecretModal] = useState(false)
   const [vrNovel, setVrNovel] = useState(false)
@@ -291,7 +291,7 @@ export default function EasterEgg() {
     const cmd = raw.trim().toLowerCase()
 
     setCmdHistory(h => [raw, ...h])
-    setHistIdx(-1)
+    histIdxRef.current = -1
 
     const out = []
     out.push({ type: 'input', text: `fehe@site ~ % ${raw}` })
@@ -851,18 +851,14 @@ export default function EasterEgg() {
       setInput('')
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setHistIdx(i => {
-        const next = Math.min(i + 1, cmdHistory.length - 1)
-        setInput(cmdHistory[next] ?? '')
-        return next
-      })
+      const next = Math.min(histIdxRef.current + 1, cmdHistory.length - 1)
+      histIdxRef.current = next
+      setInput(cmdHistory[next] ?? '')
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setHistIdx(i => {
-        const next = Math.max(i - 1, -1)
-        setInput(next === -1 ? '' : (cmdHistory[next] ?? ''))
-        return next
-      })
+      const next = Math.max(histIdxRef.current - 1, -1)
+      histIdxRef.current = next
+      setInput(next === -1 ? '' : (cmdHistory[next] ?? ''))
     } else if (e.key === 'Escape') {
       if (vrNovel) { setVrNovel(false); return }
       if (secretModal) { setSecretModal(false); return }

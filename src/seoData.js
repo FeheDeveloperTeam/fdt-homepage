@@ -1,6 +1,6 @@
 import { JAVA_WIKI } from './wiki/Minecraft/javaWikiData.js'
 
-export const SITE_NAME = 'FeheDeveloperTeam'
+const SITE_NAME = 'FeheDeveloperTeam'
 export const SITE_URL = 'https://www.fehe.dev'
 
 export const SEO_DATA = {

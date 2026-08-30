@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { rtdb } from '../../firebase'
+import { rtdb } from '../../realtimeDatabase'
 import { ref, onValue } from 'firebase/database'
 import './VersionWatcher.css'
 
@@ -42,10 +42,10 @@ export default function VersionWatcher() {
         </svg>
         새 버전이 배포되었어요.
       </span>
-      <button className="version-banner-reload" onClick={() => window.location.reload()}>
+      <button type="button" className="version-banner-reload" onClick={() => window.location.reload()}>
         새로고침
       </button>
-      <button className="version-banner-close" onClick={dismiss} aria-label="닫기">
+      <button type="button" className="version-banner-close" onClick={dismiss} aria-label="닫기">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>

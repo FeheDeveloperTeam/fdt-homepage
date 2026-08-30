@@ -64,6 +64,7 @@ export default function MusicPlayer() {
   const playerRef = useRef(null)
   const containerRef = useRef(null)
   const timerRef = useRef(null)
+  const cancelPendingDestroyRef = useRef(null)
 
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current)
@@ -76,53 +77,81 @@ export default function MusicPlayer() {
   }, [])
 
   useEffect(() => {
-    if (window.YT && window.YT.Player) {
-      initPlayer()
-      return
+    cancelPendingDestroyRef.current?.()
+    const destroyState = { cancelled: false }
+    cancelPendingDestroyRef.current = () => {
+      destroyState.cancelled = true
     }
-    const tag = document.createElement('script')
-    tag.src = 'https://www.youtube.com/iframe_api'
-    document.head.appendChild(tag)
-    window.onYouTubeIframeAPIReady = () => initPlayer()
-    return () => {
-      window.onYouTubeIframeAPIReady = null
-      clearInterval(timerRef.current)
-    }
-  }, [])
+    let ownedPlayer = playerRef.current
 
-  function initPlayer() {
-    playerRef.current = new window.YT.Player(containerRef.current, {
-      videoId: VIDEO_ID,
-      playerVars: {
-        autoplay: 0,
-        loop: 1,
-        playlist: VIDEO_ID,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        modestbranding: 1,
-      },
-      events: {
-        onReady(e) {
-          e.target.setVolume(DEFAULT_VOL)
-          e.target.stopVideo()
-          setReady(true)
-          setPlaying(false)
+    function initPlayer() {
+      if (ownedPlayer || !containerRef.current) return
+
+      ownedPlayer = new window.YT.Player(containerRef.current, {
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay: 0,
+          loop: 1,
+          playlist: VIDEO_ID,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
         },
-        onStateChange(e) {
-          const isPlaying = e.data === window.YT.PlayerState.PLAYING
-          setPlaying(isPlaying)
-          if (isPlaying) startTimer()
-          else clearInterval(timerRef.current)
-          // 곡이 끝나면 처음부터 다시 재생
-          if (e.data === window.YT.PlayerState.ENDED) {
-            e.target.seekTo(0)
-            e.target.playVideo()
-          }
+        events: {
+          onReady(e) {
+            e.target.setVolume(DEFAULT_VOL)
+            e.target.stopVideo()
+            setReady(true)
+            setPlaying(false)
+          },
+          onStateChange(e) {
+            const isPlaying = e.data === window.YT.PlayerState.PLAYING
+            setPlaying(isPlaying)
+            if (isPlaying) startTimer()
+            else clearInterval(timerRef.current)
+            // 곡이 끝나면 처음부터 다시 재생
+            if (e.data === window.YT.PlayerState.ENDED) {
+              e.target.seekTo(0)
+              e.target.playVideo()
+            }
+          },
         },
-      },
-    })
-  }
+      })
+      playerRef.current = ownedPlayer
+    }
+
+    const previousReady = window.onYouTubeIframeAPIReady
+    const handleReady = () => {
+      previousReady?.()
+      initPlayer()
+    }
+
+    if (window.YT?.Player) {
+      initPlayer()
+    } else {
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const tag = document.createElement('script')
+        tag.src = 'https://www.youtube.com/iframe_api'
+        document.head.appendChild(tag)
+      }
+      window.onYouTubeIframeAPIReady = handleReady
+    }
+
+    return () => {
+      if (window.onYouTubeIframeAPIReady === handleReady) {
+        window.onYouTubeIframeAPIReady = previousReady ?? null
+      }
+      clearInterval(timerRef.current)
+
+      setTimeout(() => {
+        // React StrictMode immediately re-runs effects in development. In that
+        // case the live player belongs to the new run and must not be destroyed.
+        if (destroyState.cancelled) return
+        ownedPlayer?.destroy?.()
+      }, 0)
+    }
+  }, [startTimer])
 
   function toggle() {
     if (!ready || !playerRef.current) return
@@ -175,6 +204,7 @@ export default function MusicPlayer() {
             <span className="music-artist">{SONG_ARTIST}</span>
           </div>
           <button
+            type="button"
             className={`music-toggle${playing ? ' playing' : ''}`}
             onClick={toggle}
             title={playing ? '일시정지' : '재생'}

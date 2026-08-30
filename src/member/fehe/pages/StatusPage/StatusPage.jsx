@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { db, rtdb } from '../../firebase'
+import { db } from '../../firestore'
+import { rtdb } from '../../realtimeDatabase'
 import { doc, getDoc } from 'firebase/firestore'
 import { ref, get } from 'firebase/database'
 import { SITE_VERSION } from '../../version'
@@ -40,7 +41,6 @@ export default function StatusPage() {
   const [rtdbStatus, setRtdbStatus] = useState({ state: 'checking', ms: null })
   const [ipApi, setIpApi] = useState({ state: 'checking', ip: null })
   const [ytApi, setYtApi] = useState({ state: 'checking', ms: null, detail: null })
-  const [version, setVersion] = useState(null)
   const [checkedAt, setCheckedAt] = useState(null)
   const [secondsAgo, setSecondsAgo] = useState(0)
   const [ua, setUa] = useState({ browser: '', os: '' })
@@ -83,9 +83,8 @@ export default function StatusPage() {
         (async () => {
           const t = Date.now()
           try {
-            const snap = await get(ref(rtdb, 'app/version'))
+            await get(ref(rtdb, 'app/version'))
             setRtdbStatus({ state: 'ok', ms: Date.now() - t })
-            setVersion(snap.val())
           } catch {
             setRtdbStatus({ state: 'error', ms: null })
           }

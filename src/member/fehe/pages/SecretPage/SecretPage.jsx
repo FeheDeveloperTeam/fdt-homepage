@@ -139,7 +139,7 @@ export default function SecretPage() {
         {showBack && (
           <div className="secret-footer">
             <span className="secret-sig">— 페헤, {new Date().getFullYear()}</span>
-            <button className="secret-back" onClick={() => navigate('/member/fehe')}>
+            <button type="button" className="secret-back" onClick={() => navigate('/member/fehe')}>
               ← 돌아가기
             </button>
           </div>
