@@ -1,5 +1,7 @@
 # FeheDeveloperTeam Homepage
 
+개발·API·배포·문제 해결 문서는 [docs/README.md](docs/README.md)에서 확인합니다.
+
 FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여러 웹 기능을 한곳에 모은 React 프로젝트입니다. FDT 소개 페이지뿐 아니라 팀원 페이지, Discord 봇 Chiyumi의 소개·관리 화면, 네트워크 진단 도구, Minecraft 위키를 함께 제공합니다.
 
 운영 주소: [https://www.fehe.dev](https://www.fehe.dev)
