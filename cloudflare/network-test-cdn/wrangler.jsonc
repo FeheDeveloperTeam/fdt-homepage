@@ -1,0 +1,7 @@
+{
+  "name": "fdt-network-test-cdn",
+  "compatibility_date": "2026-08-31",
+  "assets": {
+    "directory": "./assets"
+  }
+}

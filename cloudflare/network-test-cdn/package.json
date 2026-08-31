@@ -1,0 +1,8 @@
+{
+  "name": "fdt-network-test-cdn",
+  "private": true,
+  "scripts": {
+    "prepare-assets": "node scripts/generate-test-asset.mjs",
+    "deploy": "npm run prepare-assets && npx wrangler deploy"
+  }
+}

@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+cloudflare/network-test-cdn/assets/network-test.bin
 *.local
 .env
 .env.local

@@ -4,9 +4,21 @@ const DOWNLOAD_CHUNK_BYTES = 3_000_000
 const DOWNLOAD_DURATION_MS = 10_000
 const DOWNLOAD_CONCURRENCY = 3
 const DOWNLOAD_MAX_ROUNDS = 60
+const DOWNLOAD_CDN_ORIGIN = import.meta.env.VITE_NETWORK_TEST_CDN_ORIGIN?.replace(/\/$/, '') || ''
 
 function noStoreUrl(path) {
   return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+function downloadTestRequest(bytes) {
+  if (DOWNLOAD_CDN_ORIGIN) {
+    return {
+      url: noStoreUrl(`${DOWNLOAD_CDN_ORIGIN}/network-test.bin`),
+      options: { headers: { Range: `bytes=0-${bytes - 1}` } },
+    }
+  }
+
+  return { url: noStoreUrl(`/api/network-test?type=download&bytes=${bytes}`), options: {} }
 }
 
 async function fetchWithTimeout(url, { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = {}) {
@@ -92,7 +104,8 @@ async function readDownloadResponse(response, onChunk) {
 
 // 워밍업으로 연결 준비 비용을 본 측정에서 제외하고, 병렬 다운로드로 순차 요청의 RTT 병목을 줄인다.
 export async function runDownloadSpeedTest(onProgress) {
-  const warmup = await fetchWithTimeout(noStoreUrl('/api/network-test?type=download&bytes=50000'), { timeoutMs: 5_000 })
+  const warmupRequest = downloadTestRequest(50_000)
+  const warmup = await fetchWithTimeout(warmupRequest.url, { timeoutMs: 5_000, ...warmupRequest.options })
   if (!warmup.ok) throw new Error(`HTTP ${warmup.status}`)
   await warmup.arrayBuffer()
 
@@ -112,7 +125,8 @@ export async function runDownloadSpeedTest(onProgress) {
   const worker = async () => {
     while (performance.now() - testStart < DOWNLOAD_DURATION_MS && rounds < DOWNLOAD_MAX_ROUNDS) {
       rounds += 1
-      const res = await fetchWithTimeout(noStoreUrl(`/api/network-test?type=download&bytes=${DOWNLOAD_CHUNK_BYTES}`))
+      const request = downloadTestRequest(DOWNLOAD_CHUNK_BYTES)
+      const res = await fetchWithTimeout(request.url, request.options)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       await readDownloadResponse(res, (byteLength) => {
         totalBytes += byteLength

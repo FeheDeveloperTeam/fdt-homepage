@@ -1,0 +1,6 @@
+/network-test.bin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD
+  Access-Control-Expose-Headers: Accept-Ranges, Content-Length, Content-Range
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/octet-stream
