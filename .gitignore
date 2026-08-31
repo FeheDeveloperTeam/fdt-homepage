@@ -25,3 +25,5 @@ cloudflare/network-test-cdn/assets/network-test.bin
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
