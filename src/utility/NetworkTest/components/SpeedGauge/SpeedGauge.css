@@ -11,7 +11,6 @@
 
 .speedGauge--phase-ip       { --phase-color: #38bdf8; }
 .speedGauge--phase-latency  { --phase-color: #a78bfa; }
-.speedGauge--phase-gateway  { --phase-color: #34d8c3; }
 .speedGauge--phase-speed    { --phase-color: #7dd3fc; }
 
 .speedGauge--ok       { --phase-color: var(--ok); }
@@ -87,6 +86,13 @@
   display: flex;
   align-items: baseline;
   gap: 0.35rem;
+}
+
+.speedGauge-scale {
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
 }
 
 .speedGauge-value {

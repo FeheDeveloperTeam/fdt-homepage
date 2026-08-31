@@ -1,14 +1,15 @@
-const PING_ATTEMPTS = 8
-const PING_TIMEOUT_MS = 3000
+const HTTP_RTT_ATTEMPTS = 8
+const REQUEST_TIMEOUT_MS = 15_000
 const DOWNLOAD_CHUNK_BYTES = 3_000_000
-const DOWNLOAD_MIN_DURATION_MS = 10_000
+const DOWNLOAD_DURATION_MS = 10_000
+const DOWNLOAD_CONCURRENCY = 3
 const DOWNLOAD_MAX_ROUNDS = 60
 
 function noStoreUrl(path) {
-  return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}`
+  return `${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}-${Math.random().toString(36).slice(2)}`
 }
 
-async function fetchWithTimeout(url, { timeoutMs = PING_TIMEOUT_MS, ...fetchOptions } = {}) {
+async function fetchWithTimeout(url, { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = {}) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
@@ -20,7 +21,7 @@ async function fetchWithTimeout(url, { timeoutMs = PING_TIMEOUT_MS, ...fetchOpti
 
 export async function fetchPublicIp() {
   try {
-    const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ip'), { timeoutMs: 5000 })
+    const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ip'), { timeoutMs: 5_000 })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data = await res.json()
     return data.ip || null
@@ -31,19 +32,26 @@ export async function fetchPublicIp() {
 
 function standardDeviation(values) {
   if (values.length < 2) return 0
-  const mean = values.reduce((sum, v) => sum + v, 0) / values.length
-  const variance = values.reduce((sum, v) => sum + (v - mean) ** 2, 0) / values.length
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length
+  const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length
   return Math.sqrt(variance)
 }
 
-export async function runLatencyTest(attempts = PING_ATTEMPTS) {
+function median(values) {
+  const sorted = [...values].sort((a, b) => a - b)
+  const middle = Math.floor(sorted.length / 2)
+  return sorted.length % 2 === 0 ? (sorted[middle - 1] + sorted[middle]) / 2 : sorted[middle]
+}
+
+// HTTP 요청의 왕복 시간을 측정한다. ICMP ping과는 목적과 경로가 달라 별도로 표기한다.
+export async function runLatencyTest(attempts = HTTP_RTT_ATTEMPTS) {
   const samples = []
   let failures = 0
 
-  for (let i = 0; i < attempts; i += 1) {
+  for (let index = 0; index < attempts; index += 1) {
     const start = performance.now()
     try {
-      const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ping'))
+      const res = await fetchWithTimeout(noStoreUrl('/api/network-test?type=ping'), { timeoutMs: 3_000 })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       await res.json()
       samples.push(performance.now() - start)
@@ -53,14 +61,12 @@ export async function runLatencyTest(attempts = PING_ATTEMPTS) {
   }
 
   const lossPercent = Math.round((failures / attempts) * 100)
-
-  if (samples.length === 0) {
-    return { samples: [], avg: null, min: null, max: null, jitter: null, lossPercent }
-  }
+  if (!samples.length) return { samples: [], avg: null, median: null, min: null, max: null, jitter: null, lossPercent }
 
   return {
     samples,
-    avg: samples.reduce((sum, v) => sum + v, 0) / samples.length,
+    avg: samples.reduce((sum, value) => sum + value, 0) / samples.length,
+    median: median(samples),
     min: Math.min(...samples),
     max: Math.max(...samples),
     jitter: standardDeviation(samples),
@@ -68,212 +74,91 @@ export async function runLatencyTest(attempts = PING_ATTEMPTS) {
   }
 }
 
-// 한 번 받고 끝내지 않고 최소 DOWNLOAD_MIN_DURATION_MS 동안 여러 라운드로
-// 나눠 받는다 — 실제 회선 상태는 몇 초 사이에도 흔들리기 때문에, 순간 속도
-// 하나만 재면 우연히 튄 값을 그대로 보여줄 수 있다. onProgress로 매 순간
-// 속도를 흘려보내면 게이지 바늘이 스피드테스트처럼 실시간으로 움직이다가
-// 정착하는 것처럼 보인다.
-export async function runDownloadSpeedTest(onProgress) {
-  const testStart = performance.now()
-  let totalBytes = 0
-  let round = 0
-
-  while (round < DOWNLOAD_MAX_ROUNDS && performance.now() - testStart < DOWNLOAD_MIN_DURATION_MS) {
-    round += 1
-    const res = await fetchWithTimeout(
-      noStoreUrl(`/api/network-test?type=download&bytes=${DOWNLOAD_CHUNK_BYTES}`),
-      { timeoutMs: 15000 },
-    )
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-
-    if (!res.body || typeof res.body.getReader !== 'function') {
-      // 스트리밍 미지원 브라우저 — 라운드 단위 총량으로만 폴백.
-      const blob = await res.blob()
-      totalBytes += blob.size
-      continue
-    }
-
-    const reader = res.body.getReader()
-    let lastSampleTime = performance.now()
-    let lastSampleBytes = totalBytes
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      totalBytes += value.byteLength
-
-      const now = performance.now()
-      if (onProgress && now - lastSampleTime > 150) {
-        const intervalSeconds = (now - lastSampleTime) / 1000
-        const instantMbps = ((totalBytes - lastSampleBytes) * 8) / 1_000_000 / intervalSeconds
-        const elapsedSeconds = (now - testStart) / 1000
-        const avgMbps = (totalBytes * 8) / 1_000_000 / elapsedSeconds
-        // 순간 속도와 누적 평균을 섞어서, 바늘이 튀지 않고 서서히 정착하게 한다.
-        onProgress(instantMbps * 0.4 + avgMbps * 0.6)
-        lastSampleTime = now
-        lastSampleBytes = totalBytes
-      }
-    }
+async function readDownloadResponse(response, onChunk) {
+  if (!response.body || typeof response.body.getReader !== 'function') {
+    const blob = await response.blob()
+    onChunk(blob.size)
+    return
   }
 
-  const seconds = (performance.now() - testStart) / 1000
-  const mbps = (totalBytes * 8) / 1_000_000 / seconds
-  onProgress?.(mbps)
-  return { mbps, bytes: totalBytes, seconds }
+  const reader = response.body.getReader()
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) return
+    onChunk(value.byteLength)
+  }
 }
 
-const COMMON_GATEWAY_IPS = ['192.168.1.1', '192.168.0.1', '192.168.1.254', '10.0.0.1', '192.168.29.1']
-const GATEWAY_TIMEOUT_MS = 1200
+// 워밍업으로 연결 준비 비용을 본 측정에서 제외하고, 병렬 다운로드로 순차 요청의 RTT 병목을 줄인다.
+export async function runDownloadSpeedTest(onProgress) {
+  const warmup = await fetchWithTimeout(noStoreUrl('/api/network-test?type=download&bytes=50000'), { timeoutMs: 5_000 })
+  if (!warmup.ok) throw new Error(`HTTP ${warmup.status}`)
+  await warmup.arrayBuffer()
 
-// 브라우저가 사설망(공유기 등) 접근을 지원/허용하는지는 실제로 fetch를
-// 시도해보기 전까지 알 수 없다 (Chrome의 Local Network Access 권한 프롬프트가
-// 이 시점에 뜬다). 흔한 공유기 기본 IP를 순서대로 하나씩 시도하고,
-// 동시에 여러 개를 시도해 권한 프롬프트가 중복으로 뜨지 않게 한다.
-export async function checkGatewayAccess() {
-  if (typeof fetch !== 'function') {
-    return { supported: false, reachable: false, ip: null, ms: null }
+  const testStart = performance.now()
+  let totalBytes = 0
+  let rounds = 0
+  let lastProgressAt = testStart
+
+  const reportProgress = () => {
+    const now = performance.now()
+    if (now - lastProgressAt < 180) return
+    const seconds = (now - testStart) / 1_000
+    if (seconds > 0) onProgress?.((totalBytes * 8) / 1_000_000 / seconds)
+    lastProgressAt = now
   }
 
-  for (const ip of COMMON_GATEWAY_IPS) {
-    const start = performance.now()
-    try {
-      await fetchWithTimeout(`http://${ip}/`, { timeoutMs: GATEWAY_TIMEOUT_MS, mode: 'no-cors' })
-      return { supported: true, reachable: true, ip, ms: Math.round(performance.now() - start) }
-    } catch {
-      // 이 IP는 실패 — 다음 후보로 넘어간다. (권한 거부/차단/타임아웃 모두 동일하게 처리)
+  const worker = async () => {
+    while (performance.now() - testStart < DOWNLOAD_DURATION_MS && rounds < DOWNLOAD_MAX_ROUNDS) {
+      rounds += 1
+      const res = await fetchWithTimeout(noStoreUrl(`/api/network-test?type=download&bytes=${DOWNLOAD_CHUNK_BYTES}`))
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      await readDownloadResponse(res, (byteLength) => {
+        totalBytes += byteLength
+        reportProgress()
+      })
     }
   }
 
-  return { supported: true, reachable: false, ip: null, ms: null }
+  await Promise.all(Array.from({ length: DOWNLOAD_CONCURRENCY }, worker))
+  const seconds = (performance.now() - testStart) / 1_000
+  const mbps = seconds > 0 ? (totalBytes * 8) / 1_000_000 / seconds : 0
+  onProgress?.(mbps)
+  return { mbps, bytes: totalBytes, seconds, rounds, concurrency: DOWNLOAD_CONCURRENCY }
 }
 
 const CONNECTION_TYPE_LABELS = {
-  ethernet: '유선 (이더넷)',
-  wifi: '무선 (Wi-Fi)',
-  cellular: '무선 (모바일 데이터)',
-  bluetooth: '무선 (블루투스)',
-  wimax: '무선 (WiMAX)',
-  none: '연결 없음',
-  other: '기타',
-  unknown: '확인 불가',
+  ethernet: '유선 (이더넷)', wifi: '무선 (Wi-Fi)', cellular: '무선 (모바일 데이터)', bluetooth: '무선 (블루투스)', wimax: '무선 (WiMAX)', none: '연결 없음', other: '기타', unknown: '확인 불가',
 }
 
 export function detectConnectionInfo() {
-  const conn =
-    navigator.connection || navigator.webkitConnection || navigator.mozConnection || null
-
-  if (!conn) {
-    return { supported: false, type: null, label: null, effectiveType: null, downlinkMbps: null, rttMs: null }
-  }
-
-  const type = conn.type || null
-  const label = type && type !== 'unknown' ? CONNECTION_TYPE_LABELS[type] || type : null
-
-  return {
-    supported: true,
-    type,
-    label,
-    effectiveType: conn.effectiveType || null,
-    downlinkMbps: typeof conn.downlink === 'number' ? conn.downlink : null,
-    rttMs: typeof conn.rtt === 'number' ? conn.rtt : null,
-  }
+  const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection || null
+  if (!connection) return { supported: false, type: null, label: null, effectiveType: null, downlinkMbps: null, rttMs: null }
+  const type = connection.type || null
+  return { supported: true, type, label: type && type !== 'unknown' ? CONNECTION_TYPE_LABELS[type] || type : null, effectiveType: connection.effectiveType || null, downlinkMbps: typeof connection.downlink === 'number' ? connection.downlink : null, rttMs: typeof connection.rtt === 'number' ? connection.rtt : null }
 }
 
-function estimateConnectionType(latency) {
-  if (!latency || latency.avg === null) return null
-  // 유선 회선은 보통 지연 시간이 낮고 흔들림(지터)도 작다.
-  // 정밀한 판별은 아니고 어디까지나 참고용 추정치다.
-  if (latency.avg < 40 && latency.jitter < 8) return '유선일 가능성이 높음 (추정)'
-  if (latency.jitter > 25) return '무선(Wi-Fi 등)일 가능성이 높음 (추정)'
-  return '판단하기 어려움 (추정)'
-}
+const EFFECTIVE_TYPE_LABELS = { 'slow-2g': '2G 이하', '2g': '2G급', '3g': '3G급', '4g': '4G급 이상' }
 
-const EFFECTIVE_TYPE_LABELS = {
-  'slow-2g': '2G 이하급',
-  '2g': '2G급',
-  '3g': '3G급',
-  '4g': '4G급 이상',
-}
-
-// 유선/무선 실측 정보(navigator.connection.type)는 최신 브라우저 대부분이
-// 개인정보 보호를 이유로 막아뒀다(거의 항상 'unknown'). 대신 아래 순서로
-// 구할 수 있는 것 중 제일 신뢰도 높은 값을 쓴다:
-// 1) 실제로 브라우저가 알려준 값 2) 브라우저가 보고하는 회선 등급/대역폭
-// 3) 우리 쪽 지연 시간 측정 기반 추정치
 export function describeConnection(connectionInfo, latency) {
   if (connectionInfo.label) return connectionInfo.label
-
   if (connectionInfo.effectiveType) {
     const grade = EFFECTIVE_TYPE_LABELS[connectionInfo.effectiveType] || connectionInfo.effectiveType
-    const speedNote =
-      typeof connectionInfo.downlinkMbps === 'number' ? ` · 약 ${connectionInfo.downlinkMbps}Mbps` : ''
-    return `${grade}${speedNote} (브라우저 보고값)`
+    const downlink = typeof connectionInfo.downlinkMbps === 'number' ? ` · 브라우저 추정 ${connectionInfo.downlinkMbps}Mbps` : ''
+    return `${grade}${downlink}`
   }
-
-  return estimateConnectionType(latency) || '확인 불가'
+  if (latency?.median !== null && latency?.median < 40 && latency.jitter < 8) return '안정적 연결로 추정'
+  return '브라우저에서 확인 불가'
 }
 
 export function diagnose({ online, ip, latency, speed, speedError }) {
-  if (!online) {
-    return {
-      label: '오프라인',
-      severity: 'critical',
-      detail: '기기가 인터넷에 연결되어 있지 않습니다. Wi-Fi 또는 유선 케이블 연결 상태를 확인해주세요.',
-    }
-  }
-
-  if (!ip && latency.lossPercent === 100) {
-    return {
-      label: '인터넷 연결 없음 / 서버 응답 없음',
-      severity: 'critical',
-      detail: '외부 서버로 요청이 전혀 도달하지 못했습니다. 공유기 재부팅이나 통신사 회선 상태를 확인해주세요.',
-    }
-  }
-
-  if (latency.lossPercent >= 25) {
-    return {
-      label: '패킷 손실 감지 (연결 불안정)',
-      severity: 'critical',
-      detail: `측정 요청 중 ${latency.lossPercent}%가 응답하지 않았습니다. 무선 신호 간섭, 공유기 과부하, 회선 불량 등을 의심해볼 수 있습니다.`,
-    }
-  }
-
-  if (speedError) {
-    return {
-      label: '다운로드 속도 측정 실패',
-      severity: 'warning',
-      detail: '속도 측정 요청이 중간에 끊겼습니다. 연결이 불안정할 가능성이 있으니 다시 시도해보세요.',
-    }
-  }
-
-  if (latency.avg !== null && latency.avg > 200) {
-    return {
-      label: '높은 지연 시간 (High Latency)',
-      severity: 'warning',
-      detail: `평균 응답 시간이 ${Math.round(latency.avg)}ms로 높은 편입니다. 화상통화나 게임 등 실시간성이 중요한 서비스에서 끊김이 느껴질 수 있습니다.`,
-    }
-  }
-
-  if (latency.jitter !== null && latency.jitter > 40) {
-    return {
-      label: '지연 시간 변동 심함 (지터 과다)',
-      severity: 'warning',
-      detail: '응답 시간의 편차가 큽니다. 무선 신호 간섭이나 혼잡한 네트워크 환경일 가능성이 있습니다.',
-    }
-  }
-
-  if (speed && speed.mbps < 5) {
-    return {
-      label: '낮은 대역폭 (다운로드 속도 저하)',
-      severity: 'warning',
-      detail: `다운로드 속도가 약 ${speed.mbps.toFixed(1)}Mbps로 낮게 측정되었습니다. 여러 기기가 동시에 사용 중이거나 회선 자체가 느릴 수 있습니다.`,
-    }
-  }
-
-  return {
-    label: '정상',
-    severity: 'ok',
-    detail: '측정된 지연 시간, 손실률, 다운로드 속도 모두 양호한 범위입니다.',
-  }
+  if (!online) return { label: '오프라인', severity: 'critical', detail: '기기가 인터넷에 연결되어 있지 않습니다. Wi-Fi 또는 유선 연결 상태를 확인해 주세요.' }
+  if (!ip && latency.lossPercent === 100) return { label: '서버에 연결할 수 없음', severity: 'critical', detail: '테스트 서버로 요청이 전달되지 않았습니다. 네트워크 연결이나 방화벽 상태를 확인해 주세요.' }
+  if (latency.lossPercent >= 25) return { label: 'HTTP 요청 실패 감지', severity: 'critical', detail: `측정 요청 중 ${latency.lossPercent}%가 응답하지 않았습니다. 무선 신호, 공유기 또는 회선 상태를 확인해 주세요.` }
+  if (speedError) return { label: '다운로드 측정 실패', severity: 'warning', detail: '속도 측정 요청이 중간에 끊겼습니다. 잠시 후 다시 시도해 주세요.' }
+  if (latency.median !== null && latency.median > 200) return { label: '높은 HTTP 왕복 시간', severity: 'warning', detail: `이 사이트 서버까지의 중앙 HTTP 왕복 시간이 ${Math.round(latency.median)}ms입니다. 실시간 서비스에서 지연을 느낄 수 있습니다.` }
+  if (latency.jitter !== null && latency.jitter > 40) return { label: '응답 시간 변동이 큼', severity: 'warning', detail: 'HTTP 응답 시간이 일정하지 않습니다. 무선 신호 간섭이나 네트워크 혼잡 가능성이 있습니다.' }
+  if (speed && speed.mbps < 5) return { label: '낮은 다운로드 처리량', severity: 'warning', detail: `이 사이트 서버 기준 다운로드 처리량이 ${speed.mbps.toFixed(1)}Mbps입니다. 다른 기기의 사용량과 회선 상태를 확인해 주세요.` }
+  return { label: '측정 완료', severity: 'ok', detail: '이 사이트 서버 경로에서의 HTTP 왕복 시간과 다운로드 처리량을 정상적으로 측정했습니다.' }
 }

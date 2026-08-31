@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import './SpeedGauge.css'
 
-const GAUGE_MAX = 200
 const TICKS = [0, 0.25, 0.5, 0.75, 1]
 const CENTER = { x: 110, y: 108 }
 const RADIUS = 88
@@ -21,9 +20,13 @@ function pointOnArc(percent) {
 }
 
 // phase: 'idle' | 'running' | 'done'
-// step(=phase==='running'일 때만 의미 있음): 'ip' | 'latency' | 'gateway' | 'speed'
+// step(=phase==='running'일 때만 의미 있음): 'ip' | 'latency' | 'speed'
 export default function SpeedGauge({ mbps, phase, step, severity }) {
-  const percent = mbps === null ? 0 : Math.min(mbps / GAUGE_MAX, 1)
+  const gaugeMax = useMemo(() => {
+    const value = mbps || 0
+    return [10, 30, 100, 300, 1_000, 3_000, 10_000].find((limit) => value <= limit) || 10_000
+  }, [mbps])
+  const percent = mbps === null ? 0 : Math.min(mbps / gaugeMax, 1)
   const needleAngle = angleForPercent(percent)
   const progressOffset = ARC_LENGTH * (1 - percent)
 
@@ -95,6 +98,7 @@ export default function SpeedGauge({ mbps, phase, step, severity }) {
         </span>
         <span className="speedGauge-unit">Mbps</span>
       </div>
+      <span className="speedGauge-scale">현재 눈금 최대 {gaugeMax.toLocaleString()} Mbps</span>
     </div>
   )
 }
