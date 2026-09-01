@@ -81,25 +81,23 @@ const TIMELINE = [
     year: '2025 — 2027',
     heading: '(주)라함 국가근로장학생',
     body: 'IT 운영 지원과 사내 업무 자동화·웹 개발을 담당하고 있습니다.',
+    dutyLayout: 'grid',
     duties: [
-      { label: '원격 지원', desc: '씨트롤 · K-Remote 활용, 현장 장애 대응 및 기술 지원' },
-      { label: '기기 관리', desc: '크라이저 활용, 키오스크 설정 · 유지보수 보조' },
-      { label: 'VAN 결제', desc: '폐업 매장 VAN사 정보 삭제 처리 보조' },
-      { label: '문서 작업', desc: '엑셀을 활용한 데이터 정리 및 업무 문서 작성' },
       {
-        label: '블로그 관리',
-        desc: 'Gemini 기반 콘텐츠 초안 작성 자동화에서 출발해, 직접 개발한 사내 ERP에 Claude Code를 연동했습니다. 키워드와 업무 데이터를 바탕으로 네이버 블로그 콘텐츠를 기획·작성·관리하는 AI 지원 워크플로우를 구축해 반복 제작 업무를 효율화했습니다.',
+        label: 'IT 운영 지원',
+        desc: '씨트롤·K-Remote 기반 현장 장애 대응, 키오스크 설정·유지보수 보조',
       },
       {
-        label: '프로그램 및 사이트 개발',
-        details: [
-          '사내 ERP 개발 및 Claude Code 기반 AI 기능 연동',
-          '다인 서버 관리(Ops)',
-          '(주)라함 미팅 관리 사이트 개발',
-          '작업일지와 개발일지를 게시하는 서버 작업 리스트 사이트 개발',
-          '네이버 블로그 자동 발행 프로그램 개발',
-          '유휴 PC를 활용한 Ubuntu Desktop 26.04 서버 구축',
-        ],
+        label: '운영 데이터 관리',
+        desc: 'VAN 정보 정리와 Excel 기반 데이터·업무 문서 관리',
+      },
+      {
+        label: 'AI 콘텐츠 운영',
+        desc: 'Gemini 초안 자동화에서 ERP·Claude Code 연동으로 고도화한 네이버 블로그 콘텐츠 워크플로우 운영',
+      },
+      {
+        label: '서비스·인프라 개발',
+        desc: 'ERP·미팅 관리·작업일지 사이트와 자동 발행 프로그램 개발, Ubuntu 서버 구축·운영',
       },
     ],
   },
@@ -275,27 +273,16 @@ export default function HomePage() {
                   &nbsp; {ev.text}
                 </p>
               ))}
-              {item.duties && item.duties.map((d, di) => (
-                <div
-                  key={di}
-                  className={
-                    `timeline-duty${di === 0 ? ' timeline-duty--first' : ''}${
-                      d.details ? ' timeline-duty--grouped' : ''
-                    }`
-                  }
-                >
-                  <strong className="timeline-duty-label">{d.label}</strong>
-                  {d.details ? (
-                    <ul className="timeline-duty-list">
-                      {d.details.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span>&nbsp; {d.desc}</span>
-                  )}
+              {item.duties && (
+                <div className={`timeline-duties${item.dutyLayout ? ` timeline-duties--${item.dutyLayout}` : ''}`}>
+                  {item.duties.map((d, di) => (
+                    <div key={di} className={`timeline-duty${di === 0 ? ' timeline-duty--first' : ''}`}>
+                      <strong className="timeline-duty-label">{d.label}</strong>
+                      <span>&nbsp; {d.desc}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
               {item.projects && item.projects.map((proj, pi) => (
                 <p key={pi} className="timeline-body" style={{ marginTop: pi === 0 ? '0.6rem' : '0.3rem', paddingTop: pi === 0 ? '0.6rem' : 0, borderTop: pi === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem' }}>
                   <strong style={{ color: 'var(--accent)' }}>프로젝트</strong>
