@@ -214,6 +214,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 ## 9. 변경 위치 빠른 찾기
 
 - FDT 공통 레이아웃: `src/App.jsx`, `src/components/Header`, `src/components/Footer`
+- FDT 메인 팀 소개 카드: `src/components/TeamValues/` (sticky 전환 카드는 페이지 스크롤을 가로채지 않도록 자체 세로 스크롤을 사용하지 않음)
 - FDT SEO 기준 데이터: `src/seoData.js`
 - Chiyumi 프런트 API 래퍼: `src/DiscordBot/Chiyumi/pages/adminApi.js`, `guildApi.js`
 - Discord 인증·세션: `api/_lib/discordAuth.js`
