@@ -13,6 +13,18 @@ footer {
 }
 footer p::before { content: '$ '; color: var(--border-accent); }
 footer span { color: var(--accent); font-weight: 700; }
+.footer-email {
+  margin-left: 1rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+.footer-email:hover,
+.footer-email:focus-visible {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
 .footer-ghost {
   position: absolute;
   font-size: 0.55rem;
@@ -34,4 +46,26 @@ footer:hover .footer-ghost { color: var(--text-muted); }
   opacity: 0.6;
 }
 .footer-version::before { content: none; }
+
+@media (max-width: 540px) {
+  :scope { --footer-h: 74px; }
+
+  footer {
+    height: var(--footer-h);
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.64rem;
+  }
+
+  .footer-email {
+    margin-left: 0;
+    font-size: 0.68rem;
+  }
+
+  .footer-version {
+    right: 0.65rem;
+    bottom: 0.3rem;
+    font-size: 0.58rem;
+  }
+}
 }
