@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Seo from '../../components/Seo/Seo'
 import RevealItem from '../../components/RevealItem/RevealItem'
 import feheProfile from '../../assets/images/team/fehe.png'
+import yukihaProfile from '../../assets/images/team/yukiha.png'
 import { SEO_DATA } from '../../seoData'
 import styles from './About.module.css'
 
@@ -19,6 +20,7 @@ const MEMBERS = [
     position: '팀원',
     role: '아이디어 제공 및 개발 피드백',
     email: 'yukiha@fehe.dev',
+    photo: yukihaProfile,
     profileUrl: '/member/yukiha',
   },
 ]
