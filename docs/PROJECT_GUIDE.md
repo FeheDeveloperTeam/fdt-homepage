@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | FDT 메인 | 팀·서비스·프로젝트·문의 소개 | `src/App.jsx`, `src/pages/`, `src/components/` |
 | Fehe | 개인 소개, YouTube, 상태, 숨김·미리보기 화면 | `src/member/fehe/FeheApp.jsx` |
-| Yukiha | 준비 중인 멤버 페이지 | `src/member/yukiha/YukihaPage.jsx` |
+| Yukiha | 자기소개, NATSUMI, 기술 스택, 개발 분야, GitHub 활동과 링크 | `src/member/yukiha/YukihaPage.jsx` |
 | Chiyumi | Discord 봇 소개, 관리자 도구, 길드 설정 | `src/DiscordBot/Chiyumi/ChiyumiApp.jsx` |
 | 네트워크 테스트 | IP, 왕복 지연, 다운로드 처리량 진단 | `src/utility/NetworkTest/NetworkTestApp.jsx` |
 | Minecraft 위키 | Java 문서, Bedrock 준비 페이지 | `src/wiki/Minecraft/MinecraftWikiApp.jsx` |
@@ -51,13 +51,15 @@ npm run build
 | `/projects` | 전체 프로젝트 |
 | `/projects/:category` | 카테고리별 프로젝트 |
 | `/contact` | 문의 |
-| `/member/yukiha` | Yukiha 준비 페이지 |
+| `/member/yukiha` | Yukiha 자기소개·NATSUMI 프로젝트 페이지 |
 | `/member/fehe` | Fehe 홈 |
 | `/member/fehe/youtube` | YouTube 콘텐츠 |
 | `/member/fehe/secret` | 숨김 페이지 |
 | `/member/fehe/status` | 외부 서비스 상태 확인 |
 | `/member/fehe/live-preview` | 라이브 UI 미리보기 |
 | `/fehe/*` | 같은 하위 경로의 `/member/fehe/*`로 리다이렉트하는 구형 URL |
+
+Yukiha 페이지는 [yukiha7777/yukiha7777의 README](https://github.com/yukiha7777/yukiha7777)를 기준으로 소개 문구, 목록, 코드 블록, 배너·아바타·배지·통계 이미지와 링크 전체를 정적 JSX로 옮긴 화면입니다. 원본이 변경되면 `src/member/yukiha/YukihaPage.jsx`도 함께 갱신합니다. 개발 분야는 데스크톱 2열, 모바일 1열로 표시하며 스타일은 CSS Module에 한정합니다. 이미지는 원본 외부 서비스에서 불러오므로 서비스 상태에 따라 표시되지 않을 수 있습니다. 기존 `noindex` 정책과 사이트맵 제외 상태는 유지합니다.
 
 ### Chiyumi
 

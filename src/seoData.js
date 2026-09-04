@@ -46,7 +46,7 @@ export const SEO_DATA = {
   },
   '/member/yukiha': {
     title: '유키하',
-    description: '유키하의 자기소개 페이지는 아직 준비 중입니다.',
+    description: '게임과 애니를 좋아하고, AI 캐릭터와 재미있는 서비스를 만드는 개발자 유키하. NATSUMI 프로젝트, 기술 스택과 개발 분야를 소개합니다.',
   },
   '/DiscordBot/Chiyumi': {
     title: '치유미 봇 초대',

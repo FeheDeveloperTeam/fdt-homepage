@@ -9,7 +9,7 @@ FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여�
 ## 주요 구성
 
 - FDT: 팀 소개, 서비스, 프로젝트, 문의
-- 멤버: Fehe 개인 페이지와 Yukiha 준비 페이지
+- 멤버: Fehe 개인 페이지와 Yukiha 자기소개·NATSUMI 프로젝트 페이지
 - Chiyumi: 봇 소개, Discord 로그인, 관리자·서버별 설정 화면
 - 유틸리티: IP·지연 시간·다운로드 속도를 확인하는 네트워크 테스트
 - 위키: Minecraft Java 문서와 Bedrock 준비 페이지
