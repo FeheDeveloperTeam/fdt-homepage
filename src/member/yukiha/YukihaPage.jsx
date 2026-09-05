@@ -70,7 +70,7 @@ function YukihaPage() {
             <li>🧠 행동 명령 자동 분류 및 실행</li>
           </ul>
           <div className={styles.center}>
-            <a href="https://gourl.kr/NATSUMI-website">
+            <a href="https://haruki-7777-website.vercel.app/">
               <ProfileImage loading="lazy" src="https://img.shields.io/badge/NATSUMI-WEBSITE-FF6B9A?style=for-the-badge&logo=googlechrome&logoColor=white" alt="NATSUMI Website" />
             </a>
           </div>
@@ -179,7 +179,7 @@ function YukihaPage() {
             <a href="https://github.com/haruki7777">
               <ProfileImage loading="lazy" alt="GitHub haruki7777" src="https://img.shields.io/badge/GitHub-haruki7777-181717?style=for-the-badge&logo=github&logoColor=white" />
             </a>
-            <a href="https://gourl.kr/NATSUMI-website">
+            <a href="https://haruki-7777-website.vercel.app/">
               <ProfileImage loading="lazy" src="https://img.shields.io/badge/NATSUMI-WEBSITE-FF6B9A?style=for-the-badge&logo=googlechrome&logoColor=white" alt="NATSUMI Website" />
             </a>
             <a href="https://guns.lol/yukiha77">
