@@ -15,7 +15,6 @@ const TITLE_WORDS = (() => {
     chars: Array.from(word).map(ch => ({ ch, i: i++ })),
   }))
 })()
-const SESSION_KEY = 'fehe-intro-seen'
 
 // storm → reveal → clear 순서로 넘어가는 시각(ms). clear가 끝나면 언마운트한다.
 const REVEAL_AT = 1200
@@ -24,14 +23,6 @@ const UNMOUNT_AT = 4700
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-function alreadySeen() {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === '1'
-  } catch {
-    return false
-  }
 }
 
 /*
@@ -143,7 +134,8 @@ function useIntroBlizzard(canvasRef, phaseRef) {
 }
 
 export default function IntroSplash() {
-  const [mounted, setMounted] = useState(() => !alreadySeen() && !prefersReducedMotion())
+  // 페헤 공간에 들어올 때마다 재생한다. FeheApp이 새로 마운트될 때가 곧 '들어온 시점'이다.
+  const [mounted, setMounted] = useState(() => !prefersReducedMotion())
   const [phase, setPhase] = useState('storm')
   const canvasRef = useRef(null)
   const phaseRef = useRef('storm')
@@ -155,12 +147,7 @@ export default function IntroSplash() {
   }, [])
 
   useEffect(() => {
-    if (!mounted) return
-    try {
-      sessionStorage.setItem(SESSION_KEY, '1')
-    } catch {
-      /* 저장이 막혀 있어도 인트로 자체는 정상 동작한다 */
-    }
+    if (!mounted) return undefined
 
     const timers = [
       setTimeout(() => setPhase('reveal'), REVEAL_AT),

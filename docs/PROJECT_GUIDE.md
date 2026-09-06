@@ -116,7 +116,7 @@ Fehe, Chiyumi, 네트워크 테스트, Minecraft 위키는 서로 다른 디자�
 
 Fehe의 배경 화면은 `src/member/fehe/components/BgDeco/`가 그리는 밤의 설산입니다. 하늘 그라데이션 · 달무리 · 산맥 SVG(원경/중경/근경 3겹) · 능선 안개 · 눈보라 `canvas` · 비네트 순서로 쌓이며, 화면 전체를 덮는 고정 레이어(`z-index: 0`)라 본문은 `z-index: 1` 이상에 둡니다. 눈보라는 입자 수가 많아 DOM 대신 canvas로 그리고, 주기가 다른 사인파를 겹쳐 돌풍처럼 세기를 바꿉니다. 세로로 긴 화면에서는 `slice`가 산맥을 크게 잘라내므로 `max-aspect-ratio: 8 / 5`에서 산맥 SVG를 아래에 붙이고 높이를 폭에 맞춥니다.
 
-`/member/fehe` 첫 진입에는 `src/member/fehe/components/IntroSplash/`가 「페헤의 공간에 오신 것을 환영합니다」 인트로를 띄웁니다. `storm → reveal → clear` 세 단계를 `data-phase`로 제어하며 약 4.7초 뒤 언마운트됩니다. 클릭이나 ESC·Enter·Space로 즉시 건너뛸 수 있고, `sessionStorage`의 `fehe-intro-seen`으로 세션당 한 번만 재생하며 `prefers-reduced-motion: reduce`에서는 아예 렌더링하지 않습니다. 문구는 어절 단위(`.intro-word`)로 묶어 좁은 화면에서 낱글자로 잘리지 않게 합니다.
+`/member/fehe`에 들어올 때마다 `src/member/fehe/components/IntroSplash/`가 「페헤의 공간에 오신 것을 환영합니다」 인트로를 띄웁니다. `storm → reveal → clear` 세 단계를 `data-phase`로 제어하며 약 4.7초 뒤 언마운트됩니다. `FeheApp`이 새로 마운트될 때가 곧 '들어온 시점'이라, 새로고침이나 메인 사이트에서 넘어올 때 재생되고 페헤 안에서 하위 페이지를 오갈 때는 재생되지 않습니다. 클릭이나 ESC·Enter·Space로 즉시 건너뛸 수 있고, `prefers-reduced-motion: reduce`에서는 아예 렌더링하지 않습니다. 문구는 어절 단위(`.intro-word`)로 묶어 좁은 화면에서 낱글자로 잘리지 않게 합니다.
 
 ## 5. API와 인증
 
