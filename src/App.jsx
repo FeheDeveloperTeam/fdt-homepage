@@ -10,9 +10,9 @@ import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
 import NotFound from './pages/NotFound/NotFound'
-import YukihaPage from './member/yukiha/YukihaPage'
 
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
+const YukihaApp = lazy(() => import('./member/yukiha/YukihaApp'))
 const ChiyumiApp = lazy(() => import('./DiscordBot/Chiyumi/ChiyumiApp'))
 const NetworkTestApp = lazy(() => import('./utility/NetworkTest/NetworkTestApp'))
 const MinecraftWikiApp = lazy(() => import('./wiki/Minecraft/MinecraftWikiApp'))
@@ -47,9 +47,16 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:category" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/member/yukiha" element={<YukihaPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route
+          path="/member/yukiha"
+          element={
+            <Suspense fallback={null}>
+              <YukihaApp />
+            </Suspense>
+          }
+        />
         <Route
           path="/member/fehe/*"
           element={

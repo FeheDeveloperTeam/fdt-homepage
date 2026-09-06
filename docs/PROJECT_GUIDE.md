@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | FDT 메인 | 팀·서비스·프로젝트·문의 소개 | `src/App.jsx`, `src/pages/`, `src/components/` |
 | Fehe | 개인 소개, YouTube, 상태, 숨김·미리보기 화면 | `src/member/fehe/FeheApp.jsx` |
-| Yukiha | 자기소개, NATSUMI, 기술 스택, 개발 분야, GitHub 활동과 링크 | `src/member/yukiha/YukihaPage.jsx` |
+| Yukiha | 자기소개, NATSUMI, 기술 스택, 개발 분야, GitHub 활동과 링크 | `src/member/yukiha/YukihaApp.jsx` |
 | Chiyumi | Discord 봇 소개, 관리자 도구, 길드 설정 | `src/DiscordBot/Chiyumi/ChiyumiApp.jsx` |
 | 네트워크 테스트 | IP, 왕복 지연, 다운로드 처리량 진단 | `src/utility/NetworkTest/NetworkTestApp.jsx` |
 | Minecraft 위키 | Java 문서, Bedrock 준비 페이지 | `src/wiki/Minecraft/MinecraftWikiApp.jsx` |
@@ -59,7 +59,9 @@ npm run build
 | `/member/fehe/live-preview` | 라이브 UI 미리보기 |
 | `/fehe/*` | 같은 하위 경로의 `/member/fehe/*`로 리다이렉트하는 구형 URL |
 
-Yukiha 페이지는 [yukiha7777/yukiha7777의 README](https://github.com/yukiha7777/yukiha7777)를 기준으로 소개 문구, 목록, 코드 블록, 배너·아바타·배지·통계 이미지와 링크 전체를 정적 JSX로 옮긴 화면입니다. 원본이 변경되면 `src/member/yukiha/YukihaPage.jsx`도 함께 갱신합니다. 개발 분야는 데스크톱 2열, 모바일 1열로 표시하며 스타일은 CSS Module에 한정합니다. 이미지는 원본 외부 서비스에서 불러오므로 서비스 상태에 따라 표시되지 않을 수 있습니다. 기존 `noindex` 정책과 사이트맵 제외 상태는 유지합니다.
+Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공통 Header/Footer) 바깥에서 렌더링되는 분리 페이지입니다. `src/member/yukiha/YukihaApp.jsx`가 셸이 되어 자체 Header/Footer를 붙이고 `lazy`/`Suspense`로 분할됩니다. 다만 Fehe와 달리 자체 디자인 시스템을 두지 않고 FDT의 토큰(`src/styles/variables.css`)과 전역 리셋(`src/index.css`)을 그대로 쓰므로, `.fehe-app` 계열 예외 목록에는 `.yukiha-app`을 넣지 않습니다.
+
+내용은 [yukiha7777/yukiha7777의 README](https://github.com/yukiha7777/yukiha7777)를 기준으로 소개 문구, 목록, 코드 블록, 배너·아바타·배지·통계 이미지와 링크 전체를 정적 JSX로 옮긴 화면입니다. 원본이 변경되면 `src/member/yukiha/YukihaPage.jsx`도 함께 갱신합니다. 개발 분야는 데스크톱 2열, 모바일 1열로 표시하며 스타일은 CSS Module에 한정합니다. 이미지는 원본 외부 서비스에서 불러오므로 서비스 상태에 따라 표시되지 않을 수 있습니다. 기존 `noindex` 정책과 사이트맵 제외 상태는 유지합니다.
 
 ### Chiyumi
 
@@ -217,6 +219,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 
 - FDT 공통 레이아웃: `src/App.jsx`, `src/components/Header`, `src/components/Footer`
 - FDT 메인 팀 소개 카드: `src/components/TeamValues/` (sticky 전환 카드는 페이지 스크롤을 가로채지 않도록 자체 세로 스크롤을 사용하지 않음)
+- FDT 팀 소개 멤버 데이터: `src/pages/About/About.jsx`의 `MEMBERS` (이름·직책·역할·이메일·프로필 사진·개인 페이지 링크)
+- 팀원 프로필 사진: `src/assets/images/team/` (`<이름>_original.png`은 원본, `<이름>.png`은 아바타용 400×400 정사각 크롭본. `/about` 카드에서 56px 원형 `object-fit: cover`로 표시되므로 얼굴이 중앙에 오게 크롭)
 - FDT SEO 기준 데이터: `src/seoData.js`
 - Chiyumi 프런트 API 래퍼: `src/DiscordBot/Chiyumi/pages/adminApi.js`, `guildApi.js`
 - Discord 인증·세션: `api/_lib/discordAuth.js`
@@ -225,6 +229,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
+- Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
 - Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (`dutyLayout: 'grid'`는 경력 업무를 역할별 카드로 묶어 표시하며, 라함 경력은 `2025년 3월 ~ 2027년 1월` 진행 중인 업무와 AI 콘텐츠 운영 설명을 사용)
 - 배포 설정: `vercel.json`
 
@@ -235,6 +240,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - 새 환경 변수를 추가하면 값 없이 이름과 역할만 문서화합니다.
 - SFTP 파일이나 스키마가 바뀌면 공유 데이터 표와 봇 저장소 호환성을 갱신합니다.
 - 로고 파일을 교체하면 `src/assets/images/logo/README.md`와 실제 import를 함께 확인합니다.
+- 팀원 프로필 사진을 추가·교체하면 원본과 크롭본을 `src/assets/images/team/`에 함께 두고 `src/pages/About/About.jsx`의 import를 확인합니다.
 
 ## 11. 작업 완료 절차
 
