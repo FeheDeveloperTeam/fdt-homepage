@@ -1,0 +1,242 @@
+.status {
+  padding: var(--section-padding);
+  background: linear-gradient(180deg, rgb(var(--color-primary-rgb) / 0.035), transparent 360px);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+
+.title {
+  margin-top: 16px;
+  font-size: var(--page-title-size);
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+}
+
+.description {
+  margin-top: 18px;
+  max-width: 640px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.overview {
+  margin-top: 36px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.overviewMain {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.checkedAt {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.toggle {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.toggle:hover {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
+}
+
+/* 상태는 색만으로 구분하지 않는다 — 점 옆에 항상 글자 라벨이 붙는다 */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg-alt);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--color-text-muted);
+}
+
+.ok .dot { background: var(--color-status-ok); }
+.slow .dot { background: var(--color-status-warning); }
+.down .dot { background: var(--color-status-critical); }
+
+.checking .dot {
+  animation: statusPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+.card {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.cardTitle {
+  margin-bottom: 18px;
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.table {
+  margin-top: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr) repeat(3, minmax(0, 0.9fr));
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableHead {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  background: var(--color-bg-alt);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.serviceName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.servicePurpose {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* 숫자는 자릿수가 흔들리지 않아야 값 변화가 눈에 띈다 */
+.number {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.definitions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px 24px;
+}
+
+.definitions dt {
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.definitions dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.note {
+  margin-top: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.note a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .tableRow {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    row-gap: 10px;
+  }
+
+  /* 좁은 화면에서는 표 머리글 대신 각 값 앞에 항목 이름을 붙인다 */
+  .tableHead {
+    display: none;
+  }
+
+  .number::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    color: var(--color-text-muted);
+  }
+}

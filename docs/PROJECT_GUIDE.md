@@ -51,6 +51,7 @@ npm run build
 | `/projects` | 전체 프로젝트 |
 | `/projects/:category` | 카테고리별 프로젝트 |
 | `/contact` | 문의 |
+| `/status` | fehe.dev 주요 경로 응답 시간 실시간 확인 |
 | `/member/yukiha` | Yukiha 자기소개·NATSUMI 프로젝트 페이지 |
 | `/member/fehe` | Fehe 홈 |
 | `/member/fehe/youtube` | YouTube 콘텐츠 |
@@ -58,6 +59,8 @@ npm run build
 | `/member/fehe/status` | 외부 서비스 상태 확인 |
 | `/member/fehe/live-preview` | 라이브 UI 미리보기 |
 | `/fehe/*` | 같은 하위 경로의 `/member/fehe/*`로 리다이렉트하는 구형 URL |
+
+`/status`는 `src/pages/Status/`가 담당합니다. `statusMonitor.js`의 `TARGETS`에 정의한 세 경로(문서 `/`, 정적 파일 `/robots.txt`, API `/api/network-test?type=ping`)를 5초마다 요청해 응답 시간과 성공 여부를 최근 36개까지 모읍니다. 세 경로는 배포 상 서로 다른 계층(렌더 함수 · 정적 전송 · Node 핸들러)을 지나므로 어디가 느린지 구분할 수 있습니다. 측정은 방문자 브라우저에서 이뤄져 회선 상태가 함께 반영되며, 서버 측 가동률 통계가 아니라는 점을 화면에도 밝혀 둡니다. 탭이 가려지거나 사용자가 자동 확인을 끄면 요청을 멈춥니다.
 
 Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공통 Header/Footer) 바깥에서 렌더링되는 분리 페이지입니다. `src/member/yukiha/YukihaApp.jsx`가 셸이 되어 자체 Header/Footer를 붙이고 `lazy`/`Suspense`로 분할됩니다. 다만 Fehe와 달리 자체 디자인 시스템을 두지 않고 FDT의 토큰(`src/styles/variables.css`)과 전역 리셋(`src/index.css`)을 그대로 쓰므로, `.fehe-app` 계열 예외 목록에는 `.yukiha-app`을 넣지 않습니다.
 
@@ -104,6 +107,8 @@ Java 문서 데이터와 상세 SEO 항목은 `src/wiki/Minecraft/javaWikiData.j
 ## 4. 스타일 구조
 
 FDT 메인은 CSS Modules를 주로 사용하고 공통 토큰은 `src/styles/variables.css`, 전역 리셋과 공통 동작은 `src/index.css`에 둡니다.
+
+`--color-status-ok` · `--color-status-warning` · `--color-status-critical`은 상태 표시 전용입니다. 계열(series) 색으로 재사용하지 않고, 색만으로 뜻을 전달하지 않도록 항상 글자 라벨과 함께 씁니다. 어두운 표면 기준 대비 3:1 이상, 정상 시야 인접 구분 ΔE 18.2를 확인한 값입니다.
 
 Fehe, Chiyumi, 네트워크 테스트, Minecraft 위키는 서로 다른 디자인 시스템입니다. 각 서브앱의 `index.css`와 `styles/variables.css`가 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app` 루트 아래에서 `@scope`로 리셋과 토큰을 제한합니다. 서브앱 스타일을 수정할 때 이 경계를 벗어나는 전역 선택자를 추가하지 않아야 다른 영역과 충돌하지 않습니다.
 
@@ -222,6 +227,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 ## 9. 변경 위치 빠른 찾기
 
 - FDT 공통 레이아웃: `src/App.jsx`, `src/components/Header`, `src/components/Footer`
+- 서비스 상태 페이지: `src/pages/Status/` (점검 대상·주기는 `statusMonitor.js`의 `TARGETS`·`POLL_INTERVAL_MS`, 응답 시간 그래프는 `LatencyChart.jsx`)
+- 서브앱 진입 시 탭 아이콘 교체: `src/hooks/useFavicon.js` (치유미·Minecraft 위키에 이어 `/member/fehe`도 페헤 프로필 사진을 씁니다)
 - FDT 헤더·푸터 공통 메뉴와 연락처: `src/navLinks.js` (`NAV_LINKS`·`CONTACT_EMAIL`·`DISCORD_INVITE`를 헤더, 푸터, 문의 페이지가 함께 참조하므로 한 곳만 고치면 된다)
 - FDT 메인 인라인 아이콘: `src/components/icons/icons.jsx`
 - FDT 메인 팀 소개 카드: `src/components/TeamValues/` (sticky 전환 카드는 페이지 스크롤을 가로채지 않도록 자체 세로 스크롤을 사용하지 않음)

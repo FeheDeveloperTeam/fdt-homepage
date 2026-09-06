@@ -1,0 +1,102 @@
+.figure {
+  margin: 0;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.captionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.captionMeta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.plotWrap {
+  position: relative;
+  width: 100%;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* 격자와 축은 데이터보다 뒤로 물러나야 한다 */
+.grid {
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.axisLabel {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.line {
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.latestDot {
+  fill: var(--color-primary);
+  stroke: var(--color-bg-alt);
+  stroke-width: 2;
+}
+
+.failMark {
+  stroke: var(--color-status-critical);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+  opacity: 0.85;
+}
+
+.crosshair {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.hoverDot {
+  fill: var(--color-primary);
+  stroke: var(--color-bg-alt);
+  stroke-width: 2;
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.tooltipTime {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.tooltipValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+}

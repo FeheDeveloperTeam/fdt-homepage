@@ -15,6 +15,12 @@
   --color-discord-rgb: 88 101 242;
   --color-focus: #a8d2ff;
 
+  /* 상태 표시 전용 색. 계열 색으로 재사용하지 않으며 항상 글자 라벨과 함께 쓴다.
+     (어두운 표면 기준 대비 3:1 이상, 정상 시야 인접 구분 ΔE 18.2 확인) */
+  --color-status-ok: #4cc38a;
+  --color-status-warning: #e0a23c;
+  --color-status-critical: #e5565b;
+
   --max-width: 1120px;
   --content-gutter: clamp(20px, 4vw, 24px);
   --radius-md: 8px;

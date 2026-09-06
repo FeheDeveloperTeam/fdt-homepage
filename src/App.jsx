@@ -10,6 +10,7 @@ import Services from './pages/Services/Services'
 import Projects from './pages/Projects/Projects'
 import Contact from './pages/Contact/Contact'
 import NotFound from './pages/NotFound/NotFound'
+import Status from './pages/Status/Status'
 
 const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 const YukihaApp = lazy(() => import('./member/yukiha/YukihaApp'))
@@ -47,6 +48,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:category" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/status" element={<Status />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route

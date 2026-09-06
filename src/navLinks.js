@@ -10,5 +10,8 @@ export const NAV_LINKS = [
   { to: '/contact', label: '문의' },
 ]
 
+// 푸터에만 두는 링크. 헤더 메뉴는 5개로 유지한다.
+export const FOOTER_LINKS = [...NAV_LINKS, { to: '/status', label: '서비스 상태' }]
+
 export const CONTACT_EMAIL = 'help@fehe.dev'
 export const DISCORD_INVITE = 'https://discord.gg/fKR7RbfdmF'

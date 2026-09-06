@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import feheProfile from '../../assets/images/team/fehe.png'
+import { useFavicon } from '../../hooks/useFavicon'
 import BgDeco from './components/BgDeco/BgDeco'
 import IntroSplash from './components/IntroSplash/IntroSplash'
 import Header from './components/Header/Header'
@@ -17,6 +19,9 @@ const StatusPage = lazy(() => import('./pages/StatusPage/StatusPage'))
 const LivePreviewPage = lazy(() => import('./pages/LivePreviewPage/LivePreviewPage'))
 
 export default function FeheApp() {
+  // 페헤 공간에 있는 동안에는 탭 아이콘도 페헤 프로필 사진으로 바뀐다.
+  useFavicon(feheProfile)
+
   return (
     <div className="fehe-app">
       <IntroSplash />

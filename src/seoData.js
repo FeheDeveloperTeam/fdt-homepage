@@ -44,6 +44,10 @@ export const SEO_DATA = {
     imageHeight: 630,
     imageAlt: '페헤 소개 배너',
   },
+  '/status': {
+    title: '서비스 상태',
+    description: 'fehe.dev 웹 페이지·정적 파일·API 서버의 응답 시간을 실시간으로 확인할 수 있습니다.',
+  },
   '/member/yukiha': {
     title: '유키하',
     description: '게임과 애니를 좋아하고, AI 캐릭터와 재미있는 서비스를 만드는 개발자 유키하. NATSUMI 프로젝트, 기술 스택과 개발 분야를 소개합니다.',

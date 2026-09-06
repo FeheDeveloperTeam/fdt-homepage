@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo/fdt-logo-square.png'
 import { IconDiscord, IconMail } from '../icons/icons'
-import { CONTACT_EMAIL, DISCORD_INVITE, NAV_LINKS } from '../../navLinks'
+import { CONTACT_EMAIL, DISCORD_INVITE, FOOTER_LINKS } from '../../navLinks'
 import styles from './Footer.module.css'
 
 function Footer() {
@@ -23,7 +23,7 @@ function Footer() {
         <nav className={styles.column} aria-label="푸터 메뉴">
           <h2 className={styles.columnTitle}>메뉴</h2>
           <ul className={styles.navList}>
-            {NAV_LINKS.map((link) => (
+            {FOOTER_LINKS.map((link) => (
               <li key={link.to}>
                 <Link to={link.to}>{link.label}</Link>
               </li>
