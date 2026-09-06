@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import BgDeco from './components/BgDeco/BgDeco'
+import IntroSplash from './components/IntroSplash/IntroSplash'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import MusicPlayer from './components/MusicPlayer/MusicPlayer'
@@ -18,6 +19,7 @@ const LivePreviewPage = lazy(() => import('./pages/LivePreviewPage/LivePreviewPa
 export default function FeheApp() {
   return (
     <div className="fehe-app">
+      <IntroSplash />
       <BgDeco />
       <Header />
       <Suspense fallback={null}>

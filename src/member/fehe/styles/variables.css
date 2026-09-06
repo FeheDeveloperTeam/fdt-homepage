@@ -1,8 +1,8 @@
 @scope (.fehe-app) {
   :scope {
     /* ── surfaces ── */
-    --bg:        #090c10;
-    --bg-deep:   #05070a;
+    --bg:        #05080f;
+    --bg-deep:   #03060b;
     --surface:   #11161d;
     --surface-2: #161c24;
     --card:      rgba(17,22,29,0.82);

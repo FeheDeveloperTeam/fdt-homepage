@@ -109,6 +109,10 @@ Fehe, Chiyumi, 네트워크 테스트, Minecraft 위키는 서로 다른 디자�
 
 반응형 변경에는 기존 미디어 쿼리와 `prefers-reduced-motion` 처리를 유지하고, 재사용 값은 해당 영역의 변수 파일에 먼저 추가합니다.
 
+Fehe의 배경 화면은 `src/member/fehe/components/BgDeco/`가 그리는 밤의 설산입니다. 하늘 그라데이션 · 달무리 · 산맥 SVG(원경/중경/근경 3겹) · 능선 안개 · 눈보라 `canvas` · 비네트 순서로 쌓이며, 화면 전체를 덮는 고정 레이어(`z-index: 0`)라 본문은 `z-index: 1` 이상에 둡니다. 눈보라는 입자 수가 많아 DOM 대신 canvas로 그리고, 주기가 다른 사인파를 겹쳐 돌풍처럼 세기를 바꿉니다. 세로로 긴 화면에서는 `slice`가 산맥을 크게 잘라내므로 `max-aspect-ratio: 8 / 5`에서 산맥 SVG를 아래에 붙이고 높이를 폭에 맞춥니다.
+
+`/member/fehe` 첫 진입에는 `src/member/fehe/components/IntroSplash/`가 「페헤의 공간에 오신 것을 환영합니다」 인트로를 띄웁니다. `storm → reveal → clear` 세 단계를 `data-phase`로 제어하며 약 4.7초 뒤 언마운트됩니다. 클릭이나 ESC·Enter·Space로 즉시 건너뛸 수 있고, `sessionStorage`의 `fehe-intro-seen`으로 세션당 한 번만 재생하며 `prefers-reduced-motion: reduce`에서는 아예 렌더링하지 않습니다. 문구는 어절 단위(`.intro-word`)로 묶어 좁은 화면에서 낱글자로 잘리지 않게 합니다.
+
 ## 5. API와 인증
 
 ### 엔드포인트
@@ -229,6 +233,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
+- Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path)
+- Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 단계 전환 시각은 `REVEAL_AT`/`CLEAR_AT`/`UNMOUNT_AT`)
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
 - Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (`dutyLayout: 'grid'`는 경력 업무를 역할별 카드로 묶어 표시하며, 라함 경력은 `2025년 3월 ~ 2027년 1월` 진행 중인 업무와 AI 콘텐츠 운영 설명을 사용)
 - 배포 설정: `vercel.json`

@@ -1,0 +1,253 @@
+@scope (.fehe-app) {
+  /* ── 첫 진입 인트로: 눈보라가 몰아쳤다가 걷히며 환영 문구가 드러난다 ──
+     단계는 data-phase로 제어한다: storm → reveal → clear */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 45%, rgba(28,52,84,0.55), transparent 70%),
+      linear-gradient(180deg, #04070d 0%, #081120 45%, #0f1e33 100%);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .intro[data-phase='clear'] {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+
+  .intro-snow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* 몰아치는 바람 결 */
+  .intro-gust {
+    position: absolute;
+    left: -30%;
+    width: 160%;
+    height: 190px;
+    background: linear-gradient(90deg, transparent, rgba(214,234,255,0.16), transparent 72%);
+    filter: blur(26px);
+    animation: introGust 3.1s ease-in-out infinite;
+  }
+  .intro-gust.g1 { top: 18%; animation-delay: -0.2s; }
+  .intro-gust.g2 { top: 46%; animation-delay: -1.1s; opacity: 0.8; }
+  .intro-gust.g3 { top: 71%; animation-delay: -2s; opacity: 0.6; }
+  @keyframes introGust {
+    0%   { transform: translateX(-24%) skewX(-8deg); opacity: 0; }
+    35%  { opacity: 1; }
+    100% { transform: translateX(24%) skewX(-8deg); opacity: 0; }
+  }
+
+  /* 문구가 드러나는 순간의 섬광 */
+  .intro-flash {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(233,244,255,0) 0%,
+      rgba(233,244,255,0) 17%,
+      rgba(233,244,255,0.62) 33%,
+      rgba(233,244,255,0.08) 56%,
+      rgba(233,244,255,0) 72%
+    );
+    opacity: 0;
+    pointer-events: none;
+  }
+  .intro[data-phase='reveal'] .intro-flash {
+    animation: introFlash 0.95s ease-out both;
+  }
+  @keyframes introFlash {
+    0%   { opacity: 0; transform: scale(0.24); }
+    16%  { opacity: 1; }
+    100% { opacity: 0; transform: scale(2.6); }
+  }
+
+  /* 섬광과 함께 퍼지는 서리 고리 */
+  .intro-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    margin: -90px 0 0 -90px;
+    border: 1px solid rgba(206,230,255,0.55);
+    border-radius: 50%;
+    opacity: 0;
+  }
+  .intro[data-phase='reveal'] .intro-ring {
+    animation: introRing 1.6s cubic-bezier(0.16, 0.8, 0.3, 1) both;
+  }
+  .intro[data-phase='reveal'] .intro-ring.r2 { animation-delay: 0.16s; }
+  .intro[data-phase='reveal'] .intro-ring.r3 { animation-delay: 0.32s; }
+  @keyframes introRing {
+    0%   { opacity: 0.9; transform: scale(0.2); }
+    100% { opacity: 0; transform: scale(7); }
+  }
+
+  .intro-core {
+    position: relative;
+    z-index: 2;
+    width: min(920px, 88vw);
+    text-align: center;
+  }
+  /* 밝은 눈발 위에서도 흰 글자가 읽히도록 문구 뒤만 눌러 준다 */
+  .intro-core::before {
+    content: '';
+    position: absolute;
+    inset: -22% -12%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse 60% 56% at 50% 50%,
+      rgba(4,9,17,0.86),
+      rgba(4,9,17,0.5) 52%,
+      transparent 78%
+    );
+    opacity: 0;
+  }
+  .intro[data-phase='reveal'] .intro-core::before,
+  .intro[data-phase='clear'] .intro-core::before {
+    animation: introScrim 0.8s ease-out both;
+  }
+  @keyframes introScrim {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* 눈보라 단계에서 흐릿하게 스치는 예고 문구 */
+  .intro-pre {
+    font-family: var(--font-mono);
+    font-size: clamp(0.7rem, 2.4vw, 0.85rem);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: rgba(196,222,250,0.72);
+    opacity: 0;
+    animation: introPre 1.5s ease-out both;
+  }
+  @keyframes introPre {
+    0%   { opacity: 0; letter-spacing: 0.9em; filter: blur(8px); }
+    45%  { opacity: 0.85; }
+    100% { opacity: 0.5; letter-spacing: 0.42em; filter: blur(0); }
+  }
+
+  .intro-title {
+    margin: 1.1rem 0 0;
+    font-family: var(--font-sans);
+    font-size: clamp(1.55rem, 6.4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.32;
+    color: #f2f8ff;
+    word-break: keep-all;
+  }
+
+  /* 글자 하나씩 눈발에서 얼어붙듯 맺힌다 */
+  /* 어절 단위 묶음 — 줄바꿈이 어절 사이에서만 일어나게 한다 */
+  .intro-word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .intro-char {
+    display: inline-block;
+    opacity: 0;
+    white-space: pre;
+    text-shadow:
+      0 0 18px rgba(178,214,255,0.75),
+      0 0 46px rgba(120,170,230,0.45);
+  }
+  .intro[data-phase='reveal'] .intro-char,
+  .intro[data-phase='clear'] .intro-char {
+    animation: introChar 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+    animation-delay: calc(var(--i) * 42ms);
+  }
+  @keyframes introChar {
+    0% {
+      opacity: 0;
+      transform: translate3d(-38px, -26px, 0) rotate(-14deg) scale(1.5);
+      filter: blur(12px);
+    }
+    60% { opacity: 1; }
+    100% {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  .intro-sub {
+    margin-top: 1.3rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.66rem, 2.2vw, 0.8rem);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(178,208,240,0.75);
+    opacity: 0;
+  }
+  .intro[data-phase='reveal'] .intro-sub,
+  .intro[data-phase='clear'] .intro-sub {
+    animation: introSub 0.9s ease-out 0.95s both;
+  }
+  @keyframes introSub {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* 문구 아래로 흐르는 서리 선 */
+  .intro-rule {
+    width: 0;
+    height: 1px;
+    margin: 1.5rem auto 0;
+    background: linear-gradient(90deg, transparent, rgba(200,226,255,0.85), transparent);
+  }
+  .intro[data-phase='reveal'] .intro-rule,
+  .intro[data-phase='clear'] .intro-rule {
+    animation: introRule 1.2s cubic-bezier(0.16, 0.8, 0.3, 1) 0.75s both;
+  }
+  @keyframes introRule {
+    to { width: min(520px, 76vw); }
+  }
+
+  .intro-skip {
+    position: absolute;
+    right: clamp(14px, 4vw, 30px);
+    bottom: clamp(14px, 4vw, 30px);
+    z-index: 3;
+    padding: 0.55rem 1rem;
+    background: rgba(10,18,30,0.5);
+    border: 1px solid rgba(178,208,240,0.28);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(202,224,248,0.8);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .intro-skip:hover {
+    color: #f2f8ff;
+    border-color: rgba(206,230,255,0.6);
+    background: rgba(18,30,48,0.72);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro,
+    .intro * {
+      animation: none !important;
+      transition: opacity 0.3s ease !important;
+    }
+    .intro-char,
+    .intro-sub {
+      opacity: 1;
+    }
+    .intro-rule {
+      width: min(520px, 76vw);
+    }
+  }
+}
