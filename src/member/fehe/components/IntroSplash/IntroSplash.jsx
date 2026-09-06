@@ -16,10 +16,12 @@ const TITLE_WORDS = (() => {
   }))
 })()
 
-// storm → reveal → clear 순서로 넘어가는 시각(ms). clear가 끝나면 언마운트한다.
+/*
+  storm → reveal 까지만 자동으로 넘어가고, 그 뒤로는 사용자가 들어가기 버튼을
+  누를 때까지 기다린다. 버튼을 누르면 clear로 바뀌고 화면이 걷힌 뒤 언마운트된다.
+*/
 const REVEAL_AT = 1200
-const CLEAR_AT = 3800
-const UNMOUNT_AT = 4700
+const CLEAR_MS = 900
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -141,25 +143,22 @@ export default function IntroSplash() {
   const phaseRef = useRef('storm')
   phaseRef.current = phase
 
-  const dismiss = useCallback(() => {
-    setPhase('clear')
-    setTimeout(() => setMounted(false), 900)
+  const enter = useCallback(() => {
+    setPhase((prev) => (prev === 'clear' ? prev : 'clear'))
+    setTimeout(() => setMounted(false), CLEAR_MS)
   }, [])
 
   useEffect(() => {
     if (!mounted) return undefined
 
-    const timers = [
-      setTimeout(() => setPhase('reveal'), REVEAL_AT),
-      setTimeout(() => setPhase('clear'), CLEAR_AT),
-      setTimeout(() => setMounted(false), UNMOUNT_AT),
-    ]
+    const timers = [setTimeout(() => setPhase('reveal'), REVEAL_AT)]
 
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
+    // 키보드만 쓰는 경우에도 버튼을 누르지 않고 바로 들어갈 수 있게 한다.
     function onKey(e) {
-      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismiss()
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') enter()
     }
     window.addEventListener('keydown', onKey)
 
@@ -168,14 +167,14 @@ export default function IntroSplash() {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
     }
-  }, [mounted, dismiss])
+  }, [mounted, enter])
 
   useIntroBlizzard(canvasRef, phaseRef)
 
   if (!mounted) return null
 
   return (
-    <div className="intro" data-phase={phase} onClick={dismiss} role="presentation">
+    <div className="intro" data-phase={phase}>
       <canvas className="intro-snow" ref={canvasRef} />
       <div className="intro-gust g1" />
       <div className="intro-gust g2" />
@@ -202,12 +201,13 @@ export default function IntroSplash() {
           ))}
         </h1>
         <div className="intro-rule" />
-        <p className="intro-sub">Developer · Creator · Community Builder</p>
-      </div>
+        <p className="intro-sub">Developer · Community Builder</p>
 
-      <button type="button" className="intro-skip" onClick={dismiss}>
-        건너뛰기 ESC
-      </button>
+        <button type="button" className="intro-enter" onClick={enter}>
+          페헤의 공간으로 들어가기
+          <span className="intro-enter-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
   )
 }

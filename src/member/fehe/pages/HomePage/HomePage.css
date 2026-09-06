@@ -269,6 +269,10 @@
   border-top: 1px solid var(--border);
 }
 .timeline-duty-label { color: var(--accent); }
+/* 인라인 배치는 라벨과 설명이 한 줄에 있어 사이 간격이 필요하다.
+   그리드 배치는 설명이 블록으로 줄바꿈돼 이 간격이 첫 줄 들여쓰기처럼 보이므로 주지 않는다. */
+.timeline-duty-label + span { margin-left: 0.45em; }
+.timeline-duties--grid .timeline-duty-label + span { margin-left: 0; }
 
 .timeline-link {
   display:inline-flex; align-items:center; gap:0.4rem;

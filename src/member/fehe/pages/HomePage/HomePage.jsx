@@ -204,7 +204,7 @@ export default function HomePage() {
               {heroName}
               {!heroNameDone && <span className="caret" />}
             </h1>
-            <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
+            <p className="hero-sub">Developer &nbsp;·&nbsp; Community Builder</p>
             <div className="hero-badges">
               <span className="badge">풀스택 개발자</span>
               <span className="badge">커뮤니티</span>
@@ -277,7 +277,7 @@ export default function HomePage() {
                   {item.duties.map((d, di) => (
                     <div key={di} className={`timeline-duty${di === 0 ? ' timeline-duty--first' : ''}`}>
                       <strong className="timeline-duty-label">{d.label}</strong>
-                      <span>&nbsp; {d.desc}</span>
+                      <span>{d.desc}</span>
                     </div>
                   ))}
                 </div>
