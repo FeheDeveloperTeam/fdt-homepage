@@ -222,6 +222,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 ## 9. 변경 위치 빠른 찾기
 
 - FDT 공통 레이아웃: `src/App.jsx`, `src/components/Header`, `src/components/Footer`
+- FDT 헤더·푸터 공통 메뉴와 연락처: `src/navLinks.js` (`NAV_LINKS`·`CONTACT_EMAIL`·`DISCORD_INVITE`를 헤더, 푸터, 문의 페이지가 함께 참조하므로 한 곳만 고치면 된다)
+- FDT 메인 인라인 아이콘: `src/components/icons/icons.jsx`
 - FDT 메인 팀 소개 카드: `src/components/TeamValues/` (sticky 전환 카드는 페이지 스크롤을 가로채지 않도록 자체 세로 스크롤을 사용하지 않음)
 - FDT 팀 소개 멤버 데이터: `src/pages/About/About.jsx`의 `MEMBERS` (이름·직책·역할·이메일·프로필 사진·개인 페이지 링크)
 - 팀원 프로필 사진: `src/assets/images/team/` (`<이름>_original.png`은 원본, `<이름>.png`은 아바타용 400×400 정사각 크롭본. `/about` 카드에서 56px 원형 `object-fit: cover`로 표시되므로 얼굴이 중앙에 오게 크롭)
@@ -243,6 +245,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 
 - 의존성·Node 버전·npm 스크립트가 바뀌면 `README.md`의 시작 방법과 명령어를 갱신합니다.
 - 라우트·API resource가 바뀌면 이 문서의 표와 SEO 체크리스트를 갱신합니다.
+- 메뉴 구성이나 연락처(이메일·Discord 초대)가 바뀌면 `src/navLinks.js`만 고칩니다. 헤더·푸터·문의 페이지가 이 값을 함께 씁니다.
 - 새 환경 변수를 추가하면 값 없이 이름과 역할만 문서화합니다.
 - SFTP 파일이나 스키마가 바뀌면 공유 데이터 표와 봇 저장소 호환성을 갱신합니다.
 - 로고 파일을 교체하면 `src/assets/images/logo/README.md`와 실제 import를 함께 확인합니다.

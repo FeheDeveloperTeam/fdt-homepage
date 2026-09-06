@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo/fdt-logo-square.png'
+import { NAV_LINKS } from '../../navLinks'
 import styles from './Header.module.css'
-
-const NAV_LINKS = [
-  { to: '/', label: '홈' },
-  { to: '/about', label: '팀 소개' },
-  { to: '/services', label: '하는 일' },
-  { to: '/projects', label: '프로젝트' },
-  { to: '/contact', label: '문의' },
-]
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

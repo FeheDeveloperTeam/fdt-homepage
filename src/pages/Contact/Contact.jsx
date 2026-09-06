@@ -1,6 +1,7 @@
 import Seo from '../../components/Seo/Seo'
 import RevealItem from '../../components/RevealItem/RevealItem'
 import { SEO_DATA } from '../../seoData'
+import { CONTACT_EMAIL, DISCORD_INVITE } from '../../navLinks'
 import styles from './Contact.module.css'
 
 function Contact() {
@@ -24,7 +25,7 @@ function Contact() {
             <h3>Discord 서포터 서버</h3>
             <p>실시간으로 문의하거나 팀과 소통하고 싶다면 디스코드로 참여해주세요.</p>
             <a
-              href="https://discord.gg/fKR7RbfdmF"
+              href={DISCORD_INVITE}
               target="_blank"
               rel="noreferrer"
               className={styles.discordButton}
@@ -35,7 +36,7 @@ function Contact() {
 
           <RevealItem index={1} className={styles.info}>
             <h3>Direct Contact</h3>
-            <p>이메일: help@fehe.dev</p>
+            <p>이메일: {CONTACT_EMAIL}</p>
             <p>운영 시간: 평일 19:00 - 24:00 (주말 제외)</p>
           </RevealItem>
         </div>
