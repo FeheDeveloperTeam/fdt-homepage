@@ -6,7 +6,7 @@ export const SITE_URL = 'https://www.fehe.dev'
 export const SEO_DATA = {
   '/': {
     title: 'FeheDeveloperTeam',
-    description: '디스코드 봇 개발과 웹 개발을 중심으로, 직접 기획한 프로젝트를 만들어가는 개발팀 FDT입니다.',
+    description: '유튜버·크리에이터의 디스코드 서버 구축과 디스코드 봇 코드 개발을 도와드립니다. 인증·티켓·로그·미니게임 봇부터 관리 대시보드까지 기획·개발·운영을 직접 맡는 개발팀 FDT입니다.',
   },
   '/about': {
     title: '팀 소개',
@@ -14,7 +14,7 @@ export const SEO_DATA = {
   },
   '/services': {
     title: '하는 일 & 기술 스택',
-    description: '디스코드 봇 개발, 봇 대시보드, 웹사이트 제작까지 FDT가 직접 만드는 것들과 기술 스택을 소개합니다.',
+    description: '유튜버 디스코드 서버 구축, 디스코드 봇 코드 개발, 봇 대시보드와 웹사이트 제작까지 FDT가 하는 일과 기술 스택을 소개합니다.',
   },
   '/projects': {
     title: '프로젝트',

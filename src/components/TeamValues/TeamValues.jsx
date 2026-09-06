@@ -13,6 +13,14 @@ const PANELS = [
     visual: 'bot',
   },
   {
+    eyebrow: 'For Creators',
+    title: '유튜버 디스코드 서버 구축',
+    description:
+      '유튜버·크리에이터의 커뮤니티를 위해 채널과 권한 구조 설계부터 봇 코드 작성까지 함께 도와드려요.',
+    tags: ['서버 구축', '채널·권한 설계', '봇 코드 작성'],
+    visual: 'community',
+  },
+  {
     eyebrow: 'Web Development',
     title: '웹 개발',
     description:
@@ -55,6 +63,34 @@ function BotVisual() {
   )
 }
 
+/* 크리에이터 서버를 채널 목록과 멤버 수로 표현한 목업 */
+function CommunityVisual() {
+  return (
+    <div className={styles.visualBox}>
+      <div className={styles.communityMock}>
+        <div className={styles.communityTop}>
+          <span className={styles.communityCrest} />
+          <div className={styles.communityTitleLines}>
+            <span className={styles.communityLine} style={{ width: '68%' }} />
+            <span className={styles.communityLine} style={{ width: '40%' }} />
+          </div>
+        </div>
+        <ul className={styles.communityChannels}>
+          <li># 공지</li>
+          <li># 잡담</li>
+          <li># 팬아트</li>
+        </ul>
+        <div className={styles.communityMembers}>
+          <span className={styles.communityAvatars}>
+            <i /><i /><i /><i />
+          </span>
+          <span className={styles.communityCount}>커뮤니티 멤버</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function BrowserVisual() {
   return (
     <div className={styles.visualBox}>
@@ -88,6 +124,7 @@ function SupportVisual() {
 
 const VISUALS = {
   bot: BotVisual,
+  community: CommunityVisual,
   browser: BrowserVisual,
   support: SupportVisual,
 }

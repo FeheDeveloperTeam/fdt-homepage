@@ -4,6 +4,12 @@
   display: flex; align-items: center; gap: 0.65rem;
   margin-top: 1.5rem; padding: 0.6rem 0.9rem;
   border-left: 2px solid var(--border);
+  /* 카드 안이 아니라 배경 위에 바로 놓이는 요소라, 배경(설산)의 밝은 능선이
+     지나가면 글자가 묻힌다. 자체 표면을 깔아 대비를 배경과 무관하게 고정한다. */
+  background: rgba(9, 12, 16, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .tmi-label {
   font-family: var(--font-mono);
@@ -18,7 +24,9 @@
 }
 .tmi-text {
   display: block;
-  font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+  /* --text-muted는 이 배경에서 대비 3.95:1로 본문 기준(4.5:1)에 못 미쳐 흐리게 보였다.
+     --text-soft(7.41:1)로 올리고 글자도 조금 키운다. */
+  font-size: 0.82rem; color: var(--text-soft); line-height: 1.6;
   transition: opacity 0.35s ease, transform 0.35s ease;
   opacity: 1;
   transform: translateY(0);

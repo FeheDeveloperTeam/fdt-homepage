@@ -224,6 +224,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 4. `public/sitemap.xml`
 5. 필요 시 `public/robots.txt`와 OG 이미지
 
+검색 노출은 메타 태그보다 실제 화면에 적힌 문장이 좌우합니다. 그래서 「유튜버 디스코드 서버 구축」·「디스코드 봇 코드 개발」 같은 주력 키워드는 메타에만 두지 않고 홈 히어로 문구(`src/components/Hero/Hero.jsx`), 홈 카드(`src/components/TeamValues/TeamValues.jsx`의 `PANELS`), 하는 일 페이지(`src/pages/Services/Services.jsx`의 `SERVICES`)에 함께 실어 둡니다. 이 문장을 바꾸면 `src/seoData.js`의 설명, `index.html`의 정적 description·keywords·구조화 데이터(`knowsAbout`·`makesOffer`)도 서로 어긋나지 않게 같이 고칩니다 — `index.html`의 정적 기본값은 홈 기준이라 `SEO_DATA['/']`와 같은 문장을 씁니다.
+
 ## 9. 변경 위치 빠른 찾기
 
 - FDT 공통 레이아웃: `src/App.jsx`, `src/components/Header`, `src/components/Footer`
@@ -235,6 +237,8 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - FDT 팀 소개 멤버 데이터: `src/pages/About/About.jsx`의 `MEMBERS` (이름·직책·역할·이메일·프로필 사진·개인 페이지 링크)
 - 팀원 프로필 사진: `src/assets/images/team/` (`<이름>_original.png`은 원본, `<이름>.png`은 아바타용 400×400 정사각 크롭본. `/about` 카드에서 56px 원형 `object-fit: cover`로 표시되므로 얼굴이 중앙에 오게 크롭)
 - FDT SEO 기준 데이터: `src/seoData.js`
+- 홈 히어로 문구: `src/components/Hero/Hero.jsx` · 홈 스크롤 카드: `src/components/TeamValues/TeamValues.jsx`의 `PANELS`(카드마다 `visual` 키로 목업 컴포넌트를 고른다)
+- 검색 키워드·구조화 데이터: `index.html`의 `keywords` 메타와 `application/ld+json`
 - Chiyumi 프런트 API 래퍼: `src/DiscordBot/Chiyumi/pages/adminApi.js`, `guildApi.js`
 - Discord 인증·세션: `api/_lib/discordAuth.js`
 - 관리자 권한: `api/_lib/adminAuth.js`, `api/_lib/admins.js`

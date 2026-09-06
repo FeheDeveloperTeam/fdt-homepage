@@ -15,8 +15,8 @@ function Hero() {
             우리 손으로 직접 기획하고 만드는 팀
           </h1>
           <p className={`${styles.subtitle} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
-            필요하다고 생각한 디스코드 봇과 웹 서비스를 팀 내에서 직접 기획하고,
-            만들고, 운영합니다.
+            유튜버·크리에이터의 디스코드 서버 구축과 디스코드 봇 코드 개발을 도와드립니다.
+            필요한 기능은 기획부터 운영까지 팀이 직접 만듭니다.
           </p>
 
           <div className={`${styles.actions} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 3 }}>
