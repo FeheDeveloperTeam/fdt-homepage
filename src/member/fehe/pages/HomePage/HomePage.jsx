@@ -44,7 +44,7 @@ const TIMELINE = [
   {
     year: '2020',
     heading: '디스코드 서버 활동 본격화',
-    body: '본격적인 디스코드 서버 활동을 시작하며 커뮤니티를 확장했습니다. 다양한 사람들과 교류하며 개발자이자 인플루언서로서의 역량을 키워나갔습니다.',
+    body: '본격적인 디스코드 서버 활동을 시작하며 커뮤니티를 확장했습니다. 다양한 사람들과 교류하며 개발자로서의 역량을 키워나갔습니다.',
   },
   {
     year: '2022 — 무기한',
@@ -78,7 +78,7 @@ const TIMELINE = [
     ],
   },
   {
-    year: '2025년 3월 ~ 2027년 1월 (진행 중)',
+    year: '2025년 3월 ~ 2027년 1월',
     heading: '(주)라함 국가근로장학생',
     body: 'IT 운영 지원과 사내 업무 자동화·웹 개발을 현재 진행하고 있습니다.',
     dutyLayout: 'grid',
@@ -110,7 +110,7 @@ const TIMELINE = [
     ended: true,
   },
   {
-    year: '2026. 06',
+    year: '2026. 06. 18 — 무기한',
     heading: 'FeheDeveloperTeam(FDT) 결성',
     events: [
       { date: '2026. 06. 18', text: 'FeheDeveloperTeam(FDT) 개발팀 창설' },
@@ -207,7 +207,6 @@ export default function HomePage() {
             <p className="hero-sub">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Community Builder</p>
             <div className="hero-badges">
               <span className="badge">풀스택 개발자</span>
-              <span className="badge">인플루언서</span>
               <span className="badge">커뮤니티</span>
             </div>
             <div className="hero-links">

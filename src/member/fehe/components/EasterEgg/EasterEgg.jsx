@@ -532,7 +532,7 @@ export default function EasterEgg() {
       case 'whoami':
         out.push(
           { type: 'output', text: '페헤 (Fehe)' },
-          { type: 'output', text: '개발자 · 인플루언서 · 커뮤니티 빌더' },
+          { type: 'output', text: '개발자 · 커뮤니티 빌더' },
           { type: 'output', text: 'uid=1234(fehe) gid=1234(fehe) groups=developer,creator' },
         )
         break
