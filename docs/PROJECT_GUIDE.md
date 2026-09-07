@@ -246,6 +246,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
+- Fehe 음악 재생 목록: `src/member/fehe/components/MusicPlayer/MusicPlayer.jsx`의 `TRACKS` (YouTube IFrame Player로 영상을 그대로 재생하므로 항목에는 영상 ID와 표시용 제목·아티스트만 둔다. 곡이 끝나면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다)
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path)
 - Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 단계 전환 시각은 `REVEAL_AT`/`CLEAR_AT`/`UNMOUNT_AT`)
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)

@@ -178,6 +178,113 @@
   cursor: pointer;
 }
 
+/* ── 재생 목록 열기 버튼 ── */
+.music-list-toggle {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.music-list-toggle:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.music-list-toggle.open {
+  color: var(--accent);
+  border-color: var(--border-accent);
+  background: var(--accent-dim);
+}
+
+/* ── 이전 / 재생 / 다음 ── */
+.music-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+.music-step {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-soft);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, transform 0.15s;
+}
+.music-step:hover {
+  color: var(--accent);
+  background: var(--surface-2);
+  transform: scale(1.1);
+}
+
+/* ── 재생 목록 ── */
+.music-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-height: 168px;
+  overflow-y: auto;
+  margin: 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border);
+  list-style: none;
+}
+.music-list-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.45rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.music-list-item:hover { background: var(--surface-2); }
+.music-list-item.current { background: var(--accent-dim); }
+
+.music-list-num {
+  flex-shrink: 0;
+  width: 14px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-muted);
+}
+.music-list-item.current .music-list-num { color: var(--accent); }
+
+.music-list-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+.music-list-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.music-list-item.current .music-list-title { color: var(--text); }
+.music-list-artist {
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 540px) {
   .music-card { width: 210px; }
 }

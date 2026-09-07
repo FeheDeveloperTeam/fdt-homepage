@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import './MusicPlayer.css'
 
-const VIDEO_ID = '075raB27CW8'
-const SONG_TITLE = 'ray (超かぐや姫！ Version)'
-const SONG_ARTIST = 'Ray'
+/*
+  재생 목록. YouTube IFrame Player로 영상을 그대로 재생하므로 여기에는
+  영상 ID와 표시용 제목·아티스트만 둔다. 곡을 추가하려면 항목만 늘리면 된다.
+*/
+const TRACKS = [
+  { id: '075raB27CW8', title: 'ray (超かぐや姫！ Version)', artist: 'Ray' },
+  { id: 'aRiVUVNUhIs', title: 'なんもねえ', artist: '忘れらんねえよ' },
+]
 const DEFAULT_VOL = 40
 
 function fmt(sec) {
@@ -25,6 +30,32 @@ function IconPause() {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
       <rect x="6" y="4" width="4" height="16" rx="1.5"/>
       <rect x="14" y="4" width="4" height="16" rx="1.5"/>
+    </svg>
+  )
+}
+function IconPrev() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M7 6h2v12H7z"/>
+      <path d="M19 6v12l-9-6z"/>
+    </svg>
+  )
+}
+function IconNext() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M15 6h2v12h-2z"/>
+      <path d="M5 6v12l9-6z"/>
+    </svg>
+  )
+}
+function IconList() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="4" y1="7" x2="20" y2="7"/>
+      <line x1="4" y1="12" x2="15" y2="12"/>
+      <line x1="4" y1="17" x2="15" y2="17"/>
+      <circle cx="19" cy="16" r="2.4" fill="currentColor" stroke="none"/>
     </svg>
   )
 }
@@ -58,6 +89,8 @@ function IconVolumeMute() {
 export default function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const [ready, setReady] = useState(false)
+  const [index, setIndex] = useState(0)
+  const [listOpen, setListOpen] = useState(false)
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(DEFAULT_VOL)
@@ -65,6 +98,9 @@ export default function MusicPlayer() {
   const containerRef = useRef(null)
   const timerRef = useRef(null)
   const cancelPendingDestroyRef = useRef(null)
+  // 곡이 끝났을 때 다음 곡으로 넘기는 처리. YT 콜백이 오래된 state를 붙잡지 않도록
+  // ref에 최신 함수를 담아 두고, 플레이어 초기화 효과는 다시 실행되지 않게 한다.
+  const advanceRef = useRef(null)
 
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current)
@@ -88,11 +124,9 @@ export default function MusicPlayer() {
       if (ownedPlayer || !containerRef.current) return
 
       ownedPlayer = new window.YT.Player(containerRef.current, {
-        videoId: VIDEO_ID,
+        videoId: TRACKS[0].id,
         playerVars: {
           autoplay: 0,
-          loop: 1,
-          playlist: VIDEO_ID,
           controls: 0,
           disablekb: 1,
           fs: 0,
@@ -110,11 +144,8 @@ export default function MusicPlayer() {
             setPlaying(isPlaying)
             if (isPlaying) startTimer()
             else clearInterval(timerRef.current)
-            // 곡이 끝나면 처음부터 다시 재생
-            if (e.data === window.YT.PlayerState.ENDED) {
-              e.target.seekTo(0)
-              e.target.playVideo()
-            }
+            // 곡이 끝나면 다음 곡으로 넘어가고, 마지막 곡이면 처음으로 돌아간다
+            if (e.data === window.YT.PlayerState.ENDED) advanceRef.current?.()
           },
         },
       })
@@ -153,6 +184,19 @@ export default function MusicPlayer() {
     }
   }, [startTimer])
 
+  const goTo = useCallback((next, autoplay = true) => {
+    const target = ((next % TRACKS.length) + TRACKS.length) % TRACKS.length
+    setIndex(target)
+    setCurrent(0)
+    setDuration(0)
+    const p = playerRef.current
+    if (!p?.loadVideoById) return
+    if (autoplay) p.loadVideoById(TRACKS[target].id)
+    else p.cueVideoById(TRACKS[target].id)
+  }, [])
+
+  advanceRef.current = () => goTo(index + 1)
+
   function toggle() {
     if (!ready || !playerRef.current) return
     if (playing) playerRef.current.pauseVideo()
@@ -179,6 +223,7 @@ export default function MusicPlayer() {
   }
 
   const progress = duration > 0 ? (current / duration) * 100 : 0
+  const track = TRACKS[index]
 
   function VolumeIcon() {
     if (volume === 0) return <IconVolumeMute />
@@ -191,7 +236,7 @@ export default function MusicPlayer() {
       <div ref={containerRef} style={{ display: 'none' }} />
       <div className="music-card">
 
-        {/* 상단: 디스크 아이콘 + 곡 정보 + 재생버튼 */}
+        {/* 상단: 디스크 아이콘 + 곡 정보 + 목록 열기 */}
         <div className="music-top">
           <div className={`music-disc${playing ? ' spin' : ''}`}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -200,16 +245,17 @@ export default function MusicPlayer() {
             </svg>
           </div>
           <div className="music-text">
-            <span className="music-title">{SONG_TITLE}</span>
-            <span className="music-artist">{SONG_ARTIST}</span>
+            <span className="music-title">{track.title}</span>
+            <span className="music-artist">{track.artist}</span>
           </div>
           <button
             type="button"
-            className={`music-toggle${playing ? ' playing' : ''}`}
-            onClick={toggle}
-            title={playing ? '일시정지' : '재생'}
+            className={`music-list-toggle${listOpen ? ' open' : ''}`}
+            onClick={() => setListOpen((prev) => !prev)}
+            aria-expanded={listOpen}
+            title={listOpen ? '재생 목록 닫기' : '재생 목록 열기'}
           >
-            {playing ? <IconPause /> : <IconPlay />}
+            <IconList />
           </button>
         </div>
 
@@ -225,6 +271,24 @@ export default function MusicPlayer() {
           </div>
         </div>
 
+        {/* 이전 / 재생 / 다음 */}
+        <div className="music-transport">
+          <button type="button" className="music-step" onClick={() => goTo(index - 1)} title="이전 곡">
+            <IconPrev />
+          </button>
+          <button
+            type="button"
+            className={`music-toggle${playing ? ' playing' : ''}`}
+            onClick={toggle}
+            title={playing ? '일시정지' : '재생'}
+          >
+            {playing ? <IconPause /> : <IconPlay />}
+          </button>
+          <button type="button" className="music-step" onClick={() => goTo(index + 1)} title="다음 곡">
+            <IconNext />
+          </button>
+        </div>
+
         {/* 볼륨 */}
         <div className="music-volume">
           <span className="music-vol-icon"><VolumeIcon /></span>
@@ -238,6 +302,27 @@ export default function MusicPlayer() {
           />
           <span className="music-vol-num">{volume}</span>
         </div>
+
+        {listOpen && (
+          <ul className="music-list">
+            {TRACKS.map((t, i) => (
+              <li key={t.id}>
+                <button
+                  type="button"
+                  className={`music-list-item${i === index ? ' current' : ''}`}
+                  onClick={() => goTo(i)}
+                  aria-current={i === index}
+                >
+                  <span className="music-list-num">{i === index && playing ? '▶' : i + 1}</span>
+                  <span className="music-list-text">
+                    <span className="music-list-title">{t.title}</span>
+                    <span className="music-list-artist">{t.artist}</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
 
       </div>
     </div>
