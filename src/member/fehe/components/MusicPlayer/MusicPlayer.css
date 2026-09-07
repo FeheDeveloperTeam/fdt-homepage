@@ -285,7 +285,35 @@
   text-overflow: ellipsis;
 }
 
-@media (max-width: 540px) {
-  .music-card { width: 210px; }
+/* ── 모바일 접힘 상태: 원형 버튼만 남긴다 ── */
+.music-mini {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 28px var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.2s;
+}
+.music-mini:hover { transform: scale(1.06); }
+.music-mini.playing { border-color: var(--border-accent); }
+
+.music-mini-disc {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent));
+  color: #0a0e14;
+  display: flex; align-items: center; justify-content: center;
+}
+.music-mini-disc.spin { animation: disc-spin 4s linear infinite; }
+
+@media (max-width: 720px) {
+  /* 접기 버튼이 하나 더 붙으므로 곡 제목이 눌리지 않게 폭을 조금 넓힌다 */
+  .music-card { width: min(78vw, 250px); }
+  .music-top { gap: 0.5rem; }
+  .music-list { max-height: 140px; }
 }
 }

@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useMediaQuery } from '../../../../hooks/useMediaQuery'
 import './MusicPlayer.css'
 
 /*
   재생 목록. YouTube IFrame Player로 영상을 그대로 재생하므로 여기에는
-  영상 ID와 표시용 제목·아티스트만 둔다. 곡을 추가하려면 항목만 늘리면 된다.
+  영상 ID와 표시용 제목·아티스트만 둔다.
+
+  등록한 최신 순으로 정렬한다 — 새로 추가하는 곡은 항상 배열 맨 위에 넣는다.
+  목록 첫 곡이 처음 재생되는 곡이다.
 */
 const TRACKS = [
-  { id: '075raB27CW8', title: 'ray (超かぐや姫！ Version)', artist: 'Ray' },
   { id: 'aRiVUVNUhIs', title: 'なんもねえ', artist: '忘れらんねえよ' },
+  { id: '075raB27CW8', title: 'ray (超かぐや姫！ Version)', artist: 'Ray' },
 ]
 const DEFAULT_VOL = 40
 
@@ -59,6 +63,13 @@ function IconList() {
     </svg>
   )
 }
+function IconChevronDown() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  )
+}
 function IconVolumeHigh() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -91,6 +102,9 @@ export default function MusicPlayer() {
   const [ready, setReady] = useState(false)
   const [index, setIndex] = useState(0)
   const [listOpen, setListOpen] = useState(false)
+  // 모바일에서는 카드가 화면을 크게 가려서 기본으로 접어 두고, 눌러야 펼쳐진다.
+  const isMobile = useMediaQuery('(max-width: 720px)')
+  const [expanded, setExpanded] = useState(true)
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(DEFAULT_VOL)
@@ -101,6 +115,11 @@ export default function MusicPlayer() {
   // 곡이 끝났을 때 다음 곡으로 넘기는 처리. YT 콜백이 오래된 state를 붙잡지 않도록
   // ref에 최신 함수를 담아 두고, 플레이어 초기화 효과는 다시 실행되지 않게 한다.
   const advanceRef = useRef(null)
+
+  useEffect(() => {
+    setExpanded(!isMobile)
+    if (isMobile) setListOpen(false)
+  }, [isMobile])
 
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current)
@@ -231,19 +250,36 @@ export default function MusicPlayer() {
     return <IconVolumeHigh />
   }
 
+  const discIcon = (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  )
+
   return (
     <div className="music-player">
+      {/* 플레이어 인스턴스는 접혀 있어도 살아 있어야 재생이 끊기지 않는다 */}
       <div ref={containerRef} style={{ display: 'none' }} />
+
+      {!expanded && (
+        <button
+          type="button"
+          className={`music-mini${playing ? ' playing' : ''}`}
+          onClick={() => setExpanded(true)}
+          title="음악 플레이어 열기"
+          aria-label="음악 플레이어 열기"
+        >
+          <span className={`music-mini-disc${playing ? ' spin' : ''}`}>{discIcon}</span>
+        </button>
+      )}
+
+      {expanded && (
       <div className="music-card">
 
         {/* 상단: 디스크 아이콘 + 곡 정보 + 목록 열기 */}
         <div className="music-top">
-          <div className={`music-disc${playing ? ' spin' : ''}`}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </div>
+          <div className={`music-disc${playing ? ' spin' : ''}`}>{discIcon}</div>
           <div className="music-text">
             <span className="music-title">{track.title}</span>
             <span className="music-artist">{track.artist}</span>
@@ -257,6 +293,17 @@ export default function MusicPlayer() {
           >
             <IconList />
           </button>
+          {isMobile && (
+            <button
+              type="button"
+              className="music-list-toggle"
+              onClick={() => setExpanded(false)}
+              title="플레이어 접기"
+              aria-label="플레이어 접기"
+            >
+              <IconChevronDown />
+            </button>
+          )}
         </div>
 
         {/* 재생바 */}
@@ -325,6 +372,7 @@ export default function MusicPlayer() {
         )}
 
       </div>
+      )}
     </div>
   )
 }
