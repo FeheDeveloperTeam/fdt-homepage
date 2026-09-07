@@ -201,11 +201,14 @@
 }
 
 /* ── 이전 / 재생 / 다음 ── */
+/* 진행바·볼륨과 같은 폭을 쓰도록 이전은 왼쪽 끝, 재생은 가운데, 다음은 오른쪽 끝에 둔다.
+   가운데 몰아 두면 카드 안에서 이 줄만 폭이 달라 축이 어긋나 보인다. */
 .music-transport {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.85rem;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.1rem 0.15rem;
 }
 .music-step {
   width: 28px; height: 28px;
