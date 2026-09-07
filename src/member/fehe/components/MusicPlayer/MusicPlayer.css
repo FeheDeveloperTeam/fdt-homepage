@@ -130,29 +130,47 @@
 }
 
 /* ── 볼륨 ──
-   상시 노출하면 카드에서 한 줄을 통째로 차지해서, 상단 버튼을 눌렀을 때만 이 줄이 열린다.
-   카드는 화면 아래에 고정돼 있어 줄이 생기면 위로 자라므로 다른 요소를 밀지 않는다. */
-.music-volume {
+   상시 노출하면 카드에서 한 줄을 계속 차지해서, 버튼을 눌렀을 때만 스피커 아이콘
+   바로 위로 세로 슬라이더가 뜬다. absolute라 카드 높이를 밀지 않고,
+   위로 열려서 진행바나 시간 표시를 가리지도 않는다. */
+.music-vol-wrap {
+  position: relative;
+  flex-shrink: 0;
   display: flex;
+}
+.music-vol-pop {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.1rem 0.15rem;
+  gap: 0.5rem;
+  padding: 0.6rem 0.5rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 24px var(--shadow);
 }
 .music-vol-num {
   flex-shrink: 0;
   font-size: 0.62rem;
   font-weight: 700;
   color: var(--text-muted);
-  width: 22px;
-  text-align: right;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 볼륨 슬라이더 */
 .music-vol-slider {
-  flex: 1;
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 4px;
+  height: 96px;
   border-radius: 999px;
   background: var(--border);
   outline: none;

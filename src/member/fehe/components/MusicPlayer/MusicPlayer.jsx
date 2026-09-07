@@ -116,11 +116,29 @@ export default function MusicPlayer() {
   // 곡이 끝났을 때 다음 곡으로 넘기는 처리. YT 콜백이 오래된 state를 붙잡지 않도록
   // ref에 최신 함수를 담아 두고, 플레이어 초기화 효과는 다시 실행되지 않게 한다.
   const advanceRef = useRef(null)
+  const volWrapRef = useRef(null)
 
   useEffect(() => {
     setExpanded(!isMobile)
     if (isMobile) setListOpen(false)
   }, [isMobile])
+
+  // 떠 있는 요소라 바깥을 누르거나 ESC로 닫히게 한다.
+  useEffect(() => {
+    if (!volOpen) return undefined
+    function onPointerDown(e) {
+      if (!volWrapRef.current?.contains(e.target)) setVolOpen(false)
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') setVolOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [volOpen])
 
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current)
@@ -285,15 +303,32 @@ export default function MusicPlayer() {
             <span className="music-title">{track.title}</span>
             <span className="music-artist">{track.artist}</span>
           </div>
-          <button
-            type="button"
-            className={`music-list-toggle${volOpen ? ' open' : ''}`}
-            onClick={() => setVolOpen((prev) => !prev)}
-            aria-expanded={volOpen}
-            title={volOpen ? '볼륨 닫기' : '볼륨 조절'}
-          >
-            <VolumeIcon />
-          </button>
+          <div className="music-vol-wrap" ref={volWrapRef}>
+            {volOpen && (
+              <div className="music-vol-pop">
+                <span className="music-vol-num">{volume}</span>
+                <input
+                  className="music-vol-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volume}
+                  onChange={handleVolume}
+                  aria-label="볼륨"
+                  autoFocus
+                />
+              </div>
+            )}
+            <button
+              type="button"
+              className={`music-list-toggle${volOpen ? ' open' : ''}`}
+              onClick={() => setVolOpen((prev) => !prev)}
+              aria-expanded={volOpen}
+              title={volOpen ? '볼륨 닫기' : '볼륨 조절'}
+            >
+              <VolumeIcon />
+            </button>
+          </div>
           <button
             type="button"
             className={`music-list-toggle${listOpen ? ' open' : ''}`}
@@ -345,21 +380,6 @@ export default function MusicPlayer() {
             <IconNext />
           </button>
         </div>
-
-        {volOpen && (
-          <div className="music-volume">
-            <input
-              className="music-vol-slider"
-              type="range"
-              min="0"
-              max="100"
-              value={volume}
-              onChange={handleVolume}
-              aria-label="볼륨"
-            />
-            <span className="music-vol-num">{volume}</span>
-          </div>
-        )}
 
         {listOpen && (
           <ul className="music-list">
