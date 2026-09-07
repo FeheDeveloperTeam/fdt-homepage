@@ -129,16 +129,14 @@
   color: var(--text-muted);
 }
 
-/* ── 볼륨 ── */
+/* ── 볼륨 ──
+   상시 노출하면 카드에서 한 줄을 통째로 차지해서, 상단 버튼을 눌렀을 때만 이 줄이 열린다.
+   카드는 화면 아래에 고정돼 있어 줄이 생기면 위로 자라므로 다른 요소를 밀지 않는다. */
 .music-volume {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-.music-vol-icon {
-  flex-shrink: 0;
-  color: var(--text-muted);
-  display: flex; align-items: center;
+  gap: 0.6rem;
+  padding: 0.1rem 0.15rem;
 }
 .music-vol-num {
   flex-shrink: 0;

@@ -246,7 +246,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
-- Fehe 음악 재생 목록: `src/member/fehe/components/MusicPlayer/MusicPlayer.jsx`의 `TRACKS` (YouTube IFrame Player로 영상을 그대로 재생하므로 항목에는 영상 ID와 표시용 제목·아티스트만 둔다. **등록한 최신 순으로 정렬하므로 새 곡은 배열 맨 위에 넣고**, 목록 첫 곡이 처음 재생된다. 곡이 끝나면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다. 720px 이하에서는 카드가 화면을 크게 가려서 원형 버튼으로 접어 두고 눌러야 펼쳐진다 — 카드는 `hidden` 속성 대신 조건부 렌더링으로 감춘다. `.music-card`의 `display: flex`가 UA 스타일시트의 `[hidden]`을 이기기 때문이다. YouTube 플레이어 컨테이너는 카드 밖에 있어 접어도 재생이 끊기지 않는다)
+- Fehe 음악 재생 목록: `src/member/fehe/components/MusicPlayer/MusicPlayer.jsx`의 `TRACKS` (YouTube IFrame Player로 영상을 그대로 재생하므로 항목에는 영상 ID와 표시용 제목·아티스트만 둔다. **등록한 최신 순으로 정렬하므로 새 곡은 배열 맨 위에 넣고**, 목록 첫 곡이 처음 재생된다. 곡이 끝나면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다. 볼륨 슬라이더는 상시 노출하지 않고 상단 볼륨 버튼을 눌렀을 때만 줄이 열린다. 720px 이하에서는 카드가 화면을 크게 가려서 원형 버튼으로 접어 두고 눌러야 펼쳐진다 — 카드는 `hidden` 속성 대신 조건부 렌더링으로 감춘다. `.music-card`의 `display: flex`가 UA 스타일시트의 `[hidden]`을 이기기 때문이다. YouTube 플레이어 컨테이너는 카드 밖에 있어 접어도 재생이 끊기지 않는다)
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path)
 - Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 단계 전환 시각은 `REVEAL_AT`/`CLEAR_AT`/`UNMOUNT_AT`)
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)

@@ -102,6 +102,7 @@ export default function MusicPlayer() {
   const [ready, setReady] = useState(false)
   const [index, setIndex] = useState(0)
   const [listOpen, setListOpen] = useState(false)
+  const [volOpen, setVolOpen] = useState(false)
   // 모바일에서는 카드가 화면을 크게 가려서 기본으로 접어 두고, 눌러야 펼쳐진다.
   const isMobile = useMediaQuery('(max-width: 720px)')
   const [expanded, setExpanded] = useState(true)
@@ -286,6 +287,15 @@ export default function MusicPlayer() {
           </div>
           <button
             type="button"
+            className={`music-list-toggle${volOpen ? ' open' : ''}`}
+            onClick={() => setVolOpen((prev) => !prev)}
+            aria-expanded={volOpen}
+            title={volOpen ? '볼륨 닫기' : '볼륨 조절'}
+          >
+            <VolumeIcon />
+          </button>
+          <button
+            type="button"
             className={`music-list-toggle${listOpen ? ' open' : ''}`}
             onClick={() => setListOpen((prev) => !prev)}
             aria-expanded={listOpen}
@@ -336,19 +346,20 @@ export default function MusicPlayer() {
           </button>
         </div>
 
-        {/* 볼륨 */}
-        <div className="music-volume">
-          <span className="music-vol-icon"><VolumeIcon /></span>
-          <input
-            className="music-vol-slider"
-            type="range"
-            min="0"
-            max="100"
-            value={volume}
-            onChange={handleVolume}
-          />
-          <span className="music-vol-num">{volume}</span>
-        </div>
+        {volOpen && (
+          <div className="music-volume">
+            <input
+              className="music-vol-slider"
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={handleVolume}
+              aria-label="볼륨"
+            />
+            <span className="music-vol-num">{volume}</span>
+          </div>
+        )}
 
         {listOpen && (
           <ul className="music-list">
