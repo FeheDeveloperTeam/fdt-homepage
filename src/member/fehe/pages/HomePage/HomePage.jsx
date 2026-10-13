@@ -81,31 +81,28 @@ const TIMELINE = [
     year: '2025년 3월 ~ 2027년 1월',
     heading: '(주)라함 국가근로장학생',
     body: '사내 서버 구축부터 업무 자동화 프로그램과 웹 서비스 개발까지 맡아 진행하고 있습니다.',
-    dutyLayout: 'grid',
-    duties: [
+    // 분야별로 묶은 작업 목록. org는 작업한 곳·대상이며 없으면 생략한다.
+    works: [
       {
-        label: '서버 구축·운영',
-        desc: '(주)라함 Ubuntu Desktop 26.04 서버 구축 및 유지보수',
+        group: '인프라',
+        items: [
+          { title: 'Ubuntu Desktop 26.04 서버 구축 및 유지보수', org: '(주)라함' },
+        ],
       },
       {
-        label: '통계 대시보드',
-        desc: '업독몰 자사몰 통계 대시보드 개발',
+        group: '웹 서비스',
+        items: [
+          { title: '자사몰 통계 대시보드 개발', org: '업독몰' },
+          { title: '사내 미팅 일정 조율 사이트 개발' },
+          { title: '업무 관리 사이트 개발', org: '(주)라함' },
+        ],
       },
       {
-        label: 'AI 업무 자동화',
-        desc: '다인아이앤씨 ERP 연동, AI 기반 네이버 블로그 자동 발행 및 업무 자동화 프로그램 개발',
-      },
-      {
-        label: '일정 관리',
-        desc: '사내 미팅 일정 조율 사이트 개발',
-      },
-      {
-        label: '업무 관리',
-        desc: '(주)라함 업무 관리 사이트 개발',
-      },
-      {
-        label: '데이터 수집',
-        desc: '키워드 트렌드 사이트용 TikTok 크롤링 수집기 개발',
+        group: '자동화 · 데이터',
+        items: [
+          { title: 'AI 기반 네이버 블로그 자동 발행 및 업무 자동화 프로그램 개발', org: '다인아이앤씨 · ERP 연동' },
+          { title: 'TikTok 크롤링 수집기 개발', org: '키워드 트렌드 사이트' },
+        ],
       },
     ],
   },
@@ -280,8 +277,25 @@ export default function HomePage() {
                   &nbsp; {ev.text}
                 </p>
               ))}
+              {item.works && (
+                <div className="timeline-works">
+                  {item.works.map((g) => (
+                    <section className="works-group" key={g.group}>
+                      <h3 className="works-group-label">{g.group}</h3>
+                      <ul className="works-list">
+                        {g.items.map((w) => (
+                          <li className="works-item" key={w.title}>
+                            <span className="works-title">{w.title}</span>
+                            {w.org && <span className="works-org">{w.org}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  ))}
+                </div>
+              )}
               {item.duties && (
-                <div className={`timeline-duties${item.dutyLayout ? ` timeline-duties--${item.dutyLayout}` : ''}`}>
+                <div className="timeline-duties">
                   {item.duties.map((d, di) => (
                     <div key={di} className={`timeline-duty${di === 0 ? ' timeline-duty--first' : ''}`}>
                       <strong className="timeline-duty-label">{d.label}</strong>
