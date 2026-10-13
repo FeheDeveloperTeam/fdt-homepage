@@ -250,7 +250,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path)
 - Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 단계 전환 시각은 `REVEAL_AT`/`CLEAR_AT`/`UNMOUNT_AT`)
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
-- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (`dutyLayout: 'grid'`는 경력 업무를 역할별 카드로 묶어 표시하며, 라함 경력은 `2025년 3월 ~ 2027년 1월` 기간과 AI 콘텐츠 운영 설명을 사용)
+- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (`dutyLayout: 'grid'`는 경력 업무를 역할별 카드로 묶어 표시하며, 라함 경력은 `2025년 3월 ~ 2027년 1월` 기간에 서버 구축·통계 대시보드·AI 업무 자동화·일정 관리·업무 관리·데이터 수집 6개 작업 카드를 2열 3줄로 표시)
 - 배포 설정: `vercel.json`
 
 ## 10. 문서 유지 체크리스트
