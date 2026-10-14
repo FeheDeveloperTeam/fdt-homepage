@@ -4,9 +4,11 @@ const SITE_NAME = 'FeheDeveloperTeam'
 export const SITE_URL = 'https://www.fehe.dev'
 
 export const SEO_DATA = {
+  // 검색 결과 제목은 노출에 가장 큰 영향을 주므로 홈에는 주력 서비스 문구를 둔다.
+  // 문구를 바꾸면 index.html의 정적 title·description·og·twitter 값도 함께 맞춘다.
   '/': {
-    title: 'FeheDeveloperTeam',
-    description: '유튜버·크리에이터의 디스코드 서버 구축과 디스코드 봇 코드 개발을 도와드립니다. 인증·티켓·로그·미니게임 봇부터 관리 대시보드까지 기획·개발·운영을 직접 맡는 개발팀 FDT입니다.',
+    title: '유튜브 디스코드 서버 구축 · 디스코드 봇 개발',
+    description: '유튜브 디스코드 서버 구축부터 디스코드 봇 코드 개발까지 도와드립니다. 유튜버·크리에이터 팬 커뮤니티에 필요한 인증·티켓·로그·미니게임 봇과 관리 대시보드를 기획부터 운영까지 직접 만드는 개발팀 FDT입니다.',
   },
   '/about': {
     title: '팀 소개',
@@ -14,7 +16,7 @@ export const SEO_DATA = {
   },
   '/services': {
     title: '하는 일 & 기술 스택',
-    description: '유튜버 디스코드 서버 구축, 디스코드 봇 코드 개발, 봇 대시보드와 웹사이트 제작까지 FDT가 하는 일과 기술 스택을 소개합니다.',
+    description: '유튜브 디스코드 서버 구축, 디스코드 봇 코드 개발, 봇 대시보드와 웹사이트 제작까지 FDT가 하는 일과 기술 스택을 소개합니다.',
   },
   '/projects': {
     title: '프로젝트',
@@ -119,6 +121,13 @@ for (const group of JAVA_WIKI) {
       ...WIKI_IMAGE,
     }
   }
+}
+
+// SEO_DATA에 없는 경로(관리자 화면, 하위 페이지, 404 등)가 서버 렌더링 때 쓰는 기본값.
+// 홈 제목은 서비스 문구라서, 그 경로들을 공유했을 때 홈 문구가 미리보기에 뜨지 않도록 사이트 이름만 쓴다.
+export const FALLBACK_SEO = {
+  title: SITE_NAME,
+  description: SEO_DATA['/'].description,
 }
 
 export function getFullTitle(title) {

@@ -5,9 +5,9 @@ import styles from './Services.module.css'
 
 const SERVICES = [
   {
-    title: '유튜버 디스코드 서버 구축',
+    title: '유튜브 디스코드 서버 구축',
     description:
-      '유튜버·크리에이터 커뮤니티를 위해 채널과 권한 구조를 설계하고, 서버 개설부터 봇 연동까지 도와드립니다.',
+      '유튜버·크리에이터의 팬 커뮤니티를 위해 채널과 권한 구조를 설계하고, 서버 개설부터 봇 연동까지 도와드립니다.',
   },
   {
     title: '디스코드 봇 개발',
@@ -54,7 +54,7 @@ function Services() {
           하는 일 & 기술 스택
         </h1>
         <p className={`${styles.description} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
-          FDT는 유튜버·크리에이터의 디스코드 서버 구축과 디스코드 봇 코드 개발을
+          FDT는 유튜버·크리에이터를 위한 유튜브 디스코드 서버 구축과 디스코드 봇 코드 개발을
           도와드리고, 팀에 필요하다고 판단한 프로젝트도 직접 기획해 만듭니다.
         </p>
 

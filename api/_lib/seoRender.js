@@ -1,4 +1,4 @@
-import { SEO_DATA, getFullTitle } from '../../src/seoData.js'
+import { SEO_DATA, FALLBACK_SEO, getFullTitle } from '../../src/seoData.js'
 
 // Discord 등 링크 미리보기 크롤러는 JS를 실행하지 않아 react-helmet-async가
 // 붙이는 og:title/og:description을 못 본다. 그래서 index.html의 기본 태그를
@@ -17,7 +17,7 @@ export function injectSeo(html, pathname) {
   } catch {
     // 잘못된 인코딩이면 원본 그대로 사용
   }
-  const meta = SEO_DATA[decodedPathname] || SEO_DATA['/']
+  const meta = SEO_DATA[decodedPathname] || FALLBACK_SEO
   const fullTitle = escapeHtml(getFullTitle(meta.title))
   const description = escapeHtml(meta.description)
 

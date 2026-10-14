@@ -226,7 +226,9 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 4. `public/sitemap.xml`
 5. 필요 시 `public/robots.txt`와 OG 이미지
 
-검색 노출은 메타 태그보다 실제 화면에 적힌 문장이 좌우합니다. 그래서 「유튜버 디스코드 서버 구축」·「디스코드 봇 코드 개발」 같은 주력 키워드는 메타에만 두지 않고 홈 히어로 문구(`src/components/Hero/Hero.jsx`), 홈 카드(`src/components/TeamValues/TeamValues.jsx`의 `PANELS`), 하는 일 페이지(`src/pages/Services/Services.jsx`의 `SERVICES`)에 함께 실어 둡니다. 이 문장을 바꾸면 `src/seoData.js`의 설명, `index.html`의 정적 description·keywords·구조화 데이터(`knowsAbout`·`makesOffer`)도 서로 어긋나지 않게 같이 고칩니다 — `index.html`의 정적 기본값은 홈 기준이라 `SEO_DATA['/']`와 같은 문장을 씁니다.
+검색 노출은 메타 태그보다 실제 화면에 적힌 문장과 제목이 좌우합니다. 그래서 「유튜브 디스코드 서버 구축」·「디스코드 봇 코드 개발」 같은 주력 키워드는 메타에만 두지 않고 홈 제목(`SEO_DATA['/'].title`), 홈 히어로 문구(`src/components/Hero/Hero.jsx`), 홈 카드(`src/components/TeamValues/TeamValues.jsx`의 `PANELS`), 하는 일 페이지(`src/pages/Services/Services.jsx`의 `SERVICES`)에 함께 실어 둡니다. 검색어로는 「유튜브」와 「유튜버」가 따로 쓰이므로, 서비스 이름은 「유튜브 디스코드 서버 구축」으로 두고 대상은 「유튜버·크리에이터」로 적어 두 표현이 모두 문장 안에 자연스럽게 들어가게 합니다. 이 문장을 바꾸면 `src/seoData.js`의 제목·설명, `index.html`의 정적 title·description·og·twitter·keywords·구조화 데이터(`knowsAbout`·`makesOffer`)도 서로 어긋나지 않게 같이 고칩니다 — `index.html`의 정적 기본값은 홈 기준이라 `SEO_DATA['/']`와 같은 문장을 씁니다.
+
+`SEO_DATA`에 없는 경로(관리자 화면, 하위 페이지, 404 등)는 서버 렌더링 때 홈 값이 아니라 `FALLBACK_SEO`(제목은 사이트 이름 「FeheDeveloperTeam」)를 씁니다. 홈 제목이 서비스 문구라서, 이런 경로를 공유했을 때 미리보기에 홈 문구가 뜨지 않게 하기 위해서입니다.
 
 ## 9. 변경 위치 빠른 찾기
 
