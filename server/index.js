@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import express from 'express'
 import { injectSeo } from '../api/_lib/seoRender.js'
 import { isForeignRequest, isAdminPagePath, GEO_BLOCK_HTML } from '../api/_lib/geoBlock.js'
+import { isFeheDocument, applyReloadHint, FEHE_DOCUMENT_CACHE_CONTROL } from '../api/_lib/reloadHint.js'
 import discordLogin from '../api/auth/discord/login.js'
 import discordCallback from '../api/auth/discord/callback.js'
 import authMe from '../api/auth/me.js'
@@ -58,7 +59,12 @@ async function createServer() {
         return
       }
       res.set('Content-Type', 'text/html; charset=utf-8')
-      res.send(injectSeo(template, req.path))
+      let html = injectSeo(template, req.path)
+      if (isFeheDocument(req.path)) {
+        html = applyReloadHint(html, req.headers)
+        res.set('Cache-Control', FEHE_DOCUMENT_CACHE_CONTROL)
+      }
+      res.send(html)
     })
   } else {
     const { createServer: createViteServer } = await import('vite')
@@ -66,6 +72,23 @@ async function createServer() {
       root,
       server: { middlewareMode: true },
       appType: 'spa',
+    })
+    // 개발 모드에서도 페헤 페이지 문서에는 강력 새로고침 표시를 붙여야 인트로 동작을 확인할 수 있다.
+    // 그 외 경로와 모듈 요청은 지금처럼 Vite가 그대로 처리한다.
+    app.use(async (req, res, next) => {
+      if (req.method !== 'GET' || !isFeheDocument(req.path) || !req.headers.accept?.includes('text/html')) {
+        next()
+        return
+      }
+      try {
+        const raw = await readFile(path.join(root, 'index.html'), 'utf-8')
+        const html = await vite.transformIndexHtml(req.originalUrl, raw)
+        res.set('Content-Type', 'text/html; charset=utf-8')
+        res.set('Cache-Control', FEHE_DOCUMENT_CACHE_CONTROL)
+        res.send(applyReloadHint(html, req.headers))
+      } catch (error) {
+        next(error)
+      }
     })
     app.use(vite.middlewares)
   }

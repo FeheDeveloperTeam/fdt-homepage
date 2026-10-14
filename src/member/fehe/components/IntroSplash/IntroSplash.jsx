@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import './IntroSplash.css'
 
 const TITLE = '페헤의 공간에 오신 것을 환영합니다'
@@ -25,6 +26,21 @@ const CLEAR_MS = 900
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+/*
+  인트로를 띄울지 정한다.
+  - 사이트 안의 다른 페이지에서 넘어온 경우(클라이언트 라우팅): 항상 띄운다.
+    React Router는 문서를 처음 불러온 위치에만 key 'default'를 주므로 이걸로 구분한다.
+  - 문서를 새로 불러온 경우: 첫 방문·링크·주소 입력은 띄우고, 새로고침은 강력 새로고침일 때만 띄운다.
+    둘의 구분은 JS로 할 수 없어서 서버가 요청 헤더를 보고 붙여 준 표시를 읽는다(api/_lib/reloadHint.js).
+*/
+function shouldPlayIntro(locationKey) {
+  if (prefersReducedMotion()) return false
+  if (locationKey !== 'default') return true
+  const nav = performance.getEntriesByType?.('navigation')?.[0]
+  if (nav?.type !== 'reload') return true
+  return document.querySelector('meta[name="fdt-reload"]')?.getAttribute('content') === 'hard'
 }
 
 /*
@@ -136,8 +152,8 @@ function useIntroBlizzard(canvasRef, phaseRef) {
 }
 
 export default function IntroSplash() {
-  // 페헤 공간에 들어올 때마다 재생한다. FeheApp이 새로 마운트될 때가 곧 '들어온 시점'이다.
-  const [mounted, setMounted] = useState(() => !prefersReducedMotion())
+  const location = useLocation()
+  const [mounted, setMounted] = useState(() => shouldPlayIntro(location.key))
   const [phase, setPhase] = useState('storm')
   const canvasRef = useRef(null)
   const phaseRef = useRef('storm')
@@ -179,10 +195,10 @@ export default function IntroSplash() {
       <div className="intro-gust g1" />
       <div className="intro-gust g2" />
       <div className="intro-gust g3" />
-      <div className="intro-flash" />
-      <div className="intro-ring r1" />
-      <div className="intro-ring r2" />
-      <div className="intro-ring r3" />
+      <div className="intro-aurora" aria-hidden="true">
+        <span className="a1" />
+        <span className="a2" />
+      </div>
 
       <div className="intro-core">
         <p className="intro-pre">Fehe&apos;s Space</p>

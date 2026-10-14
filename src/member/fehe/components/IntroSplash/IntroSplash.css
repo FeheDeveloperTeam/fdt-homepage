@@ -46,50 +46,44 @@
     100% { transform: translateX(24%) skewX(-8deg); opacity: 0; }
   }
 
-  /* 문구가 드러나는 순간의 섬광 */
-  .intro-flash {
+  /* 문구가 드러날 때 뒤에서 은은하게 번지는 오로라.
+     바깥으로 퍼지는 고리·섬광은 시선을 빼앗아서, 천천히 밝아지고 옆으로 흐르기만 하게 한다.
+     문구 바로 뒤는 스크림이 눌러 주므로 위아래 가장자리로 빛이 비쳐 보인다. */
+  .intro-aurora {
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      circle at 50% 50%,
-      rgba(233,244,255,0) 0%,
-      rgba(233,244,255,0) 17%,
-      rgba(233,244,255,0.62) 33%,
-      rgba(233,244,255,0.08) 56%,
-      rgba(233,244,255,0) 72%
-    );
-    opacity: 0;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.8s ease;
   }
-  .intro[data-phase='reveal'] .intro-flash {
-    animation: introFlash 0.95s ease-out both;
+  .intro[data-phase='reveal'] .intro-aurora,
+  .intro[data-phase='clear'] .intro-aurora {
+    opacity: 1;
   }
-  @keyframes introFlash {
-    0%   { opacity: 0; transform: scale(0.24); }
-    16%  { opacity: 1; }
-    100% { opacity: 0; transform: scale(2.6); }
-  }
-
-  /* 섬광과 함께 퍼지는 서리 고리 */
-  .intro-ring {
+  .intro-aurora span {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 180px;
-    height: 180px;
-    margin: -90px 0 0 -90px;
-    border: 1px solid rgba(206,230,255,0.55);
     border-radius: 50%;
-    opacity: 0;
+    filter: blur(40px);
   }
-  .intro[data-phase='reveal'] .intro-ring {
-    animation: introRing 1.6s cubic-bezier(0.16, 0.8, 0.3, 1) both;
+  .intro-aurora .a1 {
+    width: min(720px, 96vw);
+    height: 190px;
+    margin: -260px 0 0 calc(min(720px, 96vw) / -2);
+    background: radial-gradient(ellipse at center, rgba(120,200,235,0.5), transparent 70%);
+    animation: auroraDrift 9s ease-in-out infinite alternate;
   }
-  .intro[data-phase='reveal'] .intro-ring.r2 { animation-delay: 0.16s; }
-  .intro[data-phase='reveal'] .intro-ring.r3 { animation-delay: 0.32s; }
-  @keyframes introRing {
-    0%   { opacity: 0.9; transform: scale(0.2); }
-    100% { opacity: 0; transform: scale(7); }
+  .intro-aurora .a2 {
+    width: min(600px, 88vw);
+    height: 170px;
+    margin: 80px 0 0 calc(min(600px, 88vw) / -2);
+    background: radial-gradient(ellipse at center, rgba(175,155,245,0.38), transparent 70%);
+    animation: auroraDrift 11s ease-in-out -4s infinite alternate-reverse;
+  }
+  @keyframes auroraDrift {
+    from { transform: translateX(-6%) scaleX(0.94); }
+    to   { transform: translateX(6%) scaleX(1.06); }
   }
 
   .intro-core {
@@ -162,10 +156,30 @@
       0 0 18px rgba(178,214,255,0.75),
       0 0 46px rgba(120,170,230,0.45);
   }
+  /* 글자가 맺힌 뒤, 왼쪽부터 한 글자씩 차례로 빛이 스치고 지나간다.
+     퍼져 나가는 효과 대신 문구 안에서만 일어나서 시선을 빼앗지 않는다. */
   .intro[data-phase='reveal'] .intro-char,
   .intro[data-phase='clear'] .intro-char {
-    animation: introChar 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) both;
-    animation-delay: calc(var(--i) * 42ms);
+    animation:
+      introChar 0.72s cubic-bezier(0.2, 0.9, 0.25, 1) both,
+      introGlint 0.9s ease-in-out both;
+    animation-delay:
+      calc(var(--i) * 42ms),
+      calc(1.9s + var(--i) * 55ms);
+  }
+  @keyframes introGlint {
+    0%, 100% {
+      text-shadow:
+        0 0 18px rgba(178,214,255,0.75),
+        0 0 46px rgba(120,170,230,0.45);
+    }
+    45% {
+      color: #ffffff;
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.95),
+        0 0 22px rgba(200,232,255,0.9),
+        0 0 56px rgba(140,195,245,0.65);
+    }
   }
   @keyframes introChar {
     0% {

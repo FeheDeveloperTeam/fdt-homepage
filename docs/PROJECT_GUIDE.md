@@ -116,7 +116,9 @@ Fehe, Chiyumi, 네트워크 테스트, Minecraft 위키는 서로 다른 디자�
 
 Fehe의 배경 화면은 `src/member/fehe/components/BgDeco/`가 그리는 밤의 설산입니다. 하늘 그라데이션 · 달무리 · 산맥 SVG(원경/중경/근경 3겹) · 능선 안개 · 눈보라 `canvas` · 비네트 순서로 쌓이며, 화면 전체를 덮는 고정 레이어(`z-index: 0`)라 본문은 `z-index: 1` 이상에 둡니다. 눈보라는 입자 수가 많아 DOM 대신 canvas로 그리고, 주기가 다른 사인파를 겹쳐 돌풍처럼 세기를 바꿉니다. 세로로 긴 화면에서는 `slice`가 산맥을 크게 잘라내므로 `max-aspect-ratio: 8 / 5`에서 산맥 SVG를 아래에 붙이고 높이를 폭에 맞춥니다.
 
-`/member/fehe`에 들어올 때마다 `src/member/fehe/components/IntroSplash/`가 「페헤의 공간에 오신 것을 환영합니다」 인트로를 띄웁니다. `data-phase`로 `storm → reveal`까지만 자동으로 넘어가고, 그 뒤로는 「페헤의 공간으로 들어가기」 버튼을 누를 때까지 기다립니다. 버튼을 누르면 `clear`로 바뀌고 화면이 걷힌 뒤 언마운트됩니다(자동으로 닫히지 않습니다). `FeheApp`이 새로 마운트될 때가 곧 '들어온 시점'이라, 새로고침이나 메인 사이트에서 넘어올 때 재생되고 페헤 안에서 하위 페이지를 오갈 때는 재생되지 않습니다. 키보드만 쓰는 경우를 위해 ESC·Enter·Space로도 들어갈 수 있고, `prefers-reduced-motion: reduce`에서는 아예 렌더링하지 않아 곧바로 페이지가 보입니다. 문구는 어절 단위(`.intro-word`)로 묶어 좁은 화면에서 낱글자로 잘리지 않게 합니다.
+`/member/fehe`에 들어오면 `src/member/fehe/components/IntroSplash/`가 「페헤의 공간에 오신 것을 환영합니다」 인트로를 띄웁니다. `data-phase`로 `storm → reveal`까지만 자동으로 넘어가고, 그 뒤로는 「페헤의 공간으로 들어가기」 버튼을 누를 때까지 기다립니다. 버튼을 누르면 `clear`로 바뀌고 화면이 걷힌 뒤 언마운트됩니다(자동으로 닫히지 않습니다). 문구가 드러날 때는 위아래로 은은한 오로라가 번지고, 글자가 다 맺힌 뒤 왼쪽부터 한 글자씩 빛이 스칩니다(퍼져 나가는 고리·섬광은 쓰지 않습니다).
+
+인트로를 띄우는 조건은 `shouldPlayIntro`가 정합니다. 첫 방문·링크·주소 입력, 그리고 메인 사이트 등 다른 페이지에서 클라이언트 라우팅으로 넘어온 경우(React Router 위치 key가 `'default'`가 아님)에는 띄웁니다. 문서를 새로고침한 경우에는 **강력 새로고침(Ctrl+F5, Ctrl+Shift+R)일 때만** 띄우고 일반 새로고침(F5)에서는 띄우지 않습니다. 브라우저 JS로는 둘을 구분할 수 없어서, 서버가 문서 요청 헤더(강력 새로고침은 `Pragma: no-cache`/`Cache-Control: no-cache`, 일반 새로고침은 `Cache-Control: max-age=0`)를 보고 `<meta name="fdt-reload" content="hard">`를 붙여 주고 인트로가 그 표시를 읽습니다. 판별은 `api/_lib/reloadHint.js` 한 곳에 있고 `api/render.js`, `server/index.js`(운영·개발 모드 모두)가 함께 씁니다. 표시가 붙은 응답이 캐시돼 일반 새로고침 때 재사용되지 않도록 페헤 문서에는 `Cache-Control: private, no-cache`를 붙입니다. 모바일 브라우저처럼 강력 새로고침이 없는 환경에서는 새로고침 시 인트로가 나오지 않으며, 개발자 도구의 「Disable cache」를 켜 두면 모든 새로고침이 강력 새로고침으로 취급됩니다. 키보드만 쓰는 경우를 위해 ESC·Enter·Space로도 들어갈 수 있고, `prefers-reduced-motion: reduce`에서는 아예 렌더링하지 않아 곧바로 페이지가 보입니다. 문구는 어절 단위(`.intro-word`)로 묶어 좁은 화면에서 낱글자로 잘리지 않게 합니다.
 
 ## 5. API와 인증
 
@@ -214,7 +216,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - 기본 보안 헤더 설정
 - 실제 API 파일을 제외한 모든 경로를 `/api/render`로 rewrite
 
-`api/render.js`는 빌드된 `index.html`을 프로세스 메모리에 캐시하고 `api/_lib/seoRender.js`를 통해 경로에 맞는 `<title>`, description, Open Graph, Twitter 메타를 치환합니다. 브라우저 렌더 후에는 `src/components/Seo/Seo.jsx`가 같은 `src/seoData.js`를 사용해 canonical URL과 `og:url`을 포함한 페이지 메타를 갱신합니다.
+`api/render.js`는 빌드된 `index.html`을 프로세스 메모리에 캐시하고 `api/_lib/seoRender.js`를 통해 경로에 맞는 `<title>`, description, Open Graph, Twitter 메타를 치환합니다. `/member/fehe` 문서에는 추가로 `api/_lib/reloadHint.js`가 강력 새로고침 표시와 `Cache-Control: private, no-cache`를 붙입니다(Fehe 인트로 참고). 브라우저 렌더 후에는 `src/components/Seo/Seo.jsx`가 같은 `src/seoData.js`를 사용해 canonical URL과 `og:url`을 포함한 페이지 메타를 갱신합니다.
 
 공개·색인 가능한 경로를 추가하거나 이름을 바꾸면 다음을 함께 검토합니다.
 
@@ -248,7 +250,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
 - Fehe 음악 재생 목록: `src/member/fehe/components/MusicPlayer/MusicPlayer.jsx`의 `TRACKS` (YouTube IFrame Player로 영상을 그대로 재생하므로 항목에는 영상 ID와 표시용 제목·아티스트만 둔다. **등록한 최신 순으로 정렬하므로 새 곡은 배열 맨 위에 넣고**, 목록 첫 곡이 처음 재생된다. 곡이 끝나면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다. 볼륨 슬라이더는 상시 노출하지 않고, 상단 볼륨 버튼을 누르면 그 버튼 바로 위에 세로 슬라이더가 뜬다(`absolute`라 카드 높이를 밀지 않고 위로 열려 진행바를 가리지 않는다. 바깥 클릭이나 ESC로 닫힌다). 720px 이하에서는 카드가 화면을 크게 가려서 원형 버튼으로 접어 두고 눌러야 펼쳐진다 — 카드는 `hidden` 속성 대신 조건부 렌더링으로 감춘다. `.music-card`의 `display: flex`가 UA 스타일시트의 `[hidden]`을 이기기 때문이다. YouTube 플레이어 컨테이너는 카드 밖에 있어 접어도 재생이 끊기지 않는다)
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path)
-- Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 단계 전환 시각은 `REVEAL_AT`/`CLEAR_AT`/`UNMOUNT_AT`)
+- Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (문구는 `TITLE`, 띄울지 여부는 `shouldPlayIntro`, 문구가 드러나는 시각은 `REVEAL_AT`) · 강력 새로고침 판별: `api/_lib/reloadHint.js`
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
 - Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스·자동화 · 데이터 세 분야에 작업 6개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다)
 - 배포 설정: `vercel.json`
