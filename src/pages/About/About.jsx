@@ -37,7 +37,7 @@ function About() {
           팀 소개
         </h1>
         <p className={`${styles.description} fdt-reveal fdt-reveal-visible`} style={{ '--reveal-i': 2 }}>
-          FeheDeveloperTeam(FDT)은 디스코드 봇 개발과 웹 개발을 중심으로 활동하는
+          FeheDeveloperTeam(페헤개발팀, FDT)은 디스코드 봇 개발과 웹 개발을 중심으로 활동하는
           팀입니다. 커뮤니티 운영에 필요하다고 생각한 디스코드 봇과 이를 관리하는
           웹 대시보드를, 기획부터 운영까지 직접 만들어갑니다.
         </p>

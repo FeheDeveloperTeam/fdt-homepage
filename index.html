@@ -35,12 +35,27 @@
 
     <title>유튜브 디스코드 서버 구축 · 디스코드 봇 개발 | FeheDeveloperTeam</title>
 
+    <!--
+      검색 결과에 표시되는 사이트 이름은 WebSite 구조화 데이터의 name을 우선해서 쓴다.
+      이게 없으면 구글이 제목에서 이름을 추측하는데, 홈 제목은 서비스 문구("유튜브 디스코드 서버 구축 · …")로
+      시작해서 엉뚱한 이름이 잡힐 수 있다. alternateName은 한글 팀 이름 검색과 연결해 준다.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "FeheDeveloperTeam",
+        "alternateName": ["페헤개발팀", "페헤 개발팀", "FDT"],
+        "url": "https://www.fehe.dev/"
+      }
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "FeheDeveloperTeam",
-        "alternateName": "FDT",
+        "alternateName": ["FDT", "페헤개발팀", "페헤 개발팀"],
         "url": "https://www.fehe.dev/",
         "logo": "https://www.fehe.dev/favicon.png",
         "description": "유튜브 디스코드 서버 구축과 디스코드 봇 코드 개발로 유튜버·크리에이터 팬 커뮤니티 운영을 돕는 개발팀",

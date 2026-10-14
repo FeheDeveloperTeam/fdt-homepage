@@ -12,7 +12,7 @@ export const SEO_DATA = {
   },
   '/about': {
     title: '팀 소개',
-    description: '디스코드 봇과 웹 서비스를 직접 기획하고 만드는 FeheDeveloperTeam(FDT) 팀원을 소개합니다.',
+    description: '디스코드 봇과 웹 서비스를 직접 기획하고 만드는 페헤개발팀 FeheDeveloperTeam(FDT)의 팀원을 소개합니다.',
   },
   '/services': {
     title: '하는 일 & 기술 스택',

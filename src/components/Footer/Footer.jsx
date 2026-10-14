@@ -16,7 +16,7 @@ function Footer() {
             <p className={styles.brandName}>FeheDeveloperTeam</p>
           </div>
           <p className={styles.brandDesc}>
-            디스코드 봇과 웹 대시보드를 기획부터 운영까지 직접 만들어가는 팀입니다.
+            페헤개발팀(FDT)은 디스코드 봇과 웹 대시보드를 기획부터 운영까지 직접 만들어가는 팀입니다.
           </p>
         </div>
 
