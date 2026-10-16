@@ -10,7 +10,7 @@ const MEMBERS = [
   {
     name: '페헤',
     position: '팀장',
-    role: '총괄',
+    role: '총괄 및 개발',
     email: 'fehe@fehe.dev',
     photo: feheProfile,
     profileUrl: '/member/fehe',
