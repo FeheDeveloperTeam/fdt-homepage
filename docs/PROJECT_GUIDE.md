@@ -239,7 +239,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - 서브앱 진입 시 탭 아이콘 교체: `src/hooks/useFavicon.js` (치유미·Minecraft 위키에 이어 `/member/fehe`도 페헤 프로필 사진을 씁니다)
 - FDT 헤더·푸터 공통 메뉴와 연락처: `src/navLinks.js` (`NAV_LINKS`·`CONTACT_EMAIL`·`DISCORD_INVITE`를 헤더, 푸터, 문의 페이지가 함께 참조하므로 한 곳만 고치면 된다)
 - FDT 메인 인라인 아이콘: `src/components/icons/icons.jsx`
-- FDT 메인 「우리는 이런 팀입니다」 목록: `src/components/TeamValues/` (카드·그림·스크롤 고정 효과 없이 번호·제목·설명·다루는 것을 가는 구분선으로만 나눈 목록. 넓은 화면은 세 칸, 760px 이하는 위아래로 쌓이며 각 줄은 `RevealItem`으로 스크롤 시 나타난다)
+- FDT 메인 「직접 만들고, 직접 운영합니다」 목록: `src/components/TeamValues/` (문구는 치유미의 실제 명령어, 이 사이트에 실제로 있는 웹 서비스, 문의 페이지의 운영 시간처럼 확인 가능한 사실만 쓴다. 카드·그림·스크롤 고정 효과 없이 번호·제목·설명·다루는 것을 가는 구분선으로만 나눈 목록. 넓은 화면은 세 칸, 760px 이하는 위아래로 쌓이며 각 줄은 `RevealItem`으로 스크롤 시 나타난다)
 - FDT 팀 소개 멤버 데이터: `src/pages/About/About.jsx`의 `MEMBERS` (이름·직책·역할·이메일·프로필 사진·개인 페이지 링크)
 - 팀원 프로필 사진: `src/assets/images/team/` (`<이름>_original.png`은 원본, `<이름>.png`은 아바타용 400×400 정사각 크롭본. `/about` 카드에서 56px 원형 `object-fit: cover`로 표시되므로 얼굴이 중앙에 오게 크롭)
 - FDT SEO 기준 데이터: `src/seoData.js`

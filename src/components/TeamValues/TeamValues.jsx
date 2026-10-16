@@ -1,26 +1,28 @@
 import RevealItem from '../RevealItem/RevealItem'
 import styles from './TeamValues.module.css'
 
+// 문구는 실제로 있는 것만 쓴다 — 명령어는 치유미에 있는 것, 웹 서비스는 이 사이트에 있는 것,
+// 응답 시간은 문의 페이지(src/pages/Contact)에 적힌 운영 시간과 같다.
 const ITEMS = [
   {
     title: '디스코드 봇 개발',
-    description: '인증, 티켓, 로그, 미니게임까지 커뮤니티 운영에 필요한 기능을 원하는 대로 맞춤 제작해요.',
-    tags: ['인증', '티켓', '로그', '미니게임'],
+    description: '직접 운영하는 치유미 봇에 넣은 기능들을 바탕으로, 서버에 필요한 명령어를 맞춰 만듭니다.',
+    tags: ['/인증', '/티켓', '/로그', '/끝말잇기'],
   },
   {
     title: '유튜브 디스코드 서버 구축',
-    description: '유튜버·크리에이터의 팬 커뮤니티를 위해 채널과 권한 구조 설계부터 봇 코드 작성까지 함께 도와드려요.',
-    tags: ['서버 구축', '채널·권한 설계', '봇 코드 작성'],
+    description: '구독자가 모일 서버의 채널과 역할을 먼저 정리하고, 공지·방송 알림·입장 인증처럼 운영에 꼭 필요한 봇을 연결합니다.',
+    tags: ['채널·역할 설계', '방송 알림', '입장 인증'],
   },
   {
     title: '웹 개발',
-    description: '봇을 소개하는 웹사이트부터 봇을 관리하는 대시보드까지, 필요한 웹 서비스를 함께 만들어요.',
-    tags: ['React', 'Node.js', '반응형 디자인'],
+    description: '치유미 관리 대시보드, 네트워크 테스트, 마인크래프트 위키를 React와 Node.js로 직접 만들었습니다.',
+    tags: ['React', 'Node.js', '관리 대시보드'],
   },
   {
-    title: '배포 이후에도 계속',
-    description: '출시하고 끝이 아니라, Discord로 소통하며 기능 개선과 버그 대응을 이어가요.',
-    tags: ['버그 대응', '기능 개선', '실시간 소통'],
+    title: '출시 뒤에도 운영',
+    description: '디스코드 서포터 서버에서 문의를 받아 버그를 고치고 기능을 다듬습니다. 평일 19시부터 24시까지 답변합니다.',
+    tags: ['서포터 서버', '버그 수정', '기능 개선'],
   },
 ]
 
@@ -33,8 +35,8 @@ function TeamValues() {
     <section className={styles.values}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <p className={styles.eyebrow}>Why FDT</p>
-          <h2 className={styles.headline}>우리는 이런 팀입니다</h2>
+          <p className={styles.eyebrow}>What We Do</p>
+          <h2 className={styles.headline}>직접 만들고, 직접 운영합니다</h2>
         </div>
 
         <ol className={styles.list}>
