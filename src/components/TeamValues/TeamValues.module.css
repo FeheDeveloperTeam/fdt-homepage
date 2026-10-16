@@ -1,15 +1,17 @@
 .values {
-  padding-top: var(--section-space-y);
-  background:
-    radial-gradient(circle at 15% 12%, rgb(var(--color-primary-rgb) / 0.07), transparent 28rem),
-    var(--color-bg-alt);
+  padding: var(--section-space-y) 0;
+  background: var(--color-bg-alt);
   border-top: 1px solid var(--color-border);
 }
 
-.header {
+.inner {
   max-width: var(--max-width);
-  margin: 0 auto 40px;
+  margin: 0 auto;
   padding: 0 var(--content-gutter);
+}
+
+.header {
+  margin-bottom: clamp(36px, 5vw, 56px);
 }
 
 .eyebrow {
@@ -35,416 +37,71 @@
   color: var(--color-text);
 }
 
-.stepWrapper {
-  position: relative;
-}
-
-.stickyStage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  perspective: 2000px;
-}
-
-.panel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(880px, 92vw);
-  min-height: 344px;
-  isolation: isolate;
-  background:
-    linear-gradient(135deg, rgb(var(--color-primary-rgb) / 0.07), transparent 48%),
-    var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: clamp(32px, 5vw, 56px);
-  display: flex;
-  align-items: center;
-  gap: clamp(28px, 5vw, 48px);
-  /* 상단에 색 띠를 두지 않고, 윗면에 아주 옅은 빛 반사만 남겨 카드 윤곽을 살린다 */
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.05),
-    var(--shadow-lg);
-  transform-origin: top center;
-  will-change: transform, opacity;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.panel:hover {
-  border-color: rgb(var(--color-primary-rgb) / 0.4);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.07),
-    0 24px 56px rgb(var(--color-primary-rgb) / 0.14);
-}
-
-.panelText {
-  flex: 1.1;
-  min-width: 0;
-}
-
-.panelIndex {
-  display: inline-flex;
-  align-items: center;
-  min-width: 2.3rem;
-  padding: 0.32rem 0.55rem;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-primary);
-  background: rgb(var(--color-primary-rgb) / 0.1);
-  border: 1px solid rgb(var(--color-primary-rgb) / 0.18);
-  border-radius: 999px;
-  margin-bottom: 16px;
-}
-
-.panelTitle {
-  font-size: clamp(1.5rem, 4vw, 1.875rem);
-  color: var(--color-text);
-}
-
-.panelDescription {
-  margin-top: 16px;
-  font-size: 16px;
-  max-width: 440px;
-}
-
-.tags {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  padding: 0.35rem 0.6rem;
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-}
-
-.visualBox {
-  flex: 0.9;
-  min-height: 212px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgb(var(--color-primary-rgb) / 0.045);
-  border: 1px solid var(--color-border);
-  border-radius: calc(var(--radius-lg) - 4px);
-}
-
-/* Bot visual */
-.discordMock {
-  width: 100%;
-  max-width: 280px;
-  height: 180px;
-  display: flex;
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.discordSidebar {
-  width: 48px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 0;
-  border-right: 1px solid var(--color-border);
-}
-
-.discordServerIcon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--color-border);
-}
-
-.discordServerIconActive {
-  background: var(--color-primary);
-}
-
-.discordMain {
-  flex: 1;
-  min-width: 0;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.discordHeader {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  padding-bottom: 10px;
+/* ── 목록 ──
+   항목 사이는 가는 선 한 줄로만 나눈다. 넓은 화면에서는
+   [번호] [제목·설명] [다루는 것] 세 칸이고, 좁은 화면에서는 위아래로 쌓인다. */
+.list {
   border-bottom: 1px solid var(--color-border);
 }
 
-.discordMessage {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.discordAvatar {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-}
-
-.discordBubble {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 4px;
-}
-
-.discordLine {
-  height: 8px;
-  border-radius: 999px;
-  background: var(--color-border);
-}
-
-.discordCommand {
-  align-self: flex-start;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--color-accent);
-  background: rgb(var(--color-primary-rgb) / 0.12);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  padding: 5px 12px;
-}
-
-/* Community mock visual */
-.communityMock {
-  width: 100%;
-  max-width: 280px;
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px;
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-.communityTop {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.communityCrest {
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: rgb(var(--color-primary-rgb) / 0.5);
-}
-
-.communityTitleLines {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-}
-
-.communityLine {
-  height: 6px;
-  border-radius: 999px;
-  background: var(--color-border-strong);
-}
-
-.communityChannels {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  font-size: 12px;
-  color: var(--color-text-muted);
-}
-
-.communityMembers {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-top: 10px;
+.item {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 19rem);
+  gap: 0 clamp(20px, 4vw, 48px);
+  align-items: baseline;
+  padding: clamp(28px, 4vw, 40px) 0;
   border-top: 1px solid var(--color-border);
 }
 
-.communityAvatars {
-  display: flex;
+.number {
+  font-size: clamp(1.5rem, 3vw, 2.125rem);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--color-text-muted);
+  transition: color 0.25s ease;
 }
 
-.communityAvatars i {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgb(var(--color-primary-rgb) / 0.35);
-  border: 2px solid var(--color-bg-alt);
+.title {
+  font-size: clamp(1.5rem, 3vw, 2.125rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--color-text);
 }
 
-.communityAvatars i + i {
-  margin-left: -8px;
-}
-
-.communityCount {
-  font-size: 11px;
-  font-weight: 600;
+.description {
+  max-width: 38ch;
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--color-text-muted);
 }
 
-/* Browser mock visual */
-.browserMock {
-  width: 100%;
-  max-width: 280px;
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+.tags {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  text-align: right;
 }
 
-.browserBar {
-  display: flex;
-  gap: 6px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--color-border);
+/* 항목 하나는 끊기지 않게 해서 줄바꿈이 항목 사이에서만 일어나게 한다 */
+.tag {
+  white-space: nowrap;
 }
 
-.browserBar span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--color-border);
+.item:hover .number {
+  color: var(--color-primary);
 }
 
-.browserBody {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.browserLine {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--color-border);
-}
-
-.browserBlock {
-  margin-top: 8px;
-  height: 64px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  opacity: 0.35;
-}
-
-/* Support visual */
-.supportVisual {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.supportLogo {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  z-index: 1;
-  box-shadow: 0 12px 32px rgb(var(--color-primary-rgb) / 0.24);
-}
-
-.pulseRing {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid var(--color-primary);
-  animation: pulse 2.4s ease-out infinite;
-}
-
-.pulseRingDelay {
-  animation-delay: 1.2s;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 720px) {
-  .panel {
-    flex-direction: column;
-    align-items: stretch;
-    min-height: 0;
-    padding: clamp(24px, 7vw, 36px);
-    gap: 28px;
+@media (max-width: 760px) {
+  .item {
+    grid-template-columns: 3rem minmax(0, 1fr);
   }
 
-  .panelDescription {
-    max-width: none;
-  }
-
-  .discordMock,
-  .browserMock {
-    max-width: 260px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .values {
-    padding-bottom: var(--section-space-y);
-  }
-
-  .stepWrapper {
-    height: auto !important;
-  }
-
-  .stickyStage {
-    position: relative;
-    display: grid;
-    gap: 16px;
-    height: auto;
-    padding: 0 var(--content-gutter);
-    overflow: visible;
-    perspective: none;
-  }
-
-  .panel {
-    position: relative;
-    inset: auto;
-    width: min(880px, 100%);
-    max-height: none;
-    margin: 0 auto;
-    opacity: 1 !important;
-    transform: none !important;
-    will-change: auto;
-  }
-
-  .pulseRing {
-    display: none;
+  .tags {
+    grid-column: 2;
+    margin-top: 14px;
+    text-align: left;
   }
 }
