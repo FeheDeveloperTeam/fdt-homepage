@@ -147,7 +147,7 @@ const SKILLS = [
   },
   {
     label: '서버',
-    items: ['Node.js', 'Linux (Kali)', 'Linux (Ubuntu)'],
+    items: ['Node.js', 'Docker', 'Linux (Kali)', 'Linux (Ubuntu)'],
     cls: 'server',
   },
   {
