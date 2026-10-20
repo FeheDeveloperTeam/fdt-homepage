@@ -76,6 +76,7 @@ const TIMELINE = [
     projects: [
       { name: 'CarScope', role: '팀장으로 개발에 임함', period: '2025년 2학기' },
       { name: 'WatchMan', role: '프론트 개발자로 임함', period: '2026년 1학기' },
+      { name: 'Jambox', role: '팀장으로 개발에 임함', period: '2026년 2학기' },
     ],
   },
   {
