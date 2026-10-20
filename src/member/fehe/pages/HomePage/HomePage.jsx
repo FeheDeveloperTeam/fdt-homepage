@@ -144,7 +144,7 @@ const SKILLS = [
   },
   {
     label: '클라우드',
-    items: ['AWS', 'NAVER Cloud', 'Vercel'],
+    items: ['AWS', 'NAVER Cloud', '가비아', 'Vercel'],
     cls: 'cloud',
   },
   {
