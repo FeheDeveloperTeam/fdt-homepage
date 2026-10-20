@@ -10,7 +10,7 @@ import './MusicPlayer.css'
   목록 첫 곡이 처음 재생되는 곡이다.
 */
 const TRACKS = [
-  { id: 'aRiVUVNUhIs', title: 'なんもねえ', artist: '忘れらんねえよ' },
+  { id: 'f_78K8u7QIU', title: 'なんもねえ', artist: '忘れらんねえよ' },
   { id: '075raB27CW8', title: 'ray (超かぐや姫！ Version)', artist: 'Ray' },
 ]
 const DEFAULT_VOL = 40

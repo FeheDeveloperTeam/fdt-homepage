@@ -46,7 +46,8 @@ const RIDGES = [
   },
 ]
 
-function Mountains() {
+// 같은 산맥을 배경과 인트로 두 곳에 그리므로, 그라데이션 id가 겹치지 않게 접두사를 받는다.
+function Mountains({ idPrefix = 'bgRidge' }) {
   return (
     <svg
       className="bg-mountains"
@@ -57,7 +58,7 @@ function Mountains() {
     >
       <defs>
         {RIDGES.map(r => (
-          <linearGradient key={r.id} id={`bgRidge-${r.id}`} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient key={r.id} id={`${idPrefix}-${r.id}`} x1="0" y1="0" x2="0" y2="1">
             {r.stops.map(([offset, color]) => (
               <stop key={offset} offset={offset} stopColor={color} />
             ))}
@@ -68,7 +69,7 @@ function Mountains() {
         <path
           key={r.id}
           d={r.d}
-          fill={`url(#bgRidge-${r.id})`}
+          fill={`url(#${idPrefix}-${r.id})`}
           stroke={r.ridge}
           strokeWidth="2.5"
           strokeLinejoin="round"
@@ -215,19 +216,32 @@ function useBlizzard(canvasRef) {
   }, [canvasRef])
 }
 
+/*
+  눈을 뺀 밤의 설산 풍경(하늘·달무리·산맥·능선 안개·비네트).
+  인트로도 같은 풍경을 그려서, 들어가기를 누르면 인트로의 산이 그대로 페이지 배경으로 이어진다.
+  children은 비네트 바로 아래에 깔린다(배경에서는 눈보라 canvas).
+*/
+export function Scenery({ className = '', idPrefix, children }) {
+  return (
+    <div className={`bg-deco${className ? ` ${className}` : ''}`} aria-hidden="true">
+      <div className="bg-moon" />
+      <Mountains idPrefix={idPrefix} />
+      <div className="bg-haze h1" />
+      <div className="bg-haze h2" />
+      <div className="bg-haze h3" />
+      {children}
+      <div className="bg-vignette" />
+    </div>
+  )
+}
+
 export default function BgDeco() {
   const canvasRef = useRef(null)
   useBlizzard(canvasRef)
 
   return (
-    <div className="bg-deco" aria-hidden="true">
-      <div className="bg-moon" />
-      <Mountains />
-      <div className="bg-haze h1" />
-      <div className="bg-haze h2" />
-      <div className="bg-haze h3" />
+    <Scenery>
       <canvas className="bg-snow" ref={canvasRef} />
-      <div className="bg-vignette" />
-    </div>
+    </Scenery>
   )
 }

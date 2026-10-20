@@ -1,32 +1,20 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { INITIAL_LOCATION_KEY } from '../../../../initialLocation'
+import { Scenery } from '../BgDeco/BgDeco'
 import './IntroSplash.css'
 
-const TITLE = '페헤의 공간에 오신 것을 환영합니다'
-
 /*
-  글자를 하나씩 등장시키되 줄바꿈은 어절 사이에서만 일어나게 한다.
-  span을 글자 단위로만 쪼개면 좁은 화면에서 '환영합니 / 다'처럼 잘린다.
-  --i는 어절을 건너뛰며 계속 이어져 등장 순서가 유지된다.
+  눈보라가 몰아치다(storm) 걷히면서 뒤로 밤의 설산이 드러나고(reveal),
+  영화 첫 장면처럼 왼쪽 아래에 작은 제목이 뜬다. 그 뒤로는 들어가기 버튼을 누를 때까지 기다리고,
+  누르면 인트로만 서서히 사라진다(clear). 인트로의 산은 페이지 배경과 같은 그림이라
+  사라지는 동안 산은 그대로 있고 페이지가 그 위로 떠오르듯 이어진다.
 */
-const TITLE_WORDS = (() => {
-  let i = 0
-  return TITLE.split(' ').map(word => ({
-    word,
-    chars: Array.from(word).map(ch => ({ ch, i: i++ })),
-  }))
-})()
-
-/*
-  storm → reveal 까지만 자동으로 넘어가고, 그 뒤로는 사용자가 들어가기 버튼을
-  누를 때까지 기다린다. 버튼을 누르면 clear로 바뀌고 화면이 걷힌 뒤 언마운트된다.
-*/
-const REVEAL_AT = 1200
-// 들어가기 버튼은 문구가 다 맺힌 뒤에 나타난다. 보이기 전에는 아예 렌더링하지 않아
+const REVEAL_AT = 1500
+// 들어가기 버튼은 제목이 다 떠오른 뒤에 나타난다. 보이기 전에는 아예 렌더링하지 않아
 // 투명한 버튼이 포커스되거나 눌리는 일이 없게 한다.
-const ENTER_AT = REVEAL_AT + 1250
-const CLEAR_MS = 900
+const ENTER_AT = REVEAL_AT + 1900
+const CLEAR_MS = 1100
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -245,44 +233,31 @@ export default function IntroSplash() {
       aria-describedby="intro-hint"
       tabIndex={-1}
     >
-      <canvas className="intro-snow" ref={canvasRef} aria-hidden="true" />
-      <div className="intro-gust g1" aria-hidden="true" />
-      <div className="intro-gust g2" aria-hidden="true" />
-      <div className="intro-gust g3" aria-hidden="true" />
-      <div className="intro-aurora" aria-hidden="true">
-        <span className="a1" />
-        <span className="a2" />
+      {/* 페이지 배경과 같은 설산. 눈보라가 걷히면서 흐릿하고 가까운 데서 제자리로 드러난다 */}
+      <Scenery className="intro-scene" idPrefix="introRidge" />
+      <div className="intro-whiteout" aria-hidden="true" />
+      <div className="intro-gusts" aria-hidden="true">
+        <div className="intro-gust g1" />
+        <div className="intro-gust g2" />
+        <div className="intro-gust g3" />
       </div>
+      <canvas className="intro-snow" ref={canvasRef} aria-hidden="true" />
+      <div className="intro-shade" aria-hidden="true" />
 
-      <div className="intro-core">
-        <p className="intro-pre" aria-hidden="true">Fehe&apos;s Space</p>
-        {/* 글자마다 나뉜 span은 스크린리더가 한 글자씩 끊어 읽을 수 있어 숨기고, 문장은 따로 읽힌다 */}
-        <h1 id="intro-title" className="intro-title">
-          <span className="intro-sr-only">{TITLE}</span>
-          <span aria-hidden="true">
-            {TITLE_WORDS.map(({ word, chars }, w) => (
-              <Fragment key={word + w}>
-                {w > 0 && ' '}
-                <span className="intro-word">
-                  {chars.map(({ ch, i }) => (
-                    <span key={i} className="intro-char" style={{ '--i': i }}>
-                      {ch}
-                    </span>
-                  ))}
-                </span>
-              </Fragment>
-            ))}
-          </span>
+      {/* 영화 첫 장면의 제목처럼 왼쪽 아래에 작게 둔다 */}
+      <div className="intro-card">
+        <h1 id="intro-title" className="intro-heading">
+          <span className="intro-kicker">페헤의 공간</span>
+          <span className="intro-name" aria-hidden="true">FEHE</span>
         </h1>
-        <div className="intro-rule" aria-hidden="true" />
-        <p className="intro-sub">Developer · Community Builder</p>
+        <p className="intro-role">개발자 · 커뮤니티 빌더</p>
         <p id="intro-hint" className="intro-sr-only">
           들어가기 버튼을 누르면 페헤의 자기소개 페이지로 들어갑니다. ESC 키로 바로 건너뛸 수도 있습니다.
         </p>
 
         {canEnter && (
           <button ref={enterRef} type="button" className="intro-enter" onClick={enter}>
-            페헤의 공간으로 들어가기
+            들어가기
             <span className="intro-enter-arrow" aria-hidden="true">→</span>
           </button>
         )}
