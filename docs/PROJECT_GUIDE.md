@@ -258,7 +258,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path, 눈을 뺀 풍경은 `Scenery`로 꺼내 인트로와 함께 씀)
 - Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (제목 카드는 JSX의 `.intro-card`, 띄울지 여부는 `shouldPlayIntro`, 풍경이 드러나는 시각은 `REVEAL_AT`, 버튼이 나오는 시각은 `ENTER_AT`) · 강력 새로고침 판별: `api/_lib/reloadHint.js` · 처음 불러온 위치 기록: `src/initialLocation.js`
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
-- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스·자동화 · 데이터 세 분야에 작업 6개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다)
+- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `note`는 본문 아래 코드 주석(`// …`)처럼 작게 붙는 안내로, 전문대학교 항목은 학교·학과 이름을 졸업 후 공개한다는 안내에 쓰고 본문에는 「컴퓨터 계열 학과」로만 적는다. `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스·자동화 · 데이터 세 분야에 작업 6개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다)
 - 배포 설정: `vercel.json`
 
 ## 10. 문서 유지 체크리스트

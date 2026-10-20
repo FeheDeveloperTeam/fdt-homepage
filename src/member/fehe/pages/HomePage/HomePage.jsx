@@ -71,7 +71,8 @@ const TIMELINE = [
   {
     year: '2024. 03. 04',
     heading: '전문대학교 입학',
-    body: '컴퓨터공학과에 진학하여 본격적으로 소프트웨어 개발을 공부하기 시작했습니다.',
+    body: '컴퓨터 계열 학과에 진학하여 본격적으로 소프트웨어 개발을 공부하기 시작했습니다.',
+    note: '정확한 학교·학과 이름은 졸업 후 공개합니다',
     projects: [
       { name: 'CarScope', role: '팀장으로 개발에 임함', period: '2025년 2학기' },
       { name: 'WatchMan', role: '프론트 개발자로 임함', period: '2026년 1학기' },
@@ -263,6 +264,7 @@ export default function HomePage() {
               </div>
               <h2 className="timeline-heading">{item.heading}</h2>
               {item.body && <p className="timeline-body">{item.body}</p>}
+              {item.note && <p className="timeline-note">{`// ${item.note}`}</p>}
               {item.extra && <div className="timeline-body">{item.extra}</div>}
               {item.managed && item.managed.map((m, mi) => (
                 <p key={mi} className="timeline-body" style={{ marginTop: mi === 0 ? '0.6rem' : '0.3rem', paddingTop: mi === 0 ? '0.6rem' : 0, borderTop: mi === 0 ? '1px solid var(--border)' : 'none', fontSize: '0.82rem', textDecoration: m.active ? 'none' : 'line-through' }}>
