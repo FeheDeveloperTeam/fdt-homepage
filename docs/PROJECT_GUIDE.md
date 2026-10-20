@@ -246,6 +246,7 @@ Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.j
 - 팀원 프로필 사진: `src/assets/images/team/` (`<이름>_original.png`은 원본, `<이름>.png`은 아바타용 400×400 정사각 크롭본. `/about` 카드에서 56px 원형 `object-fit: cover`로 표시되므로 얼굴이 중앙에 오게 크롭)
 - FDT SEO 기준 데이터: `src/seoData.js`
 - 홈 히어로 문구: `src/components/Hero/Hero.jsx` · 홈 하는 일 목록: `src/components/TeamValues/TeamValues.jsx`의 `ITEMS`
+- 하는 일 페이지(`/services`): `src/pages/Services/Services.jsx` (섹션마다 왼쪽 칸에 이름, 오른쪽 칸에 내용을 두는 문서형 구성. `SERVICES`의 첫 항목이 주력으로 크게 놓이고 나머지는 두 칸씩, `PROCESS`는 한 줄로 이어진 선 위의 단계, `STACK_GROUPS`는 Frontend·Backend·Database 세 칸이며 기술 옆 짧은 설명은 기술 자체의 성격만 적는다)
 - 검색 키워드·구조화 데이터: `index.html`의 `keywords` 메타와 `application/ld+json`
 - Chiyumi 프런트 API 래퍼: `src/DiscordBot/Chiyumi/pages/adminApi.js`, `guildApi.js`
 - Discord 인증·세션: `api/_lib/discordAuth.js`
