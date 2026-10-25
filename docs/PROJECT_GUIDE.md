@@ -90,6 +90,8 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/admin/coins/check`, `/admin/coins/adjust` | 코인 조회·조정 |
 | `/terms`, `/privacy`, `/errors` | 약관, 개인정보 처리방침, 오류 코드 안내 |
 
+서버 대시보드(`GuildLayout`)는 사이드바·메뉴·목록·안내 문구에 관리자 대시보드와 같은 `admin-` 클래스를 빌려 씁니다. 그 스타일은 관리자 쪽 파일(`AdminLayout.css`, `AdminManagePage.css`, `components/AdminCharts/AdminCharts.css`)에 들어 있고 두 레이아웃 모두 지연 로딩되므로, `GuildLayout.jsx`와 `ServersPage.jsx`가 필요한 파일을 **직접 import**합니다(관리자 쪽 파일은 수정하지 않고 읽기만 함). 이걸 빠뜨리면 관리자 화면을 먼저 열지 않고 내 서버로 바로 들어왔을 때 사이드바 없이 메뉴가 한 줄로 붙어 나오는 등 화면이 깨집니다. 서버 대시보드 전용 모바일 보정은 `GuildLayout.css`의 `.guild-shell`에만 둡니다.
+
 관리자 화면은 애플리케이션 권한 검사와 별도로 배포 환경의 국가 헤더가 존재할 때 한국(`KR`) 이외의 요청을 차단합니다.
 
 ### 유틸리티와 위키

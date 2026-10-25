@@ -5,6 +5,8 @@ import { useDiscordUser } from '../../hooks/useDiscordUser'
 import DiscordLoginButton from '../../components/DiscordLoginButton/DiscordLoginButton'
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
+// 「불러오는 중」·「서버 없음」 안내 문구(.admin-chart-empty) 스타일이 이 파일에 있다
+import '../../components/AdminCharts/AdminCharts.css'
 import './ServersPage.css'
 
 const INVITE_URL =

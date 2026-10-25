@@ -12,4 +12,18 @@
   margin-top: 0.4rem;
   color: var(--text-muted);
 }
+
+/*
+  모바일 보정 — 서버 대시보드(.guild-shell)에만 적용한다. 관리자 대시보드는 건드리지 않는다.
+  위아래로 쌓일 때 본문이 내용 크기만큼 넓어져(통계 카드·순위 막대) 화면 오른쪽이 잘리고,
+  메뉴 9개가 한 줄로 이어져 화면 밖으로 나가던 문제를 막는다.
+*/
+@media (max-width: 780px) {
+  .guild-shell {
+    align-items: stretch;
+  }
+  .guild-shell .admin-nav-group {
+    flex-wrap: wrap;
+  }
+}
 }

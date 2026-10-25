@@ -155,10 +155,12 @@ export default function GuildWarnPage() {
             <div className="admin-list-row" key={t.count}>
               <div className="admin-list-info">
                 <span className="admin-list-name">{t.count}회 → {t.action}</span>
-                <span className="admin-list-id">
-                  {t.roleId && `역할 ${t.roleId}`}
-                  {t.duration && ` · ${t.duration}분`}
-                </span>
+                {/* 역할·기간 중 있는 것만 이어 붙인다(역할 없이 기간만 있으면 앞에 「·」가 홀로 붙지 않게) */}
+                {(t.roleId || t.duration) && (
+                  <span className="admin-list-id">
+                    {[t.roleId && `역할 ${t.roleId}`, t.duration && `${t.duration}분`].filter(Boolean).join(' · ')}
+                  </span>
+                )}
               </div>
               <button
                 type="button"

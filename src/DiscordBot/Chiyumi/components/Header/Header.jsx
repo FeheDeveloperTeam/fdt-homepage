@@ -19,12 +19,14 @@ export default function Header() {
         <span className="chiyumi-header-divider" />
         <Link className="chiyumi-logo" to="/DiscordBot/Chiyumi">
           <img src={chiyumiPhoto} alt="" className="chiyumi-logo-photo" />
-          치유미
+          <span className="chiyumi-logo-text">치유미</span>
         </Link>
       </div>
       <div className="chiyumi-header-actions">
+        {/* 로그인하면 오른쪽 버튼이 많아져 좁은 화면에서 넘친다. 그때는 이 버튼을 숨기고
+            「내 서버」 화면의 초대 카드로 대신한다(Header.css 참고). */}
         <a
-          className="chiyumi-invite-btn"
+          className={`chiyumi-invite-btn${user ? ' chiyumi-invite-btn--with-user' : ''}`}
           href={INVITE_URL}
           target="_blank"
           rel="noopener noreferrer"

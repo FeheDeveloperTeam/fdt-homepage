@@ -14,11 +14,12 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
+/* 오른쪽 버튼이 많아져도 로고가 눌려 사라지지 않게 줄어들지 않도록 한다 */
 .chiyumi-header-left {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .chiyumi-back {
@@ -158,5 +159,21 @@ header {
 
 @media (max-width: 540px) {
   .chiyumi-user-name { display: none; }
+  /* 로그인 상태에선 내 서버·관리자·프로필·로그아웃까지 들어가 폭이 모자라다 */
+  .chiyumi-invite-btn--with-user { display: none; }
+}
+
+/* 아주 좁은 화면(360px대 안드로이드 등)에서는 로고 글자를 화면에서만 숨기고 사진만 남긴다.
+   링크 이름은 스크린리더가 계속 「치유미」로 읽는다. */
+@media (max-width: 400px) {
+  header { padding: 0 1rem; }
+  .chiyumi-logo-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 }

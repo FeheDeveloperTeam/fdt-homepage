@@ -2,6 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams, Link } from 'react-router-dom'
 import { useDiscordUser } from '../../hooks/useDiscordUser'
 import { callGuildApi } from '../guildApi'
+/*
+  사이드바·메뉴·목록·안내 문구는 관리자 대시보드와 같은 클래스를 빌려 쓴다.
+  그 스타일은 관리자 화면 파일에만 들어 있어서, 관리자 화면을 먼저 열지 않고 내 서버로
+  바로 들어오면 스타일 없이 깨졌다. 관리자 쪽 파일은 그대로 두고 여기서 직접 불러온다.
+*/
+import '../AdminLayout/AdminLayout.css'
+import '../AdminManagePage/AdminManagePage.css'
+import '../../components/AdminCharts/AdminCharts.css'
 import './GuildLayout.css'
 
 const MENU = [
@@ -71,7 +79,7 @@ export default function GuildLayout() {
   if (!meta || !config) return null
 
   return (
-    <div className="admin-shell">
+    <div className="admin-shell guild-shell">
       <aside className="admin-sidebar">
         <div className="admin-sidebar-user">
           {meta.guild.icon ? (
