@@ -1,18 +1,33 @@
 @scope (.fehe-app) {
 /* ── STATUS PAGE ── */
+/* 배경(설산·눈보라)은 화면에 고정된 층(z-index 0)이라, 본문을 그 위로 올려야 한다.
+   빠뜨리면 반투명 블러가 걸린 카드만 보이고 제목·배지 같은 일반 글자는 배경 아래에 묻힌다. */
 .status-page {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
-  padding: calc(var(--header-h) + 2rem) 1.5rem calc(var(--footer-h) + 2rem);
+  padding: calc(var(--header-h) + 2.5rem) 1.5rem calc(var(--footer-h) + 2.5rem);
   display: flex;
   justify-content: center;
 }
 
 .status-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+/* 내 접속 정보 · 사이트 정보를 넓은 화면에서 나란히 둔다 */
+.status-info-row {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+@media (max-width: 720px) {
+  .status-info-row { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* 헤더 */
@@ -94,14 +109,33 @@
 }
 
 .status-row-label {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--text);
 }
 
-.status-row-purpose {
-  font-size: 0.72rem;
-  color: var(--text-muted);
+/* 이 항목이 실제로 호출하는 API 이름 */
+.status-row-api {
+  padding: 0.12rem 0.5rem;
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* 요청을 보내는 주소 */
+.status-row-endpoint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  overflow-wrap: anywhere;
 }
 
 .status-row-right {
@@ -189,5 +223,16 @@
 
 @media (max-width: 540px) {
   .status-card { padding: 1rem 1.1rem; }
+  /* 좁은 화면에서는 상태·응답 시간을 이름 아래 줄로 내려 한 줄로 읽히게 한다 */
+  .status-row {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+  .status-row-left { min-width: 0; }
+  .status-row-right {
+    width: 100%;
+    padding-left: calc(8px + 0.65rem); /* 상태 점 너비 + 간격만큼 들여 이름과 맞춘다 */
+  }
+  .status-row-detail { white-space: nowrap; }
 }
 }

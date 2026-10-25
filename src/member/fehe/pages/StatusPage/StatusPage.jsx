@@ -7,19 +7,25 @@ import './StatusPage.css'
 const YT_CHANNEL_ID = 'UCY0LBUJ0a7JCBkkQ_ux0kew'
 const YT_API_KEY    = 'AIzaSyAP2PyUsp5VYuj9KUMExwYw3YcceIegaII'
 
+const CHECK_INTERVAL_MS = 10_000
+
 function StatusDot({ state }) {
   return <span className={`status-dot status-dot--${state}`} />
 }
 
-function StatusRow({ label, purpose, state, detail }) {
+// api: 실제로 호출하는 서비스 이름(이름표로 표시), endpoint: 요청을 보내는 주소
+function StatusRow({ label, api, endpoint, state, detail }) {
   const stateLabel = { ok: '정상', error: '오류', checking: '확인 중' }
   return (
     <div className="status-row">
       <div className="status-row-left">
         <StatusDot state={state} />
         <div className="status-row-label-group">
-          <span className="status-row-label">{label}</span>
-          {purpose && <span className="status-row-purpose">{purpose}</span>}
+          <span className="status-row-label">
+            {label}
+            {api && <span className="status-row-api">{api}</span>}
+          </span>
+          {endpoint && <span className="status-row-endpoint">{endpoint}</span>}
         </div>
       </div>
       <div className="status-row-right">
@@ -111,7 +117,7 @@ export default function StatusPage() {
     }
 
     runChecks()
-    const pingInterval = setInterval(runChecks, 10000)
+    const pingInterval = setInterval(runChecks, CHECK_INTERVAL_MS)
     const tickInterval = setInterval(() => setSecondsAgo(s => s + 1), 1000)
     return () => { clearInterval(pingInterval); clearInterval(tickInterval) }
   }, [])
@@ -142,20 +148,23 @@ export default function StatusPage() {
         <div className="status-card">
           <p className="status-card-title">서비스</p>
           <StatusRow
-            label="Supabase"
-            purpose="오늘 방문자 수 데이터"
+            label="방문자 수 데이터"
+            api="Supabase REST (RPC)"
+            endpoint="rpc/fehe_visitors_today"
             state={supabase.state}
             detail={supabase.ms != null ? `${supabase.ms}ms` : supabase.detail}
           />
           <StatusRow
-            label="외부 IP API"
-            purpose="ipify.org · 접속 IP 조회"
+            label="접속 IP 조회"
+            api="ipify API"
+            endpoint="api.ipify.org"
             state={ipApi.state}
             detail={ipApi.ms != null ? `${ipApi.ms}ms` : null}
           />
           <StatusRow
-            label="YouTube Data API v3"
-            purpose="유튜브 채널 정보 조회"
+            label="유튜브 채널 정보"
+            api="YouTube Data API v3"
+            endpoint="googleapis.com/youtube/v3/channels"
             state={ytApi.state}
             detail={
               ytApi.state === 'ok' && ytApi.ms != null
@@ -168,6 +177,7 @@ export default function StatusPage() {
         </div>
 
         {/* 현재 접속 정보 */}
+        <div className="status-info-row">
         <div className="status-card">
           <p className="status-card-title">내 접속 정보</p>
           <div className="status-info-grid">
@@ -194,7 +204,16 @@ export default function StatusPage() {
               <span className="status-info-label">사이트 버전</span>
               <span className="status-info-value">{SITE_VERSION}</span>
             </div>
+            <div className="status-info-item">
+              <span className="status-info-label">확인 주기</span>
+              <span className="status-info-value">{CHECK_INTERVAL_MS / 1000}초마다</span>
+            </div>
+            <div className="status-info-item">
+              <span className="status-info-label">점검 항목</span>
+              <span className="status-info-value">3개</span>
+            </div>
           </div>
+        </div>
         </div>
 
       </div>
