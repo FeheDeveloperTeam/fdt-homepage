@@ -185,6 +185,20 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 
 Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.js`, `YoutubePage.jsx`, `StatusPage.jsx`의 클라이언트 코드에 들어 있습니다. Firestore와 Realtime Database 인스턴스는 각각 `firestore.js`, `realtimeDatabase.js`에서 지연 로드될 수 있도록 분리되어 있습니다. 설정을 환경 변수로 옮길 경우 Vite의 `VITE_` 변수는 최종 번들에 노출된다는 점을 전제로 키 제한과 외부 서비스 설정까지 함께 변경해야 합니다.
 
+Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Realtime Database의 `visitors/daily/{YYYY-MM-DD}`(한국 날짜)에 숫자를 셉니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 값은 실시간으로 구독해 보여 줍니다. 읽기·쓰기가 막혀 있으면 아무것도 표시하지 않으며 세었다는 기록도 남기지 않습니다. 동작하려면 Firebase 콘솔의 Realtime Database 규칙 `rules` 안에 아래 항목이 있어야 합니다. 쓰기는 「없으면 1, 있으면 정확히 1 증가」만 허용해 숫자를 임의로 바꿀 수 없게 합니다(규칙은 저장소가 아니라 Firebase 콘솔에만 있습니다).
+
+```json
+"visitors": {
+  "daily": {
+    "$day": {
+      ".read": true,
+      ".write": "$day.matches(/^20[0-9]{2}-[01][0-9]-[0-3][0-9]$/)",
+      ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() + 1 : 1)"
+    }
+  }
+}
+```
+
 ## 7. 환경 변수 기준
 
 아래 목록은 현재 소스 코드가 실제로 참조하는 이름을 기준으로 합니다. 값은 문서나 커밋에 기록하지 않습니다. 로컬 템플릿은 저장소 루트의 `.env.example`을 사용합니다.

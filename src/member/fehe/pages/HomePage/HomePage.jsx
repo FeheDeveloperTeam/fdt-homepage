@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { IconGithub, IconYoutube, IconSteam, IconDiscord, IconInstagram } from '../../components/icons/icons'
 import feheProfile from '../../../../assets/images/team/fehe.png'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
+import VisitorCount from '../../components/VisitorCount/VisitorCount'
 import './HomePage.css'
 
 function useTypewriter(text, speed = 150, startDelay = 300) {
@@ -230,6 +231,7 @@ export default function HomePage() {
                 <IconInstagram /> Instagram
               </a>
             </div>
+            <VisitorCount />
           </div>
         </div>
 
