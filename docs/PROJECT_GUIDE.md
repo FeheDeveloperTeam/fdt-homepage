@@ -190,7 +190,7 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabas
 - `fehe_count_visit()`: 오늘 방문을 1 올리고 올린 뒤의 숫자를 돌려줌
 - `fehe_visitors_today()`: 오늘 숫자만 읽음(상태 화면 확인용도 이것을 써서 확인 때문에 숫자가 오르지 않음)
 
-날짜는 브라우저가 보내지 않고 DB가 `Asia/Seoul` 기준으로 정하므로 다른 날짜의 숫자를 바꿀 수 없고, 한 번 호출에 정확히 1만 오릅니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 보고 있는 동안 1분마다 다시 읽습니다. 환경 변수가 없거나 호출이 실패하면 아무것도 표시하지 않습니다. 테이블과 함수는 저장소의 `supabase/fehe_visitors.sql`을 Supabase SQL Editor에서 실행해 만듭니다(다시 실행해도 안전). 치유미 봇과 같은 Supabase 프로젝트를 쓰지만 테이블 이름에 `fehe_` 접두사를 붙여 봇 데이터와 섞이지 않게 합니다.
+날짜는 브라우저가 보내지 않고 DB가 `Asia/Seoul` 기준으로 정하므로 다른 날짜의 숫자를 바꿀 수 없고, 한 번 호출에 정확히 1만 오릅니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 보고 있는 동안 1분마다 다시 읽습니다. 환경 변수가 없거나 호출이 실패하면 아무것도 표시하지 않습니다. 테이블과 함수는 저장소의 `supabase/fehe_visitors.sql`을 Supabase SQL Editor에서 실행해 만듭니다(다시 실행해도 안전). 이 Supabase 프로젝트는 페헤 자기소개 전용이며, 다른 서비스(치유미 등)와 연결하지 않습니다.
 
 ## 7. 환경 변수 기준
 
