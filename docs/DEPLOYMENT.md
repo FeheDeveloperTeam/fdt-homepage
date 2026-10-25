@@ -22,6 +22,7 @@ Vercel 설정은 `vercel.json`이 기준입니다. GitHub `main` push가 연결�
 | `SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASSWORD` | Chiyumi 공유 데이터 |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`, `GOOGLE_SHEET_ID` | 관리자 Google Sheets 읽기 |
 | `VITE_NETWORK_TEST_CDN_ORIGIN` | 네트워크 테스트용 Cloudflare CDN 원본 |
+| `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | Fehe 오늘 방문자 수(브라우저용 공개 키만, 비밀 키 금지). 테이블·함수는 `supabase/fehe_visitors.sql` |
 | `PORT` | 로컬 Express 포트, 기본값 3000 |
 
 `VITE_` 접두사의 값은 브라우저 번들에 포함됩니다. 비밀 값을 넣지 않습니다.

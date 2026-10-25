@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
-import { db } from '../../firestore'
-import { rtdb } from '../../realtimeDatabase'
-import { doc, getDoc } from 'firebase/firestore'
-import { ref, get } from 'firebase/database'
+import { callRpc, isSupabaseConfigured } from '../../supabase'
 import { SITE_VERSION } from '../../version'
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
 import './StatusPage.css'
@@ -37,8 +34,7 @@ function StatusRow({ label, purpose, state, detail }) {
 
 export default function StatusPage() {
   useDocumentTitle('서버 상태', 'Fehe')
-  const [firestore, setFirestore] = useState({ state: 'checking', ms: null })
-  const [rtdbStatus, setRtdbStatus] = useState({ state: 'checking', ms: null })
+  const [supabase, setSupabase] = useState({ state: 'checking', ms: null, detail: null })
   const [ipApi, setIpApi] = useState({ state: 'checking', ip: null })
   const [ytApi, setYtApi] = useState({ state: 'checking', ms: null, detail: null })
   const [checkedAt, setCheckedAt] = useState(null)
@@ -64,29 +60,24 @@ export default function StatusPage() {
     setUa({ browser, os })
 
     async function runChecks() {
-      setFirestore(p => ({ ...p, state: 'checking' }))
-      setRtdbStatus(p => ({ ...p, state: 'checking' }))
+      setSupabase(p => ({ ...p, state: 'checking' }))
       setIpApi(p => ({ ...p, state: 'checking' }))
       setYtApi(p => ({ ...p, state: 'checking' }))
 
       // 병렬 실행
       await Promise.all([
         (async () => {
-          const t = Date.now()
-          try {
-            await getDoc(doc(db, 'config', 'admin'))
-            setFirestore({ state: 'ok', ms: Date.now() - t })
-          } catch {
-            setFirestore({ state: 'error', ms: null })
+          if (!isSupabaseConfigured) {
+            setSupabase({ state: 'error', ms: null, detail: '환경 변수 없음' })
+            return
           }
-        })(),
-        (async () => {
           const t = Date.now()
           try {
-            await get(ref(rtdb, 'app/version'))
-            setRtdbStatus({ state: 'ok', ms: Date.now() - t })
-          } catch {
-            setRtdbStatus({ state: 'error', ms: null })
+            // 읽기 전용 함수라 확인하는 동안 방문자 수가 오르지 않는다
+            await callRpc('fehe_visitors_today')
+            setSupabase({ state: 'ok', ms: Date.now() - t, detail: null })
+          } catch (e) {
+            setSupabase({ state: 'error', ms: null, detail: e.message })
           }
         })(),
         (async () => {
@@ -125,8 +116,8 @@ export default function StatusPage() {
     return () => { clearInterval(pingInterval); clearInterval(tickInterval) }
   }, [])
 
-  const allOk = firestore.state === 'ok' && rtdbStatus.state === 'ok' && ipApi.state === 'ok' && ytApi.state === 'ok'
-  const hasError = firestore.state === 'error' || rtdbStatus.state === 'error' || ytApi.state === 'error'
+  const allOk = supabase.state === 'ok' && ipApi.state === 'ok' && ytApi.state === 'ok'
+  const hasError = supabase.state === 'error' || ytApi.state === 'error'
 
   return (
     <div className="status-page">
@@ -151,16 +142,10 @@ export default function StatusPage() {
         <div className="status-card">
           <p className="status-card-title">서비스</p>
           <StatusRow
-            label="Firebase Firestore"
-            purpose="설정 데이터 연결 확인"
-            state={firestore.state}
-            detail={firestore.ms != null ? `${firestore.ms}ms` : null}
-          />
-          <StatusRow
-            label="Firebase Realtime DB"
-            purpose="버전 알림 배너용 실시간 데이터"
-            state={rtdbStatus.state}
-            detail={rtdbStatus.ms != null ? `${rtdbStatus.ms}ms` : null}
+            label="Supabase"
+            purpose="오늘 방문자 수 데이터"
+            state={supabase.state}
+            detail={supabase.ms != null ? `${supabase.ms}ms` : supabase.detail}
           />
           <StatusRow
             label="외부 IP API"

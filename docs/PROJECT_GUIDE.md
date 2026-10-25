@@ -179,25 +179,18 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 - Discord REST API: 사용자·길드·채널·역할 조회와 관리 동작
 - Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기
 - Cloudflare Turnstile: Discord 로그인 전 사람 확인
-- Firebase Firestore/Realtime Database: Fehe 상태·버전 화면
+- Supabase: Fehe 오늘 방문자 수와 상태 화면의 연결 확인
 - YouTube Data API와 iframe API: Fehe YouTube·음악 기능
 - ipify: Fehe 상태 화면의 외부 연결 확인
 
-Fehe의 Firebase 설정과 YouTube API 키는 현재 `src/member/fehe/firebase.js`, `YoutubePage.jsx`, `StatusPage.jsx`의 클라이언트 코드에 들어 있습니다. Firestore와 Realtime Database 인스턴스는 각각 `firestore.js`, `realtimeDatabase.js`에서 지연 로드될 수 있도록 분리되어 있습니다. 설정을 환경 변수로 옮길 경우 Vite의 `VITE_` 변수는 최종 번들에 노출된다는 점을 전제로 키 제한과 외부 서비스 설정까지 함께 변경해야 합니다.
+Fehe의 YouTube API 키는 현재 `YoutubePage.jsx`, `StatusPage.jsx`의 클라이언트 코드에 들어 있습니다. 환경 변수로 옮길 경우 Vite의 `VITE_` 변수는 최종 번들에 노출된다는 점을 전제로 키 제한과 외부 서비스 설정까지 함께 변경해야 합니다. (Fehe는 예전에 Firebase를 썼지만 2026-10에 모두 걷어냈습니다. 쓰이지 않던 새 버전 알림 배너도 함께 지웠습니다.)
 
-Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Realtime Database의 `visitors/daily/{YYYY-MM-DD}`(한국 날짜)에 숫자를 셉니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 값은 실시간으로 구독해 보여 줍니다. 읽기·쓰기가 막혀 있으면 아무것도 표시하지 않으며 세었다는 기록도 남기지 않습니다. 동작하려면 Firebase 콘솔의 Realtime Database 규칙 `rules` 안에 아래 항목이 있어야 합니다. 쓰기는 「없으면 1, 있으면 정확히 1 증가」만 허용해 숫자를 임의로 바꿀 수 없게 합니다(규칙은 저장소가 아니라 Firebase 콘솔에만 있습니다).
+Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabase의 `fehe_daily_visitors` 테이블에 한국 날짜 기준으로 셉니다. 호출은 `src/member/fehe/supabase.js`가 라이브러리 없이 REST의 RPC로 하며, 브라우저용 공개 키(`VITE_SUPABASE_ANON_KEY`)만 씁니다. 브라우저는 테이블에 직접 접근할 수 없고(RLS, 정책 없음) 아래 두 `security definer` 함수만 부를 수 있습니다.
 
-```json
-"visitors": {
-  "daily": {
-    "$day": {
-      ".read": true,
-      ".write": "$day.matches(/^20[0-9]{2}-[01][0-9]-[0-3][0-9]$/)",
-      ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() + 1 : 1)"
-    }
-  }
-}
-```
+- `fehe_count_visit()`: 오늘 방문을 1 올리고 올린 뒤의 숫자를 돌려줌
+- `fehe_visitors_today()`: 오늘 숫자만 읽음(상태 화면 확인용도 이것을 써서 확인 때문에 숫자가 오르지 않음)
+
+날짜는 브라우저가 보내지 않고 DB가 `Asia/Seoul` 기준으로 정하므로 다른 날짜의 숫자를 바꿀 수 없고, 한 번 호출에 정확히 1만 오릅니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 보고 있는 동안 1분마다 다시 읽습니다. 환경 변수가 없거나 호출이 실패하면 아무것도 표시하지 않습니다. 테이블과 함수는 저장소의 `supabase/fehe_visitors.sql`을 Supabase SQL Editor에서 실행해 만듭니다(다시 실행해도 안전). 치유미 봇과 같은 Supabase 프로젝트를 쓰지만 테이블 이름에 `fehe_` 접두사를 붙여 봇 데이터와 섞이지 않게 합니다.
 
 ## 7. 환경 변수 기준
 
@@ -212,6 +205,8 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Realtim
 | `ADMIN_DISCORD_IDS` | 관리자 기능 | 쉼표로 구분한 초기 관리자 ID; 비어 있을 수 있음 |
 | `VITE_TURNSTILE_SITE_KEY` | 로그인 UI | 브라우저에 포함되는 Turnstile 사이트 키 |
 | `TURNSTILE_SECRET_KEY` | 로그인 API | 서버 검증용 Turnstile 비밀 키 |
+| `VITE_SUPABASE_URL` | Fehe 방문자 수 | 브라우저에 포함되는 Supabase 프로젝트 URL; 없으면 방문자 수를 숨김 |
+| `VITE_SUPABASE_ANON_KEY` | Fehe 방문자 수 | 브라우저용 공개 키(anon/publishable). 비밀 키(service_role)를 넣지 않음 |
 | `SFTP_HOST` | Chiyumi 데이터 | SFTP 호스트 |
 | `SFTP_PORT` | Chiyumi 데이터 | 포트; 없으면 22 |
 | `SFTP_USER` | Chiyumi 데이터 | SFTP 사용자 |

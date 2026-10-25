@@ -12,7 +12,6 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import './index.css'
 
 const EasterEgg = lazy(() => import('./components/EasterEgg/EasterEgg'))
-const VersionWatcher = lazy(() => import('./components/VersionWatcher/VersionWatcher'))
 const YoutubePage = lazy(() => import('./pages/YoutubePage/YoutubePage'))
 const SecretPage = lazy(() => import('./pages/SecretPage/SecretPage'))
 const StatusPage = lazy(() => import('./pages/StatusPage/StatusPage'))
@@ -41,9 +40,6 @@ export default function FeheApp() {
       <MusicPlayer />
       <Suspense fallback={null}>
         <EasterEgg />
-      </Suspense>
-      <Suspense fallback={null}>
-        <VersionWatcher />
       </Suspense>
     </div>
   )
