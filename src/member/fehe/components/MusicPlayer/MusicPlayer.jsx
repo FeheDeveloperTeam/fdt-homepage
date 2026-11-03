@@ -15,6 +15,54 @@ const TRACKS = [
   { id: '075raB27CW8', title: 'ray (超かぐや姫！ Version)', artist: 'Ray' },
 ]
 const DEFAULT_VOL = 40
+// 긴 제목이 움직이는 속도(px/초)와, 왕복 시간 중 실제로 움직이는 비율(CSS 키프레임의 15%~85%와 맞춘다)
+const MARQUEE_SPEED = 28
+const MARQUEE_MOVE_RATIO = 0.7
+const MARQUEE_MIN_SECONDS = 4
+// 오른쪽 끝 흐림 폭(CSS의 mask와 맞춘다). 마지막 글자가 흐림에 걸리지 않게 그만큼 더 움직인다.
+const MARQUEE_FADE_PX = 14
+
+/*
+  칸을 넘치는 제목만 천천히 움직여 끝까지 보여 준다. 양 끝에서 잠깐 멈췄다가 되돌아온다.
+  넘치는 길이를 실제 크기로 재므로 화면 폭·글꼴이 바뀌어도 맞고, 짧은 제목은 움직이지 않는다.
+  마우스를 올리면 멈추고, 움직임 줄이기 설정에서는 말줄임표와 툴팁으로 대신한다(CSS).
+*/
+function ScrollingText({ text, className }) {
+  const outerRef = useRef(null)
+  const innerRef = useRef(null)
+  const [distance, setDistance] = useState(0)
+
+  useEffect(() => {
+    const outer = outerRef.current
+    const inner = innerRef.current
+    if (!outer || !inner) return undefined
+    const measure = () => {
+      const overflow = Math.ceil(inner.getBoundingClientRect().width - outer.clientWidth)
+      setDistance(overflow > 0 ? overflow + MARQUEE_FADE_PX : 0)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(outer)
+    observer.observe(inner)
+    return () => observer.disconnect()
+  }, [])
+
+  const moving = distance > 0
+  return (
+    <span ref={outerRef} className={`music-marquee${moving ? ' moving' : ''} ${className}`} title={text}>
+      <span
+        ref={innerRef}
+        className="music-marquee-inner"
+        style={moving ? {
+          '--marquee-distance': `${distance}px`,
+          '--marquee-duration': `${Math.max(MARQUEE_MIN_SECONDS, distance / MARQUEE_SPEED / MARQUEE_MOVE_RATIO).toFixed(2)}s`,
+        } : undefined}
+      >
+        {text}
+      </span>
+    </span>
+  )
+}
 
 function fmt(sec) {
   if (!sec || isNaN(sec)) return '0:00'
@@ -71,6 +119,17 @@ function IconChevronDown() {
     </svg>
   )
 }
+function IconRepeatOne() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="17 2 21 6 17 10"/>
+      <path d="M3 11V9a3 3 0 0 1 3-3h15"/>
+      <polyline points="7 22 3 18 7 14"/>
+      <path d="M21 13v2a3 3 0 0 1-3 3H3"/>
+      <path d="M11 10.5l1.5-1v5"/>
+    </svg>
+  )
+}
 function IconVolumeHigh() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -104,6 +163,8 @@ export default function MusicPlayer() {
   const [index, setIndex] = useState(0)
   const [listOpen, setListOpen] = useState(false)
   const [volOpen, setVolOpen] = useState(false)
+  // 켜면 지금 곡만 반복한다. 끄면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다.
+  const [repeatOne, setRepeatOne] = useState(false)
   // 모바일에서는 카드가 화면을 크게 가려서 기본으로 접어 두고, 눌러야 펼쳐진다.
   const isMobile = useMediaQuery('(max-width: 720px)')
   const [expanded, setExpanded] = useState(true)
@@ -183,7 +244,6 @@ export default function MusicPlayer() {
             setPlaying(isPlaying)
             if (isPlaying) startTimer()
             else clearInterval(timerRef.current)
-            // 곡이 끝나면 다음 곡으로 넘어가고, 마지막 곡이면 처음으로 돌아간다
             if (e.data === window.YT.PlayerState.ENDED) advanceRef.current?.()
           },
         },
@@ -234,7 +294,14 @@ export default function MusicPlayer() {
     else p.cueVideoById(TRACKS[target].id)
   }, [])
 
-  advanceRef.current = () => goTo(index + 1)
+  advanceRef.current = () => {
+    if (repeatOne) {
+      playerRef.current?.seekTo(0, true)
+      playerRef.current?.playVideo()
+    } else {
+      goTo(index + 1)
+    }
+  }
 
   function toggle() {
     if (!ready || !playerRef.current) return
@@ -301,7 +368,7 @@ export default function MusicPlayer() {
         <div className="music-top">
           <div className={`music-disc${playing ? ' spin' : ''}`}>{discIcon}</div>
           <div className="music-text">
-            <span className="music-title">{track.title}</span>
+            <ScrollingText key={track.id} text={track.title} className="music-title" />
             <span className="music-artist">{track.artist}</span>
           </div>
           <div className="music-vol-wrap" ref={volWrapRef}>
@@ -360,6 +427,20 @@ export default function MusicPlayer() {
           </div>
           <div className="music-time">
             <span>{fmt(current)}</span>
+            {/* 재생바 클릭 영역 안에 있어서, 눌러도 곡 위치가 옮겨지지 않게 막는다 */}
+            <button
+              type="button"
+              className={`music-repeat${repeatOne ? ' on' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                setRepeatOne((prev) => !prev)
+              }}
+              aria-pressed={repeatOne}
+              aria-label="한 곡 반복"
+              title={repeatOne ? '한 곡 반복 끄기' : '한 곡 반복 켜기'}
+            >
+              <IconRepeatOne />
+            </button>
             <span>{fmt(duration)}</span>
           </div>
         </div>
@@ -394,7 +475,7 @@ export default function MusicPlayer() {
                 >
                   <span className="music-list-num">{i === index && playing ? '▶' : i + 1}</span>
                   <span className="music-list-text">
-                    <span className="music-list-title">{t.title}</span>
+                    <ScrollingText text={t.title} className="music-list-title" />
                     <span className="music-list-artist">{t.artist}</span>
                   </span>
                 </button>

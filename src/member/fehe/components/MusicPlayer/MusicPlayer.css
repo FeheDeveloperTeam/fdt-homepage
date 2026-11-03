@@ -57,9 +57,43 @@
   font-size: 0.74rem;
   font-weight: 800;
   color: var(--text);
-  white-space: nowrap;
+}
+
+/* 칸을 넘치는 제목은 천천히 움직여 끝까지 보여 준다. 움직이는 동안 오른쪽 끝을 흐리게
+   처리하고, 이동 거리는 JS가 흐림 폭(MARQUEE_FADE_PX)만큼 더 잡아 마지막 글자도 또렷하게 보인다. */
+.music-marquee {
+  display: block;
+  min-width: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.music-marquee-inner {
+  display: inline-block;
+}
+.music-marquee.moving {
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 14px), transparent);
+          mask-image: linear-gradient(90deg, #000 calc(100% - 14px), transparent);
+}
+.music-marquee.moving .music-marquee-inner {
+  animation: musicMarquee var(--marquee-duration) linear infinite alternate;
+}
+.music-marquee.moving:hover .music-marquee-inner {
+  animation-play-state: paused;
+}
+@keyframes musicMarquee {
+  0%, 15%   { transform: translateX(0); }
+  85%, 100% { transform: translateX(calc(var(--marquee-distance) * -1)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-marquee { text-overflow: ellipsis; }
+  .music-marquee.moving {
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .music-marquee-inner { display: inline; }
+  .music-marquee.moving .music-marquee-inner {
+    animation: none;
+  }
 }
 .music-artist {
   font-size: 0.64rem;
@@ -123,10 +157,32 @@
 
 .music-time {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 0.61rem;
   font-weight: 600;
   color: var(--text-muted);
+}
+
+/* 한 곡 반복. 켜졌는지는 색과 aria-pressed로 함께 알린다 */
+.music-repeat {
+  width: 26px; height: 26px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.music-repeat:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.music-repeat.on {
+  color: var(--accent);
+  border-color: var(--border-accent);
+  background: var(--accent-dim);
 }
 
 /* ── 볼륨 ──
@@ -281,6 +337,7 @@
 .music-list-item.current .music-list-num { color: var(--accent); }
 
 .music-list-text {
+  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -290,9 +347,6 @@
   font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-soft);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .music-list-item.current .music-list-title { color: var(--text); }
 .music-list-artist {
