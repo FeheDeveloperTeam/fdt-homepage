@@ -27,3 +27,6 @@ cloudflare/network-test-cdn/assets/network-test.bin
 *.sw?
 
 .vercel
+
+# 3D 캐릭터 작업 폴더(스크립트, 렌더, 임시 파일). 결과물은 Google Drive에서 관리한다.
+/3d-work/

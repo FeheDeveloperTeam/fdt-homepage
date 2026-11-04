@@ -272,6 +272,7 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabas
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
 - Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `note`는 본문 아래 코드 주석(`// …`)처럼 작게 붙는 안내로, 전문대학교 항목은 학교·학과 이름을 졸업 후 공개한다는 안내에 쓰고 본문에는 「컴퓨터 계열 학과」로만 적는다. `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스·자동화 · 데이터 세 분야에 작업 6개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다)
 - 배포 설정: `vercel.json`
+- 페헤 3D 캐릭터 작업 파일: `3d-work/` (Blender 스크립트와 렌더, 임시 파일. `.gitignore`로 제외해 배포되지 않고, 결과물은 Google Drive에서 관리한다)
 
 ## 10. 문서 유지 체크리스트
 
