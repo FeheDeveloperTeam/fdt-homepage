@@ -48,3 +48,7 @@ revoke all on function public.fehe_count_visit() from public;
 revoke all on function public.fehe_visitors_today() from public;
 grant execute on function public.fehe_count_visit() to anon, authenticated;
 grant execute on function public.fehe_visitors_today() to anon, authenticated;
+
+-- REST(PostgREST)가 새 테이블·함수를 바로 알아보게 스키마 캐시를 다시 읽힌다.
+-- 이 줄이 없으면 만든 직후 잠깐 PGRST202(함수를 찾을 수 없음)가 날 수 있다.
+notify pgrst, 'reload schema';
