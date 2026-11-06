@@ -8,6 +8,9 @@
       "includeFiles": "dist/**"
     }
   },
+  "crons": [
+    { "path": "/api/supabase-keepalive", "schedule": "0 18 * * *" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

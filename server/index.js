@@ -16,6 +16,7 @@ import adminSheet from '../api/admin/sheet.js'
 import adminCoins from '../api/admin/coins.js'
 import networkTest from '../api/network-test.js'
 import guild from '../api/guild.js'
+import supabaseKeepalive from '../api/supabase-keepalive.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
@@ -44,6 +45,7 @@ async function createServer() {
   app.post('/api/admin/coins', adminCoins)
   app.get('/api/network-test', networkTest)
   app.get('/api/guild', guild)
+  app.get('/api/supabase-keepalive', supabaseKeepalive)
   app.post('/api/guild', guild)
 
   if (isProduction) {
