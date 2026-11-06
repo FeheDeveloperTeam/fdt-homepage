@@ -2,7 +2,8 @@
   Supabase 무료 프로젝트 일시정지 방지.
 
   Supabase 무료 플랜은 일정 기간(현재 7일) 동안 활동이 없으면 프로젝트를 일시정지한다.
-  방문이 뜸한 주에도 멈추지 않도록 Vercel Cron(vercel.json의 crons)이 하루 한 번 이 경로를 부르고,
+  방문이 뜸한 주에도 멈추지 않도록 Vercel Cron(vercel.json의 crons)이 하루 한 번 /api/supabase-keepalive를 부르고,
+  (Hobby 플랜 함수 12개 제한 때문에 별도 함수가 아니라 rewrite로 api/network-test.js?type=supabase-keepalive에서 처리)
   여기서 방문자 수 읽기 함수(fehe_visitors_today)를 한 번 호출해 실제 DB 쿼리를 일으킨다.
   읽기 전용 함수라 방문자 숫자는 오르지 않는다.
 

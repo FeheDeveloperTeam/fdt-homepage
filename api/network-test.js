@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import { rateLimit } from './_lib/rateLimit.js'
+import supabaseKeepalive from './_lib/supabaseKeepalive.js'
 
 const MIN_BYTES = 50_000
 const MAX_BYTES = 3_000_000
@@ -72,6 +73,9 @@ export default async function handler(req, res) {
   if (type === 'ip') return handleIp(req, res)
   if (type === 'ping') return handlePing(req, res)
   if (type === 'download') return handleDownload(req, res)
+  // Vercel Cron 전용. vercel.json이 /api/supabase-keepalive를 여기로 rewrite한다.
+  // (Hobby 플랜 함수 12개 제한 때문에 별도 함수 파일을 두지 않는다)
+  if (type === 'supabase-keepalive') return supabaseKeepalive(req, res)
 
   res.statusCode = 400
   res.setHeader('Content-Type', 'application/json')

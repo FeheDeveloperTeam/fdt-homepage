@@ -2,7 +2,7 @@
 
 - 작업 전 `docs/PROJECT_GUIDE.md`에서 현재 라우트, API, 데이터 흐름을 확인한다.
 - 런타임은 Node.js 22.x이며 기본 검증 명령은 `npm run lint`와 `npm run build`다.
-- 새 API 핸들러는 Vercel용 `api/` 파일과 로컬·독립 실행용 `server/index.js` 라우트를 함께 연결한다.
+- 새 API 핸들러는 Vercel용 `api/` 쪽과 로컬·독립 실행용 `server/index.js` 라우트를 함께 연결한다. 단 Vercel Hobby는 함수 12개 제한이고 이미 12개라서, `api/`에 새 `.js` 파일을 늘리지 말고 `api/_lib/`에 로직을 두고 기존 함수 분기나 `vercel.json` rewrite로 연결한다.
 - 공개 라우트를 바꾸면 `src/seoData.js`와 `public/sitemap.xml`을 함께 검토한다.
 - 서브앱 CSS는 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app` 스코프를 유지한다.
 - `data/*.json` SFTP 스키마는 Chiyumi 봇과 공유되므로 일방적으로 바꾸지 않는다.

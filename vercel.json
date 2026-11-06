@@ -23,6 +23,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/supabase-keepalive", "destination": "/api/network-test?type=supabase-keepalive" },
     { "source": "/(.*)", "destination": "/api/render" }
   ]
 }

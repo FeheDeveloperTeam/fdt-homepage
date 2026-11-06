@@ -141,8 +141,10 @@ Fehe의 배경 화면은 `src/member/fehe/components/BgDeco/`가 그리는 밤�
 | `/api/admin/sheet` | GET | 허용 목록의 Google Sheet 읽기 |
 | `/api/guild` | GET, POST | `resource` 값에 따른 길드 관리 API |
 | `/api/network-test` | GET | `type=ip`, `ping`, `download` 진단 응답 |
-| `/api/supabase-keepalive` | GET | Vercel Cron이 하루 한 번 불러 Supabase 일시정지를 막음(읽기 전용) |
+| `/api/supabase-keepalive` | GET | Vercel Cron이 하루 한 번 불러 Supabase 일시정지를 막음(읽기 전용). 별도 함수가 아니라 `/api/network-test?type=supabase-keepalive`로 rewrite됨 |
 | `/api/render` | GET | Vercel의 SPA HTML·SEO 렌더 진입점 |
+
+**함수 개수 제한**: Vercel Hobby 플랜은 배포 하나에 서버리스 함수를 12개까지만 허용하고, `api/` 아래에서 `_lib/`을 뺀 `.js` 파일 하나가 함수 하나입니다. 현재 정확히 12개(`render`, `network-test`, `guild`, `auth/*` 4개, `admin/*` 5개)라서 새 파일을 추가하면 배포가 실패합니다(2026-11-06에 `api/supabase-keepalive.js`를 추가했다가 실제로 실패). 새 API는 로직을 `api/_lib/`에 두고 기존 함수에서 분기하거나, `vercel.json` rewrite로 기존 함수에 연결합니다.
 
 `/api/guild`는 Vercel 함수 수를 늘리지 않도록 여러 기능을 한 핸들러에 모읍니다. `resource`는 `guilds`, `meta`, `overview`, `config`, `warnings`, `streamalert`, `ban`, `kick` 중 하나이며, 일부 쓰기 동작은 JSON 본문의 `section`, `field` 또는 `action`으로 다시 나뉩니다.
 
@@ -193,7 +195,7 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabas
 
 날짜는 브라우저가 보내지 않고 DB가 `Asia/Seoul` 기준으로 정하므로 다른 날짜의 숫자를 바꿀 수 없고, 한 번 호출에 정확히 1만 오릅니다. 같은 브라우저는 `localStorage`의 `fehe-visit-day`로 하루 한 번만 세고, 보고 있는 동안 1분마다 다시 읽습니다. 환경 변수가 없거나 호출이 실패하면 아무것도 표시하지 않습니다. 테이블과 함수는 저장소의 `supabase/fehe_visitors.sql`을 Supabase SQL Editor에서 실행해 만듭니다(다시 실행해도 안전). 이 Supabase 프로젝트는 페헤 자기소개 전용이며, 다른 서비스(치유미 등)와 연결하지 않습니다.
 
-일시정지 방지: Supabase 무료 플랜은 7일 동안 활동이 없으면 프로젝트를 일시정지합니다. 방문이 뜸해도 멈추지 않도록 `vercel.json`의 `crons`가 매일 18:00 UTC(한국 새벽 3시)에 `/api/supabase-keepalive`를 부르고, 이 핸들러(`api/supabase-keepalive.js`)가 `fehe_visitors_today()`를 한 번 호출해 실제 DB 쿼리를 일으킵니다. 읽기 전용이라 방문자 숫자는 오르지 않습니다. 같은 공개 키 환경 변수를 서버에서 읽으며, `CRON_SECRET`을 설정하면 Vercel Cron이 보내는 `Authorization: Bearer` 값이 맞을 때만 응답합니다(설정하지 않아도 동작). Vercel Hobby 플랜의 Cron은 하루 한 번까지이고 실행 시각은 그 시간대 안에서 조금 밀릴 수 있어도 7일 기준에는 충분합니다. 실행 기록은 Vercel 대시보드의 Settings → Cron Jobs와 함수 로그에서 봅니다. 이미 일시정지된 프로젝트는 이 호출로 깨어나지 않으니 Supabase 대시보드에서 직접 재개합니다. 로컬에서는 `server/index.js`에도 같은 경로가 연결돼 있어 `curl localhost:3000/api/supabase-keepalive`로 확인할 수 있습니다.
+일시정지 방지: Supabase 무료 플랜은 7일 동안 활동이 없으면 프로젝트를 일시정지합니다. 방문이 뜸해도 멈추지 않도록 `vercel.json`의 `crons`가 매일 18:00 UTC(한국 새벽 3시)에 `/api/supabase-keepalive`를 부르고, `vercel.json` rewrite가 이 요청을 `api/network-test.js`의 `type=supabase-keepalive` 분기로 보내고, 그 분기의 `api/_lib/supabaseKeepalive.js`가 `fehe_visitors_today()`를 한 번 호출해 실제 DB 쿼리를 일으킵니다. 읽기 전용이라 방문자 숫자는 오르지 않습니다. 같은 공개 키 환경 변수를 서버에서 읽으며, `CRON_SECRET`을 설정하면 Vercel Cron이 보내는 `Authorization: Bearer` 값이 맞을 때만 응답합니다(설정하지 않아도 동작). Vercel Hobby 플랜의 Cron은 하루 한 번까지이고 실행 시각은 그 시간대 안에서 조금 밀릴 수 있어도 7일 기준에는 충분합니다. 실행 기록은 Vercel 대시보드의 Settings → Cron Jobs와 함수 로그에서 봅니다. 이미 일시정지된 프로젝트는 이 호출로 깨어나지 않으니 Supabase 대시보드에서 직접 재개합니다. 로컬에서는 `server/index.js`에도 같은 경로가 연결돼 있어 `curl localhost:3000/api/supabase-keepalive`로 확인할 수 있습니다.
 
 방문자 수가 보이지 않을 때: 브라우저 개발자 도구의 네트워크 탭에서 `rpc/fehe_count_visit` 응답을 봅니다. `404`에 `PGRST202`(함수 없음)나 `PGRST205`(테이블 없음)가 오면, 배포 환경 변수 `VITE_SUPABASE_URL`이 가리키는 프로젝트에 SQL이 실행되지 않은 것입니다. 그 프로젝트의 SQL Editor에서 `supabase/fehe_visitors.sql`을 실행하면 코드 변경이나 재배포 없이 바로 돌아옵니다. Supabase 프로젝트를 새로 만들거나 바꿨다면 SQL도 새 프로젝트에서 다시 실행해야 합니다. `401`이면 공개 키가 틀렸거나 프로젝트가 일시정지된 경우이고, 키를 바꾼 뒤에는 Vite 변수가 번들에 들어가므로 다시 배포해야 합니다. (2026-11-06 확인: 운영 번들이 가리키는 프로젝트에 테이블과 함수가 없어 `PGRST202`/`PGRST205`가 났고, 같은 날 SQL을 실행해 복구했습니다.)
 

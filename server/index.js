@@ -16,7 +16,7 @@ import adminSheet from '../api/admin/sheet.js'
 import adminCoins from '../api/admin/coins.js'
 import networkTest from '../api/network-test.js'
 import guild from '../api/guild.js'
-import supabaseKeepalive from '../api/supabase-keepalive.js'
+import supabaseKeepalive from '../api/_lib/supabaseKeepalive.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
