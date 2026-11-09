@@ -44,7 +44,7 @@ export default function PrivacyPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 개인정보 처리방침</h1>
-      <p className="doc-date">최종 수정일: 2026-08-10</p>
+      <p className="doc-date">최종 수정일: 2026-11-10</p>
 
       <section className="doc-section">
         <h2>1. 수집하는 정보</h2>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <p>날씨 기능 사용 시 입력한 도시명은 Open-Meteo 날씨·대기질 API 조회에만 사용되며, 별도로 저장되지 않습니다. 강수 레이더 이미지는 기상청 API 또는 RainViewer 서비스의 데이터를 사용하며, 사용자 개인정보를 포함하지 않습니다. 지진 정보 기능은 USGS(미국 지질조사국) API 및 기상청 지진정보 조회서비스를 사용하며, 별도의 사용자 데이터를 수집하지 않습니다.</p>
+        <p>날씨 기능 사용 시 입력한 도시명은 해당 도시의 위치 좌표로 바뀌어 Open-Meteo 날씨·대기질 API(날씨 API 장애 시 노르웨이 기상청 MET Norway API) 조회에만 사용되며, 별도로 저장되지 않습니다. 강수 레이더 이미지는 기상청 API 또는 RainViewer 서비스의 데이터를 사용하며, 사용자 개인정보를 포함하지 않습니다. 지진 정보 기능은 USGS(미국 지질조사국) API 및 기상청 지진정보 조회서비스를 사용하며, 별도의 사용자 데이터를 수집하지 않습니다.</p>
         <p>/전적검색 사용 시 입력한 라이엇 ID(닉네임#태그)는 Riot Games API 조회에만 사용되며, 조회 결과는 최대 10분간 메모리에 임시 보관된 뒤 자동으로 삭제됩니다.</p>
         <p>/순위 명령어 사용 시 카드 이미지를 만들기 위해 디스코드에 등록된 프로필 사진을 디스코드 CDN에서 불러오며, 별도로 저장하지 않습니다.</p>
         <p>봇은 닉네임, 일반 메시지 내용(욕설/도배 검열 대상이 아닌 경우) 등 그 외의 개인정보를 별도로 수집하지 않습니다.</p>

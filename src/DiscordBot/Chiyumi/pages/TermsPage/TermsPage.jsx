@@ -69,7 +69,7 @@ const SECTIONS = [
   },
   {
     heading: '16. 날씨·레이더·지진 기능',
-    body: '채팅 메시지로 도시명과 함께 날씨를 물어보면, 봇은 입력한 도시명을 Open-Meteo 날씨 API 및 대기질 API에 전달하여 기온, 체감온도, 습도, 강수확률, 풍속, 미세먼지(PM2.5) 정보를 조회하고 결과를 표시합니다. 강수 레이더 이미지는 기상청 API 또는 RainViewer 서비스의 타일 데이터를 합성하여 제공합니다. 지진 정보는 한반도 주변 최근 30일간의 지진 발생 현황을 USGS(미국 지질조사국) API 및 기상청 지진정보 조회서비스를 통해 조회하여 표시합니다. 위 기능에서 입력된 도시명은 조회 용도로만 사용되며 별도로 저장되지 않습니다.',
+    body: '채팅 메시지로 도시명과 함께 날씨를 물어보면, 봇은 입력한 도시의 위치 좌표를 Open-Meteo 날씨 API 및 대기질 API(날씨 API에 장애가 있을 때는 노르웨이 기상청 MET Norway API)에 전달하여 기온, 체감온도, 습도, 강수확률, 풍속, 미세먼지(PM2.5) 정보를 조회하고 결과를 표시합니다. 강수 레이더 이미지는 기상청 API 또는 RainViewer 서비스의 타일 데이터를 합성하여 제공합니다. 지진 정보는 한반도 주변 최근 30일간의 지진 발생 현황을 USGS(미국 지질조사국) API 및 기상청 지진정보 조회서비스를 통해 조회하여 표시합니다. 위 기능에서 입력된 도시명은 조회 용도로만 사용되며 별도로 저장되지 않습니다.',
   },
   {
     heading: '17. AI 대화 기능',
@@ -104,7 +104,7 @@ export default function TermsPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 이용약관</h1>
-      <p className="doc-date">최종 수정일: 2026-08-10</p>
+      <p className="doc-date">최종 수정일: 2026-11-10</p>
 
       {SECTIONS.map((section) => (
         <section key={section.heading} className="doc-section">
