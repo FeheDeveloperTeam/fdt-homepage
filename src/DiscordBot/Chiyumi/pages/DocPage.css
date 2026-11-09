@@ -101,6 +101,11 @@
   vertical-align: top;
 }
 
+/* 섹션마다 위쪽 구분선(.doc-section border-top)이 있어서, 표 마지막 줄 밑줄까지 그리면 선이 두 겹으로 보인다. */
+.doc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 .doc-table th {
   font-size: 0.72rem;
   font-weight: 700;
