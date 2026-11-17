@@ -6,6 +6,7 @@
 - 공개 라우트를 바꾸면 `src/seoData.js`와 `public/sitemap.xml`을 함께 검토한다.
 - 서브앱 CSS는 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app` 스코프를 유지한다.
 - `data/*.json` SFTP 스키마는 Chiyumi 봇과 공유되므로 일방적으로 바꾸지 않는다.
+- Chiyumi 봇(`E:/Cording/Discord/Bot/Chiyumi`)의 동작을 바꾸면, 매번 `src/DiscordBot/Chiyumi/pages/`의 소개(HomePage)·이용약관(TermsPage)·개인정보 처리방침(PrivacyPage)·오류 코드(ErrorsPage)를 봇 코드와 대조해 최신화하고 "최종 수정일"을 갱신한다.
 - 비밀 값과 `.env` 내용은 문서·로그·커밋에 남기지 않고, 한글 파일은 UTF-8로 유지한다.
 - 모든 작업을 마치기 전에 코드와 실제 동작을 기준으로 `README.md`, `docs/PROJECT_GUIDE.md` 등 관련 문서를 반드시 최신화한다.
 - 검증과 문서 최신화가 끝나면 변경 사항을 커밋하고 현재 브랜치의 설정된 GitHub upstream으로 반드시 push한다. push할 수 없으면 완료로 간주하지 말고 원인을 보고한다.
