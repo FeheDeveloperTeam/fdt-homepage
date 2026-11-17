@@ -125,6 +125,12 @@ const TIMELINE = [
       { date: '2026. 06. 19', text: "디스코드 '치유미' 봇 개발 및 베타 서비스 시작" },
     ],
   },
+  {
+    year: '2026. 11. 10 — 무기한',
+    heading: '물음표 동물원 유튜브 채널 운영',
+    body: 'AI를 이용해 동물 관련 쇼츠를 만들어 올리는 유튜브 채널 물음표 동물원을 운영하고 있습니다.',
+    youtube: { href: 'https://www.youtube.com/@mureumpyo_zoo', label: '물음표 동물원 채널 보기' },
+  },
 ]
 
 const SKILLS = [
@@ -316,6 +322,13 @@ export default function HomePage() {
                   <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({proj.period})</span>
                 </p>
               ))}
+              {item.youtube && (
+                <div className="timeline-badge-row">
+                  <a className="timeline-link timeline-link--youtube" href={item.youtube.href} target="_blank" rel="noopener noreferrer">
+                    <IconYoutube /> {item.youtube.label}
+                  </a>
+                </div>
+              )}
               {(item.discord || item.bot) && (
                 <div className="timeline-badge-row">
                   {item.discord && (

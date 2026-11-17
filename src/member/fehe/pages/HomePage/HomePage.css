@@ -324,6 +324,14 @@
 }
 .timeline-link--disabled svg { fill: var(--text-muted); }
 
+.timeline-link--youtube {
+  color: #ff6b6b;
+  background: rgba(255,0,0,0.08);
+  border-color: rgba(255,0,0,0.3);
+}
+.timeline-link--youtube:hover { background: rgba(255,0,0,0.16); }
+.timeline-link--youtube svg { fill: #ff6b6b; }
+
 .timeline-badge-row {
   display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem;
   margin-top:0.85rem;
