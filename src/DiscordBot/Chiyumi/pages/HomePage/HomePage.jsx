@@ -28,6 +28,7 @@ const COMMAND_GROUPS = [
       { cmd: '/방송알림', desc: '유튜브 라이브·업로드, 치지직, SOOP 방송 시작 알림 설정' },
       { cmd: '/밴 · /킥', desc: '서버에서 사용자 차단·추방' },
       { cmd: '/채팅청소', desc: '현재 채널의 최근 메시지를 최대 100개까지 한꺼번에 삭제' },
+      { cmd: '/ai채널', desc: '"유미야" AI 대화를 쓸 수 있는 채널을 추가·제거·확인' },
     ],
   },
   {
@@ -127,7 +128,7 @@ export default function HomePage() {
 
       <div className="ai-notice">
         <strong>AI 채팅</strong>
-        <span>&quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가 AI로 응답해요. 채널과 사용자별로 대화 맥락을 유지하고, &quot;유미야 서울 날씨&quot;처럼 날씨·강수 레이더·지진·태풍도 물어볼 수 있어요.</span>
+        <span>&quot;유미야&quot;로 시작하는 메시지를 보내면 치유미가 AI로 응답해요. 서버 관리자가 /ai채널로 지정한 채널에서만 쓸 수 있어요. 채널과 사용자별로 대화 맥락을 유지하고, &quot;유미야 서울 날씨&quot;처럼 날씨·강수 레이더·지진·태풍도 물어볼 수 있어요.</span>
       </div>
 
       <div className="menu-heading">
