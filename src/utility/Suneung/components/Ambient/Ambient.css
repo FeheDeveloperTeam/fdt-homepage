@@ -244,6 +244,50 @@
     color: var(--muted);
   }
 
+  /* 녹음을 내려받는 동안: 아이콘 테두리가 돈다 */
+  .am-card.is-loading .am-icon {
+    background: var(--accent-soft);
+    color: var(--accent);
+    transform: none;
+    box-shadow: inset 0 0 0 2px var(--accent-line);
+    animation: amLoad 1s ease-in-out infinite alternate;
+  }
+
+  .am-card.is-loading .am-eq { opacity: 0; }
+
+  @keyframes amLoad {
+    from { box-shadow: inset 0 0 0 2px var(--accent-line); }
+    to { box-shadow: inset 0 0 0 2px var(--accent); }
+  }
+
+  .am-credits {
+    margin-top: 10px;
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
+
+  .am-credits summary {
+    width: fit-content;
+    font-weight: 700;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .am-credits p { margin-top: 6px; }
+
+  .am-credits ul {
+    display: grid;
+    gap: 2px;
+    margin-top: 6px;
+  }
+
+  .am-credits a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
   @media (max-width: 760px) {
     .am-deck { padding: 16px; }
 
@@ -281,5 +325,6 @@
   @media (prefers-reduced-motion: reduce) {
     .am-card, .am-icon, .am-chip { transition: none; }
     .am-card.is-on .am-eq i { animation: none; height: 70%; }
+    .am-card.is-loading .am-icon { animation: none; }
   }
 }

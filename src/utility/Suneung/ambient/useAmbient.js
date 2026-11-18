@@ -1,20 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  SOUND_IDS,
-  setAmbientClockOffset,
-  setMasterLevel,
-  setSoundLevel,
-  startSound,
-  stopAllSounds,
-  stopSound,
-} from './ambientEngine'
-import { DEFAULT_LEVEL, PRESETS } from './sounds'
+import { setMasterLevel, setSoundLevel, startSound, stopAllSounds, stopSound } from './ambientEngine'
+import { DEFAULT_LEVEL, PRESETS, SOUNDS } from './sounds'
 
 // 백색소음 상태(무엇이 켜져 있는지, 소리별 크기, 전체 크기, 끄기 타이머)를 앱 전체가 함께 쓴다.
 // 페이지의 백색소음 칸과 따라오는 푸터의 「재생 중」 표시가 같은 상태를 본다.
 // 소리별 크기와 전체 크기만 이 브라우저에 저장하고, 재생 여부는 저장하지 않는다(자동 재생 금지 정책).
 
 const STORAGE_KEY = 'suneung-ambient'
+const SOUND_IDS = SOUNDS.map((s) => s.id)
+const BY_ID = Object.fromEntries(SOUNDS.map((s) => [s.id, s]))
 
 function loadLevels() {
   const base = { levels: Object.fromEntries(SOUND_IDS.map((id) => [id, DEFAULT_LEVEL])), master: 0.7 }
@@ -39,11 +33,13 @@ export function useAmbient() {
   return useContext(AmbientContext)
 }
 
-export function useAmbientController(clockOffset) {
+export function useAmbientController() {
   const [saved] = useState(loadLevels)
   const [levels, setLevels] = useState(saved.levels)
   const [master, setMaster] = useState(saved.master)
   const [playing, setPlayingState] = useState(() => new Set())
+  // 녹음을 내려받는 중인 소리(카드에 「불러오는 중」 표시)
+  const [loading, setLoading] = useState(() => new Set())
   const [preset, setPreset] = useState(null)
   const [sleep, setSleep] = useState({ minutes: 0, endsAt: null })
   // 재생 시작·정지는 상태 갱신 함수 밖에서 한 번만 하도록 지금 상태를 ref로도 들고 있는다.
@@ -59,7 +55,6 @@ export function useAmbientController(clockOffset) {
     levelsRef.current = levels
   }, [levels])
 
-  useEffect(() => setAmbientClockOffset(clockOffset), [clockOffset])
   useEffect(() => setMasterLevel(master), [master])
 
   useEffect(() => {
@@ -80,19 +75,40 @@ export function useAmbientController(clockOffset) {
     setSleep((s) => ({ ...s, endsAt: null }))
   }, [setPlaying])
 
+  // 재생을 시작한다. 녹음은 내려받는 동안 「불러오는 중」으로 두고, 실패하면 켜짐 표시를 되돌린다.
+  const begin = useCallback(
+    (id, level) => {
+      setLoading((prev) => new Set(prev).add(id))
+      startSound(BY_ID[id], level).then((ok) => {
+        setLoading((prev) => {
+          const next = new Set(prev)
+          next.delete(id)
+          return next
+        })
+        if (!ok && playingRef.current.has(id)) {
+          const next = new Set(playingRef.current)
+          next.delete(id)
+          setPlaying(next)
+        }
+      })
+    },
+    [setPlaying],
+  )
+
   const toggle = useCallback(
     (id) => {
       const next = new Set(playingRef.current)
       if (next.has(id)) {
         stopSound(id)
         next.delete(id)
-      } else if (startSound(id, levelsRef.current[id])) {
+      } else {
         next.add(id)
+        begin(id, levelsRef.current[id])
       }
       setPreset(null)
       setPlaying(next)
     },
-    [setPlaying],
+    [begin, setPlaying],
   )
 
   const setLevel = useCallback((id, value) => {
@@ -108,15 +124,16 @@ export function useAmbientController(clockOffset) {
       for (const id of playingRef.current) if (!(id in found.levels)) stopSound(id)
       const next = new Set()
       for (const [id, level] of Object.entries(found.levels)) {
-        if (startSound(id, level)) next.add(id)
-        setSoundLevel(id, level)
+        next.add(id)
+        if (playingRef.current.has(id)) setSoundLevel(id, level)
+        else begin(id, level)
       }
       levelsRef.current = { ...levelsRef.current, ...found.levels }
       setLevels(levelsRef.current)
       setPlaying(next)
       setPreset(key)
     },
-    [setPlaying],
+    [begin, setPlaying],
   )
 
   // 끄기 타이머는 소리가 나는 동안만 센다. 재생 중에 시간을 고르면 그때부터, 꺼져 있을 때 고르면 다음 재생부터.
@@ -142,7 +159,7 @@ export function useAmbientController(clockOffset) {
   }, [anyPlaying, sleep, stopAll])
 
   return useMemo(
-    () => ({ levels, master, playing, preset, sleep, toggle, setLevel, setMaster, applyPreset, stopAll, chooseSleep }),
-    [levels, master, playing, preset, sleep, toggle, setLevel, applyPreset, stopAll, chooseSleep],
+    () => ({ levels, master, playing, loading, preset, sleep, toggle, setLevel, setMaster, applyPreset, stopAll, chooseSleep }),
+    [levels, master, playing, loading, preset, sleep, toggle, setLevel, applyPreset, stopAll, chooseSleep],
   )
 }

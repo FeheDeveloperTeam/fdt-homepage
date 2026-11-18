@@ -36,13 +36,13 @@ const ICONS = {
       <path d="M18 3.5v3M16.5 5h3M21 9.5v2M20 10.5h2" />
     </>
   ),
-  aircon: (
+  fan: (
     <>
-      <rect x="2.5" y="4" width="19" height="8" rx="2" />
-      <path d="M6 9h12M8 15.5c0 1.5-1 2-1 3.5M12 15.5v4M16 15.5c0 1.5 1 2 1 3.5" />
+      <circle cx="12" cy="10" r="7" />
+      <path d="M12 10c0-3 1.5-4.5 3-4.5M12 10c-2.6 1.5-4.6 1-5.4-.3M12 10c2.6 1.5 3.2 3.5 2.4 4.8M12 17v4M8.5 21h7" />
     </>
   ),
-  pencil: (
+  exam: (
     <>
       <path d="M4 20l1.2-4.6L15.6 5a2 2 0 0 1 2.8 0l.6.6a2 2 0 0 1 0 2.8L8.6 18.8 4 20Z" />
       <path d="M13.5 7l3.5 3.5M14 20h6" />
@@ -142,7 +142,7 @@ function remainingLabel(ms) {
 // 공부할 때 틀어 두는 백색소음·ASMR. 여러 소리를 함께 틀고 소리마다 크기를 따로 맞춘다.
 export default function Ambient() {
   const { now } = useClock()
-  const { levels, master, playing, preset, sleep, toggle, setLevel, setMaster, applyPreset, stopAll, chooseSleep } =
+  const { levels, master, playing, loading, preset, sleep, toggle, setLevel, setMaster, applyPreset, stopAll, chooseSleep } =
     useAmbient()
   const active = playing.size > 0
   const names = SOUNDS.filter((s) => playing.has(s.id)).map((s) => s.name)
@@ -226,16 +226,23 @@ export default function Ambient() {
             <ul className="am-grid">
               {group.sounds.map((sound) => {
                 const on = playing.has(sound.id)
+                const busy = loading.has(sound.id)
                 const level = Math.round(levels[sound.id] * 100)
                 return (
-                  <li key={sound.id} className={`am-card${on ? ' is-on' : ''}`}>
-                    <button type="button" className="am-toggle" aria-pressed={on} onClick={() => toggle(sound.id)}>
+                  <li key={sound.id} className={`am-card${on ? ' is-on' : ''}${busy ? ' is-loading' : ''}`}>
+                    <button
+                      type="button"
+                      className="am-toggle"
+                      aria-pressed={on}
+                      aria-busy={busy || undefined}
+                      onClick={() => toggle(sound.id)}
+                    >
                       <span className="am-icon">
                         <SoundIcon id={sound.id} />
                       </span>
                       <span className="am-text">
                         <span className="am-name">{sound.name}</span>
-                        <span className="am-desc">{sound.desc}</span>
+                        <span className="am-desc">{busy ? '녹음을 불러오는 중…' : sound.desc}</span>
                       </span>
                       <span className="am-eq" aria-hidden="true">
                         <i />
@@ -262,9 +269,27 @@ export default function Ambient() {
         ))}
 
         <p className="am-note">
-          모든 소리는 음원 파일 없이 브라우저에서 바로 만들어집니다. 다른 탭을 보고 있어도 계속 나며, 이 화면을 떠나면
-          꺼집니다. 이어폰으로 들을 때는 크기를 작게 시작하세요.
+          자연·공부 공간 소리는 실제 녹음을 끊김 없이 반복하고, 기본 소음 세 가지는 브라우저에서 바로 만듭니다. 녹음은
+          처음 켤 때 한 번만 내려받습니다. 다른 탭을 보고 있어도 계속 나며, 이 화면을 떠나면 꺼집니다. 이어폰으로 들을
+          때는 크기를 작게 시작하세요.
         </p>
+        <details className="am-credits">
+          <summary>소리 출처</summary>
+          <p>
+            아래 녹음은 Freesound에 CC0(퍼블릭 도메인)로 공개된 것으로, 반복 재생용으로 일부 구간을 잘라 크기를 맞췄습니다.
+          </p>
+          <ul>
+            {SOUNDS.filter((s) => s.credit).map((s) => (
+              <li key={s.id}>
+                {s.name}:{' '}
+                <a href={s.credit.url} target="_blank" rel="noopener noreferrer">
+                  {s.credit.title}
+                </a>{' '}
+                · {s.credit.author}
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
     </section>
   )

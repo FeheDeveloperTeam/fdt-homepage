@@ -19,7 +19,7 @@ export default function SuneungApp() {
   const now = useNow(clock.offset)
   const value = useMemo(() => ({ now, clock }), [now, clock])
   const theme = useThemeController()
-  const ambient = useAmbientController(clock.offset)
+  const ambient = useAmbientController()
 
   // 탭 아이콘을 수능 타이머 로고(OMR 마킹 칸, SVG)로 바꾸고, 다른 화면으로 나가면 원래대로 돌린다.
   // 기본 아이콘 링크가 type="image/png"라 주소와 함께 type도 바꿔야 브라우저가 SVG로 읽는다.
