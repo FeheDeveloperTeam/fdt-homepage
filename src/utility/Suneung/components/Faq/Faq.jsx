@@ -8,6 +8,7 @@ export default function Faq({ items }) {
         <h2 id="faq-title" className="suneung-section-title">
           수능 날짜·시간 자주 묻는 질문
         </h2>
+        <p className="suneung-section-desc">날짜·시작 시각·과목별 시간·성적 발표를 한곳에 모았습니다</p>
       </div>
       <div className="faq-list">
         {items.map((item, index) => (

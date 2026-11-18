@@ -30,6 +30,16 @@
     }
 
     .sn-grid > .suneung-section { margin-top: 0; }
+
+    /* 나란한 두 칸의 제목 줄과 본문 시작선을 같은 높이로 맞춘다(설명 줄 길이가 달라도). */
+    .sn-grid--paired { grid-template-rows: auto auto; }
+
+    .sn-grid--paired > .suneung-section {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+      align-content: start;
+    }
   }
 
   .sn-title {

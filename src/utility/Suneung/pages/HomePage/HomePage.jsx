@@ -115,7 +115,7 @@ export default function HomePage() {
 
       <CheerSection now={now} />
 
-      <div className="sn-grid">
+      <div className="sn-grid sn-grid--paired">
         <ExamFinder
           now={now}
           minYear={defaultYear}
