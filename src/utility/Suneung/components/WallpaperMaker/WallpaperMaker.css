@@ -133,4 +133,42 @@
   @media (prefers-reduced-motion: reduce) {
     .wm[open] { animation: none; }
   }
+
+  /* ── 모바일: 아래에서 올라오는 시트 ── */
+  @media (max-width: 600px) {
+    .wm {
+      width: 100vw;
+      max-width: 100vw;
+      max-height: 92vh;
+      margin: auto 0 0;
+      border-radius: 20px 20px 0 0;
+      border-bottom: 0;
+    }
+
+    .wm[open] { animation: wmSheet 0.4s var(--ease-out); }
+
+    @keyframes wmSheet {
+      from { transform: translateY(100%); }
+      to { transform: none; }
+    }
+
+    .wm-inner { padding: 10px 16px calc(20px + env(safe-area-inset-bottom)); }
+
+    .wm-inner::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 4px;
+      margin: 0 auto 12px;
+      border-radius: 4px;
+      background: var(--rule-strong);
+    }
+
+    .wm-preview--phone canvas { max-height: 40vh; }
+    .wm-save { position: sticky; bottom: 0; }
+  }
+
+  @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+    .wm[open] { animation: none; }
+  }
 }

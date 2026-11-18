@@ -128,4 +128,29 @@
     .sp-tool, .sp-tool-icon { transition: none; }
     .sp-tool:hover { transform: none; }
   }
+
+  /* ── 모바일: 도구를 2×2 큰 버튼으로 ── */
+  @media (max-width: 760px) {
+    .sp-card { padding: 16px 14px 14px; }
+
+    .sp-tools {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .sp-tool {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      height: 100%;
+      padding: 14px 12px;
+      background: var(--surface-2);
+    }
+
+    .sp-tool:hover { transform: none; }
+    .sp-tool:active { transform: scale(0.97); }
+
+    .sp-tool-text strong { font-size: 0.86rem; line-height: 1.35; }
+    .sp-tool-text small { margin-top: 2px; font-size: 0.72rem; line-height: 1.4; }
+  }
 }

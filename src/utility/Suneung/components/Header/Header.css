@@ -8,7 +8,10 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
+    transition: transform 0.3s var(--ease-out);
   }
+
+  .suneung-header.is-hidden { transform: translateY(-100%); }
 
   .suneung-header-inner {
     display: flex;

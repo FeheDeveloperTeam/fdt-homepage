@@ -173,4 +173,31 @@
   @media (prefers-reduced-motion: reduce) {
     .ch-btn, .ch-note { transition: none; }
   }
+
+  /* ── 모바일: 쪽지 30개를 옆으로 넘겨 보는 카드로 ── */
+  @media (max-width: 760px) {
+    .ch-grid {
+      display: flex;
+      gap: 10px;
+      margin: 14px calc(var(--gutter) * -1) 0;
+      padding: 2px var(--gutter) 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 var(--gutter);
+      scrollbar-width: none;
+    }
+
+    .ch-grid::-webkit-scrollbar { display: none; }
+
+    .ch-grid > li {
+      flex: 0 0 78%;
+      scroll-snap-align: start;
+    }
+
+    .ch-grid:not(.is-expanded) .ch-more { display: flex; }
+
+    .ch-note { flex-direction: column; gap: 6px; min-height: 118px; }
+
+    .ch-toggle-row { display: none; }
+  }
 }

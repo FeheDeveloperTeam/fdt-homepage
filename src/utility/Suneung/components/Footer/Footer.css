@@ -1,15 +1,174 @@
 @scope (.suneung-app) {
-  .suneung-footer {
-    padding: 18px var(--gutter) calc(18px + env(safe-area-inset-bottom));
+  /* 화면 아래를 따라오는 바. 문서 흐름의 맨 끝에 있다가 스크롤하는 동안 화면 아래에 붙는다. */
+  .sf {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
     border-top: 1px solid var(--rule);
-    background: var(--bg-deep);
+    background: color-mix(in srgb, var(--bg-deep) 86%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding-bottom: env(safe-area-inset-bottom);
+    animation: sfIn 0.6s var(--ease-out) 0.4s both;
+  }
+
+  @keyframes sfIn {
+    from { transform: translateY(100%); }
+    to { transform: none; }
+  }
+
+  .sf-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 52px;
+    max-width: calc(var(--content-w) + var(--gutter) * 2);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .sf-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 6px 12px 6px 6px;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+
+  .sf-count:hover { background: var(--accent-soft); }
+
+  .sf-logo { --logo-bg: var(--accent); --logo-fg: var(--on-ink); flex-shrink: 0; }
+
+  .sf-count-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .sf-d {
+    font-size: 1.05rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .sf-time {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .sf-credit {
+    margin-left: auto;
+    font-size: 0.74rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .sf-credit span { font-weight: 700; color: var(--ink-soft); }
+
+  .sf-tabs { display: none; }
+
+  /* 흐름 속 저작권 줄은 모바일에서만(탭 바에는 자리가 없어서) */
+  .sf-credit-flow {
+    display: none;
+    padding: 20px var(--gutter) 22px;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     color: var(--muted);
   }
 
-  .suneung-footer span {
-    font-weight: 700;
-    color: var(--ink-soft);
+  .sf-credit-flow span { font-weight: 700; color: var(--ink-soft); }
+
+  @media (max-width: 900px) {
+    .sf-count-label { display: none; }
+  }
+
+  /* ── 모바일: 하단 탭 바 ── */
+  @media (max-width: 760px) {
+    .sf-credit-flow { display: block; }
+    .sf-count,
+    .sf-credit { display: none; }
+
+    .sf { background: color-mix(in srgb, var(--surface) 92%, transparent); }
+
+    .sf-inner {
+      height: 62px;
+      padding: 0 6px;
+    }
+
+    .sf-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      width: 100%;
+      height: 100%;
+    }
+
+    .sf-tab {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--muted);
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s ease;
+    }
+
+    .sf-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 26px;
+      height: 3px;
+      border-radius: 0 0 3px 3px;
+      background: var(--accent);
+      transform: translateX(-50%) scaleX(0);
+      transition: transform 0.3s var(--ease-out);
+    }
+
+    .sf-tab.is-active { color: var(--accent); }
+    .sf-tab.is-active::before { transform: translateX(-50%) scaleX(1); }
+
+    .sf-tab svg { transition: transform 0.3s var(--ease-out); }
+    .sf-tab.is-active svg { transform: translateY(-1px) scale(1.08); }
+    .sf-tab:active svg { transform: scale(0.9); }
+
+    .sf-tab-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .sf-tab-d {
+      display: grid;
+      place-items: center;
+      min-width: 38px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 7px;
+      background: var(--accent);
+      color: var(--on-ink);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .sf-tab--dday:not(.is-active) .sf-tab-d {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sf { animation: none; }
+    .sf-tab, .sf-tab::before, .sf-tab svg { transition: none; }
   }
 }

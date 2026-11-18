@@ -272,4 +272,47 @@
     .pt-ring-bar { transition: none; }
     .pt-board.is-paused .pt-time { animation: none; opacity: 0.6; }
   }
+
+  /* ── 모바일: 영역은 옆으로 넘기는 칩, 타이머는 한가운데, 버튼은 손가락 크기로 ── */
+  @media (max-width: 760px) {
+    .pt-board {
+      gap: 18px;
+      padding: 16px 12px 18px;
+      border-width: 7px;
+    }
+
+    .pt-subjects {
+      display: flex;
+      gap: 6px;
+      margin: 0 -12px;
+      padding: 2px 12px 6px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+
+    .pt-subjects::-webkit-scrollbar { display: none; }
+
+    .pt-subject {
+      flex: 0 0 auto;
+      grid-template-columns: auto auto;
+      gap: 2px 8px;
+      padding: 8px 12px;
+      scroll-snap-align: start;
+    }
+
+    .pt-subject-period { grid-column: 1 / -1; }
+
+    .pt-ring-wrap { width: min(78vw, 250px); }
+    .pt-time { font-size: clamp(2.4rem, 13vw, 3.1rem); }
+
+    .pt-clock dd { font-size: 1.15rem; }
+
+    .pt-controls .pt-btn--main { flex: 1; }
+    .pt-controls:not(.pt-controls--small) .pt-btn { min-height: 48px; }
+    .pt-controls--small { justify-content: center; }
+    .pt-hint { text-align: center; }
+
+    .pt-flash { top: 8px; font-size: 0.82rem; }
+  }
 }

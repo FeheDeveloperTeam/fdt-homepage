@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useSearchParams } from 'react-router-dom'
 import Seo from '../../../../components/Seo/Seo'
 import { SEO_DATA, SITE_URL } from '../../../../seoData'
 import CountdownHero from '../../components/CountdownHero/CountdownHero'
@@ -15,40 +14,20 @@ import ClassroomMode from '../../components/ClassroomMode/ClassroomMode'
 import WallpaperMaker from '../../components/WallpaperMaker/WallpaperMaker'
 import { prefersReducedMotion, useReveal } from '../../useMotion'
 import { SUNEUNG_PATH, suneungFaq } from '../../suneungSeo'
-import { useClockOffset, useNow } from '../../useKstClock'
-import {
-  MAX_YEARS_AHEAD,
-  dLabel,
-  daysUntil,
-  examsWithinYears,
-  getExam,
-  kstParts,
-  upcomingAcademicYear,
-} from '../../suneungDates'
+import { useClock, useSelectedExam } from '../../suneungState'
+import { dLabel, daysUntil, examsWithinYears, getExam } from '../../suneungDates'
 import './HomePage.css'
 
 const PATH = SUNEUNG_PATH
 
 export default function HomePage() {
-  const clock = useClockOffset()
-  const now = useNow(clock.offset)
-  const [params, setParams] = useSearchParams()
+  const { now, clock } = useClock()
+  const { upcoming, endedToday, defaultYear, maxYear, selectedYear, exam, setParams } = useSelectedExam(now)
   const heroRef = useRef(null)
   const pageRef = useRef(null)
   const [dialog, setDialog] = useState(null)
   useReveal(pageRef)
 
-  // 시험 당일 5교시가 끝난 뒤에도 그날 자정까지는 오늘 수능의 「수고하셨습니다」를 기본으로 보여 준다.
-  const upcoming = upcomingAcademicYear(now)
-  const endedToday = daysUntil(getExam(upcoming - 1), now) === 0
-  const defaultYear = endedToday ? upcoming - 1 : upcoming
-  const maxYear = kstParts(now).year + MAX_YEARS_AHEAD
-
-  const requested = Number(params.get('year'))
-  const selectedYear =
-    Number.isInteger(requested) && requested >= defaultYear && requested <= maxYear ? requested : defaultYear
-
-  const exam = getExam(selectedYear)
   const exams = examsWithinYears(now)
   const listedUntil = exams[exams.length - 1].academicYear
 
@@ -111,7 +90,7 @@ export default function HomePage() {
         </p>
       </header>
 
-      <div className="sn-top">
+      <div className="sn-top" id="dday">
         <CountdownHero
           ref={heroRef}
           exam={exam}

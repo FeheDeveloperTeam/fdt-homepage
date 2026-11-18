@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../Logo/Logo'
 import './Header.css'
@@ -9,9 +10,35 @@ const SECTIONS = [
   { href: '#cheer', label: '응원 문구' },
 ]
 
+// 모바일(760px 이하)에서는 아래로 스크롤하면 헤더를 숨겨 화면을 넓게 쓰고, 위로 올리면 다시 보여 준다.
+function useHideOnScroll() {
+  const [hidden, setHidden] = useState(false)
+  useEffect(() => {
+    let lastY = window.scrollY
+    let frame = 0
+    const onScroll = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const y = window.scrollY
+        const mobile = window.matchMedia('(max-width: 760px)').matches
+        if (!mobile || y < 80) setHidden(false)
+        else if (Math.abs(y - lastY) > 6) setHidden(y > lastY)
+        lastY = y
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+  return hidden
+}
+
 export default function Header() {
+  const hidden = useHideOnScroll()
   return (
-    <header className="suneung-header">
+    <header className={`suneung-header${hidden ? ' is-hidden' : ''}`}>
       <div className="suneung-header-inner">
         <Link className="suneung-back" to="/projects/general">
           ← FDT
