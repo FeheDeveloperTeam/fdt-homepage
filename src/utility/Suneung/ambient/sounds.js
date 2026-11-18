@@ -24,7 +24,7 @@ export const SOUND_GROUPS = [
     label: '공부 공간',
     sounds: [
       { id: 'aircon', name: '독서실 에어컨', desc: '낮게 도는 바람과 작은 모터 소리' },
-      { id: 'pencil', name: '시험장 필기 소리', desc: '여러 명이 사각사각 쓰고 가끔 시험지를 넘깁니다' },
+      { id: 'pencil', name: '시험장 필기 소리', desc: '세 자리에서 사각사각 쓰다 문제를 읽느라 멈추고, 가끔 시험지를 넘깁니다' },
       { id: 'clock', name: '시계 초침', desc: '탁상시계처럼 둥근 똑딱. 한국 시간 정각 초에 맞춤' },
     ],
   },

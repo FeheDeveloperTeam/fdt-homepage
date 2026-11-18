@@ -174,6 +174,100 @@ function softBus(out, cutoff) {
   return [a, b]
 }
 
+// ── 필기 소리용 도구 ──
+
+// 획 모양에 따른 소리 크기(0~1). t는 획 안의 위치(0~1).
+function shapeAt(shape, t, len, rate) {
+  const frac = (ms) => (ms * rate) / 1000 / len
+  const edge = (attack, release) => Math.min(1, t / frac(attack), (1 - t) / frac(release))
+  if (shape === 'swell') return Math.pow(Math.sin(Math.PI * t), 1.5)
+  if (shape === 'flat') return edge(3, 5)
+  // 둥근 획(ㅇ 등)은 방향이 바뀔 때마다 눌리는 힘이 달라진다.
+  if (shape === 'round') return edge(8, 14) * (0.7 + 0.3 * Math.sin(Math.PI * 3 * t))
+  return edge(6, 12) * (0.8 + 0.2 * Math.sin(Math.PI * t))
+}
+
+// 연필심이 종이 섬유에 걸리며 나는 알갱이 소리. density: 표본마다 알갱이가 생길 확률, ring: 알갱이가 사라지는 빠르기.
+function grainBuffer(duration, { density, ring, shape }) {
+  const rate = ctx.sampleRate
+  const len = Math.max(32, Math.floor(rate * duration))
+  const buffer = ctx.createBuffer(1, len, rate)
+  const data = buffer.getChannelData(0)
+  const scale = 44100 / rate
+  let y = 0
+  let fiber = 1
+  for (let i = 0; i < len; i += 1) {
+    // 종이 섬유마다 걸리는 정도가 조금씩 다르다.
+    if (i % 48 === 0) fiber = 0.5 + Math.random()
+    if (Math.random() < density * scale * fiber) y += (Math.random() < 0.5 ? -1 : 1) * (0.4 + Math.random() * 0.6)
+    y *= ring
+    data[i] = (y + (Math.random() * 2 - 1) * 0.03) * shapeAt(shape, i / len, len, rate)
+  }
+  return buffer
+}
+
+// 작은 교실의 짧은 울림(약 0.7초)
+function roomImpulse(seconds) {
+  const rate = ctx.sampleRate
+  const len = Math.floor(rate * seconds)
+  const buffer = ctx.createBuffer(2, len, rate)
+  for (let ch = 0; ch < 2; ch += 1) {
+    const data = buffer.getChannelData(ch)
+    let smooth = 0
+    for (let i = 0; i < len; i += 1) {
+      const t = i / rate
+      smooth += (Math.random() * 2 - 1 - smooth) * 0.35
+      data[i] = t < 0.008 ? 0 : smooth * Math.exp(-t / 0.14)
+    }
+  }
+  return buffer
+}
+
+function playBuffer(dest, at, buffer, { gain = 1, pan = 0 } = {}) {
+  const src = ctx.createBufferSource()
+  src.buffer = buffer
+  const g = gainNode(gain)
+  const p = panner(pan)
+  src.connect(g).connect(p).connect(dest)
+  src.start(at)
+}
+
+// 한 사람이 문장 하나를 쓰는 순서: 획(2~4개) → 글자 사이 → 띄어쓰기 → 문제 읽느라 쉬기.
+// 가끔은 OMR 카드를 사인펜으로 칠하는 짧은 「슥슥슥」.
+function planWriting() {
+  const steps = []
+  if (Math.random() < 0.05) {
+    const marks = Math.floor(rand(6, 11))
+    for (let i = 0; i < marks; i += 1) {
+      steps.push({ length: rand(0.035, 0.05), gap: rand(0.012, 0.025), grain: { density: 0.2, ring: 0.5, shape: 'flat' } })
+    }
+    steps.push({ pause: rand(1, 3) })
+    return steps
+  }
+  const words = Math.floor(rand(1, 5))
+  for (let w = 0; w < words; w += 1) {
+    const chars = Math.floor(rand(1, 4))
+    for (let c = 0; c < chars; c += 1) {
+      const strokes = Math.floor(rand(2, 5))
+      for (let s = 0; s < strokes; s += 1) {
+        const round = Math.random() < 0.15
+        steps.push({
+          length: round ? rand(0.14, 0.22) : rand(0.045, 0.13),
+          gap: s < strokes - 1 ? rand(0.04, 0.1) : 0,
+          grain: { density: rand(0.025, 0.055), ring: rand(0.5, 0.62), shape: round ? 'round' : 'stroke' },
+          gain: rand(0.55, 1),
+        })
+      }
+      steps.push({ pause: rand(0.1, 0.22) })
+    }
+    steps.push({ pause: rand(0.25, 0.55) })
+  }
+  // 다음 문장까지 문제를 읽고 생각하는 시간
+  const think = Math.random()
+  steps.push({ pause: think < 0.25 ? rand(1.5, 3) : think < 0.85 ? rand(3, 8) : rand(8, 14) })
+  return steps
+}
+
 const BUILDERS = {
   white(out) {
     // 백색소음: 고른 쏴아 소리. 귀에 거슬리는 맨 위쪽은 깎는다.
@@ -311,47 +405,73 @@ const BUILDERS = {
   },
 
   pencil(out) {
-    // 시험장 필기 소리: 세 사람이 각자 다른 자리에서 사각사각 쓰고, 가끔 시험지를 넘긴다.
-    // 연필 소리는 원래 높은 소리라, 조금 떨어진 자리에서 들리는 정도로 둥글게 깎는다.
-    const [p1, p2] = softBus(out, 3200)
+    // 시험장 필기 소리. 세 사람이 가까운·옆·먼 자리에서 한글을 쓰고, 가끔 시험지를 넘기거나 OMR 카드를 칠한다.
+    // 연필 소리는 매끈한 잡음이 아니라 심이 종이 섬유에 걸릴 때마다 나는 아주 짧은 「틱」의 연속이라,
+    // 획마다 알갱이 소리를 새로 만든다(grainBuffer). 교실 울림을 살짝 섞고, 먼 자리일수록 작고 둔하게 들린다.
+    const room = ctx.createConvolver()
+    room.buffer = roomImpulse(0.7)
+    const wet = gainNode(0.22)
+    const bus = gainNode(1.5)
+    bus.connect(out)
+    bus.connect(room).connect(wet).connect(out)
+    const nodes = [room, wet, bus]
+
     const writers = [
-      { pan: -0.5, level: 1 },
-      { pan: 0.2, level: 0.65 },
-      { pan: 0.65, level: 0.45 },
+      { pan: -0.35, level: 1, bright: 4200, tick: true },
+      { pan: 0.3, level: 0.5, bright: 3300, tick: false },
+      { pan: 0.7, level: 0.3, bright: 2500, tick: false },
     ]
-    const stops = writers.map((w) => {
-      let strokesLeft = 0
+
+    const stops = writers.map((w, index) => {
+      // 자리마다 음색: 연필 특유의 2~3kHz와 책상이 울리는 500Hz 언저리를 살짝 살리고, 먼 자리는 위쪽을 더 깎는다.
+      const hp = filter('highpass', 300, 0.6)
+      const desk = ctx.createBiquadFilter()
+      desk.type = 'peaking'
+      desk.frequency.value = 520
+      desk.Q.value = 1.2
+      desk.gain.value = 5
+      const body = ctx.createBiquadFilter()
+      body.type = 'peaking'
+      body.frequency.value = 2400 + index * 150
+      body.Q.value = 0.9
+      body.gain.value = 3
+      const lp = filter('lowpass', w.bright, 0.6)
+      const lp2 = filter('lowpass', w.bright * 1.3, 0.6)
+      const level = gainNode(w.level)
+      const p = panner(w.pan)
+      hp.connect(desk).connect(body).connect(lp).connect(lp2).connect(level).connect(p).connect(bus)
+      nodes.push(hp, desk, body, lp, lp2, level, p)
+
+      // 세 사람이 동시에 쓰기 시작하지 않게 처음 쉬는 시간을 다르게 준다.
+      let queue = [{ pause: rand(0.2, 2.5) * (index + 1) }]
       return scheduler((t) => {
-        if (strokesLeft <= 0) {
-          strokesLeft = Math.floor(rand(3, 9))
-          // 단어 사이 쉬기, 가끔은 문제를 읽느라 길게 쉰다.
-          return t + (Math.random() < 0.12 ? rand(2, 5) : rand(0.3, 1.2))
+        if (!queue.length) queue = planWriting()
+        const step = queue.shift()
+        if (step.pause) return t + step.pause
+        playBuffer(hp, t, grainBuffer(step.length, step.grain), { gain: step.gain ?? 1 })
+        // 가까운 자리는 심이 종이에 닿는 작은 「톡」도 가끔 들린다.
+        if (w.tick && Math.random() < 0.35) {
+          burst(lp, t, { kind: 'pink', freq: 700, q: 1, env: [[0.002, 0.18], [0.012, 0]] })
         }
-        strokesLeft -= 1
-        const length = rand(0.06, 0.22)
-        const env = [[0.02, 0]]
-        // 종이 결에 걸리는 느낌을 내려고 크기를 잘게 흔든다.
-        for (let dt = 0.03; dt < length; dt += 0.015) env.push([dt, rand(0.9, 1.8) * w.level])
-        env.push([length + 0.03, 0])
-        const f = burst(p1, t, { freq: rand(1800, 2900), q: rand(0.9, 1.4), pan: w.pan + rand(-0.05, 0.05), env })
-        f.frequency.linearRampToValueAtTime(rand(1700, 3000), t + length)
-        return t + length + rand(0.04, 0.14)
+        return t + step.length + step.gap
       })
     })
+
+    // 시험지 넘기기: 종이가 스치는 사락 소리 + 끝에 종이가 내려앉는 낮은 소리
+    const pageTone = filter('highpass', 400, 0.6)
+    const pageLp = filter('lowpass', 3200, 0.6)
+    const pageGain = gainNode(0.5)
+    pageTone.connect(pageLp).connect(pageGain).connect(bus)
+    nodes.push(pageTone, pageLp, pageGain)
     const pages = scheduler((t) => {
-      const at = t + rand(18, 40)
-      const f = burst(p1, at, {
-        kind: 'pink',
-        freq: 600,
-        q: 0.6,
-        pan: rand(-0.5, 0.5),
-        env: [[0.08, 0.6], [0.22, 1], [0.42, 0.35], [0.6, 0]],
-      })
-      f.frequency.linearRampToValueAtTime(1500, at + 0.22)
-      f.frequency.linearRampToValueAtTime(800, at + 0.6)
+      const at = t + rand(25, 60)
+      const length = rand(0.5, 0.8)
+      playBuffer(pageTone, at, grainBuffer(length, { density: 0.035, ring: 0.82, shape: 'swell' }), { pan: rand(-0.6, 0.6) })
+      burst(bus, at + length * 0.85, { kind: 'brown', type: 'lowpass', freq: 260, q: 0.7, env: [[0.01, 0.35], [0.12, 0]] })
       return at + 1
     })
-    return teardown([p1, p2], [...stops, pages])
+
+    return teardown(nodes, [...stops, pages])
   },
 
   clock(out) {
