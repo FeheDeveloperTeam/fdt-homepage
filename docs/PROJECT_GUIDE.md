@@ -53,6 +53,7 @@ npm run build
 | `/projects/:category` | 카테고리별 프로젝트 |
 | `/contact` | 문의 |
 | `/status` | fehe.dev 주요 경로 응답 시간 실시간 확인 |
+| `/privacy` | 사이트 전체 개인정보 처리방침(접속 기록·방문 통계·브라우저 저장소·Google AdSense 광고 쿠키 안내). FDT 푸터와 수능 타이머 푸터에서 링크 |
 | `/member/yukiha` | Yukiha 자기소개·NATSUMI 프로젝트 페이지 |
 | `/member/fehe` | Fehe 홈 |
 | `/member/fehe/youtube` | YouTube 콘텐츠 |
@@ -200,6 +201,7 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 
 그 밖의 연동은 다음과 같습니다.
 
+- Google AdSense: 게시자 ID `ca-pub-3540218323238951`(공개 값). `index.html`의 `google-adsense-account` 메타와 `adsbygoogle.js` 스크립트가 모든 페이지에 들어가고, `public/ads.txt`가 같은 ID를 선언합니다. 2026-11-18 사이트 연결을 위해 넣었고 심사 승인 전에는 광고가 나오지 않습니다. 광고 단위(배너 자리)는 승인 후 추가합니다. AdSense 정책상 `/privacy`의 광고 쿠키 안내를 유지하고, 사이트가 처리하는 정보가 바뀌면 그 페이지와 최종 수정일을 함께 고칩니다. `vercel.json`에는 스크립트를 막는 CSP가 없습니다(CSP를 추가하면 `pagead2.googlesyndication.com` 등 Google 광고 도메인을 허용해야 함).
 - Discord REST API: 사용자·길드·채널·역할 조회와 관리 동작
 - Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기
 - Cloudflare Turnstile: Discord 로그인 전 사람 확인

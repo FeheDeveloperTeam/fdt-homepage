@@ -51,9 +51,14 @@ function Footer() {
       </div>
 
       <div className={styles.bottom}>
+        <div className={styles.bottomInner}>
         <p className={styles.copyright}>
           © {year} FeheDeveloperTeam. All rights reserved.
         </p>
+        <Link to="/privacy" className={styles.legalLink}>
+          개인정보 처리방침
+        </Link>
+        </div>
       </div>
     </footer>
   )

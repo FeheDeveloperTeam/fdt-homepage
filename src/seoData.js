@@ -47,6 +47,10 @@ export const SEO_DATA = {
     imageHeight: 630,
     imageAlt: '페헤 소개 배너',
   },
+  '/privacy': {
+    title: '개인정보 처리방침',
+    description: 'FeheDeveloperTeam(페헤개발팀) 웹사이트 www.fehe.dev의 개인정보 처리방침입니다. 접속 기록, 방문 통계, 쿠키와 Google AdSense 광고에 대해 안내합니다.',
+  },
   '/status': {
     title: '서비스 상태',
     description: 'fehe.dev 웹 페이지·정적 파일·API 서버의 응답 시간을 실시간으로 확인할 수 있습니다.',

@@ -72,6 +72,13 @@
 
   .sf-credit span { font-weight: 700; color: var(--ink-soft); }
 
+  .sf-credit a,
+  .sf-credit-flow a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   .sf-tabs { display: none; }
 
   /* 흐름 속 저작권 줄은 모바일에서만(탭 바에는 자리가 없어서) */

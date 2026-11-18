@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../Logo/Logo'
 import { dLabel, daysUntil, pad2, phaseOf, splitDuration } from '../../suneungDates'
 import { useClock, useSelectedExam } from '../../suneungState'
@@ -98,7 +99,8 @@ export default function Footer() {
   return (
     <>
       <p className="sf-credit-flow">
-        &copy; {year} <span>수능 D-Day 타이머</span> · Developed by FeheDeveloperTeam
+        &copy; {year} <span>수능 D-Day 타이머</span> · Developed by FeheDeveloperTeam ·{' '}
+        <Link to="/privacy">개인정보 처리방침</Link>
       </p>
       <footer className="sf">
         <div className="sf-inner">
@@ -134,7 +136,8 @@ export default function Footer() {
           </nav>
 
           <p className="sf-credit">
-            &copy; {year} <span>수능 D-Day 타이머</span> · FeheDeveloperTeam
+            &copy; {year} <span>수능 D-Day 타이머</span> · FeheDeveloperTeam ·{' '}
+            <Link to="/privacy">개인정보 처리방침</Link>
           </p>
         </div>
       </footer>
