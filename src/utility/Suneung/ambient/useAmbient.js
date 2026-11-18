@@ -17,7 +17,7 @@ import { DEFAULT_LEVEL, PRESETS } from './sounds'
 const STORAGE_KEY = 'suneung-ambient'
 
 function loadLevels() {
-  const base = { levels: Object.fromEntries(SOUND_IDS.map((id) => [id, DEFAULT_LEVEL])), master: 0.8 }
+  const base = { levels: Object.fromEntries(SOUND_IDS.map((id) => [id, DEFAULT_LEVEL])), master: 0.7 }
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null')
     if (!saved) return base

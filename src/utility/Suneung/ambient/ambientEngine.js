@@ -5,12 +5,13 @@
 let ctx = null
 let master = null
 let noise = null
-let masterLevel = 0.8
+let masterLevel = 0.5
 let clockOffset = 0
 let analyser = null
 const voices = new Map()
 
-const FADE = 0.6
+// 켜고 끌 때 천천히 커지고 작아지는 시간(초)
+const FADE = 1.8
 
 function getContext() {
   if (typeof window === 'undefined') return null
@@ -21,13 +22,22 @@ function getContext() {
     master = ctx.createGain()
     master.gain.value = masterLevel
     // 여러 소리를 겹쳐도 찢어지지 않게 마지막에 부드럽게 눌러 준다.
+    // 전체에 한 번 더: 3.2kHz 위를 낮추고 10kHz 위는 걸러 「치지직」 하는 성분이 남지 않게 한다.
+    const shelf = ctx.createBiquadFilter()
+    shelf.type = 'highshelf'
+    shelf.frequency.value = 3200
+    shelf.gain.value = -9
+    const top = ctx.createBiquadFilter()
+    top.type = 'lowpass'
+    top.frequency.value = 10000
+    top.Q.value = 0.5
     const limiter = ctx.createDynamicsCompressor()
-    limiter.threshold.value = -10
+    limiter.threshold.value = -16
     limiter.knee.value = 8
     limiter.ratio.value = 6
     limiter.attack.value = 0.01
     limiter.release.value = 0.3
-    master.connect(limiter).connect(ctx.destination)
+    master.connect(shelf).connect(top).connect(limiter).connect(ctx.destination)
     // 화면의 소리 막대가 읽는 분석기(소리에는 영향 없음)
     analyser = ctx.createAnalyser()
     analyser.fftSize = 256
@@ -152,148 +162,162 @@ function teardown(nodes, stops) {
 
 // ── 소리 하나하나 ──
 // 각 함수는 out(GainNode)에 소리를 연결하고, 멈출 때 부를 함수를 돌려준다.
+// 모든 소리는 「조금 떨어진 곳에서 들리는」 부드러운 소리를 목표로 한다.
+// 잡음은 높은 쪽을 두 번 깎아 「치지직」 대신 「쏴아·웅」이 되게 하고,
+// 짧은 소리(빗방울·장작·연필·초침)도 따로 둥글게 깎은 길(softBus)로 보낸다.
+
+// out 앞에 낮은 쪽만 통과시키는 필터를 두 단 놓은 연결점
+function softBus(out, cutoff) {
+  const a = filter('lowpass', cutoff, 0.5)
+  const b = filter('lowpass', cutoff * 1.4, 0.5)
+  a.connect(b).connect(out)
+  return [a, b]
+}
 
 const BUILDERS = {
   white(out) {
+    // 백색소음: 고른 쏴아 소리. 귀에 거슬리는 맨 위쪽은 깎는다.
     const src = loop('white')
-    const lp = filter('lowpass', 9000)
-    const g = gainNode(0.5)
-    src.connect(lp).connect(g).connect(out)
-    return teardown([src, lp, g], [])
+    const hp = filter('highpass', 90)
+    const [lp1, lp2] = softBus(out, 2500)
+    const g = gainNode(1.45)
+    src.connect(hp).connect(g).connect(lp1)
+    return teardown([src, hp, g, lp1, lp2], [])
   },
 
   pink(out) {
+    // 핑크 노이즈: 멀리서 들리는 폭포처럼 낮고 둥근 소리
     const src = loop('pink')
-    const g = gainNode(0.6)
-    src.connect(g).connect(out)
-    return teardown([src, g], [])
+    const hp = filter('highpass', 50)
+    const [lp1, lp2] = softBus(out, 1300)
+    const g = gainNode(1.1)
+    src.connect(hp).connect(g).connect(lp1)
+    return teardown([src, hp, g, lp1, lp2], [])
   },
 
   brown(out) {
     const src = loop('brown')
-    const lp = filter('lowpass', 900)
-    const g = gainNode(0.65)
-    src.connect(lp).connect(g).connect(out)
-    return teardown([src, lp, g], [])
+    const [lp1, lp2] = softBus(out, 420)
+    const g = gainNode(0.9)
+    src.connect(g).connect(lp1)
+    return teardown([src, g, lp1, lp2], [])
   },
 
   rain(out) {
-    // 멀리서 쏟아지는 빗소리 + 낮은 울림 + 가까이 떨어지는 빗방울
+    // 창밖 빗소리: 둥근 빗줄기 + 낮은 울림 + 가까이 톡톡 떨어지는 빗방울
     const wash = loop('pink')
-    const hp = filter('highpass', 600)
-    const lp = filter('lowpass', 7500)
-    const washGain = gainNode(0.65)
-    wash.connect(hp).connect(lp).connect(washGain).connect(out)
+    const hp = filter('highpass', 250)
+    const [lp1, lp2] = softBus(out, 2200)
+    const washGain = gainNode(0.9)
+    wash.connect(hp).connect(washGain).connect(lp1)
 
     const rumble = loop('brown')
-    const rumbleLp = filter('lowpass', 260)
-    const rumbleGain = gainNode(0.35)
+    const rumbleLp = filter('lowpass', 220)
+    const rumbleGain = gainNode(0.4)
     rumble.connect(rumbleLp).connect(rumbleGain).connect(out)
 
+    const [d1, d2] = softBus(out, 2600)
     const stop = scheduler((t) => {
-      const big = Math.random() < 0.12
-      burst(out, t, {
-        freq: big ? rand(900, 1800) : rand(2200, 6500),
-        q: rand(1.2, 3.5),
-        pan: rand(-0.9, 0.9),
+      const big = Math.random() < 0.15
+      burst(d1, t, {
+        freq: big ? rand(500, 900) : rand(900, 2400),
+        q: rand(0.8, 1.6),
+        pan: rand(-0.8, 0.8),
         env: big
-          ? [[0.003, rand(0.25, 0.45)], [0.05, 0]]
-          : [[0.002, rand(0.06, 0.22)], [rand(0.012, 0.03), 0]],
+          ? [[0.005, rand(0.18, 0.3)], [0.09, 0]]
+          : [[0.004, rand(0.05, 0.16)], [rand(0.04, 0.07), 0]],
       })
-      return t - Math.log(1 - Math.random()) / 22
+      return t - Math.log(1 - Math.random()) / 14
     })
-    return teardown([wash, hp, lp, washGain, rumble, rumbleLp, rumbleGain], [stop])
+    return teardown([wash, hp, lp1, lp2, washGain, rumble, rumbleLp, rumbleGain, d1, d2], [stop])
   },
 
   waves(out) {
-    // 파도가 밀려왔다 빠지는 큰 숨: 소리 크기와 밝기를 6~11초마다 함께 올렸다 내린다.
+    // 파도: 6~11초마다 밀려왔다 빠지는 큰 숨. 크기와 밝기를 함께 천천히 올렸다 내린다.
     const src = loop('pink')
-    const lp = filter('lowpass', 500)
-    const g = gainNode(0.1)
-    src.connect(lp).connect(g).connect(out)
+    const lp = filter('lowpass', 300, 0.5)
+    const lp2 = filter('lowpass', 1800, 0.5)
+    const g = gainNode(0.15)
+    src.connect(lp).connect(lp2).connect(g).connect(out)
     const bed = loop('brown')
-    const bedLp = filter('lowpass', 350)
-    const bedGain = gainNode(0.3)
+    const bedLp = filter('lowpass', 300)
+    const bedGain = gainNode(0.4)
     bed.connect(bedLp).connect(bedGain).connect(out)
 
     const stop = scheduler((t) => {
       const length = rand(6, 11)
-      const peak = rand(0.55, 0.95)
-      const rise = length * rand(0.35, 0.45)
-      g.gain.setValueAtTime(0.1, t)
+      const peak = rand(0.7, 1.1)
+      const rise = length * rand(0.38, 0.48)
+      g.gain.setValueAtTime(0.15, t)
       g.gain.linearRampToValueAtTime(peak, t + rise)
-      g.gain.linearRampToValueAtTime(0.08, t + length)
-      lp.frequency.setValueAtTime(450, t)
-      lp.frequency.exponentialRampToValueAtTime(rand(1800, 2800), t + rise)
-      lp.frequency.exponentialRampToValueAtTime(420, t + length)
+      g.gain.linearRampToValueAtTime(0.12, t + length)
+      lp.frequency.setValueAtTime(300, t)
+      lp.frequency.exponentialRampToValueAtTime(rand(900, 1300), t + rise)
+      lp.frequency.exponentialRampToValueAtTime(280, t + length)
       return t + length
     })
-    return teardown([src, lp, g, bed, bedLp, bedGain], [stop])
+    return teardown([src, lp, lp2, g, bed, bedLp, bedGain], [stop])
   },
 
   fire(out) {
-    // 낮게 타오르는 소리 + 불규칙하게 튀는 장작
+    // 모닥불: 낮게 타오르는 소리 + 이따금 타닥 튀는 장작(날카롭지 않게 둥글린 소리)
     const roar = loop('brown')
-    const lp = filter('lowpass', 700)
-    const roarGain = gainNode(0.55)
-    roar.connect(lp).connect(roarGain).connect(out)
-    const hiss = loop('pink')
-    const hissHp = filter('highpass', 2500)
-    const hissGain = gainNode(0.05)
-    hiss.connect(hissHp).connect(hissGain).connect(out)
+    const [lp1, lp2] = softBus(out, 480)
+    const roarGain = gainNode(0.8)
+    roar.connect(roarGain).connect(lp1)
 
+    const [c1, c2] = softBus(out, 2400)
     const stop = scheduler((t) => {
-      const cluster = Math.random() < 0.25 ? Math.floor(rand(2, 6)) : 1
+      const cluster = Math.random() < 0.25 ? Math.floor(rand(2, 5)) : 1
       for (let i = 0; i < cluster; i += 1) {
-        const at = t + i * rand(0.015, 0.06)
-        const pop = Math.random() < 0.15
-        burst(out, at, {
-          freq: pop ? rand(500, 1200) : rand(1500, 5000),
-          q: pop ? 1.5 : 0.8,
-          pan: rand(-0.4, 0.4),
-          env: pop ? [[0.002, rand(0.35, 0.6)], [0.035, 0]] : [[0.001, rand(0.12, 0.5)], [rand(0.003, 0.012), 0]],
+        const at = t + i * rand(0.02, 0.07)
+        const pop = Math.random() < 0.2
+        burst(c1, at, {
+          freq: pop ? rand(250, 600) : rand(900, 2200),
+          q: pop ? 1.2 : 0.9,
+          pan: rand(-0.35, 0.35),
+          env: pop ? [[0.004, rand(0.3, 0.5)], [0.06, 0]] : [[0.002, rand(0.08, 0.28)], [rand(0.01, 0.025), 0]],
         })
       }
-      return t - Math.log(1 - Math.random()) / 3.5
+      return t - Math.log(1 - Math.random()) / 3
     })
-    return teardown([roar, lp, roarGain, hiss, hissHp, hissGain], [stop])
+    return teardown([roar, lp1, lp2, roarGain, c1, c2], [stop])
   },
 
   aircon(out) {
-    // 독서실 에어컨: 낮은 바람 소리 + 아주 작은 모터 웅웅 + 바람 세기가 천천히 출렁임
+    // 독서실 에어컨: 낮은 바람 소리가 천천히 출렁이고, 아주 작은 모터 소리가 깔린다.
     const air = loop('brown')
-    const lp = filter('lowpass', 520)
-    const airGain = gainNode(0.6)
+    const lp = filter('lowpass', 450, 0.5)
+    const airGain = gainNode(0.85)
     air.connect(lp).connect(airGain).connect(out)
     const breeze = loop('pink')
-    const bp = filter('bandpass', 1100, 0.5)
-    const breezeGain = gainNode(0.12)
-    breeze.connect(bp).connect(breezeGain).connect(out)
+    const bp = filter('bandpass', 650, 0.5)
+    const breezeLp = filter('lowpass', 1400, 0.5)
+    const breezeGain = gainNode(0.18)
+    breeze.connect(bp).connect(breezeLp).connect(breezeGain).connect(out)
 
     const lfo = ctx.createOscillator()
-    const depth = gainNode(70)
-    lfo.frequency.value = 0.11
+    const depth = gainNode(60)
+    lfo.frequency.value = 0.09
     lfo.connect(depth).connect(lp.frequency)
     lfo.start()
 
-    const hum = []
-    for (const [freq, level] of [[120, 0.012], [240, 0.005]]) {
-      const osc = ctx.createOscillator()
-      const g = gainNode(level)
-      osc.frequency.value = freq
-      osc.connect(g).connect(out)
-      osc.start()
-      hum.push(osc, g)
-    }
-    return teardown([air, lp, airGain, breeze, bp, breezeGain, lfo, depth, ...hum], [])
+    const hum = ctx.createOscillator()
+    const humGain = gainNode(0.006)
+    hum.frequency.value = 120
+    hum.connect(humGain).connect(out)
+    hum.start()
+    return teardown([air, lp, airGain, breeze, bp, breezeLp, breezeGain, lfo, depth, hum, humGain], [])
   },
 
   pencil(out) {
     // 시험장 필기 소리: 세 사람이 각자 다른 자리에서 사각사각 쓰고, 가끔 시험지를 넘긴다.
+    // 연필 소리는 원래 높은 소리라, 조금 떨어진 자리에서 들리는 정도로 둥글게 깎는다.
+    const [p1, p2] = softBus(out, 3200)
     const writers = [
-      { pan: -0.55, level: 1 },
-      { pan: 0.25, level: 0.6 },
-      { pan: 0.7, level: 0.4 },
+      { pan: -0.5, level: 1 },
+      { pan: 0.2, level: 0.65 },
+      { pan: 0.65, level: 0.45 },
     ]
     const stops = writers.map((w) => {
       let strokesLeft = 0
@@ -301,69 +325,69 @@ const BUILDERS = {
         if (strokesLeft <= 0) {
           strokesLeft = Math.floor(rand(3, 9))
           // 단어 사이 쉬기, 가끔은 문제를 읽느라 길게 쉰다.
-          return t + (Math.random() < 0.12 ? rand(2, 5) : rand(0.25, 1.1))
+          return t + (Math.random() < 0.12 ? rand(2, 5) : rand(0.3, 1.2))
         }
         strokesLeft -= 1
-        const length = rand(0.05, 0.22)
-        const env = [[0.01, 0]]
+        const length = rand(0.06, 0.22)
+        const env = [[0.02, 0]]
         // 종이 결에 걸리는 느낌을 내려고 크기를 잘게 흔든다.
-        for (let dt = 0.012; dt < length; dt += 0.012) env.push([dt, rand(0.35, 0.85) * w.level])
-        env.push([length + 0.015, 0])
-        const f = burst(out, t, { freq: rand(3200, 5600), q: rand(1, 1.8), pan: w.pan + rand(-0.05, 0.05), env })
-        f.frequency.linearRampToValueAtTime(rand(3000, 6000), t + length)
-        return t + length + rand(0.03, 0.12)
+        for (let dt = 0.03; dt < length; dt += 0.015) env.push([dt, rand(0.9, 1.8) * w.level])
+        env.push([length + 0.03, 0])
+        const f = burst(p1, t, { freq: rand(1800, 2900), q: rand(0.9, 1.4), pan: w.pan + rand(-0.05, 0.05), env })
+        f.frequency.linearRampToValueAtTime(rand(1700, 3000), t + length)
+        return t + length + rand(0.04, 0.14)
       })
     })
     const pages = scheduler((t) => {
       const at = t + rand(18, 40)
-      const pan = rand(-0.6, 0.6)
-      const f = burst(out, at, {
+      const f = burst(p1, at, {
         kind: 'pink',
-        freq: 900,
+        freq: 600,
         q: 0.6,
-        pan,
-        env: [[0.05, 0.25], [0.18, 0.45], [0.38, 0.15], [0.5, 0]],
+        pan: rand(-0.5, 0.5),
+        env: [[0.08, 0.6], [0.22, 1], [0.42, 0.35], [0.6, 0]],
       })
-      f.frequency.linearRampToValueAtTime(2600, at + 0.2)
-      f.frequency.linearRampToValueAtTime(1200, at + 0.5)
+      f.frequency.linearRampToValueAtTime(1500, at + 0.22)
+      f.frequency.linearRampToValueAtTime(800, at + 0.6)
       return at + 1
     })
-    return teardown([], [...stops, pages])
+    return teardown([p1, p2], [...stops, pages])
   },
 
   clock(out) {
-    // 초침: 한국 시간의 정각 초마다 「똑」, 번갈아 조금 낮은 「딱」.
+    // 초침: 한국 시간의 정각 초마다 나무 탁상시계처럼 둥근 「똑」, 번갈아 조금 낮은 「딱」.
+    const [k1, k2] = softBus(out, 2000)
     const stop = scheduler((t) => {
       // 오디오 시각 t를 한국 시간(서버 보정 포함)으로 바꿔 그다음 정각 초를 찾는다.
       const wallAt = Date.now() + clockOffset + (t - ctx.currentTime) * 1000
       const nextSecond = Math.ceil(wallAt / 1000) * 1000
       const at = t + (nextSecond - wallAt) / 1000
       const tock = Math.floor(nextSecond / 1000) % 2 === 1
-      burst(out, at, { freq: tock ? 2300 : 2900, q: 3, pan: 0.15, env: [[0.0015, 2.4], [0.025, 0]] })
+      burst(k1, at, { freq: tock ? 1100 : 1350, q: 4, pan: 0.1, env: [[0.002, 3.2], [0.035, 0]] })
       const osc = ctx.createOscillator()
       const g = ctx.createGain()
-      osc.frequency.value = tock ? 1400 : 1750
+      osc.frequency.value = tock ? 700 : 820
       g.gain.setValueAtTime(0, at)
-      g.gain.linearRampToValueAtTime(0.2, at + 0.002)
-      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.04)
-      osc.connect(g).connect(out)
+      g.gain.linearRampToValueAtTime(0.25, at + 0.003)
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.06)
+      osc.connect(g).connect(k1)
       osc.start(at)
-      osc.stop(at + 0.06)
+      osc.stop(at + 0.08)
       return at + 0.05
     })
-    return teardown([], [stop])
+    return teardown([k1, k2], [stop])
   },
 
   crickets(out) {
-    // 여름밤 귀뚜라미 두 마리 + 아주 작은 밤바람
+    // 여름밤 귀뚜라미 두 마리(조금 떨어진 풀숲) + 아주 작은 밤바람
     const air = loop('pink')
-    const lp = filter('lowpass', 500)
-    const airGain = gainNode(0.08)
+    const lp = filter('lowpass', 450, 0.5)
+    const airGain = gainNode(0.12)
     air.connect(lp).connect(airGain).connect(out)
 
     const bugs = [
-      { pan: -0.5, pitch: 4400, level: 0.2 },
-      { pan: 0.6, pitch: 4750, level: 0.13 },
+      { pan: -0.45, pitch: 4200, level: 0.32 },
+      { pan: 0.55, pitch: 4500, level: 0.21 },
     ]
     const stops = bugs.map((bug) =>
       scheduler((t) => {
@@ -374,16 +398,16 @@ const BUILDERS = {
         osc.frequency.value = bug.pitch + rand(-40, 40)
         g.gain.setValueAtTime(0, t)
         for (let i = 0; i < pulses; i += 1) {
-          const s = t + i * 0.045
+          const s = t + i * 0.05
           g.gain.setValueAtTime(0, s)
-          g.gain.linearRampToValueAtTime(bug.level, s + 0.006)
-          g.gain.linearRampToValueAtTime(0, s + 0.022)
+          g.gain.linearRampToValueAtTime(bug.level, s + 0.012)
+          g.gain.linearRampToValueAtTime(0, s + 0.03)
         }
         osc.connect(g).connect(p).connect(out)
         osc.start(t)
-        osc.stop(t + pulses * 0.045 + 0.05)
+        osc.stop(t + pulses * 0.05 + 0.05)
         // 가끔 잠깐 조용해진다.
-        return t + (Math.random() < 0.08 ? rand(2, 4) : rand(0.45, 0.85))
+        return t + (Math.random() < 0.08 ? rand(2, 4) : rand(0.5, 0.9))
       }),
     )
     return teardown([air, lp, airGain], stops)
@@ -418,7 +442,7 @@ export function stopSound(id) {
   setTimeout(() => {
     voice.stop()
     voice.out.disconnect()
-  }, FADE * 1000 + 100)
+  }, FADE * 1600)
 }
 
 export function setSoundLevel(id, level) {

@@ -4,8 +4,8 @@ export const SOUND_GROUPS = [
     key: 'noise',
     label: '기본 소음',
     sounds: [
-      { id: 'white', name: '백색소음', desc: '모든 높이가 고르게 섞인 쏴아 소리. 주변 말소리를 가려 줍니다.' },
-      { id: 'pink', name: '핑크 노이즈', desc: '백색소음보다 부드러운 소리. 오래 들어도 덜 피곤합니다.' },
+      { id: 'white', name: '백색소음', desc: '고르게 섞인 부드러운 쏴아 소리. 주변 말소리를 가려 줍니다.' },
+      { id: 'pink', name: '핑크 노이즈', desc: '멀리서 들리는 폭포처럼 낮고 둥근 소리' },
       { id: 'brown', name: '브라운 노이즈', desc: '낮고 깊은 웅- 소리. 집중용으로 많이 찾는 소음입니다.' },
     ],
   },
@@ -13,7 +13,7 @@ export const SOUND_GROUPS = [
     key: 'nature',
     label: '자연',
     sounds: [
-      { id: 'rain', name: '빗소리', desc: '쏟아지는 비와 가까이 떨어지는 빗방울' },
+      { id: 'rain', name: '빗소리', desc: '창밖에 내리는 비와 톡톡 떨어지는 빗방울' },
       { id: 'waves', name: '파도', desc: '6~11초마다 밀려왔다 빠지는 바다' },
       { id: 'fire', name: '장작 타는 소리', desc: '타닥타닥 튀는 모닥불' },
       { id: 'crickets', name: '여름밤 귀뚜라미', desc: '창밖에서 우는 귀뚜라미 두 마리' },
@@ -25,7 +25,7 @@ export const SOUND_GROUPS = [
     sounds: [
       { id: 'aircon', name: '독서실 에어컨', desc: '낮게 도는 바람과 작은 모터 소리' },
       { id: 'pencil', name: '시험장 필기 소리', desc: '여러 명이 사각사각 쓰고 가끔 시험지를 넘깁니다' },
-      { id: 'clock', name: '시계 초침', desc: '한국 시간 정각 초에 맞춰 똑딱' },
+      { id: 'clock', name: '시계 초침', desc: '탁상시계처럼 둥근 똑딱. 한국 시간 정각 초에 맞춤' },
     ],
   },
 ]
@@ -48,4 +48,4 @@ export const SLEEP_OPTIONS = [
   { minutes: 100, label: '100분 · 수학' },
 ]
 
-export const DEFAULT_LEVEL = 0.6
+export const DEFAULT_LEVEL = 0.5
