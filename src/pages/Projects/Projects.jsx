@@ -72,8 +72,8 @@ const PROJECTS = [
   {
     category: 'general',
     name: '수능 카운트다운',
-    description: SEO_DATA['/utility/suneung'].description,
-    features: ['한국 시간 기준 실시간 D-day', '앞으로 10년 수능 날짜', '학년도·출생연도로 찾기', '시험 당일 시간표'],
+    description: '수능까지 남은 시간을 한국 시간 기준으로 초 단위까지 세는 수능 D-Day 타이머입니다. 수능 시간표, 앞으로 10년의 수능 날짜, 응원 문구 30개도 함께 볼 수 있습니다.',
+    features: ['한국 시간 기준 수능 디데이', '앞으로 10년 수능 날짜', '학년도·출생연도로 찾기', '수능 시간표', '응원 문구 30개'],
     link: '/utility/suneung',
   },
   {

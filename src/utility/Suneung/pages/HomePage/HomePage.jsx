@@ -1,11 +1,15 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import Seo from '../../../../components/Seo/Seo'
-import { SEO_DATA } from '../../../../seoData'
+import { SEO_DATA, SITE_URL } from '../../../../seoData'
 import CountdownHero from '../../components/CountdownHero/CountdownHero'
 import Timetable from '../../components/Timetable/Timetable'
 import UpcomingList from '../../components/UpcomingList/UpcomingList'
 import ExamFinder from '../../components/ExamFinder/ExamFinder'
+import CheerSection from '../../components/CheerSection/CheerSection'
+import Faq from '../../components/Faq/Faq'
+import { SUNEUNG_PATH, suneungFaq } from '../../suneungSeo'
 import { useClockOffset, useNow } from '../../useKstClock'
 import {
   MAX_YEARS_AHEAD,
@@ -18,7 +22,7 @@ import {
 } from '../../suneungDates'
 import './HomePage.css'
 
-const PATH = '/utility/suneung'
+const PATH = SUNEUNG_PATH
 
 function prefersReducedMotion() {
   return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
@@ -44,6 +48,36 @@ export default function HomePage() {
   const exams = examsWithinYears(now)
   const listedUntil = exams[exams.length - 1].academicYear
 
+  // FAQ와 구조화 데이터는 가장 가까운 수능이 바뀔 때만 다시 만든다.
+  const faq = useMemo(() => suneungFaq(getExam(upcoming).startMs - 1), [upcoming])
+  const structuredData = useMemo(
+    () =>
+      JSON.stringify([
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: '수능 D-Day 타이머',
+          alternateName: ['수능 디데이', '수능 카운트다운', '수능 타이머'],
+          url: `${SITE_URL}${PATH}`,
+          applicationCategory: 'UtilitiesApplication',
+          operatingSystem: 'Web',
+          inLanguage: 'ko-KR',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'KRW' },
+          publisher: { '@type': 'Organization', name: 'FeheDeveloperTeam', url: SITE_URL },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faq.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: { '@type': 'Answer', text: item.a },
+          })),
+        },
+      ]),
+    [faq],
+  )
+
   const select = useCallback(
     (year) => {
       setParams(year === defaultYear ? {} : { year: String(year) }, { replace: true })
@@ -58,12 +92,20 @@ export default function HomePage() {
   return (
     <div className="sn-page">
       <Seo
-        title={`${dLabel(daysUntil(exam, now))} · ${exam.academicYear}학년도 수능 카운트다운`}
+        title={`수능 ${dLabel(daysUntil(exam, now))} 타이머 · ${exam.academicYear} 수능 디데이`}
         description={SEO_DATA[PATH].description}
         path={PATH}
       />
+      <Helmet>
+        <script type="application/ld+json">{structuredData}</script>
+      </Helmet>
 
-      <p className="sn-eyebrow">수능 D-day · 한국 시간 기준 실시간 카운트다운</p>
+      <header className="sn-head">
+        <h1 className="sn-title">수능 D-Day 타이머</h1>
+        <p className="sn-lead">
+          {exam.academicYear}학년도 수능 디데이를 한국 시간 기준으로 초 단위까지 셉니다
+        </p>
+      </header>
 
       <CountdownHero
         ref={heroRef}
@@ -72,6 +114,8 @@ export default function HomePage() {
         clock={clock}
         onShowNext={endedToday && selectedYear === defaultYear ? () => select(upcoming) : null}
       />
+
+      <CheerSection now={now} />
 
       <Timetable exam={exam} now={now} />
 
@@ -85,6 +129,8 @@ export default function HomePage() {
         selectedYear={selectedYear}
         onSelect={select}
       />
+
+      <Faq items={faq} />
 
       <section className="suneung-section sn-notes" aria-labelledby="sn-notes-title">
         <div className="suneung-section-head">

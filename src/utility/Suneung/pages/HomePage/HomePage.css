@@ -1,20 +1,29 @@
 @scope (.suneung-app) {
-  .sn-eyebrow {
-    margin-bottom: 14px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
+  .sn-head {
+    margin-bottom: 18px;
   }
 
-  .sn-eyebrow::before {
+  .sn-title {
+    font-size: clamp(1.45rem, 3.6vw, 1.9rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+  }
+
+  .sn-title::before {
     content: '';
     display: inline-block;
-    width: 6px;
-    height: 6px;
-    margin: 0 8px 2px 0;
+    width: 8px;
+    height: 8px;
+    margin: 0 10px 0.28em 0;
     border-radius: 50%;
     background: var(--accent);
     vertical-align: middle;
+  }
+
+  .sn-lead {
+    margin-top: 4px;
+    font-size: 0.9rem;
+    color: var(--muted);
   }
 
   .sn-notes-list {

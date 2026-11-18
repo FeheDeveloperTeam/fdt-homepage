@@ -1,4 +1,5 @@
 import { JAVA_WIKI } from './wiki/Minecraft/javaWikiData.js'
+import { suneungSeo } from './utility/Suneung/suneungSeo.js'
 
 const SITE_NAME = 'FeheDeveloperTeam'
 export const SITE_URL = 'https://www.fehe.dev'
@@ -28,7 +29,7 @@ export const SEO_DATA = {
   },
   '/projects/general': {
     title: '일반 프로젝트',
-    description: 'FDT가 직접 만든 웹 유틸리티 등 일반 프로젝트를 소개합니다.',
+    description: 'FDT가 직접 만든 네트워크 테스트, 수능 D-Day 타이머 등 웹 유틸리티를 소개합니다.',
   },
   '/projects/wiki': {
     title: '위키',
@@ -78,9 +79,15 @@ export const SEO_DATA = {
     title: '네트워크 테스트',
     description: 'IP 주소, 지연 시간, 다운로드 속도를 측정해 내 인터넷 연결 상태를 진단합니다.',
   },
+  // 수능 타이머는 연도가 들어간 검색어(「2027 수능 디데이」 등)가 많아, 읽는 순간의 가장 가까운 수능으로
+  // 제목·설명을 만든다(getter라 서버 렌더도 요청 때마다 새 연도를 쓴다). 문장은 suneungSeo.js에서 고친다.
   '/utility/suneung': {
-    title: '수능 D-day 카운트다운',
-    description: '수능까지 남은 시간을 한국 시간 기준으로 초 단위까지 보여 줍니다. 앞으로 10년의 수능 날짜와 시험 당일 시간표, 원하는 학년도·출생연도의 수능 날짜도 찾아볼 수 있습니다.',
+    get title() {
+      return suneungSeo().title
+    },
+    get description() {
+      return suneungSeo().description
+    },
   },
   '/wiki/minecraft': {
     title: '마인크래프트 위키',

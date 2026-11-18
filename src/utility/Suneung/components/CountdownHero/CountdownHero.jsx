@@ -173,10 +173,10 @@ const CountdownHero = forwardRef(function CountdownHero({ exam, now, clock, onSh
         <div className="cd-body">
           <div className="cd-ident">
             <p className="cd-kicker">{exam.academicYear}학년도</p>
-            <h1 id="cd-title" className="cd-title">
+            <h2 id="cd-title" className="cd-title">
               <span className="suneung-sr-only">{exam.academicYear}학년도 </span>
               대학수학능력시험
-            </h1>
+            </h2>
             <p className="cd-date">
               {formatLongDate(exam)}
               <span className="cd-date-sep" aria-hidden="true">·</span>
