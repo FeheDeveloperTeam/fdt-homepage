@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom'
+import Logo from '../Logo/Logo'
 import './Header.css'
 
-function IconPencil() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M14.5 5.5l4 4L8 20H4v-4L14.5 5.5Z" strokeLinejoin="round" />
-      <path d="M12.5 7.5l4 4" />
-    </svg>
-  )
-}
+const SECTIONS = [
+  { href: '#practice', label: '실전 타이머' },
+  { href: '#timetable', label: '시간표' },
+  { href: '#upcoming', label: '수능 날짜' },
+  { href: '#cheer', label: '응원 문구' },
+]
 
 export default function Header() {
   return (
@@ -19,10 +18,19 @@ export default function Header() {
         </Link>
         <span className="suneung-header-divider" aria-hidden="true" />
         <Link className="suneung-logo" to="/utility/suneung">
-          <IconPencil />
-          수능 카운트다운
+          <Logo size={26} className="suneung-logo-mark" />
+          <span>
+            수능 <b>D-Day</b> 타이머
+          </span>
         </Link>
-        <span className="suneung-header-tz">한국 시간 KST</span>
+        <nav className="suneung-header-nav" aria-label="페이지 안 바로가기">
+          {SECTIONS.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <span className="suneung-header-tz">KST</span>
       </div>
     </header>
   )

@@ -3,7 +3,7 @@ import { kstParts, pad2 } from '../../suneungDates'
 import { CHEER_MESSAGES } from './cheerMessages'
 import './CheerSection.css'
 
-const COLLAPSED_COUNT = 9
+const COLLAPSED_COUNT = 8
 const TOTAL = CHEER_MESSAGES.length
 
 function IconCopy() {
@@ -63,7 +63,7 @@ export default function CheerSection({ now }) {
   const copied = copyState?.index === index ? copyState : null
 
   return (
-    <section className="suneung-section" aria-labelledby="ch-title">
+    <section className="suneung-section" id="cheer" aria-labelledby="ch-title" data-reveal>
       <div className="suneung-section-head">
         <h2 id="ch-title" className="suneung-section-title">
           수능 응원 문구

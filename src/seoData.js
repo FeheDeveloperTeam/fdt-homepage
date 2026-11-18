@@ -88,6 +88,10 @@ export const SEO_DATA = {
     get description() {
       return suneungSeo().description
     },
+    image: `${SITE_URL}/og-suneung.png`,
+    imageWidth: 1200,
+    imageHeight: 630,
+    imageAlt: '수능 D-Day 타이머 로고와 소개',
   },
   '/wiki/minecraft': {
     title: '마인크래프트 위키',

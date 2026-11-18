@@ -5,7 +5,7 @@ export default function UpcomingList({ exams, now, selectedYear, onSelect }) {
   const thisYear = kstParts(now).year
 
   return (
-    <section className="suneung-section" aria-labelledby="up-title">
+    <section className="suneung-section" id="upcoming" aria-labelledby="up-title" data-reveal>
       <div className="suneung-section-head">
         <h2 id="up-title" className="suneung-section-title">
           앞으로 10년의 수능

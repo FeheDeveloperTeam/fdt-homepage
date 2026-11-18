@@ -13,6 +13,7 @@ import {
   phaseOf,
   splitDuration,
 } from '../../suneungDates'
+import { useCountUp } from '../../useMotion'
 import './CountdownHero.css'
 
 function formatYmd(ymd) {
@@ -42,15 +43,37 @@ function roughDistance(days) {
   return rest ? `약 ${years}년 ${rest}개월 뒤` : `약 ${years}년 뒤`
 }
 
+function startAbove(target) {
+  return target + Math.max(9, Math.round(Math.abs(target) * 0.25))
+}
+
+// 숫자 한 자리씩 따로 그려, 바뀐 자리만 위에서 굴러 내려오게 한다(key가 바뀌면 다시 마운트되어 애니메이션).
+function RollingNumber({ text }) {
+  return (
+    <span className="cd-roll" aria-hidden="true">
+      {text.split('').map((ch, i) => (
+        <span key={`${text.length - i}-${ch}`} className="cd-roll-ch">
+          {ch}
+        </span>
+      ))}
+    </span>
+  )
+}
+
 function Tiles({ parts, units, label }) {
   return (
     <div className="cd-tiles" role="timer" aria-live="off" aria-label={label}>
-      {units.map(([key, unit]) => (
-        <div className="cd-tile" key={key} style={{ '--chars': Math.max(2, parts[key].toLocaleString('ko-KR').length) }}>
-          <span className="cd-tile-value suneung-num">{key === 'days' ? parts[key].toLocaleString('ko-KR') : pad2(parts[key])}</span>
-          <span className="cd-tile-unit">{unit}</span>
-        </div>
-      ))}
+      {units.map(([key, unit]) => {
+        const text = key === 'days' ? parts[key].toLocaleString('ko-KR') : pad2(parts[key])
+        return (
+          <div className="cd-tile" key={key} style={{ '--chars': Math.max(2, text.length) }}>
+            <span className="cd-tile-value suneung-num">
+              <RollingNumber text={text} />
+            </span>
+            <span className="cd-tile-unit">{unit}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -77,8 +100,11 @@ function Progress({ value, label, caption }) {
 const CountdownHero = forwardRef(function CountdownHero({ exam, now, clock, onShowNext }, ref) {
   const phase = phaseOf(exam, now)
   const days = daysUntil(exam, now)
+  // D-Day 숫자는 조금 큰 수에서 목표까지 줄어드는 카운트다운으로 보여 준다(0을 거쳐 「D-DAY」가 잠깐 보이지 않게).
+  const shownDays = useCountUp(days, 1100, startAbove)
   const cohort = cohortOf(exam, now)
   const prev = getExam(exam.academicYear - 1)
+  const dText = dLabel(shownDays)
 
   let status = null
   let tiles = null
@@ -159,7 +185,7 @@ const CountdownHero = forwardRef(function CountdownHero({ exam, now, clock, onSh
 
   return (
     <section className="cd-hero" aria-labelledby="cd-title" ref={ref} tabIndex={-1}>
-      <article className="cd-ticket">
+      <article className="cd-ticket" key={exam.academicYear}>
         <header className="cd-top">
           <span className={`suneung-badge ${exam.confirmed ? 'suneung-badge--confirmed' : 'suneung-badge--estimated'}`}>
             {exam.confirmed ? '확정' : '예상'}
@@ -183,7 +209,10 @@ const CountdownHero = forwardRef(function CountdownHero({ exam, now, clock, onSh
               <span className="cd-date-time">1교시 08:40</span>
             </p>
             <p className="cd-d suneung-num" style={{ '--d-len': dLabel(days).length }}>
-              {dLabel(days)}
+              <span className="suneung-sr-only">{dLabel(days)}</span>
+              <span className="cd-d-text" aria-hidden="true">
+                {dText}
+              </span>
             </p>
           </div>
 

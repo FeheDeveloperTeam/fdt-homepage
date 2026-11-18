@@ -1,0 +1,136 @@
+@scope (.suneung-app) {
+  .wm {
+    width: min(920px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.45);
+  }
+
+  .wm::backdrop {
+    background: rgba(20, 16, 10, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  .wm[open] { animation: wmIn 0.35s var(--ease-out); }
+
+  @keyframes wmIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .wm-inner { padding: 20px 22px 24px; }
+
+  .wm-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .wm-head h2 { font-size: 1.15rem; }
+
+  .wm-x {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--muted);
+  }
+
+  .wm-x:hover { background: var(--surface-2); color: var(--ink); }
+
+  .wm-body {
+    display: grid;
+    gap: 22px;
+  }
+
+  @media (min-width: 760px) {
+    .wm-body { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
+  }
+
+  .wm-preview {
+    display: grid;
+    place-items: center;
+    padding: 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
+  }
+
+  .wm-preview canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.4);
+  }
+
+  .wm-preview--phone canvas { max-height: 56vh; width: auto; }
+
+  .wm-options {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .wm-field {
+    display: grid;
+    gap: 8px;
+    border: 0;
+  }
+
+  .wm-field legend {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--muted);
+  }
+
+  .wm-seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .wm-seg button {
+    padding: 8px 14px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .wm-seg button[aria-pressed='true'] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--on-ink);
+  }
+
+  .wm-cheer {
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .wm-field .sn-btn { justify-self: start; }
+
+  .wm-save { min-height: 46px; font-size: 0.95rem; }
+
+  .wm-note { font-size: 0.76rem; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wm[open] { animation: none; }
+  }
+}

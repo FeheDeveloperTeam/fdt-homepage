@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="suneung-footer">
       <p>
-        &copy; {year} <span>수능 카운트다운</span> · Developed by FeheDeveloperTeam
+        &copy; {year} <span>수능 D-Day 타이머</span> · Developed by FeheDeveloperTeam
       </p>
     </footer>
   )

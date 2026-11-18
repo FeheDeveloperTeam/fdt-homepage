@@ -1,0 +1,91 @@
+@scope (.suneung-app) {
+  /* 본문 양옆 여백이 190px 이상일 때만 보인다(약 1640px 이상 화면). */
+  .omr-sheet {
+    --margin-w: calc((100vw - var(--content-w) - var(--gutter) * 2) / 2);
+    position: fixed;
+    top: calc(var(--header-h) + 36px);
+    z-index: 0;
+    display: none;
+    width: 148px;
+    padding: 14px 12px 18px;
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--accent-line);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    pointer-events: none;
+    opacity: 0;
+    animation: omrIn 1s var(--ease-out) 0.3s forwards;
+    mask-image: linear-gradient(180deg, #000 70%, transparent);
+  }
+
+  .omr-sheet--left { left: calc((var(--margin-w) - 148px) / 2); transform: rotate(-2deg); }
+  .omr-sheet--right { right: calc((var(--margin-w) - 148px) / 2); transform: rotate(2deg); }
+
+  @media (min-width: 1640px) {
+    .omr-sheet { display: block; }
+  }
+
+  @keyframes omrIn {
+    from { opacity: 0; translate: 0 16px; }
+    to { opacity: 0.85; translate: 0 0; }
+  }
+
+  .omr-sheet-title {
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+
+  .omr-row {
+    display: grid;
+    grid-template-columns: 18px repeat(5, 1fr);
+    align-items: center;
+    gap: 2px;
+    padding: 3px 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+
+  .omr-no {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .omr-bubble {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 17px;
+    height: 22px;
+    margin: 0 auto;
+    border: 1px solid var(--accent-line);
+    border-radius: 50%;
+    font-size: 0.55rem;
+    line-height: 1;
+    color: var(--accent-line);
+  }
+
+  .omr-bubble.is-marked::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 50%;
+    background: var(--ink);
+    transform: scale(0);
+    animation: omrMark 0.35s var(--ease-out) var(--d, 1s) forwards;
+  }
+
+  @keyframes omrMark {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .omr-sheet { animation: none; opacity: 0.85; }
+    .omr-bubble.is-marked::after { animation: none; transform: scale(1); }
+  }
+}

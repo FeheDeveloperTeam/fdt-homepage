@@ -1,0 +1,131 @@
+@scope (.suneung-app) {
+  .sp {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+
+  .sp-card {
+    padding: 18px 18px 16px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+  }
+
+  .sp-title {
+    margin-bottom: 12px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+
+  .sp-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sp-stat {
+    padding: 12px 12px 10px;
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
+  }
+
+  .sp-stat dt {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .sp-stat dd {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    margin-top: 2px;
+    min-width: 0;
+  }
+
+  .sp-stat dd span {
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+  }
+
+  .sp-stat dd small {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .sp-note {
+    margin-top: 10px;
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
+
+  .sp-today {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .sp-tools {
+    display: grid;
+    gap: 6px;
+  }
+
+  .sp-tool {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: var(--radius-md);
+    text-align: left;
+    transition: background 0.15s ease, transform 0.2s var(--ease-out);
+  }
+
+  .sp-tool:hover {
+    background: var(--accent-soft);
+    transform: translateX(3px);
+  }
+
+  .sp-tool-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .sp-tool:hover .sp-tool-icon {
+    background: var(--accent);
+    color: var(--on-ink);
+  }
+
+  .sp-tool-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sp-tool-text strong {
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .sp-tool-text small {
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-tool, .sp-tool-icon { transition: none; }
+    .sp-tool:hover { transform: none; }
+  }
+}

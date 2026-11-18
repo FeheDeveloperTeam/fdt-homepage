@@ -52,7 +52,7 @@ export default function ExamFinder({ now, minYear, maxYear, listedUntil, selecte
   }
 
   return (
-    <section className="suneung-section" aria-labelledby="ef-title">
+    <section className="suneung-section" id="finder" aria-labelledby="ef-title" data-reveal>
       <div className="suneung-section-head">
         <h2 id="ef-title" className="suneung-section-title">
           더 먼 수능 찾기

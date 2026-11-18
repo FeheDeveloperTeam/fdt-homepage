@@ -7,7 +7,7 @@ export default function Timetable({ exam, now }) {
   const isExamDay = daysUntil(exam, now) === 0
 
   return (
-    <section className="suneung-section" aria-labelledby="tt-title">
+    <section className="suneung-section" id="timetable" aria-labelledby="tt-title" data-reveal>
       <div className="suneung-section-head">
         <h2 id="tt-title" className="suneung-section-title">
           시험 당일 시간표

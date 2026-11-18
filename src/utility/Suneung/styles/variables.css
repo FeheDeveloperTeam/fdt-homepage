@@ -31,7 +31,7 @@
     --radius-lg: 18px;
 
     --header-h: 60px;
-    --content-w: 960px;
+    --content-w: 1200px;
     --gutter: clamp(16px, 4vw, 28px);
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 

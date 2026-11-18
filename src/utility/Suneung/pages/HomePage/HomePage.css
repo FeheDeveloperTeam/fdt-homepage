@@ -3,6 +3,35 @@
     margin-bottom: 18px;
   }
 
+  /* 넓은 화면: 위쪽은 수험표(왼쪽) + 남은 시간·도구(오른쪽), 아래는 두 칸씩 */
+  .sn-top {
+    display: grid;
+    gap: 18px;
+  }
+
+  @media (min-width: 1100px) {
+    .sn-top {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      align-items: start;
+      gap: 22px;
+    }
+  }
+
+  .sn-grid {
+    display: grid;
+    gap: 0 48px;
+  }
+
+  @media (min-width: 1100px) {
+    .sn-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+      margin-top: clamp(40px, 7vw, 64px);
+    }
+
+    .sn-grid > .suneung-section { margin-top: 0; }
+  }
+
   .sn-title {
     font-size: clamp(1.45rem, 3.6vw, 1.9rem);
     font-weight: 900;

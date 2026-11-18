@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import Seo from '../../../../components/Seo/Seo'
@@ -9,6 +9,11 @@ import UpcomingList from '../../components/UpcomingList/UpcomingList'
 import ExamFinder from '../../components/ExamFinder/ExamFinder'
 import CheerSection from '../../components/CheerSection/CheerSection'
 import Faq from '../../components/Faq/Faq'
+import SidePanel from '../../components/SidePanel/SidePanel'
+import PracticeTimer from '../../components/PracticeTimer/PracticeTimer'
+import ClassroomMode from '../../components/ClassroomMode/ClassroomMode'
+import WallpaperMaker from '../../components/WallpaperMaker/WallpaperMaker'
+import { prefersReducedMotion, useReveal } from '../../useMotion'
 import { SUNEUNG_PATH, suneungFaq } from '../../suneungSeo'
 import { useClockOffset, useNow } from '../../useKstClock'
 import {
@@ -24,15 +29,14 @@ import './HomePage.css'
 
 const PATH = SUNEUNG_PATH
 
-function prefersReducedMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-}
-
 export default function HomePage() {
   const clock = useClockOffset()
   const now = useNow(clock.offset)
   const [params, setParams] = useSearchParams()
   const heroRef = useRef(null)
+  const pageRef = useRef(null)
+  const [dialog, setDialog] = useState(null)
+  useReveal(pageRef)
 
   // 시험 당일 5교시가 끝난 뒤에도 그날 자정까지는 오늘 수능의 「수고하셨습니다」를 기본으로 보여 준다.
   const upcoming = upcomingAcademicYear(now)
@@ -90,7 +94,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="sn-page">
+    <div className="sn-page" ref={pageRef}>
       <Seo
         title={`수능 ${dLabel(daysUntil(exam, now))} 타이머 · ${exam.academicYear} 수능 디데이`}
         description={SEO_DATA[PATH].description}
@@ -100,39 +104,51 @@ export default function HomePage() {
         <script type="application/ld+json">{structuredData}</script>
       </Helmet>
 
-      <header className="sn-head">
+      <header className="sn-head" data-reveal>
         <h1 className="sn-title">수능 D-Day 타이머</h1>
         <p className="sn-lead">
           {exam.academicYear}학년도 수능 디데이를 한국 시간 기준으로 초 단위까지 셉니다
         </p>
       </header>
 
-      <CountdownHero
-        ref={heroRef}
-        exam={exam}
-        now={now}
-        clock={clock}
-        onShowNext={endedToday && selectedYear === defaultYear ? () => select(upcoming) : null}
-      />
+      <div className="sn-top">
+        <CountdownHero
+          ref={heroRef}
+          exam={exam}
+          now={now}
+          clock={clock}
+          onShowNext={endedToday && selectedYear === defaultYear ? () => select(upcoming) : null}
+        />
+        <SidePanel
+          exam={exam}
+          now={now}
+          onOpenClassroom={() => setDialog('classroom')}
+          onOpenWallpaper={() => setDialog('wallpaper')}
+        />
+      </div>
+
+      <PracticeTimer />
+
+      <div className="sn-grid">
+        <Timetable exam={exam} now={now} />
+        <UpcomingList exams={exams} now={now} selectedYear={selectedYear} onSelect={select} />
+      </div>
 
       <CheerSection now={now} />
 
-      <Timetable exam={exam} now={now} />
+      <div className="sn-grid">
+        <ExamFinder
+          now={now}
+          minYear={defaultYear}
+          maxYear={maxYear}
+          listedUntil={listedUntil}
+          selectedYear={selectedYear}
+          onSelect={select}
+        />
+        <Faq items={faq} />
+      </div>
 
-      <UpcomingList exams={exams} now={now} selectedYear={selectedYear} onSelect={select} />
-
-      <ExamFinder
-        now={now}
-        minYear={defaultYear}
-        maxYear={maxYear}
-        listedUntil={listedUntil}
-        selectedYear={selectedYear}
-        onSelect={select}
-      />
-
-      <Faq items={faq} />
-
-      <section className="suneung-section sn-notes" aria-labelledby="sn-notes-title">
+      <section className="suneung-section sn-notes" aria-labelledby="sn-notes-title" data-reveal>
         <div className="suneung-section-head">
           <h2 id="sn-notes-title" className="suneung-section-title">
             날짜와 시간은 이렇게 정했습니다
@@ -184,6 +200,9 @@ export default function HomePage() {
           </a>
         </p>
       </section>
+
+      <ClassroomMode open={dialog === 'classroom'} onClose={() => setDialog(null)} exam={exam} now={now} />
+      <WallpaperMaker open={dialog === 'wallpaper'} onClose={() => setDialog(null)} exam={exam} now={now} />
     </div>
   )
 }

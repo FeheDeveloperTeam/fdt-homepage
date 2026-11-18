@@ -19,6 +19,8 @@
   }
 
   .suneung-main {
+    position: relative;
+    z-index: 1;
     flex: 1;
     width: 100%;
     max-width: calc(var(--content-w) + var(--gutter) * 2);
@@ -110,5 +112,69 @@
 
   .suneung-num {
     font-variant-numeric: tabular-nums;
+  }
+
+  /* 스크롤 등장. 스크립트가 붙인 .sn-reveal-on 아래에서만 숨기므로, 스크립트가 없으면 그냥 보인다. */
+  :scope.sn-reveal-on [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s var(--ease-out) var(--reveal-delay, 0s),
+      transform 0.7s var(--ease-out) var(--reveal-delay, 0s);
+  }
+
+  :scope.sn-reveal-on [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :scope.sn-reveal-on [data-reveal] {
+      transform: none;
+      transition: opacity 0.3s linear;
+    }
+  }
+
+  /* 공용 둥근 버튼 */
+  .sn-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    transition: transform 0.2s var(--ease-out), border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  }
+
+  .sn-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent-line);
+    color: var(--accent);
+  }
+
+  .sn-btn:active { transform: translateY(0) scale(0.98); }
+
+  .sn-btn--primary {
+    border-color: transparent;
+    background: var(--accent);
+    color: var(--on-ink);
+  }
+
+  .sn-btn--primary:hover { color: var(--on-ink); filter: brightness(1.08); }
+
+  .sn-btn:disabled {
+    cursor: default;
+    opacity: 0.5;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sn-btn { transition: none; }
   }
 }
