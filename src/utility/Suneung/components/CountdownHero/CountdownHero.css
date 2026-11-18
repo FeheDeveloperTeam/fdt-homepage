@@ -30,7 +30,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+    background: linear-gradient(105deg, transparent 40%, var(--sheen) 50%, transparent 60%);
     transform: translateX(-120%);
     animation: cdSheen 1.6s ease-out 0.6s both;
   }
@@ -379,7 +379,4 @@
     .cd-progress-fill { transition: none; }
   }
 
-  @media (prefers-color-scheme: dark) {
-    .cd-ticket::after { background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.06) 50%, transparent 60%); }
-  }
 }

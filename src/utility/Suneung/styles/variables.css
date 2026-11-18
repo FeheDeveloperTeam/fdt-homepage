@@ -1,7 +1,9 @@
 /*
   수능 카운트다운 디자인 토큰.
   밝은 테마는 시험지·수험표의 따뜻한 종이색 위에 먹색 글자, 강조색은 OMR 카드의 붉은 잉크.
-  어두운 테마(기기 설정)는 밤 독서실처럼 어두운 책상 위 종이 느낌으로 같은 역할의 값을 바꾼다.
+  어두운 테마는 밤 독서실처럼 어두운 책상 위 종이 느낌으로 같은 역할의 값을 바꾼다.
+  화면 설정(theme.js)에 따라 앱 루트에 data-mode(auto·light·dark)와 --accent-light / --accent-dark가 붙는다.
+  auto는 기기 설정을 따르고, 강조색은 모드에 맞는 쪽을 --accent로 쓴다.
   글자 대비는 본문·보조 글자 모두 바탕 대비 4.5:1 이상으로 맞췄다.
 */
 @scope (.suneung-app) {
@@ -15,9 +17,12 @@
     --muted:       #67625a;
     --rule:        #ddd6c6;
     --rule-strong: #bdb4a0;
-    --accent:      #c2334b;
-    --accent-soft: rgba(194, 51, 75, 0.08);
-    --accent-line: rgba(194, 51, 75, 0.35);
+    --accent-light: #c2334b;
+    --accent-dark:  #ff7a8a;
+    --accent:      var(--accent-light);
+    --accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+    --accent-line: color-mix(in srgb, var(--accent) 35%, transparent);
+    --sheen:       rgba(255, 255, 255, 0.35);
     --on-ink:      #fbfaf6;
     --focus:       #1f5fbf;
     --shadow:      0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 40px -24px rgba(60, 48, 25, 0.35);
@@ -39,7 +44,7 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    :scope {
+    :scope:not([data-mode="light"]) {
       --bg:          #121316;
       --bg-deep:     #0d0e10;
       --surface:     #1a1c20;
@@ -49,14 +54,36 @@
       --muted:       #969186;
       --rule:        #2c2f35;
       --rule-strong: #43474f;
-      --accent:      #ff7a8a;
-      --accent-soft: rgba(255, 122, 138, 0.1);
-      --accent-line: rgba(255, 122, 138, 0.4);
+      --accent:      var(--accent-dark);
+      --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+      --accent-line: color-mix(in srgb, var(--accent) 40%, transparent);
       --on-ink:      #121316;
       --focus:       #8ab8ff;
+      --sheen:       rgba(255, 255, 255, 0.06);
       --shadow:      0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px -28px rgba(0, 0, 0, 0.8);
 
       color-scheme: dark;
     }
+  }
+
+  :scope[data-mode="dark"] {
+    --bg:          #121316;
+    --bg-deep:     #0d0e10;
+    --surface:     #1a1c20;
+    --surface-2:   #22252a;
+    --ink:         #ece9e1;
+    --ink-soft:    #c4bfb4;
+    --muted:       #969186;
+    --rule:        #2c2f35;
+    --rule-strong: #43474f;
+    --accent:      var(--accent-dark);
+    --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+    --accent-line: color-mix(in srgb, var(--accent) 40%, transparent);
+    --on-ink:      #121316;
+    --focus:       #8ab8ff;
+    --sheen:       rgba(255, 255, 255, 0.06);
+    --shadow:      0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px -28px rgba(0, 0, 0, 0.8);
+
+    color-scheme: dark;
   }
 }

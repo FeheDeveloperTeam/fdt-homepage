@@ -4,6 +4,7 @@ import Logo from '../Logo/Logo'
 import { dLabel, daysUntil, pad2, phaseOf, splitDuration } from '../../suneungDates'
 import { useClock, useSelectedExam } from '../../suneungState'
 import { prefersReducedMotion } from '../../useMotion'
+import { useAmbient } from '../../ambient/useAmbient'
 import './Footer.css'
 
 function IconTimer() {
@@ -35,6 +36,16 @@ function IconCalendar() {
   )
 }
 
+function IconSound() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M4 14v-2a8 8 0 0 1 16 0v2" strokeLinecap="round" />
+      <rect x="3" y="13.5" width="4.5" height="7" rx="1.8" />
+      <rect x="16.5" y="13.5" width="4.5" height="7" rx="1.8" />
+    </svg>
+  )
+}
+
 function IconHeart() {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -45,6 +56,7 @@ function IconHeart() {
 
 const TABS = [
   { id: 'practice', label: '실전', Icon: IconTimer },
+  { id: 'sound', label: '소리', Icon: IconSound },
   { id: 'timetable', label: '시간표', Icon: IconList },
   { id: 'upcoming', label: '날짜', Icon: IconCalendar },
   { id: 'cheer', label: '응원', Icon: IconHeart },
@@ -84,6 +96,8 @@ export default function Footer() {
   const { now } = useClock()
   const { exam } = useSelectedExam(now)
   const active = useActiveSection()
+  const ambient = useAmbient()
+  const soundCount = ambient?.playing.size ?? 0
   const year = new Date(now).getFullYear()
 
   const days = daysUntil(exam, now)
@@ -130,10 +144,29 @@ export default function Footer() {
                 onClick={(e) => goTo(e, id)}
               >
                 <Icon />
+                {id === 'sound' && soundCount > 0 && <span className="sf-tab-badge" aria-label="재생 중" />}
                 <span className="sf-tab-label">{label}</span>
               </a>
             ))}
           </nav>
+
+          {soundCount > 0 && (
+            <div className="sf-sound">
+              <a className="sf-sound-link" href="#sound" onClick={(e) => goTo(e, 'sound')}>
+                <span className="sf-sound-eq" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                백색소음 {soundCount}개 재생 중
+              </a>
+              <button type="button" className="sf-sound-stop" onClick={ambient.stopAll} aria-label="백색소음 모두 끄기">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true">
+                  <rect x="5" y="5" width="14" height="14" rx="2" />
+                </svg>
+              </button>
+            </div>
+          )}
 
           <p className="sf-credit">
             &copy; {year} <span>수능 D-Day 타이머</span> · FeheDeveloperTeam ·{' '}

@@ -10,6 +10,7 @@ import CheerSection from '../../components/CheerSection/CheerSection'
 import Faq from '../../components/Faq/Faq'
 import SidePanel from '../../components/SidePanel/SidePanel'
 import PracticeTimer from '../../components/PracticeTimer/PracticeTimer'
+import Ambient from '../../components/Ambient/Ambient'
 import ClassroomMode from '../../components/ClassroomMode/ClassroomMode'
 import WallpaperMaker from '../../components/WallpaperMaker/WallpaperMaker'
 import { prefersReducedMotion, useReveal } from '../../useMotion'
@@ -107,6 +108,8 @@ export default function HomePage() {
       </div>
 
       <PracticeTimer />
+
+      <Ambient />
 
       <div className="sn-grid">
         <Timetable exam={exam} now={now} />

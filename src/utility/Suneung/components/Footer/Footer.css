@@ -81,6 +81,72 @@
 
   .sf-tabs { display: none; }
 
+  /* 백색소음이 나는 동안 보이는 작은 표시 */
+  .sf-sound {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px 3px 3px 12px;
+    border: 1px solid var(--accent-line);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    margin-left: auto;
+    animation: sfSoundIn 0.35s var(--ease-out);
+  }
+
+  .sf-sound + .sf-credit { margin-left: 0; }
+
+  @keyframes sfSoundIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .sf-sound-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .sf-sound-eq {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .sf-sound-eq i {
+    flex: 1;
+    border-radius: 1px;
+    background: var(--accent);
+    animation: sfEq 0.8s ease-in-out infinite alternate;
+  }
+
+  .sf-sound-eq i:nth-child(2) { animation-delay: -0.3s; animation-duration: 0.6s; }
+  .sf-sound-eq i:nth-child(3) { animation-delay: -0.5s; animation-duration: 1s; }
+
+  @keyframes sfEq {
+    from { height: 25%; }
+    to { height: 100%; }
+  }
+
+  .sf-sound-stop {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    margin-left: 6px;
+    border-radius: 50%;
+    color: var(--accent);
+    transition: background 0.15s ease;
+  }
+
+  .sf-sound-stop:hover { background: var(--accent-soft); }
+
   /* 흐름 속 저작권 줄은 모바일에서만(탭 바에는 자리가 없어서) */
   .sf-credit-flow {
     display: none;
@@ -100,6 +166,7 @@
   @media (max-width: 760px) {
     .sf-credit-flow { display: block; }
     .sf-count,
+    .sf-sound,
     .sf-credit { display: none; }
 
     .sf { background: color-mix(in srgb, var(--surface) 92%, transparent); }
@@ -111,7 +178,7 @@
 
     .sf-tabs {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       width: 100%;
       height: 100%;
     }
@@ -148,6 +215,22 @@
     .sf-tab.is-active svg { transform: translateY(-1px) scale(1.08); }
     .sf-tab:active svg { transform: scale(0.9); }
 
+    .sf-tab-badge {
+      position: absolute;
+      top: 9px;
+      left: calc(50% + 8px);
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--surface);
+      border-radius: 50%;
+      background: var(--accent);
+      animation: sfPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes sfPulse {
+      50% { transform: scale(1.25); }
+    }
+
     .sf-tab-label {
       font-size: 0.68rem;
       font-weight: 700;
@@ -175,7 +258,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sf { animation: none; }
+    .sf, .sf-sound, .sf-sound-eq i, .sf-tab-badge { animation: none; }
+    .sf-sound-eq i { height: 70%; }
     .sf-tab, .sf-tab::before, .sf-tab svg { transition: none; }
   }
 }

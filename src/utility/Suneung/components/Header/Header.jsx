@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../Logo/Logo'
+import ThemeSettings from '../ThemeSettings/ThemeSettings'
 import './Header.css'
 
 const SECTIONS = [
   { href: '#practice', label: '실전 타이머' },
+  { href: '#sound', label: '백색소음' },
   { href: '#timetable', label: '시간표' },
   { href: '#upcoming', label: '수능 날짜' },
   { href: '#cheer', label: '응원 문구' },
@@ -58,6 +60,7 @@ export default function Header() {
           ))}
         </nav>
         <span className="suneung-header-tz">KST</span>
+        <ThemeSettings />
       </div>
     </header>
   )

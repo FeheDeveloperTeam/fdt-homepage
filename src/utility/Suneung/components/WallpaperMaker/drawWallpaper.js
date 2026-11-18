@@ -69,9 +69,10 @@ function fitFont(ctx, text, weight, family, maxSize, maxWidth) {
   return size
 }
 
-export function drawWallpaper(canvas, { exam, now, format, theme, message }) {
+// accent: 화면 설정에서 고른 강조색({ light, dark }). 없으면 기본 OMR 빨강.
+export function drawWallpaper(canvas, { exam, now, format, theme, message, accent }) {
   const { w, h } = FORMATS[format]
-  const t = THEMES[theme]
+  const t = accent ? { ...THEMES[theme], accent: accent[theme] } : THEMES[theme]
   const phone = format === 'phone'
   canvas.width = w
   canvas.height = h

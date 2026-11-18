@@ -10,7 +10,7 @@
     border: 0;
     color: #ece9e1;
     background:
-      radial-gradient(ellipse 70% 55% at 50% 40%, rgba(255, 122, 138, 0.12), transparent 70%),
+      radial-gradient(ellipse 70% 55% at 50% 40%, color-mix(in srgb, var(--accent-dark) 12%, transparent), transparent 70%),
       #0f1013;
   }
 
@@ -45,7 +45,7 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    --logo-bg: #ff7a8a;
+    --logo-bg: var(--accent-dark);
     --logo-fg: #0f1013;
   }
 
@@ -87,8 +87,8 @@
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: -0.05em;
-    color: #ff7a8a;
-    text-shadow: 0 0 60px rgba(255, 122, 138, 0.25);
+    color: var(--accent-dark);
+    text-shadow: 0 0 60px color-mix(in srgb, var(--accent-dark) 25%, transparent);
     animation: cmRise 0.9s var(--ease-out) 0.15s both;
   }
 

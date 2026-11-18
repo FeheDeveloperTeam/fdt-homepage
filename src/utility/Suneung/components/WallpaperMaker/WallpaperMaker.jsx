@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CHEER_MESSAGES } from '../CheerSection/cheerMessages'
 import { kstParts } from '../../suneungDates'
 import { FORMATS, drawWallpaper } from './drawWallpaper'
+import { useTheme } from '../../theme'
 import './WallpaperMaker.css'
 
 const THEME_LABELS = { light: '밝게', dark: '어둡게' }
@@ -11,7 +12,9 @@ export default function WallpaperMaker({ open, onClose, exam, now }) {
   const dialogRef = useRef(null)
   const canvasRef = useRef(null)
   const [format, setFormat] = useState('phone')
-  const [theme, setTheme] = useState('light')
+  const { accent, dark } = useTheme()
+  // 처음에는 지금 화면 밝기와 같은 배경화면을 보여 준다.
+  const [theme, setTheme] = useState(dark ? 'dark' : 'light')
   const [cheer, setCheer] = useState(() => {
     const p = kstParts(Date.now())
     return Math.floor(Date.UTC(p.year, p.month - 1, p.day) / 86400000) % CHEER_MESSAGES.length
@@ -30,8 +33,8 @@ export default function WallpaperMaker({ open, onClose, exam, now }) {
 
   useEffect(() => {
     if (!open || !canvasRef.current) return
-    drawWallpaper(canvasRef.current, { exam, now: Date.now(), format, theme, message: CHEER_MESSAGES[cheer] })
-  }, [open, exam, format, theme, cheer, dayKey])
+    drawWallpaper(canvasRef.current, { exam, now: Date.now(), format, theme, message: CHEER_MESSAGES[cheer], accent })
+  }, [open, exam, format, theme, cheer, dayKey, accent])
 
   const save = () => {
     canvasRef.current?.toBlob((blob) => {
