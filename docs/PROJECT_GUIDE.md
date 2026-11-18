@@ -13,6 +13,7 @@
 | Yukiha | 자기소개, NATSUMI, 기술 스택, 개발 분야, GitHub 활동과 링크 | `src/member/yukiha/YukihaApp.jsx` |
 | Chiyumi | Discord 봇 소개, 관리자 도구, 길드 설정 | `src/DiscordBot/Chiyumi/ChiyumiApp.jsx` |
 | 네트워크 테스트 | IP, 왕복 지연, 다운로드 처리량 진단 | `src/utility/NetworkTest/NetworkTestApp.jsx` |
+| 수능 카운트다운 | 한국 시간 기준 수능 D-day, 앞으로 10년·원하는 학년도의 수능 날짜, 시험 당일 시간표 | `src/utility/Suneung/SuneungApp.jsx` |
 | Minecraft 위키 | Java 문서, Bedrock 준비 페이지 | `src/wiki/Minecraft/MinecraftWikiApp.jsx` |
 | API | 인증, 관리자, 길드, 네트워크 진단 | `api/` |
 | 로컬·독립 서버 | API 핸들러 연결, Vite 미들웨어 또는 `dist` 제공 | `server/index.js` |
@@ -99,10 +100,18 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | 경로 | 화면 |
 | --- | --- |
 | `/utility/network-test` | 네트워크 진단 |
+| `/utility/suneung` | 수능 카운트다운 (`?year=<학년도>`로 볼 수능 지정, 없으면 가장 가까운 수능) |
 | `/wiki/minecraft` | 위키 홈 |
 | `/wiki/minecraft/java` | Java 문서 목록 |
 | `/wiki/minecraft/java/:slug` | Java 문서 상세 |
 | `/wiki/minecraft/bedrock` | Bedrock 준비 페이지 |
+
+수능 카운트다운은 `src/utility/Suneung/`이 담당하는 분리 페이지(자체 Header/Footer, `.suneung-app` 스코프)이며 백엔드 없이 브라우저에서만 계산합니다.
+
+- 날짜 데이터와 계산은 `suneungDates.js` 한 곳에 있습니다. `CONFIRMED`는 교육부가 발표한 시행일(키는 학년도, 시험은 그 전해 11월)과 성적 통지일·시간표·비고이고, 없는 학년도는 `estimateExamDate`가 「11월 13~19일 사이 목요일」 규칙(2016년 시행부터 처음 계획된 시행일이 모두 이 범위)으로 계산해 「예상」으로 표시합니다. 새 학년도 시행일이 발표되면 `CONFIRMED`에 한 줄을 추가합니다. 2026-11-18 기준 확정은 2027학년도(2026-11-19, 성적 12-11)와 2028학년도(2027-11-18, 성적 12-10, 첫 통합형)이고, 교시별 시간표는 2027학년도만 발표돼 있습니다.
+- 모든 시각은 기기 시간대와 관계없이 KST(UTC+9 고정)로 계산합니다. 카운트다운 기준은 1교시 시작 08:40, 시험 당일은 마지막 교시 종료 17:45까지 진행 중으로 보고 지금 교시를 강조합니다. 종료 후에도 그날 자정까지는 「수고하셨습니다」를 기본 화면으로 둡니다.
+- `useKstClock.js`의 `useClockOffset`이 `/robots.txt`에 HEAD 요청을 보내 응답 `Date` 헤더로 기기 시계 오차를 재고, 1.5초를 넘으면 그만큼 보정합니다. 실패하면 기기 시계를 씁니다.
+- 목록은 올해부터 10년 뒤 해까지 치르는 수능이고, 「더 먼 수능 찾기」는 학년도 또는 출생연도(학년도 − 19, 제때 입학 기준)로 올해 + 100학년도까지 고를 수 있습니다. 학년은 3월에 바뀌는 것으로 계산합니다.
 
 Java 문서 데이터와 상세 SEO 항목은 `src/wiki/Minecraft/javaWikiData.js`와 `src/seoData.js`에서 연결됩니다.
 
@@ -112,7 +121,7 @@ FDT 메인은 CSS Modules를 주로 사용하고 공통 토큰은 `src/styles/va
 
 `--color-status-ok` · `--color-status-warning` · `--color-status-critical`은 상태 표시 전용입니다. 계열(series) 색으로 재사용하지 않고, 색만으로 뜻을 전달하지 않도록 항상 글자 라벨과 함께 씁니다. 어두운 표면 기준 대비 3:1 이상, 정상 시야 인접 구분 ΔE 18.2를 확인한 값입니다.
 
-Fehe, Chiyumi, 네트워크 테스트, Minecraft 위키는 서로 다른 디자인 시스템입니다. 각 서브앱의 `index.css`와 `styles/variables.css`가 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app` 루트 아래에서 `@scope`로 리셋과 토큰을 제한합니다. 서브앱 스타일을 수정할 때 이 경계를 벗어나는 전역 선택자를 추가하지 않아야 다른 영역과 충돌하지 않습니다.
+Fehe, Chiyumi, 네트워크 테스트, 수능 카운트다운, Minecraft 위키는 서로 다른 디자인 시스템입니다. 각 서브앱의 `index.css`와 `styles/variables.css`가 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.suneung-app`, `.mcwiki-app` 루트 아래에서 `@scope`로 리셋과 토큰을 제한합니다. 서브앱 스타일을 수정할 때 이 경계를 벗어나는 전역 선택자를 추가하지 않아야 다른 영역과 충돌하지 않습니다.
 
 반응형 변경에는 기존 미디어 쿼리와 `prefers-reduced-motion` 처리를 유지하고, 재사용 값은 해당 영역의 변수 파일에 먼저 추가합니다.
 
@@ -273,6 +282,7 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabas
 - 길드 권한: `api/_lib/guildAuth.js`
 - SFTP 접근 공통부: `api/_lib/sftpClient.js`
 - 네트워크 진단 계산: `src/utility/NetworkTest/networkDiagnostics.js`
+- 수능 시행일·성적 통지일·시간표: `src/utility/Suneung/suneungDates.js`의 `CONFIRMED` (화면 부품은 `components/`의 `CountdownHero`·`Timetable`·`UpcomingList`·`ExamFinder`. 디자인은 시험지·수험표의 종이색과 OMR 붉은 잉크, 기기 다크 모드에서는 어두운 톤으로 바뀜)
 - Minecraft Java 문서: `src/wiki/Minecraft/javaWikiData.js`
 - Fehe 음악 재생 목록: `src/member/fehe/components/MusicPlayer/MusicPlayer.jsx`의 `TRACKS` (YouTube IFrame Player로 영상을 그대로 재생하므로 항목에는 영상 ID와 표시용 제목·아티스트만 둔다. **등록한 최신 순으로 정렬하므로 새 곡은 배열 맨 위에 넣고**, 목록 첫 곡이 처음 재생된다. 곡이 끝나면 다음 곡으로 넘어가고 마지막 곡 뒤에는 처음으로 돌아간다. 재생바 아래 가운데의 반복 버튼을 켜면 지금 곡만 반복한다. 칸을 넘치는 제목은 `ScrollingText`가 실제 넘치는 길이를 재서 천천히 왕복하며 끝까지 보여 주고, 마우스를 올리면 멈추며, 움직임 줄이기 설정에서는 말줄임표와 툴팁으로 대신한다. 볼륨 슬라이더는 상시 노출하지 않고, 상단 볼륨 버튼을 누르면 그 버튼 바로 위에 세로 슬라이더가 뜬다(`absolute`라 카드 높이를 밀지 않고 위로 열려 진행바를 가리지 않는다. 바깥 클릭이나 ESC로 닫힌다). 720px 이하에서는 카드가 화면을 크게 가려서 원형 버튼으로 접어 두고 눌러야 펼쳐진다 — 카드는 `hidden` 속성 대신 조건부 렌더링으로 감춘다. `.music-card`의 `display: flex`가 UA 스타일시트의 `[hidden]`을 이기기 때문이다. YouTube 플레이어 컨테이너는 카드 밖에 있어 접어도 재생이 끊기지 않는다)
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path, 눈을 뺀 풍경은 `Scenery`로 꺼내 인트로와 함께 씀)

@@ -38,6 +38,7 @@ npm run build
 | `src/member/` | Fehe, Yukiha 멤버 페이지 |
 | `src/DiscordBot/Chiyumi/` | Discord 봇 소개, 길드·관리자 UI |
 | `src/utility/NetworkTest/` | HTTP 왕복 시간과 다운로드 처리량 진단 |
+| `src/utility/Suneung/` | 수능 D-day 카운트다운(한국 시간 기준) |
 | `src/wiki/Minecraft/` | Minecraft 위키 |
 | `api/` | Vercel Serverless Function 및 Express 공용 API 핸들러 |
 | `api/_lib/` | 인증, Discord, SFTP, Sheets, 검증 공통 코드 |
@@ -46,7 +47,7 @@ npm run build
 ## 작성 규칙
 
 - 공개 라우트를 추가하거나 바꾸면 `src/seoData.js`, `public/sitemap.xml`, 관련 문서를 함께 갱신합니다.
-- 서브앱 CSS는 각 루트 범위(`.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app`) 안에 둡니다. 전역 선택자로 다른 화면에 영향을 주지 않습니다.
+- 서브앱 CSS는 각 루트 범위(`.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.suneung-app`, `.mcwiki-app`) 안에 둡니다. 전역 선택자로 다른 화면에 영향을 주지 않습니다.
 - API 핸들러는 Vercel과 로컬 Express에서 모두 실행됩니다. Node 전용 동작, 응답 상태·헤더, 오류 처리를 두 환경에서 확인합니다.
 - SFTP JSON은 봇과 공유하는 데이터 계약입니다. 스키마 변경 전 관련 `api/_lib/sftp*.js`와 봇 호환성을 확인합니다.
 - 비밀 값과 실제 `.env` 파일은 커밋·문서·로그에 넣지 않습니다. 새 환경 변수는 `.env.example`과 [배포 문서](DEPLOYMENT.md)에 추가합니다.

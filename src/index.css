@@ -95,7 +95,9 @@ p:where(:not(.fehe-app, .fehe-app *)) {
       .mcwiki-app,
       .mcwiki-app *,
       .nettest-app,
-      .nettest-app *
+      .nettest-app *,
+      .suneung-app,
+      .suneung-app *
     )
   ):focus-visible {
   outline: 3px solid var(--color-focus);

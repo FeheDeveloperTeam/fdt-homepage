@@ -1,0 +1,332 @@
+@scope (.suneung-app) {
+  .cd-hero:focus { outline: none; }
+
+
+  /* 수험표처럼 위·아래가 절취선으로 나뉜 카드 */
+  .cd-ticket {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+
+  .cd-ticket::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: var(--accent);
+  }
+
+  .cd-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 24px 14px;
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  .cd-source {
+    min-width: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .cd-serial {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .cd-body {
+    display: grid;
+    gap: 28px;
+    padding: 28px 24px 26px;
+  }
+
+  @media (min-width: 820px) {
+    .cd-body {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: end;
+      gap: 40px;
+      padding: 34px 32px 30px;
+    }
+  }
+
+  .cd-ident {
+    min-width: 0;
+    container-type: inline-size;
+  }
+
+  .cd-kicker {
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+
+  .cd-title {
+    margin-top: 2px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4.4vw, 2.45rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .cd-date {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+
+  .cd-date-sep {
+    margin: 0 8px;
+    color: var(--rule-strong);
+  }
+
+  .cd-date-time { white-space: nowrap; }
+
+  /* 글자 수가 늘어나는 먼 미래(D-26,812 등)도 칸을 넘지 않게 컨테이너 너비로 줄인다. */
+  .cd-d {
+    margin-top: 18px;
+    font-size: min(7.5rem, calc(100cqi / (var(--d-len, 3) * 0.62)));
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .cd-clock { min-width: 0; }
+
+  .cd-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .cd-status--live { color: var(--accent); }
+
+  .cd-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: cdPulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes cdPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  .cd-tiles {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .cd-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 0;
+    padding: 14px 6px 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    container-type: inline-size;
+  }
+
+  /* 자릿수가 많아 글자가 줄어도 칸마다 숫자 높이·단위 위치가 같도록 높이를 고정한다. */
+  .cd-tile-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    font-size: min(2.5rem, calc((100cqi - 4px) / (var(--chars, 2) * 0.64)));
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  .cd-tile-unit {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .cd-progress { margin-top: 16px; }
+
+  .cd-progress-track {
+    height: 8px;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  .cd-progress-fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: inherit;
+    transition: width 0.6s var(--ease-out);
+  }
+
+  .cd-progress-caption {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .cd-progress-caption strong { color: var(--ink); }
+
+  .cd-distance {
+    margin-top: 14px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .cd-finished {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 3.2vw, 1.6rem);
+    font-weight: 700;
+  }
+
+  .cd-next {
+    margin-top: 16px;
+    padding: 10px 16px;
+    border: 1px solid var(--accent-line);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent);
+    transition: background 0.15s ease;
+  }
+
+  .cd-next:hover { background: var(--accent-soft); }
+
+  .cd-tip {
+    margin: 0 24px 22px;
+    padding: 12px 14px;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 820px) {
+    .cd-tip { margin: 0 32px 26px; }
+  }
+
+  /* 절취선: 양 끝을 반원으로 파낸 점선 */
+  .cd-perf {
+    position: relative;
+    margin: 0 20px;
+    border-top: 2px dashed var(--rule-strong);
+  }
+
+  .cd-perf::before,
+  .cd-perf::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .cd-perf::before { left: -32px; }
+  .cd-perf::after { right: -32px; }
+
+  .cd-facts {
+    display: grid;
+    gap: 12px 28px;
+    padding: 18px 24px 22px;
+  }
+
+  @media (min-width: 640px) {
+    .cd-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 820px) {
+    .cd-facts { padding: 20px 32px 24px; }
+  }
+
+  .cd-facts dt {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+
+  .cd-facts dd {
+    margin-top: 2px;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .cd-now {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px 10px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .cd-now time {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 521px) {
+    .cd-now-note::before {
+      content: '·';
+      margin-right: 10px;
+      color: var(--rule-strong);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cd-now-note { flex-basis: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .cd-top { padding: 16px 18px 12px; }
+    .cd-body { padding: 24px 18px 22px; }
+    .cd-tip { margin: 0 18px 20px; }
+    .cd-facts { padding: 16px 18px 20px; }
+    .cd-perf { margin: 0 14px; }
+    .cd-perf::before { left: -26px; }
+    .cd-perf::after { right: -26px; }
+    .cd-source { font-size: 0.75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cd-live-dot { animation: none; }
+    .cd-progress-fill { transition: none; }
+  }
+}

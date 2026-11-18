@@ -2,7 +2,7 @@
 
 개발·API·배포·문제 해결 문서는 [docs/README.md](docs/README.md)에서 확인합니다.
 
-FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여러 웹 기능을 한곳에 모은 React 프로젝트입니다. FDT 소개 페이지뿐 아니라 팀원 페이지, Discord 봇 Chiyumi의 소개·관리 화면, 네트워크 진단 도구, Minecraft 위키를 함께 제공합니다.
+FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여러 웹 기능을 한곳에 모은 React 프로젝트입니다. FDT 소개 페이지뿐 아니라 팀원 페이지, Discord 봇 Chiyumi의 소개·관리 화면, 네트워크 진단 도구, 수능 카운트다운, Minecraft 위키를 함께 제공합니다.
 
 운영 주소: [https://www.fehe.dev](https://www.fehe.dev)
 
@@ -11,7 +11,7 @@ FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여�
 - FDT: 팀 소개, 서비스, 프로젝트, 문의
 - 멤버: Fehe 개인 페이지와 Yukiha 자기소개·NATSUMI 프로젝트 페이지
 - Chiyumi: 봇 소개, Discord 로그인, 관리자·서버별 설정 화면
-- 유틸리티: IP·지연 시간·다운로드 속도를 확인하는 네트워크 테스트
+- 유틸리티: IP·지연 시간·다운로드 속도를 확인하는 네트워크 테스트, 한국 시간 기준 수능 D-day 카운트다운
 - 위키: Minecraft Java 문서와 Bedrock 준비 페이지
 
 프런트엔드는 React 19, React Router 7, Vite 8을 사용합니다. API는 Vercel Serverless Functions로 배포하며, 로컬 개발과 독립 실행 환경에서는 Express가 같은 핸들러를 사용합니다.

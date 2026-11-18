@@ -1,0 +1,63 @@
+@scope (.suneung-app) {
+  .sn-eyebrow {
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .sn-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 8px 2px 0;
+    border-radius: 50%;
+    background: var(--accent);
+    vertical-align: middle;
+  }
+
+  .sn-notes-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .sn-notes-list > div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 6px 18px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .sn-notes-list dt {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .sn-notes-list dd {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+
+  .sn-sources {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .sn-sources a {
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-underline-offset: 3px;
+  }
+
+  .sn-sources a:hover { color: var(--accent); }
+
+  @media (max-width: 520px) {
+    .sn-notes-list > div { grid-template-columns: minmax(0, 1fr); }
+  }
+}

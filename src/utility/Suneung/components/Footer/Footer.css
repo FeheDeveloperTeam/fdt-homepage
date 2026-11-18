@@ -1,0 +1,15 @@
+@scope (.suneung-app) {
+  .suneung-footer {
+    padding: 18px var(--gutter) calc(18px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--rule);
+    background: var(--bg-deep);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .suneung-footer span {
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+}

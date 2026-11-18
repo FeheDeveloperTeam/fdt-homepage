@@ -1,0 +1,114 @@
+@import './styles/variables.css';
+
+@scope (.suneung-app) {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :scope {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 900px 520px at 50% -10%, var(--accent-soft), transparent 65%),
+      var(--bg);
+    overflow-x: hidden;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .suneung-main {
+    flex: 1;
+    width: 100%;
+    max-width: calc(var(--content-w) + var(--gutter) * 2);
+    margin: 0 auto;
+    padding: clamp(20px, 4vw, 40px) var(--gutter) clamp(48px, 8vw, 88px);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  p { color: inherit; }
+  ul, ol { list-style: none; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; background: none; border: 0; }
+  h1, h2, h3 { line-height: 1.3; font-weight: 700; }
+
+  :where(a, button, input, [tabindex]):focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::selection { background: var(--accent); color: var(--on-ink); }
+
+  .suneung-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* 섹션 공통 머리글 */
+  .suneung-section {
+    margin-top: clamp(40px, 7vw, 64px);
+  }
+
+  .suneung-section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 16px;
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .suneung-section-title {
+    font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+    letter-spacing: -0.02em;
+  }
+
+  .suneung-section-title small {
+    margin-left: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0;
+  }
+
+  .suneung-section-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  /* 확정 · 예상 표시. 색이 아니라 채움(확정)과 점선(예상)으로 구분한다. */
+  .suneung-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .suneung-badge--confirmed {
+    background: var(--ink);
+    color: var(--on-ink);
+  }
+
+  .suneung-badge--estimated {
+    border: 1px dashed var(--rule-strong);
+    color: var(--muted);
+  }
+
+  .suneung-num {
+    font-variant-numeric: tabular-nums;
+  }
+}

@@ -1,0 +1,65 @@
+@scope (.suneung-app) {
+  .suneung-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .suneung-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    max-width: calc(var(--content-w) + var(--gutter) * 2);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .suneung-back {
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: color 0.15s ease;
+  }
+
+  .suneung-back:hover { color: var(--accent); }
+
+  .suneung-header-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--rule-strong);
+  }
+
+  .suneung-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .suneung-logo svg { color: var(--accent); }
+
+  .suneung-header-tz {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 3px 9px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  @media (max-width: 420px) {
+    .suneung-back,
+    .suneung-header-divider { display: none; }
+  }
+}

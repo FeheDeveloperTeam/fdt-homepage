@@ -70,6 +70,13 @@ const PROJECTS = [
     link: '/utility/network-test',
   },
   {
+    category: 'general',
+    name: '수능 카운트다운',
+    description: SEO_DATA['/utility/suneung'].description,
+    features: ['한국 시간 기준 실시간 D-day', '앞으로 10년 수능 날짜', '학년도·출생연도로 찾기', '시험 당일 시간표'],
+    link: '/utility/suneung',
+  },
+  {
     category: 'wiki',
     name: '마인크래프트 위키',
     description: SEO_DATA['/wiki/minecraft'].description,

@@ -4,7 +4,7 @@
 - 런타임은 Node.js 22.x이며 기본 검증 명령은 `npm run lint`와 `npm run build`다.
 - 새 API 핸들러는 Vercel용 `api/` 쪽과 로컬·독립 실행용 `server/index.js` 라우트를 함께 연결한다. 단 Vercel Hobby는 함수 12개 제한이고 이미 12개라서, `api/`에 새 `.js` 파일을 늘리지 말고 `api/_lib/`에 로직을 두고 기존 함수 분기나 `vercel.json` rewrite로 연결한다.
 - 공개 라우트를 바꾸면 `src/seoData.js`와 `public/sitemap.xml`을 함께 검토한다.
-- 서브앱 CSS는 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.mcwiki-app` 스코프를 유지한다.
+- 서브앱 CSS는 `.fehe-app`, `.chiyumi-app`, `.nettest-app`, `.suneung-app`, `.mcwiki-app` 스코프를 유지한다.
 - `data/*.json` SFTP 스키마는 Chiyumi 봇과 공유되므로 일방적으로 바꾸지 않는다.
 - Chiyumi 봇(`E:/Cording/Discord/Bot/Chiyumi`)의 동작을 바꾸면, 매번 `src/DiscordBot/Chiyumi/pages/`의 소개(HomePage)·이용약관(TermsPage)·개인정보 처리방침(PrivacyPage)·오류 코드(ErrorsPage)를 봇 코드와 대조해 최신화하고 "최종 수정일"을 갱신한다.
 - 비밀 값과 `.env` 내용은 문서·로그·커밋에 남기지 않고, 한글 파일은 UTF-8로 유지한다.

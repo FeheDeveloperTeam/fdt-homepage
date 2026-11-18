@@ -16,6 +16,7 @@ const FeheApp = lazy(() => import('./member/fehe/FeheApp'))
 const YukihaApp = lazy(() => import('./member/yukiha/YukihaApp'))
 const ChiyumiApp = lazy(() => import('./DiscordBot/Chiyumi/ChiyumiApp'))
 const NetworkTestApp = lazy(() => import('./utility/NetworkTest/NetworkTestApp'))
+const SuneungApp = lazy(() => import('./utility/Suneung/SuneungApp'))
 const MinecraftWikiApp = lazy(() => import('./wiki/Minecraft/MinecraftWikiApp'))
 
 // 예전 /fehe 경로로 들어오는 북마크/링크를 새 /member/fehe 경로로 보내준다.
@@ -81,6 +82,14 @@ function App() {
           element={
             <Suspense fallback={null}>
               <NetworkTestApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/utility/suneung/*"
+          element={
+            <Suspense fallback={null}>
+              <SuneungApp />
             </Suspense>
           }
         />

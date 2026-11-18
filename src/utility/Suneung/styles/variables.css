@@ -1,0 +1,62 @@
+/*
+  수능 카운트다운 디자인 토큰.
+  밝은 테마는 시험지·수험표의 따뜻한 종이색 위에 먹색 글자, 강조색은 OMR 카드의 붉은 잉크.
+  어두운 테마(기기 설정)는 밤 독서실처럼 어두운 책상 위 종이 느낌으로 같은 역할의 값을 바꾼다.
+  글자 대비는 본문·보조 글자 모두 바탕 대비 4.5:1 이상으로 맞췄다.
+*/
+@scope (.suneung-app) {
+  :scope {
+    --bg:          #f4f1e8;
+    --bg-deep:     #ebe6d8;
+    --surface:     #fbfaf6;
+    --surface-2:   #f1ede3;
+    --ink:         #1d1c1a;
+    --ink-soft:    #45423b;
+    --muted:       #67625a;
+    --rule:        #ddd6c6;
+    --rule-strong: #bdb4a0;
+    --accent:      #c2334b;
+    --accent-soft: rgba(194, 51, 75, 0.08);
+    --accent-line: rgba(194, 51, 75, 0.35);
+    --on-ink:      #fbfaf6;
+    --focus:       #1f5fbf;
+    --shadow:      0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 40px -24px rgba(60, 48, 25, 0.35);
+
+    --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
+    --font-mono: 'SFMono-Regular', 'JetBrains Mono', Menlo, Consolas, 'D2Coding', monospace;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --header-h: 60px;
+    --content-w: 960px;
+    --gutter: clamp(16px, 4vw, 28px);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :scope {
+      --bg:          #121316;
+      --bg-deep:     #0d0e10;
+      --surface:     #1a1c20;
+      --surface-2:   #22252a;
+      --ink:         #ece9e1;
+      --ink-soft:    #c4bfb4;
+      --muted:       #969186;
+      --rule:        #2c2f35;
+      --rule-strong: #43474f;
+      --accent:      #ff7a8a;
+      --accent-soft: rgba(255, 122, 138, 0.1);
+      --accent-line: rgba(255, 122, 138, 0.4);
+      --on-ink:      #121316;
+      --focus:       #8ab8ff;
+      --shadow:      0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px -28px rgba(0, 0, 0, 0.8);
+
+      color-scheme: dark;
+    }
+  }
+}
