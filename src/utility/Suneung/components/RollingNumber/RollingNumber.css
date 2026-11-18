@@ -1,0 +1,20 @@
+@scope (.suneung-app) {
+  .roll {
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .roll-ch {
+    display: inline-block;
+    animation: rollIn 0.45s var(--ease-out);
+  }
+
+  @keyframes rollIn {
+    from { transform: translateY(-75%); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roll-ch { animation: none; }
+  }
+}

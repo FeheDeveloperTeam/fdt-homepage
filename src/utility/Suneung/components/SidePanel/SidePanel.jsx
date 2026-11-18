@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { daysUntil, kstParts, phaseOf } from '../../suneungDates'
 import { useCountUp } from '../../useMotion'
+import RollingNumber from '../RollingNumber/RollingNumber'
 import './SidePanel.css'
 
 const DAY_MS = 86400000
@@ -17,13 +18,35 @@ function countDays(todayUtc, examUtc) {
   return { weekends, weekdays }
 }
 
-function Stat({ value, unit, label }) {
-  const shown = useCountUp(value, 1100)
+// 처음 보일 때는 0에서 올라가고, 그 뒤 실시간으로 조금씩 바뀔 때는 카운트다운 칸처럼 바뀐 자리만 굴러 내려온다.
+// chars: 같은 줄 칸들의 가장 긴 글자 수(값 + 단위). 줄마다 숫자 크기를 똑같이 맞추는 데 쓴다.
+function statRows(remainMs, days, weekends, weekdays) {
+  return [
+    [
+      { live: true, label: '남은 시간', value: Math.floor(remainMs / 3600000), unit: '시간' },
+      { live: true, label: '남은 분', value: Math.floor(remainMs / 60000), unit: '분' },
+      { live: true, label: '남은 초', value: Math.floor(remainMs / 1000), unit: '초' },
+    ],
+    [
+      { label: '남은 날', value: Math.max(0, days), unit: '일' },
+      { label: '남은 주말', value: weekends, unit: '번' },
+      { label: '남은 평일', value: weekdays, unit: '일' },
+    ],
+  ]
+}
+
+function Stat({ value, unit, label, chars, live = false, variant = 'tile' }) {
+  const shown = useCountUp(value, 1100, () => 0, 120)
+  const counting = shown !== value
+  const text = shown.toLocaleString('ko-KR')
   return (
-    <div className="sp-stat">
+    <div className={`${variant === 'row' ? 'sp-row' : 'sp-stat'}${live ? ' is-live' : ''}`} style={{ '--chars': chars }}>
       <dt>{label}</dt>
       <dd>
-        <span className="suneung-num">{shown.toLocaleString('ko-KR')}</span>
+        <span className="sp-stat-value suneung-num">
+          {counting ? text : <RollingNumber text={text} />}
+          <span className="suneung-sr-only">{value.toLocaleString('ko-KR')}</span>
+        </span>
         <small>{unit}</small>
       </dd>
     </div>
@@ -94,14 +117,32 @@ export default function SidePanel({ exam, now, onOpenClassroom, onOpenWallpaper 
       <section className="sp-card sp-card--stats" aria-labelledby="sp-stats-title">
         <h2 id="sp-stats-title" className="sp-title">
           숫자로 보는 남은 시간
+          {phase === 'before' && (
+            <span className="sp-live">
+              <span className="sp-live-dot" aria-hidden="true" />
+              실시간
+            </span>
+          )}
         </h2>
         {phase === 'before' ? (
-          <dl className="sp-stats">
-            <Stat label="남은 시간" value={Math.floor(remainMs / 3600000)} unit="시간" />
-            <Stat label="남은 분" value={Math.floor(remainMs / 60000)} unit="분" />
-            <Stat label="남은 주말" value={weekends} unit="번" />
-            <Stat label="남은 평일" value={weekdays} unit="일" />
-          </dl>
+          (() => {
+            const [live, rest] = statRows(remainMs, daysUntil(exam, now), weekends, weekdays)
+            const width = (row) => Math.max(3, ...row.map((s) => s.value.toLocaleString('ko-KR').length + s.unit.length * 0.9))
+            return (
+              <>
+                <dl className="sp-counters">
+                  {live.map((s) => (
+                    <Stat key={s.label} {...s} variant="row" chars={width(live)} />
+                  ))}
+                </dl>
+                <dl className="sp-stats">
+                  {rest.map((s) => (
+                    <Stat key={s.label} {...s} chars={width(rest)} />
+                  ))}
+                </dl>
+              </>
+            )
+          })()
         ) : (
           <p className="sp-today">{phase === 'during' ? '지금 시험이 진행 중입니다. 끝까지 힘내세요!' : '오늘 시험이 모두 끝났습니다.'}</p>
         )}

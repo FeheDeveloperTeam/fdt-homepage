@@ -14,6 +14,7 @@ import {
   splitDuration,
 } from '../../suneungDates'
 import { useCountUp } from '../../useMotion'
+import RollingNumber from '../RollingNumber/RollingNumber'
 import './CountdownHero.css'
 
 function formatYmd(ymd) {
@@ -45,19 +46,6 @@ function roughDistance(days) {
 
 function startAbove(target) {
   return target + Math.max(9, Math.round(Math.abs(target) * 0.25))
-}
-
-// 숫자 한 자리씩 따로 그려, 바뀐 자리만 위에서 굴러 내려오게 한다(key가 바뀌면 다시 마운트되어 애니메이션).
-function RollingNumber({ text }) {
-  return (
-    <span className="cd-roll" aria-hidden="true">
-      {text.split('').map((ch, i) => (
-        <span key={`${text.length - i}-${ch}`} className="cd-roll-ch">
-          {ch}
-        </span>
-      ))}
-    </span>
-  )
 }
 
 function Tiles({ parts, units, label }) {

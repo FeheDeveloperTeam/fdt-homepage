@@ -146,18 +146,6 @@
 
   .cd-clock { min-width: 0; }
 
-  /* 바뀐 숫자만 위에서 굴러 내려온다 */
-  .cd-roll { display: inline-flex; overflow: hidden; }
-
-  .cd-roll-ch {
-    display: inline-block;
-    animation: cdRoll 0.45s var(--ease-out);
-  }
-
-  @keyframes cdRoll {
-    from { transform: translateY(-75%); opacity: 0; }
-    to { transform: none; opacity: 1; }
-  }
 
   .cd-status {
     display: flex;
@@ -386,7 +374,6 @@
     .cd-ticket,
     .cd-ticket::before,
     .cd-d-text,
-    .cd-roll-ch,
     .cd-progress-fill { animation: none; }
     .cd-ticket::after { display: none; }
     .cd-progress-fill { transition: none; }

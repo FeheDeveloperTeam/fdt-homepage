@@ -39,7 +39,8 @@ export function useReveal(ref) {
 // 목표 숫자까지 빠르게 움직이는 숫자(처음 보이거나 목표가 바뀔 때).
 // startFrom(target)으로 처음 시작값을 정한다. 기본은 0에서 올라가기.
 // 움직임 줄이기 설정이거나 탭이 가려져 있으면 바로 목표값을 보여 준다.
-export function useCountUp(target, duration = 900, startFrom = () => 0) {
+// minJump보다 작게 바뀌면(실시간으로 1씩 줄어드는 값 등) 애니메이션 없이 바로 바꾼다.
+export function useCountUp(target, duration = 900, startFrom = () => 0, minJump = 0) {
   const [value, setValue] = useState(() => (skipAnimation() ? target : startFrom(target)))
   const fromRef = useRef(null)
   const startRef = useRef(startFrom)
@@ -47,7 +48,7 @@ export function useCountUp(target, duration = 900, startFrom = () => 0) {
   useEffect(() => {
     const from = fromRef.current ?? startRef.current(target)
     fromRef.current = target
-    if (skipAnimation() || !Number.isFinite(target) || from === target) {
+    if (skipAnimation() || !Number.isFinite(target) || Math.abs(from - target) <= minJump) {
       setValue(target)
       return undefined
     }
@@ -73,7 +74,7 @@ export function useCountUp(target, duration = 900, startFrom = () => 0) {
       cancelAnimationFrame(frame)
       document.removeEventListener('visibilitychange', onHide)
     }
-  }, [target, duration])
+  }, [target, duration, minJump])
 
   return value
 }

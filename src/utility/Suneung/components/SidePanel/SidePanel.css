@@ -13,6 +13,9 @@
   }
 
   .sp-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 12px;
     font-size: 0.82rem;
     font-weight: 800;
@@ -20,16 +23,83 @@
     color: var(--muted);
   }
 
+  .sp-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .sp-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: spPulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes spPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
   .sp-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
   }
 
   .sp-stat {
-    padding: 12px 12px 10px;
+    min-width: 0;
+    padding: 11px 10px 9px;
     background: var(--surface-2);
     border-radius: var(--radius-md);
+    container-type: inline-size;
+  }
+
+  /* 실시간 카운터: 라벨 왼쪽, 숫자 오른쪽의 한 줄씩(주행 거리계처럼). 자릿수가 많아도 숫자를 크게 둔다. */
+  .sp-counters {
+    display: grid;
+    margin-bottom: 8px;
+    padding: 4px 12px;
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
+    box-shadow: inset 2px 0 0 var(--accent-line);
+  }
+
+  .sp-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--rule);
+    container-type: inline-size;
+  }
+
+  .sp-row:last-child { border-bottom: 0; }
+
+  .sp-row dt {
+    flex-shrink: 0;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .sp-row dd {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: min(1.35rem, calc((100cqi - 70px) / (var(--chars, 3) * 0.62)));
   }
 
   .sp-stat dt {
@@ -38,23 +108,26 @@
     color: var(--muted);
   }
 
+  /* 값 + 단위를 한 줄에 두고, 자릿수가 많아도(남은 초 31,536,000 등) 칸 너비에 맞춰 줄인다.
+     --chars는 같은 줄 칸들의 최대 글자 수라 한 줄의 숫자 크기가 같다. */
   .sp-stat dd {
     display: flex;
     align-items: baseline;
-    gap: 3px;
+    gap: 2px;
     margin-top: 2px;
     min-width: 0;
+    white-space: nowrap;
+    font-size: min(1.4rem, calc((100cqi - 2px) / (var(--chars, 3) * 0.62)));
   }
 
-  .sp-stat dd span {
-    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  .sp-stat-value {
     font-weight: 900;
+    line-height: 1.25;
     letter-spacing: -0.03em;
-    overflow-wrap: anywhere;
   }
 
   .sp-stat dd small {
-    font-size: 0.76rem;
+    font-size: 0.6em;
     font-weight: 700;
     color: var(--ink-soft);
   }
@@ -125,6 +198,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .sp-live-dot { animation: none; }
     .sp-tool, .sp-tool-icon { transition: none; }
     .sp-tool:hover { transform: none; }
   }
