@@ -193,7 +193,7 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 | `data/webAdmins.json` | 추가 웹 관리자 |
 | `data/restrictions.json` | 이용 제한 |
 | `data/credits.json` | 코인 잔액 |
-| `data/guildConfig.json` | 길드별 기능 설정 (봇 전용 `aiChannelIds`: `/유미채널설정`으로 지정한 AI 대화 허용 채널 ID 배열, 웹은 읽지 않지만 `patchGuild`가 기존 키를 보존하므로 덮어쓰지 않음) |
+| `data/guildConfig.json` | 길드별 기능 설정 (봇 전용 `aiChannelIds`: `/유미채널설정`으로 지정한 AI 대화 허용 채널 ID 배열, `levelUpEnabled`: `/레벨업알림설정`의 알림 켜짐 여부(없으면 `levelUpChannelId`·`levelUpMessage`가 있을 때 켜짐으로 봄). 웹은 둘 다 읽지 않지만 `patchGuild`가 기존 키를 보존하므로 덮어쓰지 않음) |
 | `data/warnings.json` | 길드별 사용자 경고 |
 | `data/streamAlerts.json` | 방송 알림 |
 | `data/levels.json`, `data/voiceTime.json`, `data/claims.json` | 활동·출석 통계 |
