@@ -43,9 +43,13 @@ export async function resolveYouTubeChannelId(handle) {
         'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
       },
     })
+    if (!res.ok) return null
     const html = await res.text()
+    // 채널 자신의 ID를 먼저 본다. "channelId"는 추천 채널 등 다른 채널 ID가 먼저 나올 수 있다.
     const m =
-      html.match(/"channelId":"(UC[^"]{22})"/) || html.match(/"externalId":"(UC[^"]{22})"/)
+      html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/(UC[\w-]{22})"/) ||
+      html.match(/"externalId":"(UC[\w-]{22})"/) ||
+      html.match(/"channelId":"(UC[\w-]{22})"/)
     return m ? m[1] : null
   } catch {
     return null
