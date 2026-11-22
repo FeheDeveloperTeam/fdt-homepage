@@ -27,7 +27,7 @@ function EditRow({ alert, channels, busy, onSave, onCancel }) {
     <div className="admin-form" style={{ marginTop: '0.6rem' }}>
       <ChannelSelect label="알림 채널" value={notifChannelId} channels={channels} disabled={busy} allowNone={false} onChange={setNotifChannelId} />
       <label className="admin-field">
-        <span>알림 문구 (선택, {'{name}'}/{'{url}'} 사용 가능)</span>
+        <span>알림 문구 (선택, {'{name}'} 채널명 · {'{title}'} {alert.platform === 'youtube_upload' ? '영상' : '방송'} 제목 · {'{url}'} 링크 사용 가능)</span>
         <textarea value={customText} disabled={busy} onChange={(e) => setCustomText(e.target.value)} />
       </label>
       <label className="admin-field">
@@ -212,7 +212,7 @@ export default function GuildStreamAlertPage() {
           </label>
           <ChannelSelect label="알림 보낼 채널" value={notifChannelId} channels={channels} disabled={busy} allowNone={false} onChange={setNotifChannelId} />
           <label className="admin-field">
-            <span>알림 문구 (선택)</span>
+            <span>알림 문구 (선택, {'{name}'} 채널명 · {'{title}'} 영상·방송 제목 · {'{url}'} 링크 사용 가능)</span>
             <textarea value={customText} disabled={busy} onChange={(e) => setCustomText(e.target.value)} />
           </label>
           <label className="admin-field">
