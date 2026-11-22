@@ -7,7 +7,7 @@ const ERROR_GROUPS = [
     rows: [
       ['CMD-001', '명령어 실행 중 예상치 못한 오류가 발생했습니다.'],
       ['AUTH-001', '해당 기능은 서버 관리 권한이 있는 관리자만 사용할 수 있습니다.'],
-      ['GUILD-001', '서버 안에서만 사용할 수 있는 기능입니다(DM 등에서 시도).'],
+      ['GUILD-001', '치유미는 봇이 들어가 있는 서버 안에서만 사용할 수 있습니다(DM이나 봇이 없는 곳에서 시도).'],
       ['DEV-001', '개발자 전용 기능을 개발자가 아닌 사용자가 시도했습니다.'],
       ['DEV-002', '코인 지급/차감 시 입력한 사용자 ID 형식이 올바르지 않습니다.'],
       ['DEV-003', '코인 지급/차감 시 입력한 금액이 올바르지 않습니다.'],
@@ -189,7 +189,7 @@ export default function ErrorsPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 오류 코드 안내</h1>
-      <p className="doc-date">최종 수정일: 2026-11-17</p>
+      <p className="doc-date">최종 수정일: 2026-11-22</p>
       <p className="doc-intro">
         치유미 사용 중 메시지 끝에 <span className="doc-code">(오류 코드: XXX-000)</span> 형태로
         표시되는 코드의 의미를 정리한 페이지입니다. 문의 시 이 코드를 함께 알려주시면 더 빠르게
