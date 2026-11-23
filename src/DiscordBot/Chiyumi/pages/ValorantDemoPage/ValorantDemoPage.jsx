@@ -117,7 +117,7 @@ export default function ValorantDemoPage() {
           <div className="vd-content">전적을 검색할 게임을 선택하세요.</div>
           <div className="vd-row">
             <DiscordButton tone="blurple">리그 오브 레전드</DiscordButton>
-            <DiscordButton tone="red">발로란트</DiscordButton>
+            <DiscordButton tone="blurple">발로란트</DiscordButton>
           </div>
           <Ephemeral />
         </div>
