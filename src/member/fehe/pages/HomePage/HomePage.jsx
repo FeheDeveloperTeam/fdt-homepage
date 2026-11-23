@@ -134,33 +134,22 @@ const TIMELINE = [
   },
 ]
 
-// 기술 스택. 분야별로 묶고(cls는 HomePage.css의 배지 색), 실제로 만든 프로젝트에 쓴 것만 적는다.
-// 프레임워크·라이브러리는 「언어」가 아니라 쓰는 곳(프론트엔드·백엔드·앱)에 둔다.
+// 기술 스택. 종류(언어·프레임워크·라이브러리…)별로 나누고 이름만 짧게 적는다. cls는 HomePage.css의 배지 색.
 const SKILLS = [
   {
     label: '언어',
-    items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Dart', 'GDScript', 'SQL', 'HTML / CSS'],
+    items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Dart', 'HTML / CSS'],
     cls: 'lang',
   },
   {
-    label: '프론트엔드',
-    items: ['React', 'Next.js', 'Vite', 'React Router', 'Tailwind CSS', 'Zustand', 'Recharts', 'Blazor', 'Web Audio API'],
+    label: '프레임워크',
+    items: ['Next.js', 'Express', 'Spring Boot', 'JSP', 'ASP.NET Core', 'Blazor', '.NET MAUI', 'Flutter', 'Tailwind CSS'],
     cls: 'framework',
   },
   {
-    label: '백엔드',
-    items: ['Node.js', 'Express', 'Spring Boot', 'JSP', 'ASP.NET Core', 'WebSocket'],
-    cls: 'backend',
-  },
-  {
-    label: '앱 · 데스크톱 · 게임',
-    items: ['Flutter', '.NET MAUI', 'Win32 API', 'PySide6', 'CustomTkinter', 'OpenCV', 'PyInstaller', 'Godot'],
-    cls: 'app',
-  },
-  {
-    label: '봇 · AI · 외부 API',
-    items: ['discord.js', 'discord.py', 'OpenAI API', 'Claude API', 'Gemini API', 'Groq API', 'Amazon Bedrock', 'YouTube Data API'],
-    cls: 'ai',
+    label: '라이브러리',
+    items: ['React', 'React Router', 'Zustand', 'Recharts', 'discord.js', 'discord.py', 'PySide6', 'CustomTkinter', 'OpenCV'],
+    cls: 'lib',
   },
   {
     label: 'DB',
@@ -168,29 +157,24 @@ const SKILLS = [
     cls: 'db',
   },
   {
-    label: '클라우드 · BaaS',
-    items: ['AWS (EC2 · RDS · S3)', 'NAVER Cloud', 'Vercel', 'Firebase', 'Supabase', '가비아 (도메인 · 호스팅)'],
+    label: '클라우드',
+    items: ['AWS', 'NAVER Cloud', 'Vercel', 'Firebase', 'Supabase', '가비아'],
     cls: 'cloud',
   },
   {
-    label: '서버 · 운영',
-    items: ['Ubuntu 서버 구축 · 유지보수', 'Docker', 'nginx', "Let's Encrypt (HTTPS)", 'SFTP'],
+    label: '서버 / OS',
+    items: ['Node.js', 'Docker', 'nginx', 'Ubuntu 26.04', 'Kali Linux'],
     cls: 'server',
   },
   {
-    label: '운영체제',
-    items: ['Windows', 'Linux (Ubuntu)', 'Linux (Kali)'],
-    cls: 'os',
+    label: 'AI',
+    items: ['OpenAI API', 'Claude API', 'Gemini API'],
+    cls: 'ai',
   },
   {
-    label: '개발 도구',
-    items: ['Git', 'GitHub', 'CMake', 'Vitest', 'Playwright', 'ESLint · oxlint', 'Claude Code'],
+    label: '도구',
+    items: ['Git', 'GitHub', 'Vite', 'Godot', 'Figma', 'Photoshop'],
     cls: 'tool',
-  },
-  {
-    label: '디자인',
-    items: ['Photoshop (기본)', 'Figma'],
-    cls: 'design',
   },
   {
     label: '하드웨어',

@@ -400,16 +400,13 @@
 
 .skill-badge.lang      { color: #7ee787; border-color: rgba(126,231,135,0.35); background: rgba(126,231,135,0.06); }
 .skill-badge.framework { color: #d2a8ff; border-color: rgba(210,168,255,0.35); background: rgba(210,168,255,0.06); }
+.skill-badge.lib       { color: #ff7b72; border-color: rgba(255,123,114,0.35); background: rgba(255,123,114,0.06); }
 .skill-badge.db        { color: #e3b341; border-color: rgba(227,179,65,0.35); background: rgba(227,179,65,0.06); }
 .skill-badge.cloud     { color: #6bbde0; border-color: rgba(107,189,224,0.35); background: rgba(107,189,224,0.06); }
 .skill-badge.server    { color: #56d4dd; border-color: rgba(86,212,221,0.35); background: rgba(86,212,221,0.06); }
-.skill-badge.design    { color: #ff8fab; border-color: rgba(255,143,171,0.35); background: rgba(255,143,171,0.06); }
 .skill-badge.hw        { color: #ff9d5c; border-color: rgba(255,157,92,0.35); background: rgba(255,157,92,0.06); }
 .skill-badge.ide       { color: #79c0ff; border-color: rgba(121,192,255,0.35); background: rgba(121,192,255,0.06); }
-.skill-badge.backend   { color: #ff7b72; border-color: rgba(255,123,114,0.35); background: rgba(255,123,114,0.06); }
-.skill-badge.app       { color: #e2c08d; border-color: rgba(226,192,141,0.35); background: rgba(226,192,141,0.06); }
 .skill-badge.ai        { color: #f778ba; border-color: rgba(247,120,186,0.35); background: rgba(247,120,186,0.06); }
-.skill-badge.os        { color: #b1bac4; border-color: rgba(177,186,196,0.35); background: rgba(177,186,196,0.06); }
 .skill-badge.tool      { color: #a5d6ff; border-color: rgba(165,214,255,0.35); background: rgba(165,214,255,0.06); }
 
 .cert-card .skill-cat-label::before,
