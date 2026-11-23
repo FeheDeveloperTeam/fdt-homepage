@@ -33,7 +33,7 @@ const SECTIONS = [
   },
   {
     heading: '7. 전적검색 기능',
-    body: '/전적검색 명령어는 사용자가 입력한 라이엇 ID를 리그 오브 레전드는 Riot Games의 공식 API에, 발로란트는 비공식 전적 서비스인 HenrikDev API에 전달하여 전적 정보를 조회합니다. 발로란트의 요원·맵·티어 이름과 아이콘은 valorant-api.com에서 불러옵니다. 발로란트 전적은 비공식 서비스를 거치므로 해당 서비스 사정에 따라 일시적으로 조회되지 않거나 실제와 차이가 있을 수 있습니다. 본 기능은 Riot Games의 공식 제품이 아니며, Riot Games의 의견이나 입장을 반영하지 않습니다. League of Legends, VALORANT 및 Riot Games는 Riot Games, Inc.의 상표 또는 등록 상표입니다.',
+    body: '/전적검색 명령어는 사용자가 입력한 라이엇 ID를 리그 오브 레전드는 Riot Games의 공식 API에, 발로란트는 비공식 전적 서비스인 HenrikDev API에 전달하여 전적 정보를 조회합니다. 발로란트의 요원·맵·티어 이름과 아이콘은 valorant-api.com에서 불러옵니다. 리그 오브 레전드 챔피언 이름과 아이콘은 Riot Games의 Data Dragon에서 불러옵니다. 검색 결과는 검색한 사용자에게만 보이며, 사용자가 "채널에 공유"를 누른 경기만 해당 채널에 공개로 게시됩니다. 발로란트 전적은 비공식 서비스를 거치므로 해당 서비스 사정에 따라 일시적으로 조회되지 않거나 실제와 차이가 있을 수 있습니다. 본 기능은 Riot Games의 공식 제품이 아니며, Riot Games의 의견이나 입장을 반영하지 않습니다. League of Legends, VALORANT 및 Riot Games는 Riot Games, Inc.의 상표 또는 등록 상표입니다.',
   },
   {
     heading: '8. 욕설/도배/레이드 검열 기능',
