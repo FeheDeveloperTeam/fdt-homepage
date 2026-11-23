@@ -7,7 +7,9 @@ import Footer from './components/Footer/Footer'
 import HomePage from './pages/HomePage/HomePage'
 import ServersPage from './pages/ServersPage/ServersPage'
 import TermsPage from './pages/TermsPage/TermsPage'
+import TermsPageEn from './pages/TermsPage/TermsPageEn'
 import PrivacyPage from './pages/PrivacyPage/PrivacyPage'
+import PrivacyPageEn from './pages/PrivacyPage/PrivacyPageEn'
 import ErrorsPage from './pages/ErrorsPage/ErrorsPage'
 import ValorantDemoPage from './pages/ValorantDemoPage/ValorantDemoPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
@@ -66,7 +68,9 @@ export default function ChiyumiApp() {
               <Route path="streamalert" element={<GuildStreamAlertPage />} />
             </Route>
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/terms/en" element={<TermsPageEn />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/privacy/en" element={<PrivacyPageEn />} />
             <Route path="/errors" element={<ErrorsPage />} />
             <Route path="/valorant" element={<ValorantDemoPage />} />
             <Route path="*" element={<NotFoundPage />} />

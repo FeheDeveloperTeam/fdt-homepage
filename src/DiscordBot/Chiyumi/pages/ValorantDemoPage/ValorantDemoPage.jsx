@@ -290,8 +290,8 @@ export default function ValorantDemoPage() {
           <li>No data is sold, shared with third parties, or used for rankings or leaderboards.</li>
           <li>The API key and RSO client secret are stored only on our server.</li>
           <li>
-            <Link to="/DiscordBot/Chiyumi/terms">Terms of Service</Link> ·{' '}
-            <Link to="/DiscordBot/Chiyumi/privacy">Privacy Policy</Link> ·{' '}
+            <Link to="/DiscordBot/Chiyumi/terms/en">Terms of Service</Link> ·{' '}
+            <Link to="/DiscordBot/Chiyumi/privacy/en">Privacy Policy</Link> ·{' '}
             <Link to="/DiscordBot/Chiyumi">Chiyumi home</Link> ·{' '}
             <a href="https://www.fehe.dev/contact">Contact FeheDeveloperTeam</a>
           </li>

@@ -75,6 +75,14 @@ export const SEO_DATA = {
     title: '개인정보 처리방침',
     description: '치유미 봇의 개인정보 처리방침입니다.',
   },
+  '/DiscordBot/Chiyumi/terms/en': {
+    title: 'Terms of Service',
+    description: 'Terms of Service for the Chiyumi Discord bot (English translation).',
+  },
+  '/DiscordBot/Chiyumi/privacy/en': {
+    title: 'Privacy Policy',
+    description: 'Privacy Policy for the Chiyumi Discord bot (English translation).',
+  },
   '/DiscordBot/Chiyumi/errors': {
     title: '오류 코드 안내',
     description: '치유미 봇 사용 중 표시되는 오류 코드의 의미를 안내합니다.',

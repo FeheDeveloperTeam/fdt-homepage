@@ -1,4 +1,5 @@
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
+import DocLangSwitch from '../DocLangSwitch'
 import '../DocPage.css'
 
 const COLLECTED_ITEMS = [
@@ -46,6 +47,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="doc-page">
+      <DocLangSwitch current="ko" koPath="/DiscordBot/Chiyumi/privacy" enPath="/DiscordBot/Chiyumi/privacy/en" />
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 개인정보 처리방침</h1>
       <p className="doc-date">최종 수정일: 2026-11-23</p>

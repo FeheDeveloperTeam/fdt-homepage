@@ -91,6 +91,7 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/admin/sheets` | 허용된 Google Sheet 조회 |
 | `/admin/coins/check`, `/admin/coins/adjust` | 코인 조회·조정 |
 | `/terms`, `/privacy`, `/errors` | 약관, 개인정보 처리방침, 오류 코드 안내 |
+| `/terms/en`, `/privacy/en` | 약관·개인정보 처리방침 영어판(`TermsPageEn.jsx`, `PrivacyPageEn.jsx`). Riot 심사 등 해외 검토용 번역이며 내용이 다르면 한국어판이 우선한다고 밝힌다. 두 언어판 위쪽의 `DocLangSwitch`로 서로 오가고, 한국어판을 고치면 영어판도 같은 내용·날짜로 함께 고친다 |
 | `/valorant` | 발로란트 전적검색 시연(Riot VALORANT Production 키 심사용, 영어 위주). 심사 담당자는 디스코드에 들어올 수 없어 봇 메시지(`Chiyumi/src/utils/valorantStats.js`·`statsUi.js`)를 같은 문구·배치로 다시 그리고, 승인 후 바꿀 RSO 계정 연결 흐름을 설명한다. 예시 이름은 가상. 봇 화면이 바뀌면 함께 고친다 |
 
 서버 대시보드(`GuildLayout`)는 사이드바·메뉴·목록·안내 문구에 관리자 대시보드와 같은 `admin-` 클래스를 빌려 씁니다. 그 스타일은 관리자 쪽 파일(`AdminLayout.css`, `AdminManagePage.css`, `components/AdminCharts/AdminCharts.css`)에 들어 있고 두 레이아웃 모두 지연 로딩되므로, `GuildLayout.jsx`와 `ServersPage.jsx`가 필요한 파일을 **직접 import**합니다(관리자 쪽 파일은 수정하지 않고 읽기만 함). 이걸 빠뜨리면 관리자 화면을 먼저 열지 않고 내 서버로 바로 들어왔을 때 사이드바 없이 메뉴가 한 줄로 붙어 나오는 등 화면이 깨집니다. 서버 대시보드 전용 모바일 보정은 `GuildLayout.css`의 `.guild-shell`에만 둡니다.

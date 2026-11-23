@@ -1,4 +1,5 @@
 import { useDocumentTitle } from '../../../../hooks/useDocumentTitle'
+import DocLangSwitch from '../DocLangSwitch'
 import '../DocPage.css'
 
 const SECTIONS = [
@@ -110,6 +111,7 @@ export default function TermsPage() {
 
   return (
     <div className="doc-page">
+      <DocLangSwitch current="ko" koPath="/DiscordBot/Chiyumi/terms" enPath="/DiscordBot/Chiyumi/terms/en" />
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 이용약관</h1>
       <p className="doc-date">최종 수정일: 2026-11-23</p>
