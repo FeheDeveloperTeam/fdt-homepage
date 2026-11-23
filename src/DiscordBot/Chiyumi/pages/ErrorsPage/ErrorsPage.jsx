@@ -73,11 +73,13 @@ const ERROR_GROUPS = [
     category: '전적검색 (/전적검색)',
     rows: [
       ['STATS-001', '닉네임#태그 형식이 올바르지 않습니다.'],
-      ['STATS-002', '해당 소환사를 찾을 수 없습니다.'],
+      ['STATS-002', '해당 소환사(롤) 또는 플레이어(발로란트)를 찾을 수 없습니다.'],
       ['STATS-003', '전적을 불러오는 중 오류가 발생했습니다.'],
       ['STATS-004', '전적 조회 세션이 만료되었습니다. 다시 검색해주세요.'],
       ['STATS-005', '해당 경기를 찾을 수 없습니다.'],
       ['STATS-006', '경기 참여자 데이터를 불러올 수 없습니다.'],
+      ['STATS-007', '발로란트 전적 검색이 아직 준비 중입니다.'],
+      ['STATS-008', '전적 조회 요청이 많습니다. 1분 뒤에 다시 시도해주세요.'],
     ],
   },
   {
@@ -189,7 +191,7 @@ export default function ErrorsPage() {
     <div className="doc-page">
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">치유미 오류 코드 안내</h1>
-      <p className="doc-date">최종 수정일: 2026-11-22</p>
+      <p className="doc-date">최종 수정일: 2026-11-23</p>
       <p className="doc-intro">
         치유미 사용 중 메시지 끝에 <span className="doc-code">(오류 코드: XXX-000)</span> 형태로
         표시되는 코드의 의미를 정리한 페이지입니다. 문의 시 이 코드를 함께 알려주시면 더 빠르게
