@@ -70,7 +70,7 @@ export default function Header() {
 
         <a
           className="drawer-btn yt-btn"
-          href="https://www.youtube.com/@fehe1234"
+          href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setDrawerOpen(false)}

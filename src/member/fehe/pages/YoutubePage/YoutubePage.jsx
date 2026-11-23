@@ -152,7 +152,7 @@ export default function YoutubePage() {
           {status === 'error'   && (
             <p className="yt-status">
               영상을 불러올 수 없습니다.{' '}
-              <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
+              <a href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
                 채널에서 확인하세요.
               </a>
             </p>
@@ -160,7 +160,7 @@ export default function YoutubePage() {
           {status === 'ok' && homeItems.length === 0 && <p className="yt-status">업로드된 영상이 없습니다.</p>}
           {status === 'ok' && homeItems.map(item => <YtCard key={item.id.videoId} item={item} />)}
         </div>
-        <a className="yt-more" href="https://www.youtube.com/@fehe1234/videos" target="_blank" rel="noopener noreferrer">
+        <a className="yt-more" href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev/videos" target="_blank" rel="noopener noreferrer">
           <IconYoutube /> 전체 영상 보기
         </a>
       </div>
@@ -171,7 +171,7 @@ export default function YoutubePage() {
         {status === 'error'   && (
           <p className="yt-status">
             영상을 불러올 수 없습니다.{' '}
-            <a href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
+            <a href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
               채널에서 확인하세요.
             </a>
           </p>
@@ -208,7 +208,7 @@ export default function YoutubePage() {
           </>
         )}
 
-        <a className="yt-more" href="https://www.youtube.com/@fehe1234/streams" target="_blank" rel="noopener noreferrer">
+        <a className="yt-more" href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev/streams" target="_blank" rel="noopener noreferrer">
           <IconYoutube /> 라이브 전체 보기
         </a>
       </div>

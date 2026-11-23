@@ -227,7 +227,7 @@ export default function HomePage() {
               <a className="hero-link gh" href="https://github.com/Fehe1234" target="_blank" rel="noopener noreferrer">
                 <IconGithub /> GitHub
               </a>
-              <a className="hero-link yt" href="https://www.youtube.com/@fehe1234" target="_blank" rel="noopener noreferrer">
+              <a className="hero-link yt" href="https://www.youtube.com/@%ED%8E%98%ED%97%A4_Dev" target="_blank" rel="noopener noreferrer">
                 <IconYoutube /> YouTube
               </a>
               <a className="hero-link steam" href="https://steamcommunity.com/profiles/76561199008770006/" target="_blank" rel="noopener noreferrer">

@@ -212,7 +212,7 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 - Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기
 - Cloudflare Turnstile: Discord 로그인 전 사람 확인
 - Supabase: Fehe 오늘 방문자 수와 상태 화면의 연결 확인
-- YouTube Data API와 iframe API: Fehe YouTube·음악 기능
+- YouTube Data API와 iframe API: Fehe YouTube·음악 기능. 채널 링크는 `@페헤_Dev`(URL에는 `@%ED%8E%98%ED%97%A4_Dev`로 인코딩, 예전 `@fehe1234`는 없어짐)이고 API가 쓰는 채널 ID `UCY0LBUJ0a7JCBkkQ_ux0kew`는 그대로입니다(Header·HomePage·YoutubePage의 링크를 함께 고침)
 - ipify: Fehe 상태 화면의 외부 연결 확인
 
 Fehe의 YouTube API 키는 현재 `YoutubePage.jsx`, `StatusPage.jsx`의 클라이언트 코드에 들어 있습니다. 환경 변수로 옮길 경우 Vite의 `VITE_` 변수는 최종 번들에 노출된다는 점을 전제로 키 제한과 외부 서비스 설정까지 함께 변경해야 합니다. (Fehe는 예전에 Firebase를 썼지만 2026-10에 모두 걷어냈습니다. 쓰이지 않던 새 버전 알림 배너도 함께 지웠습니다.)
