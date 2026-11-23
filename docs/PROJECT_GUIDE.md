@@ -31,6 +31,8 @@ npm run dev
 
 기본 주소는 `http://localhost:3000`입니다. `npm run dev`는 Node의 `--env-file-if-exists=.env`로 환경 변수를 읽고 Express를 실행합니다. 개발 모드에서는 Express가 `/api`를 먼저 처리하고 Vite를 미들웨어로 연결합니다.
 
+개발 서버는 이 컴퓨터(`127.0.0.1`)에서만 열립니다. 모든 네트워크(`0.0.0.0`)에 열면 외부에서 Vite 개발 서버 취약점으로 이 PC의 명령을 실행하는 공격이 실제로 들어오기 때문에, 개발 모드는 `127.0.0.1`에 묶고 Vite는 취약점이 고쳐진 8.3.8 이상을 씁니다. 같은 와이파이의 휴대폰 등으로 꼭 봐야 할 때만 `HOST=0.0.0.0`을 직접 주고, 확인이 끝나면 바로 끕니다. 개발 서버를 백그라운드로 켰다면 끌 때 `node server/index.js` 자식 프로세스까지 함께 꺼졌는지 3000번 포트로 확인합니다. 커밋 전에는 `git diff index.html`로 모르는 외부 스크립트가 끼어 있지 않은지 봅니다.
+
 변경 후 기본 검증은 다음 두 명령입니다.
 
 ```bash
@@ -308,7 +310,7 @@ Fehe 오늘 방문자 수(`src/member/fehe/components/VisitorCount/`)는 Supabas
 - Fehe 배경 화면(설산·눈보라): `src/member/fehe/components/BgDeco/` (산맥 실루엣은 `RIDGES`의 SVG path, 눈을 뺀 풍경은 `Scenery`로 꺼내 인트로와 함께 씀)
 - Fehe 첫 진입 인트로: `src/member/fehe/components/IntroSplash/` (제목 카드는 JSX의 `.intro-card`, 띄울지 여부는 `shouldPlayIntro`, 풍경이 드러나는 시각은 `REVEAL_AT`, 버튼이 나오는 시각은 `ENTER_AT`) · 강력 새로고침 판별: `api/_lib/reloadHint.js` · 처음 불러온 위치 기록: `src/initialLocation.js`
 - Yukiha 분리 페이지 셸: `src/member/yukiha/YukihaApp.jsx`, `src/member/yukiha/components/` (본문은 `YukihaPage.jsx`)
-- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `note`는 본문 아래 코드 주석(`// …`)처럼 작게 붙는 안내로, 전문대학교 항목은 학교·학과 이름을 졸업 후 공개한다는 안내에 쓰고 본문에는 「컴퓨터 계열 학과」로만 적는다. `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스(진행 중인 라함 ERP 시스템 개발과 다인아이앤씨의 다인 ERP 개발 포함)·자동화 세 분야에 작업 7개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다. `youtube`(`href`, `label`)는 카드 아래에 빨간 YouTube 바로가기 버튼을 붙이며, 2026. 11. 10부터 운영하는 AI 동물 쇼츠 채널 「물음표 동물원」(`@mureumpyo_zoo`) 항목에 쓴다)
+- Fehe 자기소개·경력·기술 데이터: `src/member/fehe/pages/HomePage/HomePage.jsx` (경력 항목의 `note`는 본문 아래 코드 주석(`// …`)처럼 작게 붙는 안내로, 전문대학교 항목은 학교·학과 이름을 졸업 후 공개한다는 안내에 쓰고 본문에는 「컴퓨터 계열 학과」로만 적는다. `duties`는 「라벨 + 설명」 한 줄씩, `works`는 분야별로 묶은 작업 목록이다. 라함 국가근로장학생(`2025년 3월 ~ 2027년 1월`)은 `works`로 인프라·웹 서비스(진행 중인 라함 ERP 시스템 개발과 다인아이앤씨의 다인 ERP 개발 포함)·자동화 세 분야에 작업 7개를 두고, 각 작업은 `title`과 선택 항목 `org`(작업한 곳·대상)로 표시한다. 넓은 화면에서는 분야가 왼쪽 열, 540px 이하에서는 작업 위로 올라간다. `SKILLS`(기술 스택)는 언어·프론트엔드·백엔드·앱 · 데스크톱 · 게임·봇 · AI · 외부 API·DB·클라우드 · BaaS·서버 · 운영·운영체제·개발 도구·디자인·하드웨어·IDE / 에디터 13분야로, 프레임워크·라이브러리는 「언어」가 아니라 쓰는 곳에 두고 실제 프로젝트(`E:/Cording` 아래 저장소의 의존성·소스)에 쓴 것만 적는다. 분야마다 `cls`로 `HomePage.css`의 `.skill-badge.<cls>` 색을 고르며, 새 분야를 만들면 색 클래스도 함께 추가한다. `youtube`(`href`, `label`)는 카드 아래에 빨간 YouTube 바로가기 버튼을 붙이며, 2026. 11. 10부터 운영하는 AI 동물 쇼츠 채널 「물음표 동물원」(`@mureumpyo_zoo`) 항목에 쓴다)
 - 배포 설정: `vercel.json`
 - 페헤 3D 캐릭터 작업 파일: `3d-work/` (Blender 스크립트와 렌더, 임시 파일. `.gitignore`로 제외해 배포되지 않고, 결과물은 Google Drive에서 관리한다)
 

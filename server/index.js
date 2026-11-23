@@ -97,9 +97,14 @@ async function createServer() {
     app.use(vite.middlewares)
   }
 
-  app.listen(port, () => {
+  // 개발 서버(Vite)는 이 컴퓨터에서만 열리게 127.0.0.1에 묶는다.
+  // 모든 네트워크(0.0.0.0)에 열어 두면 외부에서 Vite 취약점으로 이 PC의 명령을 실행할 수 있다.
+  // 같은 와이파이의 휴대폰 등으로 꼭 봐야 할 때만 HOST=0.0.0.0을 직접 주고, 끝나면 바로 끈다.
+  const host = process.env.HOST || (isProduction ? undefined : '127.0.0.1')
+  app.listen(port, host, () => {
     console.log(
-      `FDT ${isProduction ? '(production)' : '(development)'} server → http://localhost:${port}`,
+      `FDT ${isProduction ? '(production)' : '(development)'} server → http://localhost:${port}` +
+        (host ? ` (${host}에만 열림)` : ''),
     )
   })
 }
