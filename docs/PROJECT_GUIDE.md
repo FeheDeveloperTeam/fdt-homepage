@@ -204,6 +204,7 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 그 밖의 연동은 다음과 같습니다.
 
 - Google AdSense: 게시자 ID `ca-pub-3540218323238951`(공개 값). `index.html`의 `google-adsense-account` 메타와 `adsbygoogle.js` 스크립트가 모든 페이지에 들어가고, `public/ads.txt`가 같은 ID를 선언합니다. 2026-11-18 사이트 연결을 위해 넣었고 심사 승인 전에는 광고가 나오지 않습니다. 광고 단위(배너 자리)는 승인 후 추가합니다. AdSense 정책상 `/privacy`의 광고 쿠키 안내를 유지하고, 사이트가 처리하는 정보가 바뀌면 그 페이지와 최종 수정일을 함께 고칩니다. `vercel.json`에는 스크립트를 막는 CSP가 없습니다(CSP를 추가하면 `pagead2.googlesyndication.com` 등 Google 광고 도메인을 허용해야 함).
+- Riot Developer Portal 사이트 확인: Chiyumi 롤 전적검색 Production 키 신청(앱 911851, 그룹 FeheDeveloperTeam) 때 Riot이 Product URL 아래에 확인 파일을 요구해 `public/DiscordBot/Chiyumi/riot.txt`(Riot이 준 확인 코드 한 줄, 줄바꿈 없음)를 둡니다. 정적 파일이라 `/api/render` rewrite보다 먼저 전송됩니다. 심사가 끝날 때까지 지우지 말고, 발로란트 앱을 따로 신청해 다른 코드를 받으면 같은 파일 내용을 그 코드로 바꿔야 하므로 순서대로 확인합니다.
 - Discord REST API: 사용자·길드·채널·역할 조회와 관리 동작
 - Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기
 - Cloudflare Turnstile: Discord 로그인 전 사람 확인
