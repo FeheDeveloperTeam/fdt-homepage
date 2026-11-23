@@ -134,31 +134,58 @@ const TIMELINE = [
   },
 ]
 
+// 기술 스택. 분야별로 묶고(cls는 HomePage.css의 배지 색), 실제로 만든 프로젝트에 쓴 것만 적는다.
+// 프레임워크·라이브러리는 「언어」가 아니라 쓰는 곳(프론트엔드·백엔드·앱)에 둔다.
 const SKILLS = [
   {
     label: '언어',
-    items: ['Python', 'JavaScript', 'TypeScript', 'PHP', 'JSP', 'HTML / CSS', 'Flutter', 'React', 'C#', 'C++', 'Java'],
+    items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Dart', 'GDScript', 'SQL', 'HTML / CSS'],
     cls: 'lang',
   },
   {
-    label: '프레임워크 / 라이브러리',
-    items: ['Next.js', 'Spring Boot', 'discord.js', 'discord.py'],
+    label: '프론트엔드',
+    items: ['React', 'Next.js', 'Vite', 'React Router', 'Tailwind CSS', 'Zustand', 'Recharts', 'Blazor', 'Web Audio API'],
     cls: 'framework',
   },
   {
+    label: '백엔드',
+    items: ['Node.js', 'Express', 'Spring Boot', 'JSP', 'ASP.NET Core', 'WebSocket'],
+    cls: 'backend',
+  },
+  {
+    label: '앱 · 데스크톱 · 게임',
+    items: ['Flutter', '.NET MAUI', 'Win32 API', 'PySide6', 'CustomTkinter', 'OpenCV', 'PyInstaller', 'Godot'],
+    cls: 'app',
+  },
+  {
+    label: '봇 · AI · 외부 API',
+    items: ['discord.js', 'discord.py', 'OpenAI API', 'Claude API', 'Gemini API', 'Groq API', 'Amazon Bedrock', 'YouTube Data API'],
+    cls: 'ai',
+  },
+  {
     label: 'DB',
-    items: ['MySQL', 'MariaDB', 'Firebase', 'Supabase', 'SQLite', 'Turso', 'MSSQL'],
+    items: ['MySQL', 'MariaDB', 'PostgreSQL', 'MSSQL', 'SQLite', 'Turso'],
     cls: 'db',
   },
   {
-    label: '클라우드',
-    items: ['AWS', 'NAVER Cloud', '가비아', 'Vercel'],
+    label: '클라우드 · BaaS',
+    items: ['AWS (EC2 · RDS · S3)', 'NAVER Cloud', 'Vercel', 'Firebase', 'Supabase', '가비아 (도메인 · 호스팅)'],
     cls: 'cloud',
   },
   {
-    label: '서버',
-    items: ['Node.js', 'Docker', 'Linux (Kali)', 'Linux (Ubuntu)'],
+    label: '서버 · 운영',
+    items: ['Ubuntu 서버 구축 · 유지보수', 'Docker', 'nginx', "Let's Encrypt (HTTPS)", 'SFTP'],
     cls: 'server',
+  },
+  {
+    label: '운영체제',
+    items: ['Windows', 'Linux (Ubuntu)', 'Linux (Kali)'],
+    cls: 'os',
+  },
+  {
+    label: '개발 도구',
+    items: ['Git', 'GitHub', 'CMake', 'Vitest', 'Playwright', 'ESLint · oxlint', 'Claude Code'],
+    cls: 'tool',
   },
   {
     label: '디자인',
@@ -172,7 +199,7 @@ const SKILLS = [
   },
   {
     label: 'IDE / 에디터',
-    items: ['Visual Studio Code', 'Visual Studio', 'Eclipse', 'Python IDLE', 'Arduino IDE'],
+    items: ['Visual Studio Code', 'Visual Studio', 'IntelliJ IDEA', 'Eclipse', 'Python IDLE', 'Arduino IDE'],
     cls: 'ide',
   },
 ]
