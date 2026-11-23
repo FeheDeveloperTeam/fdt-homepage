@@ -54,7 +54,9 @@ async function createServer() {
 
     // index: false → express.static이 '/'에서 index.html을 먼저 가로채지 않게 해서
     // 아래 커스텀 핸들러가 항상 경로별 메타 태그를 치환할 수 있게 한다.
-    app.use(express.static(distPath, { index: false }))
+    // redirect: false → dist에 같은 이름의 폴더가 있는 페이지 경로(예: /DiscordBot/Chiyumi/valorant, Riot 확인 파일 폴더)가
+    // 끝에 /를 붙인 주소로 301 되지 않고 페이지로 렌더링되게 한다.
+    app.use(express.static(distPath, { index: false, redirect: false }))
     app.use((req, res) => {
       if (isAdminPagePath(req.path) && isForeignRequest(req)) {
         res.status(403).set('Content-Type', 'text/html; charset=utf-8').send(GEO_BLOCK_HTML)
