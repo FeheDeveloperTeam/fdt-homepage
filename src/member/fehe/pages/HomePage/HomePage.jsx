@@ -96,6 +96,7 @@ const TIMELINE = [
         group: '웹 서비스',
         items: [
           { title: 'ERP 시스템 개발 (진행 중)', org: '(주)라함' },
+          { title: '다인 ERP 개발', org: '다인아이앤씨' },
           { title: '점포 매출 통계 대시보드 개발', org: '(주)라함' },
           { title: '사내 미팅 일정 조율 사이트 개발', org: '(주)라함' },
           { title: '업무 관리 사이트 개발', org: '(주)라함' },
