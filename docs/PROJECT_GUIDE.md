@@ -91,6 +91,7 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/admin/sheets` | 허용된 Google Sheet 조회 |
 | `/admin/coins/check`, `/admin/coins/adjust` | 코인 조회·조정 |
 | `/terms`, `/privacy`, `/errors` | 약관, 개인정보 처리방침, 오류 코드 안내 |
+| `/valorant` | 발로란트 전적검색 시연(Riot VALORANT Production 키 심사용, 영어 위주). 심사 담당자는 디스코드에 들어올 수 없어 봇 메시지(`Chiyumi/src/utils/valorantStats.js`·`statsUi.js`)를 같은 문구·배치로 다시 그리고, 승인 후 바꿀 RSO 계정 연결 흐름을 설명한다. 예시 이름은 가상. 봇 화면이 바뀌면 함께 고친다 |
 
 서버 대시보드(`GuildLayout`)는 사이드바·메뉴·목록·안내 문구에 관리자 대시보드와 같은 `admin-` 클래스를 빌려 씁니다. 그 스타일은 관리자 쪽 파일(`AdminLayout.css`, `AdminManagePage.css`, `components/AdminCharts/AdminCharts.css`)에 들어 있고 두 레이아웃 모두 지연 로딩되므로, `GuildLayout.jsx`와 `ServersPage.jsx`가 필요한 파일을 **직접 import**합니다(관리자 쪽 파일은 수정하지 않고 읽기만 함). 이걸 빠뜨리면 관리자 화면을 먼저 열지 않고 내 서버로 바로 들어왔을 때 사이드바 없이 메뉴가 한 줄로 붙어 나오는 등 화면이 깨집니다. 서버 대시보드 전용 모바일 보정은 `GuildLayout.css`의 `.guild-shell`에만 둡니다.
 
@@ -204,6 +205,7 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 그 밖의 연동은 다음과 같습니다.
 
 - Google AdSense: 게시자 ID `ca-pub-3540218323238951`(공개 값). `index.html`의 `google-adsense-account` 메타와 `adsbygoogle.js` 스크립트가 모든 페이지에 들어가고, `public/ads.txt`가 같은 ID를 선언합니다. 2026-11-18 사이트 연결을 위해 넣었고 심사 승인 전에는 광고가 나오지 않습니다. 광고 단위(배너 자리)는 승인 후 추가합니다. AdSense 정책상 `/privacy`의 광고 쿠키 안내를 유지하고, 사이트가 처리하는 정보가 바뀌면 그 페이지와 최종 수정일을 함께 고칩니다. `vercel.json`에는 스크립트를 막는 CSP가 없습니다(CSP를 추가하면 `pagead2.googlesyndication.com` 등 Google 광고 도메인을 허용해야 함).
+- Riot Developer Portal: 심사 담당자가 볼 공개 시연 페이지는 `/DiscordBot/Chiyumi/valorant`. 발로란트 Production 키는 승인 후 30일 안에 RSO(Riot 계정 로그인 동의)를 붙여야 키가 유지되므로, 승인되면 fehe.dev 계정 연결 화면과 봇의 연결된 계정만 조회하는 흐름을 바로 만든다.
 - Riot Developer Portal 사이트 확인: Chiyumi 롤 전적검색 Production 키 신청(앱 911851, 그룹 FeheDeveloperTeam) 때 Riot이 Product URL 아래에 확인 파일을 요구해 `public/DiscordBot/Chiyumi/riot.txt`(Riot이 준 확인 코드 한 줄, 줄바꿈 없음)를 둡니다. 정적 파일이라 `/api/render` rewrite보다 먼저 전송됩니다. 심사가 끝날 때까지 지우지 말고, 발로란트 앱을 따로 신청해 다른 코드를 받으면 같은 파일 내용을 그 코드로 바꿔야 하므로 순서대로 확인합니다.
 - Discord REST API: 사용자·길드·채널·역할 조회와 관리 동작
 - Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기

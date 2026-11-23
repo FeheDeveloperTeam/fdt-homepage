@@ -9,6 +9,7 @@ import ServersPage from './pages/ServersPage/ServersPage'
 import TermsPage from './pages/TermsPage/TermsPage'
 import PrivacyPage from './pages/PrivacyPage/PrivacyPage'
 import ErrorsPage from './pages/ErrorsPage/ErrorsPage'
+import ValorantDemoPage from './pages/ValorantDemoPage/ValorantDemoPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import './index.css'
 
@@ -67,6 +68,7 @@ export default function ChiyumiApp() {
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/errors" element={<ErrorsPage />} />
+            <Route path="/valorant" element={<ValorantDemoPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

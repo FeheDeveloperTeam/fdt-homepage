@@ -1,0 +1,201 @@
+@scope (.chiyumi-app) {
+/* 디스코드 메시지 모양을 흉내 낸 시연 화면. 디스코드 다크 테마 색을 그대로 쓴다. */
+.vd-page .doc-section strong {
+  color: var(--text);
+}
+
+.vd-discord {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: #313338;
+  color: #dbdee1;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+.vd-msg-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.vd-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.vd-name {
+  font-weight: 600;
+  color: #f2f3f5;
+}
+
+.vd-tag {
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0 0.3rem;
+  border-radius: 3px;
+  background: #5865f2;
+  color: #fff;
+}
+
+.vd-content {
+  margin-bottom: 0.5rem;
+}
+
+.vd-embed {
+  max-width: 520px;
+  margin-bottom: 0.5rem;
+  padding: 0.6rem 0.9rem 0.7rem;
+  border-radius: 4px;
+  border-left: 4px solid var(--vd-bar, #5865f2);
+  background: #2b2d31;
+}
+
+.vd-embed-author {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #f2f3f5;
+  margin-bottom: 0.2rem;
+}
+
+.vd-embed-title {
+  font-weight: 700;
+  color: #f2f3f5;
+}
+
+.vd-embed-desc {
+  margin-top: 0.3rem;
+}
+
+.vd-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.vd-field--full {
+  grid-column: 1 / -1;
+}
+
+.vd-field-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #f2f3f5;
+  margin-bottom: 0.1rem;
+}
+
+.vd-field-value {
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.vd-strong {
+  font-weight: 700;
+  color: #f2f3f5;
+}
+
+.vd-inline-code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
+  border-radius: 3px;
+  background: #1e1f22;
+}
+
+.vd-embed-footer {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: #b5bac1;
+}
+
+.vd-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.vd-btn {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  background: #4e5058;
+  white-space: nowrap;
+}
+.vd-btn--blurple { background: #5865f2; }
+.vd-btn--red { background: #da373c; }
+.vd-btn--green { background: #248046; }
+.vd-btn--link { background: #4e5058; }
+.vd-btn.is-disabled { opacity: 0.5; }
+
+.vd-select {
+  display: flex;
+  justify-content: space-between;
+  max-width: 520px;
+  margin-top: 0.45rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 4px;
+  background: #1e1f22;
+  color: #949ba4;
+  font-size: 0.82rem;
+}
+
+.vd-discord .vd-ephemeral {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #949ba4;
+}
+
+.vd-caption {
+  margin-top: 0.5rem;
+  font-size: 0.78rem !important;
+  color: var(--text-muted) !important;
+  font-style: italic;
+}
+
+.vd-steps {
+  margin-top: 1rem;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  list-style: decimal;
+}
+.vd-steps li {
+  padding-left: 0.2rem;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+.vd-steps li::before {
+  content: none;
+}
+
+.vd-legal {
+  font-size: 0.78rem !important;
+  color: var(--text-muted) !important;
+}
+
+@media (max-width: 560px) {
+  .vd-fields {
+    grid-template-columns: 1fr;
+  }
+}
+}
