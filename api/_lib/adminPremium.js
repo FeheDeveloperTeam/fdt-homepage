@@ -11,7 +11,7 @@ import {
   upsertProfileRecord,
   writeSubscription,
 } from './premiumSheets.js'
-import { patchBotMember } from './botProfile.js'
+import { resetBotProfile } from './botProfile.js'
 
 function sendJson(res, status, body) {
   res.statusCode = status
@@ -126,7 +126,7 @@ async function revoke(body, adminName, adminId) {
 
   const record = await getProfileRecord(guildId)
   if (record?.status === '적용중') {
-    const result = await patchBotMember(guildId, { nick: null, avatar: null, banner: null, bio: null })
+    const result = await resetBotProfile(guildId, record.bio)
     if (result.ok) {
       await upsertProfileRecord(guildId, current.name, { nick: '', bio: '', avatar: '', banner: '', status: '만료로 해제' }, adminId)
     } else {

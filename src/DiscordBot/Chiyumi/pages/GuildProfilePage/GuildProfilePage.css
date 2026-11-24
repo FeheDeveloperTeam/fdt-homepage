@@ -130,6 +130,62 @@
   margin-top: 1.5rem;
 }
 
+.gp-card-bio--default {
+  color: #949ba4;
+  font-style: italic;
+}
+
+.gp-now {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* 「아예 빼기」 — 기본값으로 되돌리기와 헷갈리지 않게 따로 묶는다 */
+.gp-blank {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.gp-blank-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.gp-blank-desc {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+.gp-blank .admin-actions {
+  margin-top: 0.4rem;
+  align-items: center;
+}
+
+.gp-color {
+  width: 2.6rem;
+  height: 2.2rem;
+  padding: 0.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+}
+.gp-color:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 투명하게 뺀 프로필 사진도 자리가 보이게 */
+.gp-image--avatar img,
+.gp-card-avatar {
+  background-color: #1e1f22;
+}
+
 @media (max-width: 860px) {
   .gp-layout {
     grid-template-columns: 1fr;

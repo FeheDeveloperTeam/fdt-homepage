@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { NavLink, Outlet, useParams, Link } from 'react-router-dom'
+import { NavLink, Outlet, useParams, Link, useLocation } from 'react-router-dom'
 import { useDiscordUser } from '../../hooks/useDiscordUser'
 import { callGuildApi } from '../guildApi'
 /*
@@ -28,6 +28,7 @@ const MENU = [
 export default function GuildLayout() {
   const { guildId } = useParams()
   const { user, loading: userLoading } = useDiscordUser()
+  const location = useLocation()
 
   const [meta, setMeta] = useState(null)
   const [config, setConfig] = useState(null)
@@ -51,6 +52,19 @@ export default function GuildLayout() {
       })
       .catch((err) => setError(err.message))
   }, [guildId, user])
+
+  // 브라우저 탭에 이 서버 이름이 보이게 한다(예: 「서버이름 · 봇 프로필 | Chiyumi」).
+  // 하위 페이지가 각자 정한 제목보다 나중에 실행되므로(부모 effect가 자식 뒤에 실행) 이 제목이 남는다.
+  const guildName = meta?.guild?.name
+  useEffect(() => {
+    if (!guildName) return
+    const sub = location.pathname
+      .replace(`/DiscordBot/Chiyumi/servers/${guildId}`, '')
+      .replace(/^\/|\/$/g, '')
+    const item = MENU.find((m) => m.to === sub)
+    const page = item ? item.label.replace(/\s*✨$/, '') : ''
+    document.title = `${guildName}${page ? ` · ${page}` : ''} | Chiyumi`
+  }, [guildName, guildId, location.pathname])
 
   if (userLoading) return null
 

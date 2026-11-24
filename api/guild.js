@@ -26,7 +26,14 @@ import {
   isDuplicate,
 } from './_lib/sftpStreamAlerts.js'
 import { getSubscription, getProfileRecord, upsertProfileRecord } from './_lib/premiumSheets.js'
-import { fetchBotProfile, patchBotMember } from './_lib/botProfile.js'
+import {
+  fetchBotProfile,
+  patchBotMember,
+  resetBotProfile,
+  BLANK_BIO,
+  blankAvatarDataUri,
+  solidBannerDataUri,
+} from './_lib/botProfile.js'
 
 // 서버(길드)별 치유미 설정 대시보드 — Vercel 서버리스 함수 12개 제한 때문에
 // ?resource=로 여러 리소스를 한 파일에서 다룬다 (api/admin/admins.js와 같은 패턴).
@@ -414,15 +421,27 @@ function validateImage(value) {
   return null
 }
 
+// 시트 「봇프로필」 탭에 「아예 빼기」 상태를 적는 표시
+const BLANK_MARK = '[비움]'
+const bannerColorMark = (hex) => `[단색 ${hex}]`
+const BANNER_COLOR_MARK = /^\[단색 (#[0-9a-f]{6})\]$/i
+
 async function loadProfileState(guildId) {
   const [subscription, record, live] = await Promise.all([
     getSubscription(guildId),
     getProfileRecord(guildId),
     fetchBotProfile(guildId),
   ])
+  const bioBlank = record?.bio === BLANK_MARK
   return {
     subscription,
-    profile: { ...live, bio: record?.bio || '' },
+    profile: { ...live, bio: bioBlank ? '' : record?.bio || '' },
+    // 소개글·사진·배너를 「아예 뺀」 상태인지(기본 치유미 값과 구분해서 화면에 보여 준다)
+    blanks: {
+      bio: bioBlank,
+      avatar: Boolean(live.avatarUrl) && record?.avatar === BLANK_MARK,
+      banner: (live.bannerUrl && BANNER_COLOR_MARK.exec(record?.banner || '')?.[1]) || null,
+    },
     record: record ? { status: record.status, updatedAt: record.updatedAt } : null,
   }
 }
@@ -440,7 +459,8 @@ async function handleProfile(req, res, guildId) {
     const guildName = access.guild.name
 
     if (action === 'reset') {
-      const result = await patchBotMember(guildId, { nick: null, avatar: null, banner: null, bio: null })
+      const before = await getProfileRecord(guildId)
+      const result = await resetBotProfile(guildId, before?.bio)
       if (!result.ok) return sendJson(res, result.status, { error: result.error })
       await upsertProfileRecord(guildId, guildName, { nick: '', bio: '', avatar: '', banner: '', status: '기본으로 되돌림' }, userId)
       return sendJson(res, 200, await loadProfileState(guildId))
@@ -464,13 +484,31 @@ async function handleProfile(req, res, guildId) {
       if (bio.length > BIO_MAX) return badRequest(res, `소개글은 ${BIO_MAX}자까지 쓸 수 있어요.`)
       body = { bio: bio || null }
       recordPatch = { bio }
+    } else if (action === 'blank') {
+      // 아예 빼기 — 기본 치유미 값으로 돌아가지 않고 빈 것처럼 보이게 한다.
+      const { field, color } = req.body || {}
+      if (field === 'bio') {
+        body = { bio: BLANK_BIO }
+        recordPatch = { bio: BLANK_MARK }
+      } else if (field === 'avatar') {
+        body = { avatar: blankAvatarDataUri() }
+        recordPatch = { avatar: BLANK_MARK }
+      } else if (field === 'banner') {
+        const hex = String(color || '#2b2d31').toLowerCase()
+        const image = solidBannerDataUri(hex)
+        if (!image) return badRequest(res, '배너 색은 #RRGGBB 형식이어야 해요.')
+        body = { banner: image }
+        recordPatch = { banner: bannerColorMark(hex) }
+      } else {
+        return badRequest(res, '뺄 수 있는 항목은 소개글 · 프로필 사진 · 배너예요.')
+      }
     } else if (action === 'avatar' || action === 'banner') {
       const imageError = validateImage(value)
       if (imageError) return badRequest(res, imageError)
       body = { [action]: value }
       recordPatch = { [action]: value ? '설정됨' : '' }
     } else {
-      return badRequest(res, 'action은 nick · bio · avatar · banner · reset 중 하나여야 해요.')
+      return badRequest(res, 'action은 nick · bio · avatar · banner · blank · reset 중 하나여야 해요.')
     }
 
     const result = await patchBotMember(guildId, body)

@@ -42,7 +42,7 @@ function SubscriptionBox({ subscription }) {
   )
 }
 
-function Preview({ profile, nick, bio }) {
+function Preview({ profile, nick, bio, bioBlank }) {
   const banner = profile.bannerUrl || profile.defaultBannerUrl
   return (
     <div className="gp-card" aria-label="미리보기">
@@ -52,15 +52,25 @@ function Preview({ profile, nick, bio }) {
         <p className="gp-card-name">
           {nick || profile.defaultName} <span className="gp-card-tag">APP</span>
         </p>
-        <p className="gp-card-bio">{bio || '소개글 없음'}</p>
+        {!bioBlank && <p className={`gp-card-bio${bio ? '' : ' gp-card-bio--default'}`}>{bio || '(기본 치유미 소개글)'}</p>}
       </div>
     </div>
   )
 }
 
-function ImagePicker({ label, desc, kind, currentUrl, disabled, onSave }) {
+// blank: 「아예 빼기」 상태(프로필 사진은 true, 배너는 단색 색상 문자열). onBlank(color)로 뺀다.
+function ImagePicker({ label, desc, kind, currentUrl, blank, disabled, onSave, onBlank }) {
   const [pending, setPending] = useState(null)
   const [error, setError] = useState(null)
+  const [color, setColor] = useState(typeof blank === 'string' ? blank : '#2b2d31')
+
+  const nowText = blank
+    ? kind === 'banner'
+      ? `지금: 배너 없이 단색(${blank})`
+      : '지금: 사진 없이 비워 둠'
+    : currentUrl
+      ? '지금: 직접 올린 이미지'
+      : '지금: 기본 치유미 이미지'
 
   async function pick(event) {
     const file = event.target.files?.[0]
@@ -81,6 +91,7 @@ function ImagePicker({ label, desc, kind, currentUrl, disabled, onSave }) {
       <div className={`gp-image gp-image--${kind}`}>
         {pending || currentUrl ? <img src={pending || currentUrl} alt="" /> : <span>기본 이미지 사용 중</span>}
       </div>
+      <p className="gp-now">{pending ? '새로 고른 이미지 미리보기 · 적용을 눌러야 바뀌어요' : nowText}</p>
       {error && <p className="admin-status admin-status--error">{error}</p>}
       <div className="admin-actions">
         <label className={`admin-btn admin-btn--neutral gp-file${disabled ? ' is-disabled' : ''}`}>
@@ -99,9 +110,37 @@ function ImagePicker({ label, desc, kind, currentUrl, disabled, onSave }) {
         </button>
         {currentUrl && (
           <button type="button" className="admin-btn admin-btn--neutral" disabled={disabled} onClick={() => onSave(null)}>
-            기본으로
+            기본 치유미로
           </button>
         )}
+      </div>
+      <div className="gp-blank">
+        <span className="gp-blank-label">{kind === 'banner' ? '배너 아예 빼기' : '프로필 사진 아예 빼기'}</span>
+        <span className="gp-blank-desc">
+          {kind === 'banner'
+            ? '기본 치유미 배너 대신, 그림 없이 고른 색 한 가지로만 채워요.'
+            : '기본 치유미 사진 대신, 아무 그림 없이 투명하게 비워요.'}
+        </span>
+        <div className="admin-actions">
+          {kind === 'banner' && (
+            <input
+              type="color"
+              className="gp-color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              disabled={disabled}
+              aria-label="배너 색"
+            />
+          )}
+          <button
+            type="button"
+            className="admin-btn admin-btn--neutral"
+            disabled={disabled || (kind === 'banner' ? blank === color : blank === true)}
+            onClick={() => onBlank(kind === 'banner' ? color : undefined)}
+          >
+            {kind === 'banner' ? '이 색으로 배너 빼기' : '사진 빼기'}
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -130,13 +169,13 @@ export default function GuildProfilePage() {
       .catch((err) => setLoadError(err.message))
   }, [guildId])
 
-  async function send(action, value, doneText) {
+  async function send(action, value, doneText, extra = {}) {
     setBusy(true)
     setStatus(null)
     try {
       const data = await callGuildApi(`/api/guild?resource=profile&guildId=${guildId}`, {
         method: 'POST',
-        body: JSON.stringify({ action, value }),
+        body: JSON.stringify({ action, value, ...extra }),
       })
       apply(data)
       setStatus({ type: 'success', text: doneText })
@@ -153,8 +192,9 @@ export default function GuildProfilePage() {
   if (!state) return <p className="admin-page-desc">불러오는 중…</p>
 
   const { subscription, profile } = state
+  const blanks = state.blanks || {}
   const locked = busy || !subscription.active
-  const hasCustom = Boolean(profile.nick || profile.bio || profile.avatarUrl || profile.bannerUrl)
+  const hasCustom = Boolean(profile.nick || profile.bio || blanks.bio || profile.avatarUrl || profile.bannerUrl)
 
   return (
     <div>
@@ -172,7 +212,7 @@ export default function GuildProfilePage() {
       <div className="gp-layout">
         <div className="gp-preview">
           <p className="guild-section-title">미리보기</p>
-          <Preview profile={profile} nick={nick} bio={bio} />
+          <Preview profile={profile} nick={nick} bio={bio} bioBlank={blanks.bio && !bio} />
           {hasCustom && (
             <button
               type="button"
@@ -188,7 +228,7 @@ export default function GuildProfilePage() {
         <div className="gp-forms">
           <div className="guild-section">
             <p className="guild-section-title">이름</p>
-            <p className="guild-section-desc">서버 멤버 목록과 채팅에 보이는 이름이에요. 비우면 기본 이름(치유미)으로 돌아가요.</p>
+            <p className="guild-section-desc">서버 멤버 목록과 채팅에 보이는 이름이에요. 비우면 기본 이름(치유미)으로 돌아가요. 디스코드는 이름을 빈칸으로 둘 수 없어서 이름은 뺄 수 없어요.</p>
             <label className="admin-field">
               <span>이름 ({nick.length}/{NICK_MAX})</span>
               <input value={nick} maxLength={NICK_MAX} disabled={locked} onChange={(e) => setNick(e.target.value)} placeholder={profile.defaultName} />
@@ -202,15 +242,25 @@ export default function GuildProfilePage() {
 
           <div className="guild-section">
             <p className="guild-section-title">소개글</p>
-            <p className="guild-section-desc">프로필을 눌렀을 때 보이는 글이에요.</p>
+            <p className="guild-section-desc">프로필을 눌렀을 때 보이는 글이에요. 칸을 비우고 적용하면 기본 치유미 소개글로 돌아가요.</p>
             <label className="admin-field">
               <span>소개글 ({bio.length}/{BIO_MAX})</span>
               <textarea rows={4} value={bio} maxLength={BIO_MAX} disabled={locked} onChange={(e) => setBio(e.target.value)} />
             </label>
             <div className="admin-actions">
-              <button type="button" className="admin-btn admin-btn--accent" disabled={locked || bio === profile.bio} onClick={() => send('bio', bio, '소개글을 바꿨어요.')}>
-                적용
+              <button type="button" className="admin-btn admin-btn--accent" disabled={locked || (bio === profile.bio && !(blanks.bio && bio === ''))} onClick={() => send('bio', bio, bio ? '소개글을 바꿨어요.' : '기본 치유미 소개글로 되돌렸어요.')}>
+                {bio ? '적용' : '기본 소개글로'}
               </button>
+            </div>
+            <p className="gp-now">{blanks.bio ? '지금: 소개글 없이 비워 둠' : profile.bio ? '지금: 직접 쓴 소개글' : '지금: 기본 치유미 소개글'}</p>
+            <div className="gp-blank">
+              <span className="gp-blank-label">소개글 아예 빼기</span>
+              <span className="gp-blank-desc">기본 치유미 소개글도 보이지 않게, 프로필에서 소개글을 비워요.</span>
+              <div className="admin-actions">
+                <button type="button" className="admin-btn admin-btn--neutral" disabled={locked || blanks.bio} onClick={() => send('blank', null, '소개글을 뺐어요.', { field: 'bio' })}>
+                  소개글 빼기
+                </button>
+              </div>
             </div>
           </div>
 
@@ -219,16 +269,20 @@ export default function GuildProfilePage() {
             desc="정사각형으로 잘라 512×512로 올려요. 움직이는 GIF는 3MB까지 그대로 올라가요."
             kind="avatar"
             currentUrl={profile.avatarUrl}
+            blank={blanks.avatar}
             disabled={locked}
             onSave={(value) => send('avatar', value, value ? '프로필 사진을 바꿨어요.' : '프로필 사진을 기본으로 되돌렸어요.')}
+            onBlank={() => send('blank', null, '프로필 사진을 뺐어요.', { field: 'avatar' })}
           />
           <ImagePicker
             label="배너"
             desc="프로필 위쪽 배경이에요. 5:2 비율(960×384)로 잘라 올려요. 움직이는 GIF는 3MB까지 그대로 올라가요."
             kind="banner"
             currentUrl={profile.bannerUrl}
+            blank={blanks.banner}
             disabled={locked}
             onSave={(value) => send('banner', value, value ? '배너를 바꿨어요.' : '배너를 기본으로 되돌렸어요.')}
+            onBlank={(color) => send('blank', null, '배너를 뺐어요.', { field: 'banner', color })}
           />
         </div>
       </div>

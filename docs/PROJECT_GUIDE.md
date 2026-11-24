@@ -87,7 +87,7 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/servers/:guildId/censor` | 스팸·레이드 방어 |
 | `/servers/:guildId/wordchain` | 끝말잇기 설정 |
 | `/servers/:guildId/streamalert` | 방송 알림 설정 |
-| `/servers/:guildId/profile` | 유료: 이 서버에서만 보이는 치유미 이름·프로필 사진·배너·소개글 꾸미기(`GuildProfilePage`). 이용권이 없으면 안내만 보이고 입력이 잠긴다. 봇 `/봇프로필` 명령의 버튼이 이 화면으로 온다 |
+| `/servers/:guildId/profile` | 유료: 이 서버에서만 보이는 치유미 이름·프로필 사진·배너·소개글 꾸미기(`GuildProfilePage`). 이용권이 없으면 안내만 보이고 입력이 잠긴다. 항목마다 「기본 치유미로」(null → 기본 치유미 값)와 별도로 「아예 빼기」가 있다: 소개글은 한글 채움 문자(U+3164) 한 글자, 프로필 사진은 투명 PNG(128×128), 배너는 고른 색 한 가지 PNG(600×240)로 서버가 만들어 넣고 시트에 `[비움]`·`[단색 #rrggbb]`로 적는다(디스코드는 이름 빈칸을 기본 이름으로 되돌려서 이름 빼기는 없음). 「기본으로 모두 되돌리기」·해지·만료는 실제로 바뀐 항목만 null로 보낸다(사진·배너는 디스코드가 `AVATAR_RATE_LIMIT`으로 변경 횟수를 제한해서, 안 바꾼 항목까지 보내면 전체가 실패할 수 있음). 서버 설정 화면(`GuildLayout`)은 브라우저 탭 제목을 「서버이름 · 메뉴 | Chiyumi」로 바꾼다. 봇 `/봇프로필` 명령의 버튼이 이 화면으로 온다 |
 | `/admin` | 관리자 통계 |
 | `/admin/restrict`, `/admin/unrestrict`, `/admin/check` | 이용 제한 관리 |
 | `/admin/admins` | 웹 관리자 관리 |
