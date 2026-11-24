@@ -22,6 +22,7 @@ const MENU = [
   { label: '검열 · 스팸 · 레이드', to: 'censor' },
   { label: '끝말잇기', to: 'wordchain' },
   { label: '방송알림', to: 'streamalert' },
+  { label: '봇 프로필 ✨', to: 'profile' },
 ]
 
 export default function GuildLayout() {

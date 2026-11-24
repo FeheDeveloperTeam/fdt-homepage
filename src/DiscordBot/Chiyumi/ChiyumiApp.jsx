@@ -34,6 +34,7 @@ const GuildModerationPage = lazy(() => import('./pages/GuildModerationPage/Guild
 const GuildCensorPage = lazy(() => import('./pages/GuildCensorPage/GuildCensorPage'))
 const GuildWordchainPage = lazy(() => import('./pages/GuildWordchainPage/GuildWordchainPage'))
 const GuildStreamAlertPage = lazy(() => import('./pages/GuildStreamAlertPage/GuildStreamAlertPage'))
+const GuildProfilePage = lazy(() => import('./pages/GuildProfilePage/GuildProfilePage'))
 
 export default function ChiyumiApp() {
   useFavicon(chiyumiPhoto)
@@ -66,6 +67,7 @@ export default function ChiyumiApp() {
               <Route path="censor" element={<GuildCensorPage />} />
               <Route path="wordchain" element={<GuildWordchainPage />} />
               <Route path="streamalert" element={<GuildStreamAlertPage />} />
+              <Route path="profile" element={<GuildProfilePage />} />
             </Route>
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/terms/en" element={<TermsPageEn />} />

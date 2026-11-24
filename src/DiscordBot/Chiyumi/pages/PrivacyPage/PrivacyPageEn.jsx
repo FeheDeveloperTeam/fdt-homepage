@@ -20,6 +20,7 @@ const COLLECTED_ITEMS = [
   'Memories saved with "유미야 기억해" — stored permanently in Supabase per account and automatically used in later AI chats (up to 10 items, unlimited for the developer)',
   'For users restricted by the operator: user ID, reason, time of restriction and the operator who applied it',
   'Stream notification settings registered by server administrators with /방송알림 (platform; streamer channel link, ID and name; notification message; mention settings; notification channel; whether the stream is live and the count of offline checks; recent video IDs to prevent duplicate notifications and IDs of videos waiting to be published; a record of sent notifications kept for 30 days (notification, video and stream IDs and the time sent)) — stored per server',
+  'Paid pass information (server ID, server name, product, start date, end date, note) and bot profile setting records (server ID, server name, the name and bio set, whether a profile picture or banner is set, status, ID of the administrator who last changed it, time changed) — stored in a private Google Sheet owned by the operator. Uploaded profile pictures and banner images are sent directly to Discord and are not stored by us',
   'Number of online members per server (only the count of online members excluding bots, updated every 2 minutes, with the last 24 hours kept at 30-minute intervals; who was online is not stored)',
 ]
 
@@ -41,6 +42,7 @@ const USAGE_ITEMS = [
   'Generating AI chat replies and keeping conversation context',
   'Checking for streams going live and new videos, and sending stream notifications',
   'Showing the number of online members on the management page',
+  'Checking paid passes, applying per-server bot profiles and restoring the default profile when a pass expires',
 ]
 
 export default function PrivacyPageEn() {
@@ -51,7 +53,7 @@ export default function PrivacyPageEn() {
       <DocLangSwitch current="en" koPath="/DiscordBot/Chiyumi/privacy" enPath="/DiscordBot/Chiyumi/privacy/en" />
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">Chiyumi Privacy Policy</h1>
-      <p className="doc-date">Last updated: 2026-11-23</p>
+      <p className="doc-date">Last updated: 2026-11-24</p>
       <p className="doc-intro">
         This is an English translation of the Korean Privacy Policy. Command names are shown in Korean as they appear
         in Discord. If the two versions differ, the Korean version prevails.
@@ -83,12 +85,12 @@ export default function PrivacyPageEn() {
 
       <section className="doc-section">
         <h2>3. Sharing with Third Parties</h2>
-        <p>The Riot ID you enter in /전적검색 (stats) is sent to Riot Games&apos; API servers (League of Legends) or HenrikDev API servers (VALORANT) to look up match history. VALORANT agent, map and rank names and icons are loaded from valorant-api.com, and League of Legends champion names and icons from Riot Games&apos; Data Dragon; these requests contain no user information. Words entered in /끝말잇기 (word chain) are sent to the National Institute of Korean Language&apos;s Urimalsaem API servers to check whether they are in the dictionary. AI chat messages starting with &quot;유미야&quot; are sent to Groq (GroqCloud) API servers to generate a reply. If Groq is down, the same content is sent to the OpenRouter and Mistral AI API servers in that order. The location coordinates of the city you enter for the weather feature are sent to Open-Meteo API servers (or, if the weather API is down, MET Norway API servers) to look up weather and air quality. Precipitation radar images request tile data from the Korea Meteorological Administration API or the RainViewer service. Earthquake information is requested from the USGS API servers and the Korea Meteorological Administration&apos;s earthquake information service, and typhoon information from NOAA&apos;s IBTrACS data servers; these requests contain no user information. To check streamer channels registered in /방송알림, requests are made with that channel&apos;s information to the public pages and public APIs of YouTube, CHZZK and SOOP. If the operator has set up Google Sheets integration for backup and operations, the data listed in section 1 (Discord user ID, coins, levels, virtual pet data, etc.) is periodically backed up to a private Google Sheet managed by the operator. No other information is provided or sold to third parties.</p>
+        <p>The Riot ID you enter in /전적검색 (stats) is sent to Riot Games&apos; API servers (League of Legends) or HenrikDev API servers (VALORANT) to look up match history. VALORANT agent, map and rank names and icons are loaded from valorant-api.com, and League of Legends champion names and icons from Riot Games&apos; Data Dragon; these requests contain no user information. Words entered in /끝말잇기 (word chain) are sent to the National Institute of Korean Language&apos;s Urimalsaem API servers to check whether they are in the dictionary. AI chat messages starting with &quot;유미야&quot; are sent to Groq (GroqCloud) API servers to generate a reply. If Groq is down, the same content is sent to the OpenRouter and Mistral AI API servers in that order. The location coordinates of the city you enter for the weather feature are sent to Open-Meteo API servers (or, if the weather API is down, MET Norway API servers) to look up weather and air quality. Precipitation radar images request tile data from the Korea Meteorological Administration API or the RainViewer service. Earthquake information is requested from the USGS API servers and the Korea Meteorological Administration&apos;s earthquake information service, and typhoon information from NOAA&apos;s IBTrACS data servers; these requests contain no user information. To check streamer channels registered in /방송알림, requests are made with that channel&apos;s information to the public pages and public APIs of YouTube, CHZZK and SOOP. The name, bio and images entered in bot profile customization are sent to Discord API servers to apply them to the Bot’s profile in that server. If the operator has set up Google Sheets integration for backup and operations, the data listed in section 1 (Discord user ID, coins, levels, virtual pet data, etc.) is periodically backed up to a private Google Sheet managed by the operator. No other information is provided or sold to third parties.</p>
       </section>
 
       <section className="doc-section">
         <h2>4. Storage and Location</h2>
-        <p>Data is kept in local storage (JSON files) on the server where the Bot runs, and match history lookup results are kept only in memory for up to 10 minutes. Data saved with the AI memory feature (&quot;유미야 기억해&quot;) is stored in Supabase (Supabase Inc.). If Google Sheets backup is set up, a copy of the same data is also kept in a private Google Sheet owned by the operator.</p>
+        <p>Data is kept in local storage (JSON files) on the server where the Bot runs, and match history lookup results are kept only in memory for up to 10 minutes. Data saved with the AI memory feature (&quot;유미야 기억해&quot;) is stored in Supabase (Supabase Inc.). If Google Sheets backup is set up, a copy of the same data is also kept in a private Google Sheet owned by the operator. Paid passes and bot profile setting records are kept in a private Google Sheet owned by the operator.</p>
       </section>
 
       <section className="doc-section">

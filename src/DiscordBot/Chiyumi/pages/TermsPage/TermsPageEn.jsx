@@ -87,19 +87,23 @@ const SECTIONS = [
     body: 'Users with the Manage Messages permission can delete up to 100 recent messages in the current channel at once with /채팅청소. Messages older than 14 days are deleted one at a time because of Discord limits, so this can take longer. Deleted messages cannot be recovered.',
   },
   {
-    heading: '20. Restrictions',
+    heading: '20. Paid Service (Bot Profile Customization)',
+    body: 'Users with the Manage Server permission are guided by the /봇프로필 command to the "봇 프로필" (Bot profile) page in the fehe.dev server dashboard, where they can change the Bot\'s name (server nickname), profile picture, banner and bio as shown only in that server. This feature can only be used in servers with a paid pass, which is provided per server in monthly periods and granted by the operator. Payment methods, prices and refund rules will be announced separately in these Terms and on the information page when payment is introduced. When the pass expires, the Bot automatically returns to its default profile.\n\nYou may not use names or images that impersonate Discord or any other person, group or official account; obscene, violent or hateful content; images that infringe others\' copyright or portrait rights; or content that violates Discord\'s Terms of Service or the law. The operator may, without prior notice, return such settings to the default profile or suspend the server\'s pass. Because the changed profile is shown as-is on Discord in that server, the server administrator who set it is responsible for the uploaded images and text.',
+  },
+  {
+    heading: '21. Restrictions',
     body: 'The Bot\'s operator (developer) may restrict a specific user\'s use of the Bot without prior notice if a violation of these Terms, abuse or misuse is found. A restricted user cannot use any feature of the Bot.',
   },
   {
-    heading: '21. Limitation of Liability',
+    heading: '22. Limitation of Liability',
     body: 'The Bot is provided free of charge, and the operator does not guarantee its availability or accuracy. The operator is not responsible for any damage resulting from use of the Bot.',
   },
   {
-    heading: '22. Changes to These Terms',
+    heading: '23. Changes to These Terms',
     body: 'These Terms may change without prior notice. Changed Terms apply from the time they are posted on this page.',
   },
   {
-    heading: '23. Contact',
+    heading: '24. Contact',
     node: (
       <p>
         For questions, please contact <a href="mailto:help@fehe.dev">help@fehe.dev</a>.
@@ -116,7 +120,7 @@ export default function TermsPageEn() {
       <DocLangSwitch current="en" koPath="/DiscordBot/Chiyumi/terms" enPath="/DiscordBot/Chiyumi/terms/en" />
       <p className="eyebrow">Legal</p>
       <h1 className="doc-title">Chiyumi Terms of Service</h1>
-      <p className="doc-date">Last updated: 2026-11-23</p>
+      <p className="doc-date">Last updated: 2026-11-24</p>
       <p className="doc-intro">
         This is an English translation of the Korean Terms of Service. Command names are shown in Korean as they
         appear in Discord. If the two versions differ, the Korean version prevails.

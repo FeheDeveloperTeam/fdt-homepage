@@ -10,7 +10,7 @@ FeheDeveloperTeam(FDT)의 공식 웹사이트이자 팀에서 운영하는 여�
 
 - FDT: 팀 소개, 서비스, 프로젝트, 문의
 - 멤버: Fehe 개인 페이지와 Yukiha 자기소개·NATSUMI 프로젝트 페이지
-- Chiyumi: 봇 소개, Discord 로그인, 관리자·서버별 설정 화면
+- Chiyumi: 봇 소개, Discord 로그인, 관리자·서버별 설정 화면, 유료 서버별 봇 프로필 꾸미기(이용권은 연동된 Google Sheet에 운영자가 적음)
 - 유틸리티: IP·지연 시간·다운로드 속도를 확인하는 네트워크 테스트, 한국 시간 기준 수능 D-Day 타이머(실전 타이머·교실 화면·배경화면·공부 백색소음·테마 색 설정 포함)
 - 위키: Minecraft Java 문서와 Bedrock 준비 페이지
 
@@ -53,7 +53,7 @@ npm run dev
 | 초기 관리자 | `ADMIN_DISCORD_IDS` (쉼표로 구분, 선택 사항) |
 | Cloudflare Turnstile | `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` |
 | Chiyumi 데이터 SFTP | `SFTP_HOST`, `SFTP_PORT` (기본값 `22`), `SFTP_USER`, `SFTP_PASSWORD` |
-| Google Sheets 읽기 | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`, `GOOGLE_SHEET_ID` |
+| Google Sheets 읽기·쓰기(관리자 화면은 읽기, 유료 봇 프로필은 「유료이용권」·「봇프로필」 탭 쓰기) | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`, `GOOGLE_SHEET_ID` |
 | 로컬 서버 포트 | `PORT` (기본값 `3000`, 선택 사항) |
 
 필요한 값과 외부 서비스 설정은 저장소 관리자에게 받아 로컬 `.env`와 Vercel 프로젝트 환경 변수에 각각 등록해야 합니다.

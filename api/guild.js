@@ -25,6 +25,8 @@ import {
   resolveYouTubeChannelId,
   isDuplicate,
 } from './_lib/sftpStreamAlerts.js'
+import { getSubscription, getProfileRecord, upsertProfileRecord } from './_lib/premiumSheets.js'
+import { fetchBotProfile, patchBotMember } from './_lib/botProfile.js'
 
 // 서버(길드)별 치유미 설정 대시보드 — Vercel 서버리스 함수 12개 제한 때문에
 // ?resource=로 여러 리소스를 한 파일에서 다룬다 (api/admin/admins.js와 같은 패턴).
@@ -395,6 +397,96 @@ async function handleModeration(req, res, guildId, kind) {
   }
 }
 
+// ---- 유료: 서버별 봇 프로필 커스텀 (이용권·적용 기록은 구글 시트, 실제 적용은 디스코드 API)
+const NICK_MAX = 32
+const BIO_MAX = 190
+const IMAGE_MAX_BYTES = 3 * 1024 * 1024 // Vercel 요청 본문 한도(4.5MB) 안에 base64로 들어가는 크기
+const IMAGE_DATA_URI = /^data:image\/(png|jpeg|gif);base64,([A-Za-z0-9+/=]+)$/
+// 디스코드·운영진을 사칭하는 이름을 막는다(나머지 금지 내용은 이용약관으로 안내하고 운영자가 해제할 수 있다).
+const BLOCKED_NICK = /discord|디스코드|clyde|@everyone|@here/i
+
+function validateImage(value) {
+  if (value === null) return null
+  const m = IMAGE_DATA_URI.exec(String(value || ''))
+  if (!m) return 'PNG·JPG·GIF 이미지만 올릴 수 있어요.'
+  const bytes = Math.floor((m[2].length * 3) / 4)
+  if (bytes > IMAGE_MAX_BYTES) return '이미지는 3MB 이하여야 해요.'
+  return null
+}
+
+async function loadProfileState(guildId) {
+  const [subscription, record, live] = await Promise.all([
+    getSubscription(guildId),
+    getProfileRecord(guildId),
+    fetchBotProfile(guildId),
+  ])
+  return {
+    subscription,
+    profile: { ...live, bio: record?.bio || '' },
+    record: record ? { status: record.status, updatedAt: record.updatedAt } : null,
+  }
+}
+
+async function handleProfile(req, res, guildId) {
+  const access = await requireGuildManager(req, res, guildId)
+  if (!access) return
+
+  try {
+    if (req.method === 'GET') return sendJson(res, 200, await loadProfileState(guildId))
+    if (req.method !== 'POST') return sendJson(res, 405, { error: 'Method Not Allowed' })
+
+    const { action, value } = req.body || {}
+    const userId = access.user.id
+    const guildName = access.guild.name
+
+    if (action === 'reset') {
+      const result = await patchBotMember(guildId, { nick: null, avatar: null, banner: null, bio: null })
+      if (!result.ok) return sendJson(res, result.status, { error: result.error })
+      await upsertProfileRecord(guildId, guildName, { nick: '', bio: '', avatar: '', banner: '', status: '기본으로 되돌림' }, userId)
+      return sendJson(res, 200, await loadProfileState(guildId))
+    }
+
+    const subscription = await getSubscription(guildId)
+    if (!subscription.active) {
+      return sendJson(res, 403, { error: '이 서버에는 봇 프로필 이용권이 없거나 기간이 끝났어요.' })
+    }
+
+    let body
+    let recordPatch
+    if (action === 'nick') {
+      const nick = String(value ?? '').trim()
+      if (nick.length > NICK_MAX) return badRequest(res, `이름은 ${NICK_MAX}자까지 쓸 수 있어요.`)
+      if (BLOCKED_NICK.test(nick)) return badRequest(res, '디스코드를 사칭하거나 전체 멘션이 들어간 이름은 쓸 수 없어요.')
+      body = { nick: nick || null }
+      recordPatch = { nick }
+    } else if (action === 'bio') {
+      const bio = String(value ?? '').trim()
+      if (bio.length > BIO_MAX) return badRequest(res, `소개글은 ${BIO_MAX}자까지 쓸 수 있어요.`)
+      body = { bio: bio || null }
+      recordPatch = { bio }
+    } else if (action === 'avatar' || action === 'banner') {
+      const imageError = validateImage(value)
+      if (imageError) return badRequest(res, imageError)
+      body = { [action]: value }
+      recordPatch = { [action]: value ? '설정됨' : '' }
+    } else {
+      return badRequest(res, 'action은 nick · bio · avatar · banner · reset 중 하나여야 해요.')
+    }
+
+    const result = await patchBotMember(guildId, body)
+    if (!result.ok) return sendJson(res, result.status, { error: result.error })
+
+    const before = await getProfileRecord(guildId)
+    const merged = { nick: '', bio: '', avatar: '', banner: '', ...(before || {}), ...recordPatch }
+    const anyCustom = Boolean(merged.nick || merged.bio || merged.avatar || merged.banner)
+    await upsertProfileRecord(guildId, guildName, { ...recordPatch, status: anyCustom ? '적용중' : '기본으로 되돌림' }, userId)
+    sendJson(res, 200, await loadProfileState(guildId))
+  } catch (err) {
+    console.error('[guild profile]', err)
+    sendJson(res, 500, { error: '봇 프로필 처리에 실패했어요. 잠시 후 다시 시도해주세요.' })
+  }
+}
+
 export default async function handler(req, res) {
   if (!rateLimit(req, res, 'guild-api', { windowMs: 60_000, max: 60 })) return
 
@@ -412,6 +504,7 @@ export default async function handler(req, res) {
     }
     if (resource === 'warnings') return await handleWarnings(req, res, guildId)
     if (resource === 'streamalert') return await handleStreamAlert(req, res, guildId)
+    if (resource === 'profile') return await handleProfile(req, res, guildId)
     if (resource === 'ban') return await handleModeration(req, res, guildId, 'ban')
     if (resource === 'kick') return await handleModeration(req, res, guildId, 'kick')
 

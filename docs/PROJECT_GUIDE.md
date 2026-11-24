@@ -87,6 +87,7 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/servers/:guildId/censor` | 스팸·레이드 방어 |
 | `/servers/:guildId/wordchain` | 끝말잇기 설정 |
 | `/servers/:guildId/streamalert` | 방송 알림 설정 |
+| `/servers/:guildId/profile` | 유료: 이 서버에서만 보이는 치유미 이름·프로필 사진·배너·소개글 꾸미기(`GuildProfilePage`). 이용권이 없으면 안내만 보이고 입력이 잠긴다. 봇 `/봇프로필` 명령의 버튼이 이 화면으로 온다 |
 | `/admin` | 관리자 통계 |
 | `/admin/restrict`, `/admin/unrestrict`, `/admin/check` | 이용 제한 관리 |
 | `/admin/admins` | 웹 관리자 관리 |
@@ -174,7 +175,7 @@ Fehe의 배경 화면은 `src/member/fehe/components/BgDeco/`가 그리는 밤�
 
 **함수 개수 제한**: Vercel Hobby 플랜은 배포 하나에 서버리스 함수를 12개까지만 허용하고, `api/` 아래에서 `_lib/`을 뺀 `.js` 파일 하나가 함수 하나입니다. 현재 정확히 12개(`render`, `network-test`, `guild`, `auth/*` 4개, `admin/*` 5개)라서 새 파일을 추가하면 배포가 실패합니다(2026-11-06에 `api/supabase-keepalive.js`를 추가했다가 실제로 실패). 새 API는 로직을 `api/_lib/`에 두고 기존 함수에서 분기하거나, `vercel.json` rewrite로 기존 함수에 연결합니다.
 
-`/api/guild`는 Vercel 함수 수를 늘리지 않도록 여러 기능을 한 핸들러에 모읍니다. `resource`는 `guilds`, `meta`, `overview`, `config`, `warnings`, `streamalert`, `ban`, `kick` 중 하나이며, 일부 쓰기 동작은 JSON 본문의 `section`, `field` 또는 `action`으로 다시 나뉩니다.
+`/api/guild`는 Vercel 함수 수를 늘리지 않도록 여러 기능을 한 핸들러에 모읍니다. `resource`는 `guilds`, `meta`, `overview`, `config`, `warnings`, `streamalert`, `profile`, `ban`, `kick` 중 하나이며, 일부 쓰기 동작은 JSON 본문의 `section`, `field` 또는 `action`으로 다시 나뉩니다.
 
 새 서버리스 핸들러를 추가하면 Vercel의 `api/` 파일만 만들고 끝내지 말고, 로컬 개발과 `npm start`에서도 같은 동작을 하도록 `server/index.js`에 import와 Express 라우트를 추가해야 합니다.
 
@@ -211,7 +212,10 @@ Chiyumi 관리 데이터는 별도 봇 서버의 JSON 파일을 SFTP로 읽고 �
 - Riot Developer Portal: 심사 담당자가 볼 공개 시연 페이지는 `/DiscordBot/Chiyumi/valorant`. 발로란트 Production 키는 승인 후 30일 안에 RSO(Riot 계정 로그인 동의)를 붙여야 키가 유지되므로, 승인되면 fehe.dev 계정 연결 화면과 봇의 연결된 계정만 조회하는 흐름을 바로 만든다.
 - Riot Developer Portal 사이트 확인: Production 키를 신청하면 Riot이 Product URL 아래 `riot.txt`(확인 코드 한 줄, 줄바꿈 없음)를 요구한다. 롤 앱(911851, Product URL `/DiscordBot/Chiyumi`)은 `public/DiscordBot/Chiyumi/riot.txt`, 발로란트 앱(911927, Product URL `/DiscordBot/Chiyumi/valorant`)은 `public/DiscordBot/Chiyumi/valorant/riot.txt`이고 둘 다 그룹 FeheDeveloperTeam이다. 정적 파일이라 `/api/render` rewrite보다 먼저 전송된다. 심사가 끝날 때까지 지우지 않는다. 페이지 경로와 같은 이름의 폴더가 `dist`에 생기므로, `server/index.js`의 `express.static`은 `redirect: false`로 두어 `/DiscordBot/Chiyumi/valorant`가 끝에 `/`를 붙인 주소로 301 되지 않게 한다.
 - Discord REST API: 사용자·길드·채널·역할 조회와 관리 동작
-- Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기
+- Google Sheets API: 서비스 계정으로 관리자용 Sheet 읽기(`googleSheets.js`, 읽기 전용). 유료 봇 프로필은 같은 시트를 DB로 쓰며 `premiumSheets.js`가 쓰기 권한으로 따로 접근한다.
+  - 「유료이용권」 탭: `서버ID | 서버이름 | 상품 | 시작일 | 만료일 | 메모`. 결제 수단이 붙기 전까지 운영자가 시트에 직접 적는다(개발자 관리자 화면은 쓰지 않음). 상품이 비었거나 `봇프로필`이면 이 기능 이용권이고 만료일 당일(KST)까지 유효, 같은 서버 행이 여럿이면 가장 늦은 만료일을 쓴다. 날짜는 `2026-12-24`·`2026. 12. 24` 모두 읽는다. 탭을 처음 만들 때 A열(서버ID)을 텍스트 서식으로 두므로 18~19자리 ID가 지수 표기로 깨지지 않는다.
+  - 「봇프로필」 탭: `서버ID | 서버이름 | 별명 | 소개글 | 프로필 사진 | 배너 | 상태 | 마지막 변경자ID | 마지막 변경 일시`. 설정 화면이 적용할 때마다 적고(상태 `적용중`·`기본으로 되돌림`), 봇이 30분마다 이용권이 끝난 `적용중` 서버를 기본 프로필로 되돌린 뒤 `만료로 해제`로 바꾼다. 이미지는 저장하지 않고 설정 여부만 적는다.
+  - 실제 적용은 `api/_lib/botProfile.js`가 디스코드 `PATCH /guilds/{id}/members/@me`(nick·avatar·banner·bio, null이면 기본값)로 한다. 이미지는 브라우저에서 프로필 사진 512×512 PNG, 배너 960×384 JPEG로 잘라 줄이고, 움직이는 GIF는 3MB까지 그대로 보낸다(서버도 3MB·PNG/JPEG/GIF만 허용, 로컬 `express.json` 한도 4.5mb). 이름은 32자, 소개글은 190자까지이고 discord·디스코드·clyde·@everyone·@here가 든 이름은 막는다. 탭 이름·컬럼 순서를 바꾸면 봇 `src/utils/premium.js`도 함께 고친다.
 - Cloudflare Turnstile: Discord 로그인 전 사람 확인
 - Supabase: Fehe 오늘 방문자 수와 상태 화면의 연결 확인
 - YouTube Data API와 iframe API: Fehe YouTube·음악 기능. 채널 링크는 `@페헤_Dev`(URL에는 `@%ED%8E%98%ED%97%A4_Dev`로 인코딩, 예전 `@fehe1234`는 없어짐)이고 API가 쓰는 채널 ID `UCY0LBUJ0a7JCBkkQ_ux0kew`는 그대로입니다(Header·HomePage·YoutubePage의 링크를 함께 고침)
