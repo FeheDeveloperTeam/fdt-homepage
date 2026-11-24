@@ -13,6 +13,13 @@ const NICK_MAX = 32
 const BIO_MAX = 190
 
 function SubscriptionBox({ subscription }) {
+  if (subscription.permanent) {
+    return (
+      <p className="gp-sub gp-sub--on">
+        ✅ 이용 중 · <strong>영구 이용권</strong> (기간 제한 없음)
+      </p>
+    )
+  }
   if (subscription.active) {
     return (
       <p className="gp-sub gp-sub--on">

@@ -24,6 +24,7 @@ const AdminManagePage = lazy(() => import('./pages/AdminManagePage/AdminManagePa
 const AdminSheetPage = lazy(() => import('./pages/AdminSheetPage/AdminSheetPage'))
 const AdminCoinCheckPage = lazy(() => import('./pages/AdminCoinCheckPage/AdminCoinCheckPage'))
 const AdminCoinAdjustPage = lazy(() => import('./pages/AdminCoinAdjustPage/AdminCoinAdjustPage'))
+const AdminPremiumPage = lazy(() => import('./pages/AdminPremiumPage/AdminPremiumPage'))
 const GuildLayout = lazy(() => import('./pages/GuildLayout/GuildLayout'))
 const GuildOverviewPage = lazy(() => import('./pages/GuildOverviewPage/GuildOverviewPage'))
 const GuildLogPage = lazy(() => import('./pages/GuildLogPage/GuildLogPage'))
@@ -55,6 +56,7 @@ export default function ChiyumiApp() {
               <Route path="sheets" element={<AdminSheetPage />} />
               <Route path="coins/check" element={<AdminCoinCheckPage />} />
               <Route path="coins/adjust" element={<AdminCoinAdjustPage />} />
+              <Route path="premium" element={<AdminPremiumPage />} />
             </Route>
             <Route path="/servers" element={<ServersPage />} />
             <Route path="/servers/:guildId" element={<GuildLayout />}>

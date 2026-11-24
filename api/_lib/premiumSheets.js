@@ -5,8 +5,9 @@ import { JWT } from 'google-auth-library'
 //
 //  「유료이용권」 탭 — 운영자가 시트에서 직접 적는다(결제 수단이 붙기 전까지).
 //      서버ID | 서버이름 | 상품 | 시작일 | 만료일 | 메모
-//      상품이 비어 있거나 「봇프로필」이면 이 기능의 이용권이다. 만료일 당일(KST)까지 쓸 수 있다.
-//      같은 서버에 행이 여러 개면 가장 늦은 만료일을 쓴다(연장할 때 새 행을 추가해도 된다).
+//      상품이 비어 있거나 「봇프로필」이면 이 기능의 이용권이다. 만료일 당일(KST)까지 쓸 수 있고,
+//      만료일 칸에 「영구」라고 적으면 기간 없는 이용권이다. 같은 서버에 행이 여러 개면 영구 > 가장 늦은 만료일 순으로 쓴다.
+//      개발자 관리자 화면(/DiscordBot/Chiyumi/admin/premium)에서 주면 서버당 한 줄로 정리해 적는다.
 //  「봇프로필」 탭 — fehe.dev 설정 화면이 적용할 때마다 적고, 봇이 만료 해제 결과를 적는다.
 //      서버ID | 서버이름 | 별명 | 소개글 | 프로필 사진 | 배너 | 상태 | 마지막 변경자ID | 마지막 변경 일시
 //      상태: 적용중 · 기본으로 되돌림 · 만료로 해제
@@ -89,8 +90,14 @@ async function ensureTab(title, header) {
   }
 }
 
+// 탭 확인은 함수 인스턴스마다 한 번만 한다(시트 API 분당 요청 한도를 아끼려고).
+const ensuredTabs = new Set()
+
 async function readTab(title, header) {
-  await ensureTab(title, header)
+  if (!ensuredTabs.has(title)) {
+    await ensureTab(title, header)
+    ensuredTabs.add(title)
+  }
   const data = await sheetsRequest(`/values/${rangeOf(title, 'A1:Z5000')}`)
   return (data.values || []).slice(1)
 }
@@ -106,27 +113,101 @@ export function todayKst() {
   return new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10)
 }
 
-function daysBetween(fromYmd, toYmd) {
+export function daysBetween(fromYmd, toYmd) {
   return Math.round((Date.parse(`${toYmd}T00:00:00Z`) - Date.parse(`${fromYmd}T00:00:00Z`)) / 86_400_000)
 }
 
-export async function getSubscription(guildId) {
-  const rows = await readTab(SUBSCRIPTION_TAB, SUBSCRIPTION_HEADER)
+// 만료일 칸에 「영구」(또는 무기한·permanent)라고 적으면 기간 없는 이용권이다.
+export const PERMANENT_TEXT = '영구'
+export const isPermanentText = (value) => /^\s*(영구|무기한|permanent)\s*$/i.test(String(value || ''))
+
+const NO_SUBSCRIPTION = { active: false, permanent: false, startDate: null, endDate: null, daysLeft: null }
+
+// 이용권 행을 서버별로 묶는다. 영구가 하나라도 있으면 영구, 아니면 가장 늦은 만료일을 쓴다.
+// rows는 머리글을 뺀 행 목록이고, rowNumbers는 시트의 실제 줄 번호(머리글이 1번)다.
+function summarize(rows) {
   const today = todayKst()
-  let best = null
-  for (const row of rows) {
-    if (String(row[0] || '').trim() !== guildId) continue
+  const byGuild = new Map()
+  rows.forEach((row, i) => {
+    const guildId = String(row[0] || '').trim()
     const product = String(row[2] || '').trim()
-    if (product && product !== PRODUCT_NAME) continue
-    const endDate = parseSheetDate(row[4])
-    if (!endDate) continue
+    if (!guildId || (product && product !== PRODUCT_NAME)) return
+    const entry = byGuild.get(guildId) ?? { guildId, name: '', memo: '', rowNumbers: [], best: null }
+    entry.rowNumbers.push(i + 2)
+    if (!entry.name && row[1]) entry.name = String(row[1])
+    if (row[5]) entry.memo = String(row[5])
+    byGuild.set(guildId, entry)
+
     const startDate = parseSheetDate(row[3])
-    if (startDate && startDate > today) continue
-    if (!best || endDate > best.endDate) best = { startDate, endDate }
+    if (startDate && startDate > today) return
+    const permanent = isPermanentText(row[4])
+    const endDate = permanent ? null : parseSheetDate(row[4])
+    if (!permanent && !endDate) return
+    const best = entry.best
+    if (!best || permanent || (!best.permanent && endDate > best.endDate)) {
+      if (!best?.permanent) entry.best = { permanent, startDate, endDate }
+    }
+  })
+
+  const result = new Map()
+  for (const [guildId, entry] of byGuild) {
+    const best = entry.best
+    let subscription = NO_SUBSCRIPTION
+    if (best?.permanent) {
+      subscription = { active: true, permanent: true, startDate: best.startDate, endDate: null, daysLeft: null }
+    } else if (best) {
+      const daysLeft = daysBetween(today, best.endDate)
+      subscription = { active: daysLeft >= 0, permanent: false, startDate: best.startDate, endDate: best.endDate, daysLeft }
+    }
+    result.set(guildId, { ...subscription, guildId, name: entry.name, memo: entry.memo, rowNumbers: entry.rowNumbers })
   }
-  if (!best) return { active: false, endDate: null, daysLeft: null }
-  const daysLeft = daysBetween(today, best.endDate)
-  return { active: daysLeft >= 0, startDate: best.startDate, endDate: best.endDate, daysLeft }
+  return result
+}
+
+export async function getSubscription(guildId) {
+  const all = summarize(await readTab(SUBSCRIPTION_TAB, SUBSCRIPTION_HEADER))
+  const found = all.get(guildId)
+  if (!found) return NO_SUBSCRIPTION
+  const { active, permanent, startDate, endDate, daysLeft } = found
+  return { active, permanent, startDate, endDate, daysLeft }
+}
+
+// 개발자 관리자 화면용: 서버별 이용권 요약 목록
+export async function listSubscriptions() {
+  return [...summarize(await readTab(SUBSCRIPTION_TAB, SUBSCRIPTION_HEADER)).values()]
+}
+
+async function getTabSheetId(title) {
+  const meta = await sheetsRequest('?fields=sheets.properties(title,sheetId)')
+  return meta.sheets.find((s) => s.properties.title === title)?.properties.sheetId
+}
+
+// 한 서버의 이용권을 한 줄로 정리해 적는다. 같은 서버의 다른 줄(예전에 손으로 추가한 연장 줄 등)은 지운다.
+export async function writeSubscription(guildId, { name, startDate, endValue, memo }) {
+  const all = summarize(await readTab(SUBSCRIPTION_TAB, SUBSCRIPTION_HEADER))
+  const rowNumbers = all.get(guildId)?.rowNumbers ?? []
+  const values = [[guildId, name || '', PRODUCT_NAME, startDate || '', endValue, memo || '']]
+
+  if (rowNumbers.length > 0) {
+    const [first, ...extra] = rowNumbers
+    await sheetsRequest(`/values/${rangeOf(SUBSCRIPTION_TAB, `A${first}:F${first}`)}?valueInputOption=RAW`, {
+      method: 'PUT',
+      body: JSON.stringify({ values }),
+    })
+    if (extra.length > 0) {
+      const sheetId = await getTabSheetId(SUBSCRIPTION_TAB)
+      // 아래 줄부터 지워야 위쪽 줄 번호가 밀리지 않는다.
+      const requests = [...extra].sort((a, b) => b - a).map((n) => ({
+        deleteDimension: { range: { sheetId, dimension: 'ROWS', startIndex: n - 1, endIndex: n } },
+      }))
+      await sheetsRequest(':batchUpdate', { method: 'POST', body: JSON.stringify({ requests }) })
+    }
+  } else {
+    await sheetsRequest(`/values/${rangeOf(SUBSCRIPTION_TAB, 'A1')}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+      method: 'POST',
+      body: JSON.stringify({ values }),
+    })
+  }
 }
 
 function rowToProfile(row) {

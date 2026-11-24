@@ -1,0 +1,87 @@
+@scope (.chiyumi-app) {
+.ap-segment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.ap-segment-btn {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.ap-segment-btn.is-active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent-brown);
+  font-weight: 700;
+}
+.ap-segment-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ap-current,
+.ap-preview {
+  grid-column: 1 / -1;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+.ap-preview {
+  color: var(--accent-brown);
+  font-weight: 600;
+}
+
+.ap-list-title {
+  margin-top: 2rem;
+}
+
+.ap-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.ap-badge {
+  margin-left: 0.45rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  color: var(--accent-brown);
+  font-size: 0.7rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.ap-badge--forever {
+  background: var(--discord);
+  color: #fff;
+}
+.ap-badge--ended {
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.ap-row--ended {
+  opacity: 0.7;
+}
+
+.ap-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .ap-row-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+}

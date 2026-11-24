@@ -1,6 +1,7 @@
 import { requireAdmin } from '../_lib/adminAuth.js'
 import { getCreditBalance, adjustCreditBalance } from '../_lib/sftpCredits.js'
 import { isDiscordId } from '../_lib/validate.js'
+import { handleAdminPremium } from '../_lib/adminPremium.js'
 
 async function handleGet(req, res) {
   const userId = req.query?.userId
@@ -51,6 +52,9 @@ async function handlePost(req, res) {
 export default async function handler(req, res) {
   const admin = await requireAdmin(req, res)
   if (!admin) return
+
+  // 유료 이용권(봇 프로필) 관리 — Vercel 함수 수 제한 때문에 이 함수에 ?resource=premium으로 얹는다.
+  if (req.query?.resource === 'premium') return handleAdminPremium(req, res, admin)
 
   if (req.method === 'GET') return handleGet(req, res)
   if (req.method === 'POST') return handlePost(req, res)

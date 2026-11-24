@@ -23,6 +23,10 @@ const MENU = [
     ],
   },
   {
+    label: '유료 서비스',
+    items: [{ label: '유료 이용권', to: '/DiscordBot/Chiyumi/admin/premium' }],
+  },
+  {
     label: '데이터 조회',
     items: [{ label: '구글 시트', to: '/DiscordBot/Chiyumi/admin/sheets' }],
   },
