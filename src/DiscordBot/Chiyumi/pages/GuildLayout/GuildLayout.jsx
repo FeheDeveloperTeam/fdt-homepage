@@ -10,6 +10,7 @@ import { callGuildApi } from '../guildApi'
 import '../AdminLayout/AdminLayout.css'
 import '../AdminManagePage/AdminManagePage.css'
 import '../../components/AdminCharts/AdminCharts.css'
+import '../../components/GuildSettings/GuildSettings.css'
 import './GuildLayout.css'
 
 const MENU = [

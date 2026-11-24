@@ -5,17 +5,39 @@ import { ToggleRow, ChannelSelect } from '../../components/GuildSettings/GuildSe
 import { callGuildApi } from '../guildApi'
 import '../AdminForm.css'
 
-const LOG_OPTIONS = [
-  { key: 'messageDelete', label: '메시지 삭제' },
-  { key: 'messageEdit', label: '메시지 수정' },
-  { key: 'voiceJoin', label: '음성채널 입장' },
-  { key: 'voiceLeave', label: '음성채널 퇴장' },
-  { key: 'profanityFilter', label: '욕설 필터 감지' },
-  { key: 'spamFilter', label: '스팸 필터 감지' },
-  { key: 'warnLog', label: '경고' },
-  { key: 'raidAlert', label: '레이드 알림' },
-  { key: 'raidAnnounce', label: '레이드 공지(서버원)', usesAnnounceChannel: true },
-  { key: 'raidAnnounceRelease', label: '레이드 해제 공지(서버원)', usesAnnounceChannel: true },
+// 비슷한 항목끼리 묶어 보여 준다. 레이드 공지 두 개는 서버원에게 보내는 글이라 로그 채널이 아니라
+// 「공지 채널」(/공지와 같은 채널)을 쓴다.
+const LOG_GROUPS = [
+  {
+    title: '메시지',
+    options: [
+      { key: 'messageDelete', label: '메시지 삭제' },
+      { key: 'messageEdit', label: '메시지 수정' },
+    ],
+  },
+  {
+    title: '음성채널',
+    options: [
+      { key: 'voiceJoin', label: '음성채널 입장' },
+      { key: 'voiceLeave', label: '음성채널 퇴장' },
+    ],
+  },
+  {
+    title: '검열 · 경고',
+    options: [
+      { key: 'profanityFilter', label: '욕설 필터에 걸린 메시지' },
+      { key: 'spamFilter', label: '스팸 필터에 걸린 메시지' },
+      { key: 'warnLog', label: '경고 지급' },
+    ],
+  },
+  {
+    title: '레이드',
+    options: [
+      { key: 'raidAlert', label: '레이드 감지 알림 (관리자용)' },
+      { key: 'raidAnnounce', label: '레이드 공지 (서버원용)', usesAnnounceChannel: true },
+      { key: 'raidAnnounceRelease', label: '레이드 해제 공지 (서버원용)', usesAnnounceChannel: true },
+    ],
+  },
 ]
 
 export default function GuildLogPage() {
@@ -64,42 +86,50 @@ export default function GuildLogPage() {
       <div className="guild-section">
         <p className="guild-section-title">항목별 설정</p>
         <p className="guild-section-desc">
-          채널을 따로 지정하지 않으면 기본 로그 채널로 보내요.
+          켜 둔 항목만 기록해요. 보낼 채널을 비워 두면 위의 기본 로그 채널로 보내요. 레이드 공지는 서버원이 보는 공지 채널로 가요.
         </p>
 
-        <div className="guild-toggle-grid" style={{ marginTop: '1rem' }}>
-          {LOG_OPTIONS.map((opt) => {
-            const overrideValue = opt.usesAnnounceChannel
-              ? config.announceChannelId
-              : (config.logTypeChannels[opt.key] ?? null)
+        {LOG_GROUPS.map((group) => (
+          <div className="guild-log-group" key={group.title}>
+            <p className="guild-log-group-title">{group.title}</p>
+            {group.options.map((opt) => {
+              const on = Boolean(config.logOptions[opt.key])
+              const overrideValue = opt.usesAnnounceChannel
+                ? config.announceChannelId
+                : (config.logTypeChannels[opt.key] ?? null)
 
-            return (
-              <div key={opt.key}>
-                <ToggleRow
-                  label={opt.label}
-                  checked={Boolean(config.logOptions[opt.key])}
-                  disabled={busy}
-                  onChange={(value) => post({ section: 'log', field: 'option', key: opt.key, value })}
-                />
-                {config.logOptions[opt.key] && (
-                  <div style={{ margin: '0.4rem 0 0.9rem', maxWidth: 320 }}>
-                    <ChannelSelect
-                      label={`${opt.label} 채널 (선택)`}
-                      value={overrideValue}
-                      channels={channels}
-                      disabled={busy}
-                      onChange={(value) =>
-                        opt.usesAnnounceChannel
-                          ? post({ section: 'announce', field: 'channel', value })
-                          : post({ section: 'log', field: 'typeChannel', key: opt.key, value })
-                      }
-                    />
+              // 이름 · 보낼 채널 · 켜기를 한 줄에 둬서 항목마다 높이가 달라 두 열이 어긋나던 문제를 없앤다.
+              return (
+                <div className="guild-log-row" key={opt.key}>
+                  <span className="guild-toggle-label">{opt.label}</span>
+                  <div className="guild-log-channel">
+                    {on ? (
+                      <ChannelSelect
+                        label={opt.usesAnnounceChannel ? '공지 채널' : '보낼 채널 (비우면 기본 로그 채널)'}
+                        value={overrideValue}
+                        channels={channels}
+                        disabled={busy}
+                        onChange={(value) =>
+                          opt.usesAnnounceChannel
+                            ? post({ section: 'announce', field: 'channel', value })
+                            : post({ section: 'log', field: 'typeChannel', key: opt.key, value })
+                        }
+                      />
+                    ) : (
+                      <span className="guild-log-off">꺼져 있어요</span>
+                    )}
                   </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+                  <ToggleRow
+                    label=""
+                    checked={on}
+                    disabled={busy}
+                    onChange={(value) => post({ section: 'log', field: 'option', key: opt.key, value })}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        ))}
       </div>
     </div>
   )

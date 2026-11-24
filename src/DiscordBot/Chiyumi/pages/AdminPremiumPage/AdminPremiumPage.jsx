@@ -101,7 +101,7 @@ export default function AdminPremiumPage() {
       </p>
 
       <form className="admin-form" onSubmit={(e) => e.preventDefault()}>
-        <label className="admin-field">
+        <label className="admin-field ap-wide">
           <span>서버 (치유미가 들어가 있는 서버)</span>
           <select value={guildId} onChange={(e) => setGuildId(e.target.value)} disabled={busy || !data}>
             <option value="">{data ? '서버를 고르세요' : '불러오는 중…'}</option>
@@ -115,7 +115,7 @@ export default function AdminPremiumPage() {
 
         {current && <p className="ap-current">지금 상태: {passText(current)}</p>}
 
-        <div className="admin-field">
+        <div className="admin-field ap-wide">
           <span>이용권 종류</span>
           <div className="ap-segment" role="radiogroup" aria-label="이용권 종류">
             {[
@@ -138,7 +138,7 @@ export default function AdminPremiumPage() {
         </div>
 
         {type === 'period' && (
-          <div className="admin-field">
+          <div className="admin-field ap-wide">
             <span>기간</span>
             <div className="ap-segment" role="radiogroup" aria-label="기간">
               {PERIODS.map((n) => (
@@ -175,7 +175,7 @@ export default function AdminPremiumPage() {
           </label>
         )}
 
-        <label className="admin-field">
+        <label className="admin-field ap-wide">
           <span>메모 (선택 · 입금 확인, 이벤트 등)</span>
           <input type="text" value={memo} maxLength={200} onChange={(e) => setMemo(e.target.value)} disabled={busy} />
         </label>

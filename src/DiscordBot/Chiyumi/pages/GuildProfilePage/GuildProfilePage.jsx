@@ -59,7 +59,7 @@ function Preview({ profile, nick, bio, bioBlank }) {
 }
 
 // blank: 「아예 빼기」 상태(프로필 사진은 true, 배너는 단색 색상 문자열). onBlank(color)로 뺀다.
-function ImagePicker({ label, desc, kind, currentUrl, blank, disabled, onSave, onBlank }) {
+function ImagePicker({ label, desc, kind, currentUrl, defaultUrl, blank, disabled, onSave, onBlank }) {
   const [pending, setPending] = useState(null)
   const [error, setError] = useState(null)
   const [color, setColor] = useState(typeof blank === 'string' ? blank : '#2b2d31')
@@ -89,7 +89,7 @@ function ImagePicker({ label, desc, kind, currentUrl, blank, disabled, onSave, o
       <p className="guild-section-title">{label}</p>
       <p className="guild-section-desc">{desc}</p>
       <div className={`gp-image gp-image--${kind}`}>
-        {pending || currentUrl ? <img src={pending || currentUrl} alt="" /> : <span>기본 이미지 사용 중</span>}
+        {pending || currentUrl || defaultUrl ? <img src={pending || currentUrl || defaultUrl} alt="" /> : <span>기본 이미지 없음</span>}
       </div>
       <p className="gp-now">{pending ? '새로 고른 이미지 미리보기 · 적용을 눌러야 바뀌어요' : nowText}</p>
       {error && <p className="admin-status admin-status--error">{error}</p>}
@@ -230,7 +230,7 @@ export default function GuildProfilePage() {
             <p className="guild-section-title">이름</p>
             <p className="guild-section-desc">서버 멤버 목록과 채팅에 보이는 이름이에요. 비우면 기본 이름(치유미)으로 돌아가요. 디스코드는 이름을 빈칸으로 둘 수 없어서 이름은 뺄 수 없어요.</p>
             <label className="admin-field">
-              <span>이름 ({nick.length}/{NICK_MAX})</span>
+              <span>새 이름 · {nick.length}/{NICK_MAX}자</span>
               <input value={nick} maxLength={NICK_MAX} disabled={locked} onChange={(e) => setNick(e.target.value)} placeholder={profile.defaultName} />
             </label>
             <div className="admin-actions">
@@ -244,7 +244,7 @@ export default function GuildProfilePage() {
             <p className="guild-section-title">소개글</p>
             <p className="guild-section-desc">프로필을 눌렀을 때 보이는 글이에요. 칸을 비우고 적용하면 기본 치유미 소개글로 돌아가요.</p>
             <label className="admin-field">
-              <span>소개글 ({bio.length}/{BIO_MAX})</span>
+              <span>새 소개글 · {bio.length}/{BIO_MAX}자</span>
               <textarea rows={4} value={bio} maxLength={BIO_MAX} disabled={locked} onChange={(e) => setBio(e.target.value)} />
             </label>
             <div className="admin-actions">
@@ -269,6 +269,7 @@ export default function GuildProfilePage() {
             desc="정사각형으로 잘라 512×512로 올려요. 움직이는 GIF는 3MB까지 그대로 올라가요."
             kind="avatar"
             currentUrl={profile.avatarUrl}
+            defaultUrl={profile.defaultAvatarUrl}
             blank={blanks.avatar}
             disabled={locked}
             onSave={(value) => send('avatar', value, value ? '프로필 사진을 바꿨어요.' : '프로필 사진을 기본으로 되돌렸어요.')}
@@ -279,6 +280,7 @@ export default function GuildProfilePage() {
             desc="프로필 위쪽 배경이에요. 5:2 비율(960×384)로 잘라 올려요. 움직이는 GIF는 3MB까지 그대로 올라가요."
             kind="banner"
             currentUrl={profile.bannerUrl}
+            defaultUrl={profile.defaultBannerUrl}
             blank={blanks.banner}
             disabled={locked}
             onSave={(value) => send('banner', value, value ? '배너를 바꿨어요.' : '배너를 기본으로 되돌렸어요.')}

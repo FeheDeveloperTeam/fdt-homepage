@@ -25,6 +25,11 @@
   opacity: 0.6;
 }
 
+/* 서버 → 종류 → 기간 → 메모 순서로 위에서 아래로 읽히게 한 줄씩 쓴다 */
+.ap-wide {
+  grid-column: 1 / -1;
+}
+
 .ap-current,
 .ap-preview {
   grid-column: 1 / -1;

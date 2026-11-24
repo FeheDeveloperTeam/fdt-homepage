@@ -5,7 +5,8 @@ import AdminPager from '../../components/AdminPager/AdminPager'
 import '../AdminForm.css'
 import './AdminSheetPage.css'
 
-const SHEETS = ['코인', '레벨', '음성시간', '출석', '서버설정', '서버목록', '주식시세', '주식포트폴리오']
+// api/admin/sheet.js의 ALLOWED_SHEETS와 같은 목록·순서
+const SHEETS = ['코인', '레벨', '음성시간', '출석', '키우기', '서버설정', '서버목록', '주식시세', '주식포트폴리오', '이용제한', '약관동의', '유료이용권', '봇프로필']
 const PAGE_SIZE = 10
 
 export default function AdminSheetPage() {
@@ -60,9 +61,9 @@ export default function AdminSheetPage() {
   return (
     <div>
       <p className="eyebrow">Admin</p>
-      <h1 className="admin-page-title">구글 시트 데이터</h1>
+      <h1 className="admin-page-title">구글 시트</h1>
       <p className="admin-page-desc">
-        치유미 봇이 15분마다 동기화하는 백업 시트를 그대로 보여드려요. 실시간 데이터는 아닐 수 있어요.
+        연동된 구글 시트를 탭별로 그대로 보여 줘요. 유료이용권·봇프로필 탭은 바로 적히지만, 나머지는 봇이 15분마다 덮어쓰는 백업이라 실시간과 다를 수 있어요.
       </p>
 
       <div className="admin-sheet-tabs">

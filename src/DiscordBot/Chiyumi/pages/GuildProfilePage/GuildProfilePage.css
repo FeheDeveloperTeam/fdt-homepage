@@ -31,6 +31,11 @@
   margin-top: 1rem;
 }
 
+/* 왼쪽 미리보기와 오른쪽 첫 항목(이름)의 윗선을 맞춘다 */
+.gp-forms > .guild-section:first-child {
+  margin-top: 0;
+}
+
 .gp-preview {
   position: sticky;
   top: calc(var(--header-h) + 1rem);

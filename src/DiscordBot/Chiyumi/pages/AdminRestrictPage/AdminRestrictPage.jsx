@@ -41,7 +41,7 @@ export default function AdminRestrictPage() {
       <p className="eyebrow">Admin</p>
       <h1 className="admin-page-title">이용제한 설정</h1>
       <p className="admin-page-desc">
-        특정 유저의 디스코드 ID를 입력하면 AI 기능 이용을 제한할 수 있어요.
+        디스코드 ID와 사유를 입력하면 그 유저는 치유미의 모든 기능(명령어·버튼·AI 대화)을 쓸 수 없게 돼요. 사유는 그 유저에게 그대로 보여요.
       </p>
 
       <form className="admin-form" onSubmit={handleSubmit}>

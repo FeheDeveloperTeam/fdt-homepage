@@ -11,6 +11,13 @@ function formatVoiceMinutes(ms) {
   return Math.round(ms / 60000)
 }
 
+// 사람·봇 구분은 디스코드에서 한 번에 받을 수 있는 앞 1,000명만 센다. 그보다 큰 서버는 전체 수와 합이 안 맞으니 그렇다고 밝힌다.
+function memberBreakdown(guild) {
+  const counted = guild.humanCount + guild.botCount
+  const parts = `사람 ${guild.humanCount.toLocaleString()} · 봇 ${guild.botCount.toLocaleString()}`
+  return counted < (guild.memberCount ?? 0) ? `전체 멤버 수 (앞 ${counted.toLocaleString()}명 중 ${parts})` : `전체 멤버 수 (${parts})`
+}
+
 function StatCard({ value, label }) {
   return (
     <div className="guild-stat-card">
@@ -49,7 +56,7 @@ export default function GuildOverviewPage() {
             <div className="guild-stats-grid">
               <StatCard
                 value={(data.guild.memberCount ?? 0).toLocaleString()}
-                label={`전체 멤버 수 (사람 ${data.guild.humanCount.toLocaleString()} · 봇 ${data.guild.botCount.toLocaleString()})`}
+                label={memberBreakdown(data.guild)}
               />
               <StatCard
                 value={data.guild.onlineHumans !== null ? data.guild.onlineHumans.toLocaleString() : '준비 중'}

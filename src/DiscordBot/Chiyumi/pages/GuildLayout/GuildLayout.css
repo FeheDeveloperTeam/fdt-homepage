@@ -19,7 +19,8 @@
   메뉴 9개가 한 줄로 이어져 화면 밖으로 나가던 문제를 막는다.
 */
 @media (max-width: 780px) {
-  .guild-shell {
+  /* 빌드하면 AdminLayout.css가 따로 나뉘어 나중에 불릴 수 있어서, 같은 우선순위면 flex-start가 이겼다 */
+  .admin-shell.guild-shell {
     align-items: stretch;
   }
   .guild-shell .admin-nav-group {

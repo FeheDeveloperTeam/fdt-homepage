@@ -152,11 +152,11 @@ export default function GuildStreamAlertPage() {
     <div>
       <p className="eyebrow">Server Settings</p>
       <h1 className="admin-page-title">방송알림</h1>
-      <p className="admin-page-desc">유튜브·치지직·숲 방송/업로드 알림을 등록·관리해요.</p>
+      <p className="admin-page-desc">유튜브(라이브·업로드)·치지직·SOOP 방송 시작이나 새 영상 업로드를 정한 채널에 알려 줘요.</p>
 
       {status && <p className={`admin-status admin-status--${status.type}`}>{status.text}</p>}
 
-      <div className="admin-list" style={{ maxWidth: 560 }}>
+      <div className="admin-list">
         {!alerts && <p className="admin-chart-empty">불러오는 중이에요…</p>}
         {alerts?.length === 0 && <p className="admin-chart-empty">등록된 방송알림이 없어요.</p>}
         {alerts?.map((a) => (

@@ -79,10 +79,10 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/` | 봇 소개·로그인 |
 | `/servers` | 사용자가 관리할 수 있고 봇이 참가한 서버 목록 |
 | `/servers/:guildId` | 서버 개요 |
-| `/servers/:guildId/log` | 로그 설정 |
+| `/servers/:guildId/log` | 로그 설정. 항목을 메시지·음성채널·검열·경고·레이드로 묶고, 한 줄에 「이름 · 보낼 채널 · 켜기」를 둔다(꺼진 항목은 「꺼져 있어요」). 레이드 공지 두 항목은 로그 채널이 아니라 공지 채널(`announceChannelId`)을 쓴다 |
 | `/servers/:guildId/welcome` | 입장·퇴장 설정 |
 | `/servers/:guildId/ticket` | 티켓 설정 |
-| `/servers/:guildId/warn` | 경고 설정·조회 |
+| `/servers/:guildId/warn` | 경고 설정·조회. 자동 조치는 봇이 실행하는 값(`none`·`mute`·`kick`·`ban`, 봇 `WARN_ACTION_LABEL`과 같은 이름)만 고르는 선택 칸이고, 뮤트 기간은 화면에서 분으로 받아 봇이 읽는 밀리초로 바꿔 저장한다(예전에 분 그대로 저장된 값은 「다시 저장」 안내). 여기서 준 경고는 횟수만 늘고 자동 조치는 디스코드 `/경고`로 줄 때만 실행된다고 화면에 밝힌다 |
 | `/servers/:guildId/moderation` | 차단·추방 |
 | `/servers/:guildId/censor` | 스팸·레이드 방어 |
 | `/servers/:guildId/wordchain` | 끝말잇기 설정 |
@@ -91,14 +91,14 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/admin` | 관리자 통계 |
 | `/admin/restrict`, `/admin/unrestrict`, `/admin/check` | 이용 제한 관리 |
 | `/admin/admins` | 웹 관리자 관리 |
-| `/admin/sheets` | 허용된 Google Sheet 조회 |
+| `/admin/sheets` | 허용된 Google Sheet 조회(`api/admin/sheet.js`의 `ALLOWED_SHEETS`와 화면 `SHEETS`를 같이 고친다. 봇 백업 탭 + 키우기·이용제한·약관동의 + 유료이용권·봇프로필) |
 | `/admin/coins/check`, `/admin/coins/adjust` | 코인 조회·조정 |
 | `/admin/premium` | 유료 이용권(서버별 봇 프로필): 치유미가 있는 서버를 골라 **기간제**(1·3·6·12개월 또는 만료일 직접) 또는 **영구**로 주고, 목록에서 +1개월·영구로·해지. 이용 중인 기간제에 기간을 더하면 남은 기간 뒤로 이어 붙인다. 해지는 만료일을 어제로 바꾸고 적용 중인 커스텀 프로필을 바로 되돌린다. API는 함수 수 제한 때문에 `/api/admin/coins?resource=premium`(`api/_lib/adminPremium.js`) |
 | `/terms`, `/privacy`, `/errors` | 약관, 개인정보 처리방침, 오류 코드 안내 |
 | `/terms/en`, `/privacy/en` | 약관·개인정보 처리방침 영어판(`TermsPageEn.jsx`, `PrivacyPageEn.jsx`). Riot 심사 등 해외 검토용 번역이며 내용이 다르면 한국어판이 우선한다고 밝힌다. 두 언어판 위쪽의 `DocLangSwitch`로 서로 오가고, 한국어판을 고치면 영어판도 같은 내용·날짜로 함께 고친다 |
 | `/valorant` | 발로란트 전적검색 시연(Riot VALORANT Production 키 심사용, 영어 위주). 심사 담당자는 디스코드에 들어올 수 없어 봇 메시지(`Chiyumi/src/utils/valorantStats.js`·`statsUi.js`)를 같은 문구·배치로 다시 그리고, 승인 후 바꿀 RSO 계정 연결 흐름을 설명한다. 예시 이름은 가상. 봇 화면이 바뀌면 함께 고친다 |
 
-서버 대시보드(`GuildLayout`)는 사이드바·메뉴·목록·안내 문구에 관리자 대시보드와 같은 `admin-` 클래스를 빌려 씁니다. 그 스타일은 관리자 쪽 파일(`AdminLayout.css`, `AdminManagePage.css`, `components/AdminCharts/AdminCharts.css`)에 들어 있고 두 레이아웃 모두 지연 로딩되므로, `GuildLayout.jsx`와 `ServersPage.jsx`가 필요한 파일을 **직접 import**합니다(관리자 쪽 파일은 수정하지 않고 읽기만 함). 이걸 빠뜨리면 관리자 화면을 먼저 열지 않고 내 서버로 바로 들어왔을 때 사이드바 없이 메뉴가 한 줄로 붙어 나오는 등 화면이 깨집니다. 서버 대시보드 전용 모바일 보정은 `GuildLayout.css`의 `.guild-shell`에만 둡니다.
+서버 대시보드(`GuildLayout`)는 사이드바·메뉴·목록·안내 문구에 관리자 대시보드와 같은 `admin-` 클래스를 빌려 씁니다. 그 스타일은 관리자 쪽 파일(`AdminLayout.css`, `AdminManagePage.css`, `components/AdminCharts/AdminCharts.css`)에 들어 있고 두 레이아웃 모두 지연 로딩되므로, `GuildLayout.jsx`와 `ServersPage.jsx`가 필요한 파일을 **직접 import**합니다(관리자 쪽 파일은 수정하지 않고 읽기만 함). 이걸 빠뜨리면 관리자 화면을 먼저 열지 않고 내 서버로 바로 들어왔을 때 사이드바 없이 메뉴가 한 줄로 붙어 나오는 등 화면이 깨집니다. 서버 대시보드 전용 모바일 보정은 `GuildLayout.css`의 `.guild-shell`에만 둡니다. 섹션 제목·설명 스타일(`.guild-section` 등)이 든 `GuildSettings.css`는 `GuildLayout`이 항상 불러온다(이 파일을 직접 안 부르는 화면을 바로 열면 제목이 깨졌음). 좁은 화면에서 본문이 내용 폭만큼 넓어져 오른쪽이 잘리지 않도록 `AdminLayout.css` 모바일 규칙과 `.admin-shell.guild-shell`에 `align-items: stretch`를 둔다(빌드하면 `AdminLayout.css`가 따로 나뉘어 나중에 불릴 수 있어 같은 우선순위로는 덮어써짐). 페이지 설명(`.admin-page-desc`)·폼·목록 폭은 700px로 맞추고, 폼은 `auto-fill`이라 한 칸짜리 입력이 끝까지 늘어나지 않는다.
 
 관리자 화면은 애플리케이션 권한 검사와 별도로 배포 환경의 국가 헤더가 존재할 때 한국(`KR`) 이외의 요청을 차단합니다.
 
