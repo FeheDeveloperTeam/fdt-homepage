@@ -78,7 +78,7 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | --- | --- |
 | `/` | 봇 소개·로그인 |
 | `/servers` | 사용자가 관리할 수 있고 봇이 참가한 서버 목록 |
-| `/servers/:guildId` | 서버 개요 |
+| `/servers/:guildId` | 서버 개요. 사람·봇 수는 받아 온 멤버(최대 1,000명)만 센 값이라, 전체 멤버 수보다 적으면 「앞 N명 중 사람 · 봇」으로 밝힌다 |
 | `/servers/:guildId/log` | 로그 설정. 항목을 메시지·음성채널·검열·경고·레이드로 묶고, 한 줄에 「이름 · 보낼 채널 · 켜기」를 둔다(꺼진 항목은 「꺼져 있어요」). 레이드 공지 두 항목은 로그 채널이 아니라 공지 채널(`announceChannelId`)을 쓴다 |
 | `/servers/:guildId/welcome` | 입장·퇴장 설정 |
 | `/servers/:guildId/ticket` | 티켓 설정 |
@@ -86,10 +86,10 @@ Yukiha 페이지는 Fehe와 같이 FDT 메인 레이아웃(`MainLayout`의 공�
 | `/servers/:guildId/moderation` | 차단·추방 |
 | `/servers/:guildId/censor` | 스팸·레이드 방어 |
 | `/servers/:guildId/wordchain` | 끝말잇기 설정 |
-| `/servers/:guildId/streamalert` | 방송 알림 설정 |
+| `/servers/:guildId/streamalert` | 방송 알림 설정(유튜브 라이브·업로드, 치지직, SOOP). 설명 문구는 「SOOP」으로 쓰고 플랫폼 선택 칸만 「숲(SOOP)」으로 둔다 |
 | `/servers/:guildId/profile` | 유료: 이 서버에서만 보이는 치유미 이름·프로필 사진·배너·소개글 꾸미기(`GuildProfilePage`). 이용권이 없으면 안내만 보이고 입력이 잠긴다. 항목마다 「기본 치유미로」(null → 기본 치유미 값)와 별도로 「아예 빼기」가 있다: 소개글은 한글 채움 문자(U+3164) 한 글자, 프로필 사진은 투명 PNG(128×128), 배너는 고른 색 한 가지 PNG(600×240)로 서버가 만들어 넣고 시트에 `[비움]`·`[단색 #rrggbb]`로 적는다(디스코드는 이름 빈칸을 기본 이름으로 되돌려서 이름 빼기는 없음). 「기본으로 모두 되돌리기」·해지·만료는 실제로 바뀐 항목만 null로 보낸다(사진·배너는 디스코드가 `AVATAR_RATE_LIMIT`으로 변경 횟수를 제한해서, 안 바꾼 항목까지 보내면 전체가 실패할 수 있음). 서버 설정 화면(`GuildLayout`)은 브라우저 탭 제목을 「서버이름 · 메뉴 | Chiyumi」로 바꾼다. 봇 `/봇프로필` 명령의 버튼이 이 화면으로 온다 |
 | `/admin` | 관리자 통계 |
-| `/admin/restrict`, `/admin/unrestrict`, `/admin/check` | 이용 제한 관리 |
+| `/admin/restrict`, `/admin/unrestrict`, `/admin/check` | 이용 제한 관리. 제한된 유저는 AI 대화만이 아니라 치유미의 모든 기능(명령어·버튼·AI 대화)을 못 쓰고, 입력한 사유가 그 유저에게 그대로 보인다 |
 | `/admin/admins` | 웹 관리자 관리 |
 | `/admin/sheets` | 허용된 Google Sheet 조회(`api/admin/sheet.js`의 `ALLOWED_SHEETS`와 화면 `SHEETS`를 같이 고친다. 봇 백업 탭 + 키우기·이용제한·약관동의 + 유료이용권·봇프로필) |
 | `/admin/coins/check`, `/admin/coins/adjust` | 코인 조회·조정 |
